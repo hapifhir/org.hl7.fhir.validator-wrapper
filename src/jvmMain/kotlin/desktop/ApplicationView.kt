@@ -40,3 +40,5 @@ fun launchLocalApp() {
         tornadofx.launch<CliApp>()
     }
 }
+
+//TODO shut down server on window close
