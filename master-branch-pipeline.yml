@@ -8,7 +8,7 @@ steps:
 - task: Gradle@2
   inputs:
     workingDirectory: 'org.hl7.fhir.validator-wrapper'
-    gradleWrapperFile: 'org.hl7.fhir.validator-wrapper/gradlew'
+    gradleWrapperFile: 'gradlew'
     tasks: 'build'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
