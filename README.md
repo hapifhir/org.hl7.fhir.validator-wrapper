@@ -22,7 +22,6 @@ This project is maintained by [Grahame Grieve][Link-grahameGithub] and [Mark Ian
 
 
 [Link-AzureProject]: https://dev.azure.com/fhir-pipelines/validator-wrapper
-
 [Link-BuildPipelineMaster]: https://dev.azure.com/fhir-pipelines/validator-wrapper/_build/latest?definitionId=38&branchName=master
 
 [Badge-BuildPipelineMaster]: https://dev.azure.com/fhir-pipelines/validator-wrapper/_apis/build/status/Master%20Branch%20Pipeline?branchName=master
