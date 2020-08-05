@@ -1,0 +1,17 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps: 
+- task: Gradle@2
+  inputs:
+    workingDirectory: 'org.hl7.fhir.validator-wrapper'
+    gradleWrapperFile: 'org.hl7.fhir.validator-wrapper/gradlew'
+    tasks: 'build'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    sonarQubeRunAnalysis: false
+  displayName: 'gradle build'
