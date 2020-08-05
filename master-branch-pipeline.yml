@@ -7,7 +7,6 @@ pool:
 steps: 
 - task: Gradle@2
   inputs:
-    workingDirectory: 'org.hl7.fhir.validator-wrapper'
     gradleWrapperFile: 'gradlew'
     tasks: 'build'
     publishJUnitResults: true
