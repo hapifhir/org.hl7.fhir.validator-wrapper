@@ -14,6 +14,12 @@ expect class CliContext() {
     fun isNoExtensibleBindingMessages(): Boolean
     fun setNoExtensibleBindingMessages(noExtensibleBindingMessages: Boolean): CliContext
 
+    fun isSecurityChecks(): Boolean
+    fun setSecurityChecks(securityChecks: Boolean): CliContext
+
+    fun isShowTimes(): Boolean
+    fun setShowTimes(showTimes: Boolean)
+
     fun getTxServer(): String
     fun setTxServer(txServer: String): CliContext
 
@@ -31,10 +37,4 @@ expect class CliContext() {
 
     fun getQuestionnaires(): List<String>
     fun setQuestionnaires(questionnaires: List<String>): CliContext
-
-    fun isSecurityChecks(): Boolean
-    fun setSecurityChecks(securityChecks: Boolean): CliContext
-
-    fun isShowTimes(): Boolean
-    fun setShowTimes(showTimes: Boolean)
 }

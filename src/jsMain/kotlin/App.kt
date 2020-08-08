@@ -8,6 +8,11 @@ import model.ValidationOutcome
 import react.*
 import react.dom.div
 import react.dom.h1
+import react.dom.h2
+import styled.StyledComponents
+import styled.injectGlobal
+import uicomponents.bottomMenu
+import uicomponents.contextSettings
 import uicomponents.resourceEntryField
 import uicomponents.validationOutcome
 import utils.assembleRequest
@@ -21,6 +26,9 @@ val mainScope = MainScope()
 
 class App : RComponent<RProps, AppState>() {
     override fun AppState.init() {
+        // Inject global styles
+        StyledComponents.injectGlobal(styles.toString())
+
         // For testing
         validationOutcome = ValidationOutcome().setIssues(listOf())
 
@@ -36,6 +44,7 @@ class App : RComponent<RProps, AppState>() {
     }
 
     override fun RBuilder.render() {
+
         h1 {
             +"Validator GUI"
         }
@@ -63,6 +72,20 @@ class App : RComponent<RProps, AppState>() {
                     }
                 }
             }
+        }
+        div {
+            attrs {
+
+            }
+            contextSettings {
+                onSave = {
+
+                }
+                cliContext = state.cliContext
+            }
+        }
+        div {
+            bottomMenu {  }
         }
     }
 }
