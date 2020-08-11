@@ -14,7 +14,7 @@ import styled.*
  * React calls these attributes props. If props change in React, the framework will take care of re-rendering of the
  * page for us.
  */
-external interface BottomMenuProps: RProps {
+external interface FooterProps: RProps {
     var outcome: ValidationOutcome
 }
 
@@ -26,7 +26,7 @@ object FooterColumnStyle : StyleSheet("FooterColumnStyle", isStatic = true) {
     }
 }
 
-class BottomMenu: RComponent<BottomMenuProps, RState>() {
+class Footer: RComponent<FooterProps, RState>() {
     override fun RBuilder.render() {
         div {
             styledDiv {
@@ -68,8 +68,8 @@ class BottomMenu: RComponent<BottomMenuProps, RState>() {
  *
  *              }
  */
-fun RBuilder.bottomMenu(handler: BottomMenuProps.() -> Unit): ReactElement {
-    return child(BottomMenu::class) {
+fun RBuilder.footer(handler: FooterProps.() -> Unit): ReactElement {
+    return child(Footer::class) {
         this.attrs(handler)
     }
 }
