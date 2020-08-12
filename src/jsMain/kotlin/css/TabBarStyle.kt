@@ -6,10 +6,12 @@ import styled.StyleSheet
 import styled.animation
 import kotlin.time.seconds
 
-object TabStyle : StyleSheet("Tabs", isStatic = true) {
+object TabBarStyle : StyleSheet("Tabs", isStatic = true) {
 
     val tabContainer by css {
         overflow = Overflow.hidden
+        display = Display.flex
+        justifyContent = JustifyContent.center
         border(width = 1.px, style = BorderStyle.solid, color = Color("#ccc"))
     }
     val tabButton by css {
@@ -17,18 +19,14 @@ object TabStyle : StyleSheet("Tabs", isStatic = true) {
         outline = Outline.none
         overflow = Overflow.hidden
         borderStyle = BorderStyle.none
-        backgroundColor = Color("#f1f1f1")
         cursor = Cursor.pointer
         padding(left = 14.px, top = 16.px, right = 14.px, bottom = 16.px)
     }
+    val tabButtonInactive by css {
+        backgroundColor = Color("#f1f1f1")
+    }
     val tabButtonActive by css {
-        float = Float.left
-        outline = Outline.none
-        overflow = Overflow.hidden
-        borderStyle = BorderStyle.none
         backgroundColor = Color("#ddd")
-        cursor = Cursor.pointer
-        padding(left = 14.px, top = 16.px, right = 14.px, bottom = 16.px)
     }
     val tabButtonHover by css {
         backgroundColor = Color("#ddd")

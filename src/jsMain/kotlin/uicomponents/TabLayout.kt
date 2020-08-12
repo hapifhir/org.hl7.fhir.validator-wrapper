@@ -1,10 +1,10 @@
 package uicomponents
 
-import css.TabStyle
+import css.TabBarStyle
+import css.TextStyle
+import io.ktor.http.cio.websocket.Frame
 import kotlinx.css.Display
 import kotlinx.css.display
-import kotlinx.css.i
-import kotlinx.css.style
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.asList
 import react.*
@@ -29,12 +29,6 @@ class TabLayoutState : RState {
     )
 }
 
-object TabLayoutStyle : StyleSheet("FooterColumnStyle", isStatic = true) {
-    val tabStyle by css {
-
-    }
-}
-
 class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
     init {
         state = TabLayoutState()
@@ -45,20 +39,21 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
 
             styledDiv {
                 css {
-                    +TabStyle.tabContainer
+                    +TabBarStyle.tabContainer
                 }
                 for (tabState in state.tabStates) {
-
                     styledButton {
                         +tabState.label
                         css {
+                            +TextStyle.tab
+                            +TabBarStyle.tabButton
                             if (tabState.active) {
-                                +TabStyle.tabButtonActive
+                                +TabBarStyle.tabButtonActive
                             } else {
-                                +TabStyle.tabButton
+                                +TabBarStyle.tabButtonInactive
                             }
                             hover {
-                                +TabStyle.tabButtonHover
+                                +TabBarStyle.tabButtonHover
                             }
                         }
                         attrs {

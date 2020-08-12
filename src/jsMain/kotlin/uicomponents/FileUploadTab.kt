@@ -1,9 +1,8 @@
 package uicomponents
 
-import css.TabStyle
+import css.TabBarStyle
 import kotlinx.css.Display
 import kotlinx.css.display
-import kotlinx.html.classes
 import react.*
 import styled.StyleSheet
 import styled.*
@@ -25,7 +24,7 @@ class FileUploadTab: RComponent<FileUploadTabProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +TabStyle.body
+                +TabBarStyle.body
                 display = if (props.active) Display.block else Display.none
             }
             styledH3 {

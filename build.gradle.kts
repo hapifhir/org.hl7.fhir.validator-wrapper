@@ -120,7 +120,7 @@ kotlin {
                 implementation(npm("react-dom", "16.13.1"))
 
                 implementation("org.jetbrains:kotlin-styled:1.0.0-pre.94-kotlin-1.3.70")
-                implementation(npm("styled-components", "4.4.1"))
+                implementation(npm("styled-components", "4.4.1")) // Animations don't work with styled components 5+
                 implementation(npm("inline-style-prefixer"))
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8")

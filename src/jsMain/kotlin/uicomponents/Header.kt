@@ -1,12 +1,17 @@
 package uicomponents
 
+import css.HeaderStyle
 import kotlinx.css.*
 import kotlinx.html.id
 import model.ValidationOutcome
+import org.w3c.dom.events.Event
+import org.w3c.dom.events.EventListener
 import react.*
 import react.dom.div
 import react.dom.p
 import styled.*
+import uistate.TabState
+import kotlin.browser.document
 
 val HEADER_HEIGHT = 60.px
 val HEADER_WIDTH = 100.pct
@@ -21,26 +26,26 @@ external interface HeaderProps : RProps {
     var outcome: ValidationOutcome
 }
 
-object HeaderStyle : StyleSheet("HeaderStyle", isStatic = true) {
-    val header by css {
-        width = HEADER_WIDTH
-        height = HEADER_HEIGHT
-        position = Position.fixed
-        top = 0.px
-        paddingLeft = HEADER_PADDING
-        paddingRight = HEADER_PADDING
-        display = Display.flex
-        alignItems = Align.center
-        backgroundColor = Color.orange
-    }
-
+class HeaderState : RState {
+    var currentScroll: Double = 0.0
 }
 
-class Header : RComponent<FooterProps, RState>() {
+class Header : RComponent<FooterProps, HeaderState>(), EventListener {
+
+    init {
+        state = HeaderState()
+        document.addEventListener(type = "scroll", callback = this)
+    }
+
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +HeaderStyle.header
+                println("render current Scroll == ${state.currentScroll}")
+                if (state.currentScroll > 0) {
+                    +HeaderStyle.headerBarScrolled
+                } else {
+                    +HeaderStyle.headerBarTop
+                }
             }
             attrs {
                 id = "HeaderView"
@@ -59,13 +64,14 @@ class Header : RComponent<FooterProps, RState>() {
                     height = HEADER_HEIGHT * 0.8
                     backgroundColor = Color.burlyWood
                 }
-                styledP {
-                    +"Validator"
-                    css {
-                        fontFamily = "Roboto Condensed"
-                    }
-                }
             }
+        }
+    }
+
+    override fun handleEvent(event: Event) {
+        setState {
+            currentScroll = document.documentElement?.scrollTop!!
+            println("setting current scroll -> ${document.documentElement?.scrollTop!!}")
         }
     }
 }
