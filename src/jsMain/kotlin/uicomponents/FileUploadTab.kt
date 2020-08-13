@@ -27,15 +27,8 @@ class FileUploadTab: RComponent<FileUploadTabProps, RState>() {
                 +TabBarStyle.body
                 display = if (props.active) Display.block else Display.none
             }
-            styledH3 {
-                +"Tab 2"
-            }
-            styledP {
-                +"This is the second tab!"
-            }
-            attrs {
+            fileUploadComponent {  }
 
-            }
         }
     }
 }

@@ -4,7 +4,6 @@ import kotlinx.css.*
 import kotlinx.css.properties.*
 import styled.StyleSheet
 import styled.animation
-import kotlin.time.seconds
 
 object TabBarStyle : StyleSheet("Tabs", isStatic = true) {
 
@@ -12,8 +11,9 @@ object TabBarStyle : StyleSheet("Tabs", isStatic = true) {
         overflow = Overflow.hidden
         display = Display.flex
         justifyContent = JustifyContent.center
-        border(width = 1.px, style = BorderStyle.solid, color = Color("#ccc"))
+//        borderBottom(width = 1.px, style = BorderStyle.solid, color = NOT_BLACK)
     }
+
     val tabButton by css {
         float = Float.left
         outline = Outline.none
@@ -21,20 +21,35 @@ object TabBarStyle : StyleSheet("Tabs", isStatic = true) {
         borderStyle = BorderStyle.none
         cursor = Cursor.pointer
         padding(left = 14.px, top = 16.px, right = 14.px, bottom = 16.px)
+        borderLeft(width = 1.px, style = BorderStyle.solid, color = NOT_BLACK)
+        borderRight(width = 1.px, style = BorderStyle.solid, color = NOT_BLACK)
+        margin(vertical = 0.px, horizontal = 4.px)
     }
+
     val tabButtonInactive by css {
         backgroundColor = Color("#f1f1f1")
+        borderTop(width = 1.px, style = BorderStyle.solid, color = NOT_BLACK)
+        borderBottom(width = 1.px, style = BorderStyle.solid, color = NOT_BLACK)
+        +tabButton
     }
+
     val tabButtonActive by css {
         backgroundColor = Color("#ddd")
+        borderTop(width = 4.px, style = BorderStyle.solid, color = HL7_RED)
+        //borderBottom(width = 0.px, style = BorderStyle.none, color = NOT_BLACK)
+        +tabButton
     }
+
     val tabButtonHover by css {
         backgroundColor = Color("#ddd")
+        borderTop(width = 1.px, style = BorderStyle.solid, color = NOT_BLACK)
+        borderBottom(width = 1.px, style = BorderStyle.solid, color = NOT_BLACK)
+        +tabButton
     }
+
     val body by css {
-        padding(left = 6.px, top = 12.px, right = 6.px, bottom = 12.px)
-        border(width = 1.px, style = BorderStyle.solid, color = Color("#ccc"))
-        borderTopStyle = BorderStyle.none
+        backgroundColor = Color("#ddd")
+        padding(24.px)
         fadeIn()
     }
 

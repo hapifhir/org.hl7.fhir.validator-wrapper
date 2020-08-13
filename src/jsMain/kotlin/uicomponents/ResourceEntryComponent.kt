@@ -18,7 +18,7 @@ external interface ResourceEntryProps : RProps {
     var onSubmit: (String) -> Unit
 }
 
-class ResourceEntryField : RComponent<ResourceEntryProps, RState>() {
+class ResourceEntryComponent : RComponent<ResourceEntryProps, RState>() {
     override fun RBuilder.render() {
         textArea {
             // TODO css
@@ -46,8 +46,8 @@ class ResourceEntryField : RComponent<ResourceEntryProps, RState>() {
 /**
  * We can use lambdas with receivers to make the component easier to work with.
  */
-fun RBuilder.resourceEntryField(handler: ResourceEntryProps.() -> Unit): ReactElement {
-    return child(ResourceEntryField::class) {
+fun RBuilder.resourceEntryComponent(handler: ResourceEntryProps.() -> Unit): ReactElement {
+    return child(ResourceEntryComponent::class) {
         this.attrs(handler)
     }
 }

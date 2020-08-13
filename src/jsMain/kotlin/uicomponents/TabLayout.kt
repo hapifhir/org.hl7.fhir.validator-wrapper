@@ -6,6 +6,7 @@ import io.ktor.http.cio.websocket.Frame
 import kotlinx.css.Display
 import kotlinx.css.display
 import kotlinx.html.js.onClickFunction
+import model.CliContext
 import org.w3c.dom.asList
 import react.*
 import styled.*
@@ -19,7 +20,7 @@ import kotlin.browser.document
  * page for us.
  */
 external interface TabLayoutProps : RProps {
-
+    var cliContext: CliContext
 }
 
 class TabLayoutState : RState {
@@ -41,18 +42,20 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                 css {
                     +TabBarStyle.tabContainer
                 }
+                styledDiv {  }
                 for (tabState in state.tabStates) {
                     styledButton {
                         +tabState.label
                         css {
-                            +TextStyle.tab
-                            +TabBarStyle.tabButton
                             if (tabState.active) {
+                                +TextStyle.tabActive
                                 +TabBarStyle.tabButtonActive
                             } else {
+                                +TextStyle.tabInactive
                                 +TabBarStyle.tabButtonInactive
                             }
                             hover {
+                                +TextStyle.tabHover
                                 +TabBarStyle.tabButtonHover
                             }
                         }
@@ -72,6 +75,7 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
             styledDiv {
                 manualEnterTab {
                     active = state.tabStates[0].active
+                    cliContext = props.cliContext
                 }
             }
             styledDiv {
