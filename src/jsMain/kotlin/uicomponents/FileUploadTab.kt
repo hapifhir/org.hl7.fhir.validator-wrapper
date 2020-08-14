@@ -14,12 +14,6 @@ external interface FileUploadTabProps: RProps {
     var active: Boolean
 }
 
-object FileUploadTabStyle : StyleSheet("FooterColumnStyle", isStatic = true) {
-    val tabStyle by css {
-
-    }
-}
-
 class FileUploadTab: RComponent<FileUploadTabProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {

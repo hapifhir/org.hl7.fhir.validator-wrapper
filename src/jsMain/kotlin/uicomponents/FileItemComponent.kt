@@ -1,6 +1,9 @@
 package uicomponents
 
 import css.FileInfoStyle
+import io.ktor.utils.io.charsets.Charset
+import io.ktor.utils.io.charsets.Charsets
+import io.ktor.utils.io.core.toByteArray
 import kotlinx.css.*
 import kotlinx.html.*
 import kotlinx.html.attributes.enumEncode
@@ -65,10 +68,10 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
                     src = "json-svgrepo-com.svg"
                 }
             }
-
         }
         fileSummaryComponent {
             active = state.summaryActive
+            file = props.file
             onClose = {
                 setState {
                     summaryActive = false
