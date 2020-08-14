@@ -37,12 +37,12 @@ class FileUploadComponent : RComponent<FileUploadProps, RState>() {
             }
             attrs {
                 id = "FileUploadInput"
+                multiple = true
                 onInputFunction = {
                     event -> println("onInputFunction :: $event")
                     val input = document.getElementById("FileUploadInput") as HTMLInputElement
                     onFilesUpload(input.files?.asList()!!)
                 }
-                multiple = true
             }
         }
 

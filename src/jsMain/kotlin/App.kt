@@ -1,5 +1,6 @@
 import api.sendValidationRequest
 import constants.FhirFormat
+import css.FileListStyle
 import css.LandingPageStyle
 import css.TextStyle
 import kotlinx.coroutines.MainScope
@@ -13,6 +14,7 @@ import react.*
 import react.dom.div
 import react.dom.h1
 import react.dom.h2
+import react.dom.ul
 import styled.*
 import uicomponents.*
 import utils.assembleRequest
@@ -63,6 +65,17 @@ class App : RComponent<RProps, AppState>() {
             }
             tabLayout {
                 cliContext = state.cliContext
+            }
+        }
+        styledUl {
+            css {
+                +FileListStyle.listContainer
+            }
+            fileItemComponent {
+
+            }
+            fileItemComponent {
+
             }
         }
     }

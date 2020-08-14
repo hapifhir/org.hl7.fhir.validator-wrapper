@@ -11,7 +11,6 @@ object TabBarStyle : StyleSheet("Tabs", isStatic = true) {
         overflow = Overflow.hidden
         display = Display.flex
         justifyContent = JustifyContent.center
-//        borderBottom(width = 1.px, style = BorderStyle.solid, color = NOT_BLACK)
     }
 
     val tabButton by css {
@@ -36,7 +35,6 @@ object TabBarStyle : StyleSheet("Tabs", isStatic = true) {
     val tabButtonActive by css {
         backgroundColor = Color("#ddd")
         borderTop(width = 4.px, style = BorderStyle.solid, color = HL7_RED)
-        //borderBottom(width = 0.px, style = BorderStyle.none, color = NOT_BLACK)
         +tabButton
     }
 
