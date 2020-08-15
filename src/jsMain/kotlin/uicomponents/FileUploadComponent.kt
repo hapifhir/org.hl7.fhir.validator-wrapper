@@ -1,7 +1,7 @@
 package uicomponents
 
-import kotlinx.css.Display
-import kotlinx.css.display
+import css.FABStyle
+import kotlinx.css.*
 import kotlinx.html.*
 import kotlinx.html.attributes.enumEncode
 import kotlinx.html.js.*
@@ -15,10 +15,7 @@ import org.w3c.files.File
 import org.w3c.files.FileReader
 import react.RProps
 import react.dom.textArea
-import styled.css
-import styled.styledButton
-import styled.styledForm
-import styled.styledInput
+import styled.*
 import kotlin.browser.document
 
 /**
@@ -26,11 +23,25 @@ import kotlin.browser.document
  * In this case, we define the callback for the Submit funtionality here.
  */
 external interface FileUploadProps : RProps {
-    var onSubmit: (String) -> Unit
+    var onSelectFiles: (List<File>) -> Unit
 }
 
-class FileUploadComponent : RComponent<FileUploadProps, RState>() {
+class FileUploadState : RState {
+    var files: List<File> = listOf()
+}
+
+class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
+
+    init {
+        state = FileUploadState()
+    }
+
     override fun RBuilder.render() {
+
+        fileListComponent {
+            files = state.files
+        }
+
         styledInput(InputType.file, name = "fileUpload", formEncType = InputFormEncType.multipartFormData) {
             css {
                 display = Display.none
@@ -38,14 +49,38 @@ class FileUploadComponent : RComponent<FileUploadProps, RState>() {
             attrs {
                 id = "FileUploadInput"
                 multiple = true
-                onInputFunction = {
-                    event -> println("onInputFunction :: $event")
+                onInputFunction = { event ->
+                    println("onInputFunction :: $event")
                     val input = document.getElementById("FileUploadInput") as HTMLInputElement
-                    onFilesUpload(input.files?.asList()!!)
+                    setState {
+                        files = input.files?.asList()!!
+                    }
                 }
             }
         }
 
+        styledButton {
+            css {
+                +FABStyle.fab
+            }
+            styledSvg {
+                path {
+
+                }
+
+                inline fun RBuilder.styledSvg(content: String = "") = styledTag({ +content }) { SVG(emptyMap, it) }
+
+                css {
+                    setProp("fill", Color.white)
+                    //backgroundColor = Color.blanchedAlmond
+                }
+                attrs {
+                    src = "validate.svg"
+                    tag()
+                    set("fill", Color.white)
+                }
+            }
+        }
         styledButton {
             +"Upload Files"
             attrs {
@@ -70,6 +105,7 @@ fun onFilesUpload(files: List<File>) {
         }
     }
 }
+
 /**
  * We can use lambdas with receivers to make the component easier to work with.
  */

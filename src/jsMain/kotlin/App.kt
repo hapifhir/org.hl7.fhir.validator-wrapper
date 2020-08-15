@@ -5,8 +5,7 @@ import css.LandingPageStyle
 import css.TextStyle
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import kotlinx.css.TextAlign
-import kotlinx.css.textAlign
+import kotlinx.css.*
 import model.CliContext
 import model.FileInfo
 import model.ValidationOutcome
@@ -67,17 +66,17 @@ class App : RComponent<RProps, AppState>() {
                 cliContext = state.cliContext
             }
         }
-        styledUl {
-            css {
-                +FileListStyle.listContainer
-            }
-            fileItemComponent {
-
-            }
-            fileItemComponent {
-
-            }
-        }
+//        styledUl {
+//            css {
+//                +FileListStyle.listContainer
+//            }
+//            fileItemComponent {
+//
+//            }
+//            fileItemComponent {
+//
+//            }
+//        }
     }
 }
 

@@ -25,6 +25,7 @@ repositories {
 
     maven { url = uri("https://oss.sonatype.org/content/groups/public/") }
     maven("https://kotlin.bintray.com/kotlin-js-wrappers/") // react, styled, ...
+    //maven("https://dl.bintray.com/kotlin/kotlin-js-wrappers/")
 }
 
 group = "org.hl7.fhir.validator"

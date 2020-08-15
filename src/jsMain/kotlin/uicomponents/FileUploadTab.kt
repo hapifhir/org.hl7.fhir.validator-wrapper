@@ -1,8 +1,7 @@
 package uicomponents
 
 import css.TabBarStyle
-import kotlinx.css.Display
-import kotlinx.css.display
+import kotlinx.css.*
 import react.*
 import styled.StyleSheet
 import styled.*
@@ -19,7 +18,8 @@ class FileUploadTab: RComponent<FileUploadTabProps, RState>() {
         styledDiv {
             css {
                 +TabBarStyle.body
-                display = if (props.active) Display.block else Display.none
+                flex(flexBasis = 100.pct)
+                display = if (props.active) Display.flex else Display.none
             }
             fileUploadComponent {  }
 
@@ -28,12 +28,6 @@ class FileUploadTab: RComponent<FileUploadTabProps, RState>() {
 }
 
 /**
- * We can use lambdas with receivers to make the component easier to work with.
- * To include this component in a layout, someone can simply add:
- *
- *              bottomMenu {
- *
- *              }
  */
 fun RBuilder.fileUploadTab(handler: FileUploadTabProps.() -> Unit): ReactElement {
     return child(FileUploadTab::class) {

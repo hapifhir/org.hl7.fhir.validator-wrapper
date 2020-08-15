@@ -5,8 +5,7 @@ import constants.FhirFormat
 import css.TabBarStyle
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import kotlinx.css.Display
-import kotlinx.css.display
+import kotlinx.css.*
 import model.CliContext
 import model.FileInfo
 import react.*
@@ -29,8 +28,9 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
+                display = if (props.active) Display.flex else Display.none
                 +TabBarStyle.body
-                display = if (props.active) Display.block else Display.none
+                flex(flexBasis = 100.pct)
             }
             resourceEntryComponent {
                 onSubmit = {

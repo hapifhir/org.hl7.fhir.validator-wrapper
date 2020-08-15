@@ -1,5 +1,6 @@
 package uicomponents
 
+import css.FileListStyle
 import kotlinx.css.Display
 import kotlinx.css.display
 import kotlinx.html.*
@@ -28,12 +29,19 @@ external interface FileListProps : RProps {
 
 class FileListComponent : RComponent<FileListProps, RState>() {
     override fun RBuilder.render() {
-        styledUl {
+        styledDiv {
             css {
-
+                +FileListStyle.listBackground
             }
-            for (file in props.files) {
+            styledUl {
+                css {
 
+                }
+                for (f in props.files) {
+                    fileItemComponent {
+                        file = f
+                    }
+                }
             }
         }
     }

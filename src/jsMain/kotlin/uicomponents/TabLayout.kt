@@ -3,8 +3,7 @@ package uicomponents
 import css.TabBarStyle
 import css.TextStyle
 import io.ktor.http.cio.websocket.Frame
-import kotlinx.css.Display
-import kotlinx.css.display
+import kotlinx.css.*
 import kotlinx.html.js.onClickFunction
 import model.CliContext
 import org.w3c.dom.asList
@@ -35,12 +34,19 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
 
     override fun RBuilder.render() {
         styledDiv {
-
+            css {
+                height = 512.px
+                display = Display.flex
+                flexDirection = FlexDirection.column
+                backgroundColor = Color.yellow
+            }
             styledDiv {
                 css {
                     +TabBarStyle.tabContainer
+                    alignItems = Align.flexStart
+                    flex(flexBasis = 48.px)
+                    backgroundColor = Color.blueViolet
                 }
-                styledDiv {  }
                 for (tabState in state.tabStates) {
                     styledButton {
                         +tabState.label
@@ -71,12 +77,16 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                 }
             }
             styledDiv {
+                css {
+                    flex(flexBasis = 100.pct)
+                    display = Display.flex
+                    flexDirection = FlexDirection.column
+                    backgroundColor = Color.yellowGreen
+                }
                 manualEnterTab {
                     active = state.tabStates[0].active
                     cliContext = props.cliContext
                 }
-            }
-            styledDiv {
                 fileUploadTab {
                     active = state.tabStates[1].active
                 }

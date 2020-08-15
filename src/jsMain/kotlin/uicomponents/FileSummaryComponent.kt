@@ -27,7 +27,6 @@ class FileSummaryState : RState {
 class FileSummaryComponent : RComponent<FileSummaryProps, FileSummaryState>() {
 
     init {
-        println("init init")
         state = FileSummaryState()
     }
 

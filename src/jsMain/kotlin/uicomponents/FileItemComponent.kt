@@ -35,6 +35,7 @@ class FileItemState : RState {
 
 class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
     override fun RBuilder.render() {
+        styledDiv {  }
         styledLi {
             css {
                 +FileInfoStyle.listItem
