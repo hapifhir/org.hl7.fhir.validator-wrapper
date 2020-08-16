@@ -38,60 +38,98 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
 
     override fun RBuilder.render() {
 
-        fileListComponent {
-            files = state.files
-        }
-
-        styledInput(InputType.file, name = "fileUpload", formEncType = InputFormEncType.multipartFormData) {
+        styledDiv {
             css {
-                display = Display.none
+                position = Position.relative
+                display = Display.flex
+                flex(flexBasis = 100.pct)
             }
-            attrs {
-                id = "FileUploadInput"
-                multiple = true
-                onInputFunction = { event ->
-                    println("onInputFunction :: $event")
-                    val input = document.getElementById("FileUploadInput") as HTMLInputElement
-                    setState {
-                        files = input.files?.asList()!!
+
+            fileListComponent {
+                files = state.files
+            }
+
+            styledDiv {
+                css {
+                    display = Display.flex
+                    flexDirection = FlexDirection.column
+                    position = Position.absolute
+                    right = 0.px
+                    bottom = 0.px
+                    margin(24.px)
+                }
+                styledDiv {
+                    css {
+                        +FABStyle.fab
+                        marginBottom = 12.px
+                        display = Display.flex
+                        justifyContent = JustifyContent.center
+                    }
+                    styledImg {
+                        css {
+                            setProp("fill", Color.white)
+                        }
+                        attrs {
+                            src = "upload.svg"
+                        }
+                    }
+                    attrs {
+                        onClickFunction = {
+                            val field = document.getElementById("FileUploadInput") as HTMLInputElement
+                            field.click()
+                        }
+                    }
+                }
+                styledDiv {
+                    css {
+                        +FABStyle.fab
+                        display = Display.flex
+                        justifyContent = JustifyContent.center
+                    }
+                    styledImg {
+                        css {
+                            setProp("fill", Color.white)
+                        }
+                        attrs {
+                            src = "validate.svg"
+                        }
+                    }
+                    attrs {
+                        onClickFunction = {
+                            val field = document.getElementById("FileUploadInput") as HTMLInputElement
+                            field.click()
+                        }
+                    }
+                }
+            }
+
+            styledInput(InputType.file, name = "fileUpload", formEncType = InputFormEncType.multipartFormData) {
+                css {
+                    display = Display.none
+                }
+                attrs {
+                    id = "FileUploadInput"
+                    multiple = true
+                    onInputFunction = { event ->
+                        println("onInputFunction :: $event")
+                        val input = document.getElementById("FileUploadInput") as HTMLInputElement
+                        setState {
+                            files = input.files?.asList()!!
+                        }
                     }
                 }
             }
         }
-
-        styledButton {
-            css {
-                +FABStyle.fab
-            }
-            styledSvg {
-                path {
-
-                }
-
-                inline fun RBuilder.styledSvg(content: String = "") = styledTag({ +content }) { SVG(emptyMap, it) }
-
-                css {
-                    setProp("fill", Color.white)
-                    //backgroundColor = Color.blanchedAlmond
-                }
-                attrs {
-                    src = "validate.svg"
-                    tag()
-                    set("fill", Color.white)
-                }
-            }
-        }
-        styledButton {
-            +"Upload Files"
-            attrs {
-                name = "UploadFileButton"
-                onClickFunction = {
-                    val field = document.getElementById("FileUploadInput") as HTMLInputElement
-                    field.click()
-                }
-            }
-        }
-
+//        styledButton {
+//            +"Upload Files"
+//            attrs {
+//                name = "UploadFileButton"
+//                onClickFunction = {
+//                    val field = document.getElementById("FileUploadInput") as HTMLInputElement
+//                    field.click()
+//                }
+//            }
+//        }
     }
 }
 

@@ -18,7 +18,6 @@ object FABStyle : StyleSheet("FAB", isStatic = true) {
         cursor = Cursor.pointer
         hover {
             backgroundColor = FADED_HL7_RED
-
         }
     }
 

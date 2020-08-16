@@ -1,6 +1,5 @@
 import kotlinext.js.invoke
 import kotlinx.css.*
-import styled.StyledComponents
 
 val styles = CSSBuilder().apply {
     body {

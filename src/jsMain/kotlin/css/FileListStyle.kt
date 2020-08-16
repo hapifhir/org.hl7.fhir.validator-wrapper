@@ -12,8 +12,11 @@ object FileListStyle : StyleSheet("FileInfo", isStatic = true) {
     val listBackground by FileListStyle.css {
         boxShadow(color = Color("#BBBBBB"), offsetX = 0.px, offsetY = 5.px, blurRadius = 5.px)
         backgroundColor = Color.white
-        height = 80.pct
-        width = 80.pct
+        height = 100.pct
+        width = 100.pct
+        alignItems = Align.center
+        justifyContent = JustifyContent.center
+        display = Display.flex
     }
     val listContainer by FileListStyle.css {
         listStyleType = ListStyleType.none

@@ -17,9 +17,9 @@ class FileUploadTab: RComponent<FileUploadTabProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
+                display = if (props.active) Display.flex else Display.none
                 +TabBarStyle.body
                 flex(flexBasis = 100.pct)
-                display = if (props.active) Display.flex else Display.none
             }
             fileUploadComponent {  }
 

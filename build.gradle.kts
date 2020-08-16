@@ -1,11 +1,19 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
-val kotlinVersion = "1.3.72"
-val serializationVersion = "0.20.0"
-val ktorVersion = "1.3.2"
-val fhirCoreVersion = "5.0.17-SNAPSHOT"
-val jacksonVersion = "2.11.1"
-val tornadoFXVersion = "1.7.20"
+group = "org.hl7.fhir.validator"
+version = "1.0-SNAPSHOT"
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven(url = "https://dl.bintray.com/kotlin/kotlin-eap")
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:3.6.3")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72")
+    }
+}
 
 plugins {
     application //to run JVM part
@@ -15,21 +23,16 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
+    google()
     jcenter()
+    mavenLocal()
     mavenCentral()
-
-    maven { url = uri("https://kotlin.bintray.com/ktor") }
-    maven { url = uri("https://plugins.gradle.org/m2/") }
-    maven { url = uri("https://dl.bintray.com/kotlin/kotlin-eap") }
-
-    maven { url = uri("https://oss.sonatype.org/content/groups/public/") }
-    maven("https://kotlin.bintray.com/kotlin-js-wrappers/") // react, styled, ...
-    //maven("https://dl.bintray.com/kotlin/kotlin-js-wrappers/")
+    maven("https://dl.bintray.com/kotlin/ktor")
+    maven("https://dl.bintray.com/kotlin/kotlinx")
+    maven("https://dl.bintray.com/kotlin/kotlin-eap")
+    maven("https://dl.bintray.com/kotlin/kotlin-js-wrappers")
+    maven("https://oss.sonatype.org/content/groups/public/")
 }
-
-group = "org.hl7.fhir.validator"
-version = "1.0-SNAPSHOT"
 
 kotlin {
     /* Targets configuration omitted. 
@@ -51,17 +54,17 @@ kotlin {
                 keep("ktor-ktor-io.\$\$importsForInline\$\$.ktor-ktor-io.io.ktor.utils.io")
             }
         }
+//        binaries.executable() // Keep this as we will need it for v1.4
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-                implementation("io.ktor:ktor-serialization:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serializationVersion")
-
-                implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:$fhirCoreVersion")
+                implementation("io.ktor:ktor-serialization:${property("ktorVersion")}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:${property("serializationVersion")}")
+                implementation("com.fasterxml.jackson.core:jackson-databind:${property("jacksonVersion")}")
+                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
             }
         }
         val commonTest by getting {
@@ -73,58 +76,56 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-server-jetty:$ktorVersion")
-                implementation("io.ktor:ktor-server-core:$ktorVersion")
-                implementation("ch.qos.logback:logback-classic:1.2.3")
-                implementation(kotlin("stdlib", kotlinVersion)) // or "stdlib-jdk8"
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializationVersion") // JVM dependency
-                implementation("io.ktor:ktor-websockets:$ktorVersion")
-                implementation("io.ktor:ktor-jackson:$ktorVersion")
+                //implementation(kotlin("stdlib", "${property("kotlinVersion")}")) // or "stdlib-jdk8"
+                implementation(kotlin("stdlib-jdk8"))
+                implementation("io.ktor:ktor-server-jetty:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-server-core:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-websockets:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-jackson:${property("ktorVersion")}")
+
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${property("serializationVersion")}") // JVM dependency
+
                 implementation("ch.qos.logback:logback-classic:1.2.3")
                 implementation("org.litote.kmongo:kmongo-coroutine-serialization:3.12.2")
-
-                implementation("no.tornado:tornadofx:$tornadoFXVersion")
-
-                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:$fhirCoreVersion")
+                implementation("no.tornado:tornadofx:${property("tornadoFXVersion")}")
+                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
             }
         }
 
         val jvmTest by getting {
             dependencies {
-                implementation("io.ktor:ktor-server-tests:$ktorVersion")
+                implementation("io.ktor:ktor-server-tests:${property("ktorVersion")}")
             }
         }
 
         val jsMain by getting {
             dependencies {
+
                 implementation(kotlin("stdlib-js"))
 
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serializationVersion")
+                implementation("io.ktor:ktor-client-js:${property("ktorVersion")}") //include http&websockets
+                implementation("io.ktor:ktor-client-json-js:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-client-serialization-js:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-client-jackson:${property("ktorVersion")}")
 
+                implementation("org.jetbrains:kotlin-react:${property("kotlinReactVersion")}")
+                implementation("org.jetbrains:kotlin-react-dom:${property("kotlinReactVersion")}")
+                implementation("org.jetbrains:kotlin-react-router-dom:${property("kotlinReactRouterVersion")}")
+                implementation("org.jetbrains:kotlin-styled:${property("kotlinStyledVersion")}")
+                implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${property("kotlinxCoroutinesVersion")}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:${property("serializationVersion")}")
+
+                implementation(npm("react", "${property("reactVersion")}"))
+                implementation(npm("react-dom", "${property("reactVersion")}"))
+                implementation(npm("react-router-dom", "5.1.2"))
+                implementation(npm("styled-components", "4.4.1")) // Animations don't work with styled components 5+
+                implementation(npm("inline-style-prefixer", "5.1.0"))
                 implementation(npm("text-encoding"))
                 implementation(npm("abort-controller"))
-
-                implementation("io.ktor:ktor-client-js:$ktorVersion") //include http&websockets
-
+                implementation(npm("fs"))
                 implementation(npm("bufferutil")) //Dont' uncomment this
                 implementation(npm("utf-8-validate"))
-
-                //ktor client js json
-                implementation("io.ktor:ktor-client-json-js:$ktorVersion")
-                implementation("io.ktor:ktor-client-serialization-js:$ktorVersion")
-                implementation("io.ktor:ktor-client-jackson:$ktorVersion")
-                implementation(npm("fs"))
-
-                implementation("org.jetbrains:kotlin-react:16.13.0-pre.94-kotlin-1.3.70")
-                implementation("org.jetbrains:kotlin-react-dom:16.13.0-pre.94-kotlin-1.3.70")
-                implementation(npm("react", "16.13.1"))
-                implementation(npm("react-dom", "16.13.1"))
-
-                implementation("org.jetbrains:kotlin-styled:1.0.0-pre.94-kotlin-1.3.70")
-                implementation(npm("styled-components", "4.4.1")) // Animations don't work with styled components 5+
-                implementation(npm("inline-style-prefixer"))
-
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8")
             }
         }
     }
@@ -138,6 +139,7 @@ javafx {
 application {
     mainClassName = "ServerKt"
 }
+
 
 // include JS artifacts in any JAR we generate
 tasks.getByName<Jar>("jvmJar") {

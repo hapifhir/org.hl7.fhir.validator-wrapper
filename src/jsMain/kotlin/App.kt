@@ -28,7 +28,7 @@ val mainScope = MainScope()
 class App : RComponent<RProps, AppState>() {
     override fun AppState.init() {
         // Inject global styles
-        StyledComponents.injectGlobal(styles.toString())
+//        StyledComponents.injectGlobal(styles.toString())
 
         // For testing
         validationOutcome = ValidationOutcome().setIssues(listOf())

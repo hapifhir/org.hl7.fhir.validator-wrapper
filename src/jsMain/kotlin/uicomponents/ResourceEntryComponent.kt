@@ -1,5 +1,6 @@
 package uicomponents
 
+import css.FileListStyle
 import kotlinx.html.js.onClickFunction
 import react.*
 import react.dom.*
@@ -8,6 +9,9 @@ import kotlinx.html.id
 import org.w3c.dom.HTMLTextAreaElement
 import react.RProps
 import react.dom.textArea
+import styled.css
+import styled.styledDiv
+import styled.styledTextArea
 import kotlin.browser.document
 
 /**
@@ -20,25 +24,32 @@ external interface ResourceEntryProps : RProps {
 
 class ResourceEntryComponent : RComponent<ResourceEntryProps, RState>() {
     override fun RBuilder.render() {
-        textArea {
-            // TODO css
-            attrs {
-                id = "inputTextArea"
-                cols = "60"
-                rows = "30"
-                placeholder = "Enter Resoure Manually"
+        styledDiv {
+            css {
+
             }
-        }
-        button {
-            +"Validate"
-            attrs {
-                name = "ValidateButton"
-                onClickFunction = {
-                    val field = document.getElementById("inputTextArea") as HTMLTextAreaElement
-                    props.onSubmit(field.value)
-                    //println(field.value)
-                }
-            }
+            // TODO fix flex layout and css
+//            styledTextArea {
+//                css {
+//                }
+//                attrs {
+//                    id = "inputTextArea"
+//                    cols = "60"
+//                    rows = "30"
+//                    placeholder = "Enter Resoure Manually"
+//                }
+//            }
+//            button {
+//                +"Validate"
+//                attrs {
+//                    name = "ValidateButton"
+//                    onClickFunction = {
+//                        val field = document.getElementById("inputTextArea") as HTMLTextAreaElement
+//                        props.onSubmit(field.value)
+//                        //println(field.value)
+//                    }
+//                }
+//            }
         }
     }
 }
