@@ -105,17 +105,6 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
     }
 }
 
-fun onFilesUpload(files: List<File>) {
-    for (file in files) {
-        println("${file.name}: ${file.type}")
-        val reader = FileReader()
-        reader.readAsText(file)
-        reader.onloadend = {
-            println(reader.result)
-        }
-    }
-}
-
 /**
  * We can use lambdas with receivers to make the component easier to work with.
  */

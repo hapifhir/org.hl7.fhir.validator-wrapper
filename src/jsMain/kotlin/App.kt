@@ -3,6 +3,8 @@ import constants.FhirFormat
 import css.FileListStyle
 import css.LandingPageStyle
 import css.TextStyle
+import css.const.PADDING_L
+import css.const.PADDING_XXL
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.css.*
@@ -51,9 +53,11 @@ class App : RComponent<RProps, AppState>() {
                 +LandingPageStyle.mainDiv
             }
             header { }
-            styledDiv {
+            styledP {
                 css {
                     textAlign = TextAlign.center
+                    marginTop = PADDING_L
+                    marginBottom = PADDING_XXL
                 }
                 styledH1 {
                     css {
@@ -81,50 +85,4 @@ class App : RComponent<RProps, AppState>() {
     }
 }
 
-
-//        h1 {
-//            +"Validator GUI"
-//        }
-//        styledDiv {
-//
-//        }
-//        div {
-//            validationOutcome {
-//                outcome = state.validationOutcome
-//            }
-//        }
-//
-//        div {
-//            resourceEntryField {
-//                onSubmit = {
-//                    val request = assembleRequest(state.cliContext, FileInfo().setFileName("Temp").setFileContent(it).setFileType(FhirFormat.JSON.code))
-//                    mainScope.launch {
-//                        val returnedOutcome = sendValidationRequest(request)
-//                        setState {
-//                            // Only one returned outcome in single submitted validation operation
-//                            println("setting state")
-//                            for (issue in returnedOutcome[0].getIssues()) {
-//                                println("${issue.getSeverity()} :: ${issue.getDetails()}")
-//                            }
-//                            validationOutcome = returnedOutcome[0]
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        div {
-//            attrs {
-//
-//            }
-//            contextSettings {
-//                onSave = {
-//
-//                }
-//                cliContext = state.cliContext
-//            }
-//        }
-//        div {
-//            footer {  }
-//        }
-//    }
 

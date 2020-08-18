@@ -1,14 +1,24 @@
 package uicomponents
 
+import api.sendValidationRequest
+import constants.FhirFormat
 import css.TabBarStyle
 import css.TextStyle
+import css.const.BLACK
+import css.const.GRAY_600
+import css.const.TRULY_RED
 import kotlinx.css.*
+import kotlinx.css.properties.border
+import kotlinx.css.properties.borderBottom
+import kotlinx.css.properties.borderLeft
+import kotlinx.css.properties.borderTop
 import kotlinx.html.js.onClickFunction
 import model.CliContext
 import model.FileInfo
 import react.*
 import styled.*
 import uistate.TabState
+import utils.assembleRequest
 
 /**
  *
@@ -39,8 +49,16 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                 css {
                     +TabBarStyle.tabBar
                 }
+                styledDiv{
+                    css {
+                        flexGrow = 1.0
+                        height = 100.pct
+                        boxSizing = BoxSizing.borderBox
+                        borderBottom(width = 1.px, style = BorderStyle.solid, color = GRAY_600)
+                    }
+                }
                 for (tabState in state.tabStates) {
-                    styledButton {
+                    styledDiv {
                         +tabState.label
                         css {
                             if (tabState.active) {
@@ -49,10 +67,10 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                             } else {
                                 +TextStyle.tabInactive
                                 +TabBarStyle.tabButtonInactive
-                            }
-                            hover {
-                                +TextStyle.tabHover
-                                +TabBarStyle.tabButtonHover
+                                hover {
+                                    +TextStyle.tabHover
+                                    +TabBarStyle.tabButtonHover
+                                }
                             }
                         }
                         attrs {
@@ -67,6 +85,14 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                         }
                     }
                 }
+                styledDiv{
+                    css {
+                        flexGrow = 1.0
+                        height = 100.pct
+                        boxSizing = BoxSizing.borderBox
+                        borderBottom(width = 1.px, style = BorderStyle.solid, color = GRAY_600)
+                    }
+                }
             }
             styledDiv {
                 css {
@@ -74,7 +100,9 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                 }
                 manualEnterTab {
                     active = state.tabStates[0].active
-                    cliContext = props.cliContext
+                    onValidate = {
+                        props.onValidate(it)
+                    }
                 }
                 fileUploadTab {
                     active = state.tabStates[1].active

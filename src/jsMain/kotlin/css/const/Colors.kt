@@ -1,4 +1,4 @@
-package css
+package css.const
 
 import kotlinx.css.Color
 
@@ -8,6 +8,8 @@ val ALMOST_RED = Color("#FF6153FF")
 
 val BLACK = Color("#000000")
 val WHITE = Color("#FFFFFF")
+
+val SHADOW = Color("#00000077")
 
 val GRAY_900 = Color("#212121")
 val GRAY_800 = Color("#424242")

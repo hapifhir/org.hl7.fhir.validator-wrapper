@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.css.*
 import model.CliContext
 import model.FileInfo
+import org.w3c.files.File
 import react.*
 import styled.*
 import utils.assembleRequest
@@ -21,10 +22,19 @@ val mainScope = MainScope()
  */
 external interface ManualEnterTabProps : RProps {
     var active: Boolean
-    var cliContext: CliContext
+    var onValidate: (List<FileInfo>) -> Unit
 }
 
-class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
+class ManualEnterTabState : RState {
+    var files: MutableList<FileInfo> = mutableListOf()
+}
+
+class ManualEnterTab : RComponent<ManualEnterTabProps, ManualEnterTabState>() {
+
+    init {
+        state = ManualEnterTabState()
+    }
+
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -33,21 +43,10 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
             }
             resourceEntryComponent {
                 onSubmit = {
-                    val request = assembleRequest(
-                        props.cliContext,
-                        FileInfo().setFileName("Temp").setFileContent(it).setFileType(FhirFormat.JSON.code)
-                    )
-                    mainScope.launch {
-                        val returnedOutcome = sendValidationRequest(request)
-                        setState {
-                            // Only one returned outcome in single submitted validation operation
-                            println("setting state")
-                            for (issue in returnedOutcome[0].getIssues()) {
-                                println("${issue.getSeverity()} :: ${issue.getDetails()}")
-                            }
-                            // Do something with the outcome here
-                        }
+                    setState {
+                        files.add(FileInfo().setFileName("").setFileContent(it).setFileType(FhirFormat.JSON.code))
                     }
+                    props.onValidate(state.files)
                 }
             }
         }

@@ -59,7 +59,7 @@ class FileSummaryComponent : RComponent<FileSummaryProps, RState>() {
                         +FileSummaryStyle.horizontalRule
                     }
                 }
-                styledDiv {
+                styledP {
                     css {
                         +FileSummaryStyle.fileContent
                     }

@@ -1,26 +1,18 @@
 package css
 
+import css.const.*
 import kotlinx.css.*
-import kotlinx.css.FlexBasis.Companion.fill
 import kotlinx.css.properties.*
-import kotlinx.html.MARK
-import org.w3c.dom.css.CSSMarginRule
 import styled.StyleSheet
 import styled.animation
 
 object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
-    val MODAL_PADDING_TOP = 100.px
-    val MODAL_BACKDROP = rgba(0,0,0,0.7)
-    val MODAL_BACKGROUND = Color("#fefefe")
-    val MODAL_PADDING = 20.px
+    //val MODAL_BACKDROP = rgba(0,0,0,0.7)
     val MODAL_MARGIN = 64.px
     val MODAL_BORDER_RADIUS = 8.px
     val BORDER_WIDTH = 1.px
-    val CLOSE_BUTTON_COLOR = Color("#aaaaaa")
-    val CLOSE_BUTTON_COLOR_HOVER = Color("#000")
-    val BUTTON_SIZE = 32.px
     val TITLE_BAR_PADDING = 4.px
-    val TITLE_BAR_HEIGHT = 48.px
+    val TITLE_BAR_HEIGHT = PADDING_XL
 
     val overlay by FileSummaryStyle.css {
         position = Position.fixed
@@ -28,15 +20,15 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
         top = 0.px
         right = 0.px
         bottom = 0.px
-        backgroundColor = MODAL_BACKDROP
+        backgroundColor = SHADOW
         quickFadeIn()
     }
 
     val modalContent by FileSummaryStyle.css {
         margin = "auto"
         marginTop = MODAL_MARGIN
-        padding(MODAL_PADDING)
-        backgroundColor = MODAL_BACKGROUND
+        padding(PADDING_M)
+        backgroundColor = GRAY_100
         borderRadius = MODAL_BORDER_RADIUS
         width = 70.pct
         minHeight = 50.pct
@@ -54,9 +46,8 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
     }
 
     val closeButton by FileSummaryStyle.css {
-        color = CLOSE_BUTTON_COLOR
-        width = BUTTON_SIZE
-        height = BUTTON_SIZE
+        width = ICON_SMALL_DIM
+        height = ICON_SMALL_DIM
         alignSelf = Align.center
     }
 
@@ -70,7 +61,7 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
     }
 
     val horizontalRule by FileSummaryStyle.css {
-        border(width = BORDER_WIDTH, style = BorderStyle.solid, color = HL7_RED)
+        border(width = BORDER_WIDTH, style = BorderStyle.solid, color = GRAY_500)
         width = 100.pct
     }
 
@@ -79,7 +70,7 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
         flexGrow = 1.0
         display = Display.flex
         overflow = Overflow.scroll
-        whiteSpace = WhiteSpace.nowrap
+        whiteSpace = WhiteSpace.preWrap
     }
 
     fun CSSBuilder.quickFadeIn() {

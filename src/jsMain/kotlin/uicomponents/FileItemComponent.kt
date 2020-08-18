@@ -2,6 +2,7 @@ package uicomponents
 
 import constants.MIMEType
 import css.FileItemStyle
+import css.TextStyle
 import kotlinx.css.*
 import kotlinx.html.js.*
 import react.*
@@ -44,6 +45,7 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
                 +props.file?.name
                 css {
                     +FileItemStyle.titleField
+                    +TextStyle.h3
                 }
                 attrs {
                     onClickFunction = {
@@ -87,6 +89,7 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
             reader.onloadend = {
                 setState {
                     fileContent = reader.result
+                    println(fileContent)
                 }
             }
         } else {

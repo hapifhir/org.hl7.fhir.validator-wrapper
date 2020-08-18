@@ -59,7 +59,7 @@ class Header : RComponent<FooterProps, HeaderState>(), EventListener {
                 css {
                     width = 100.pct
                     height = HEADER_HEIGHT * 0.8
-                    backgroundColor = Color.burlyWood
+                    //backgroundColor = Color.burlyWood
                 }
             }
         }
