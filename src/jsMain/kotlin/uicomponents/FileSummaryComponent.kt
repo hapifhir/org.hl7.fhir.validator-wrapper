@@ -15,21 +15,13 @@ import styled.*
  * In this case, we define the callback for the Submit funtionality here.
  */
 external interface FileSummaryProps : RProps {
-    var file: File
+    var fileName: String
+    var fileContent: String
     var active: Boolean
     var onClose: () -> Unit
 }
 
-class FileSummaryState : RState {
-    var fileContent: String = ""
-}
-
-class FileSummaryComponent : RComponent<FileSummaryProps, FileSummaryState>() {
-
-    init {
-        state = FileSummaryState()
-    }
-
+class FileSummaryComponent : RComponent<FileSummaryProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -49,7 +41,7 @@ class FileSummaryComponent : RComponent<FileSummaryProps, FileSummaryState>() {
                             +TextStyle.h2
                             +FileSummaryStyle.filename
                         }
-                        +props.file?.name
+                        +props.fileName
                     }
                     styledImg {
                         css {
@@ -73,25 +65,9 @@ class FileSummaryComponent : RComponent<FileSummaryProps, FileSummaryState>() {
                     css {
                         +FileSummaryStyle.fileContent
                     }
-                    readFile(props.file)
-                    +state.fileContent
+                    +props.fileContent
                 }
             }
-        }
-    }
-
-    fun readFile(file: File?) {
-        val reader = FileReader()
-        if (file != null) {
-            println("reading file ${file.name}")
-            reader.readAsText(file)
-            reader.onloadend = {
-                setState {
-                    fileContent = reader.result
-                }
-            }
-        } else {
-            println("null file")
         }
     }
 }

@@ -14,8 +14,8 @@ object FileListStyle : StyleSheet("FileInfo", isStatic = true) {
         backgroundColor = Color.white
         height = 100.pct
         width = 100.pct
-        alignItems = Align.center
-        justifyContent = JustifyContent.center
+//        alignItems = Align.center
+//        justifyContent = JustifyContent.center
         display = Display.flex
     }
     val listContainer by FileListStyle.css {

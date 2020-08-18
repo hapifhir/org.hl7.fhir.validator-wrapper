@@ -18,11 +18,11 @@ object FileInfoStyle : StyleSheet("FileInfo", isStatic = true) {
 
     val listItem by FileInfoStyle.css {
         padding(LIST_ITEM_PADDING)
-        alignItems = Align.center
-        overflow = Overflow.hidden
+//        alignItems = Align.center
+//        overflow = Overflow.hidden
         backgroundColor = Color.aqua
         display = Display.flex
-        alignItems = Align.center
-        margin(4.px)
+//        alignItems = Align.center
+//        margin(4.px)
     }
 }

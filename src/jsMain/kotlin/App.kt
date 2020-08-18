@@ -64,19 +64,20 @@ class App : RComponent<RProps, AppState>() {
             }
             tabLayout {
                 cliContext = state.cliContext
+                onValidate = { it ->
+                    val request = assembleRequest(state.cliContext, it)
+                    mainScope.launch {
+                        val returnedOutcome = sendValidationRequest(request)
+                        returnedOutcome.forEach { vo ->
+                            println("Validation for: ${vo.getFileInfo().fileName}")
+                            vo.getIssues().forEach { vi ->
+                                println("${vi.getSeverity()} :: ${vi.getDetails()}")
+                            }
+                        }
+                    }
+                }
             }
         }
-//        styledUl {
-//            css {
-//                +FileListStyle.listContainer
-//            }
-//            fileItemComponent {
-//
-//            }
-//            fileItemComponent {
-//
-//            }
-//        }
     }
 }
 

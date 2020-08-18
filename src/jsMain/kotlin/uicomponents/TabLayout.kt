@@ -6,6 +6,7 @@ import io.ktor.http.cio.websocket.Frame
 import kotlinx.css.*
 import kotlinx.html.js.onClickFunction
 import model.CliContext
+import model.FileInfo
 import org.w3c.dom.asList
 import react.*
 import styled.*
@@ -18,6 +19,7 @@ import kotlin.browser.document
  */
 external interface TabLayoutProps : RProps {
     var cliContext: CliContext
+    var onValidate: (List<FileInfo>) -> Unit
 }
 
 class TabLayoutState : RState {
@@ -89,6 +91,9 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                 }
                 fileUploadTab {
                     active = state.tabStates[1].active
+                    onValidate = {
+                        props.onValidate(it)
+                    }
                 }
             }
         }

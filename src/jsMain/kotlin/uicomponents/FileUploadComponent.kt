@@ -23,11 +23,11 @@ import kotlin.browser.document
  * In this case, we define the callback for the Submit funtionality here.
  */
 external interface FileUploadProps : RProps {
-    var onSelectFiles: (List<File>) -> Unit
+    var onValidate: (MutableList<File>) -> Unit
 }
 
 class FileUploadState : RState {
-    var files: List<File> = listOf()
+    var files: MutableList<File> = mutableListOf()
 }
 
 class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
@@ -96,8 +96,7 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
                     }
                     attrs {
                         onClickFunction = {
-                            val field = document.getElementById("FileUploadInput") as HTMLInputElement
-                            field.click()
+                            props.onValidate(state.files)
                         }
                     }
                 }
@@ -114,22 +113,12 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
                         println("onInputFunction :: $event")
                         val input = document.getElementById("FileUploadInput") as HTMLInputElement
                         setState {
-                            files = input.files?.asList()!!
+                            files.addAll(input.files?.asList()!!)
                         }
                     }
                 }
             }
         }
-//        styledButton {
-//            +"Upload Files"
-//            attrs {
-//                name = "UploadFileButton"
-//                onClickFunction = {
-//                    val field = document.getElementById("FileUploadInput") as HTMLInputElement
-//                    field.click()
-//                }
-//            }
-//        }
     }
 }
 

@@ -1,8 +1,9 @@
 package uicomponents
 
 import css.FileListStyle
-import kotlinx.css.Display
-import kotlinx.css.display
+import css.HL7_RED
+import kotlinx.css.*
+import kotlinx.css.properties.borderBottom
 import kotlinx.html.*
 import kotlinx.html.attributes.enumEncode
 import kotlinx.html.js.*
@@ -24,7 +25,7 @@ import kotlin.browser.document
  * In this case, we define the callback for the Submit funtionality here.
  */
 external interface FileListProps : RProps {
-    var files: List<File>
+    var files: MutableList<File>
 }
 
 class FileListComponent : RComponent<FileListProps, RState>() {
@@ -32,14 +33,33 @@ class FileListComponent : RComponent<FileListProps, RState>() {
         styledDiv {
             css {
                 +FileListStyle.listBackground
+                display = Display.flex
+                flex(flexBasis = 100.pct)
             }
             styledUl {
                 css {
-
+                    //display = Display.flex
+                    flex(flexBasis = 100.pct)
+                    padding(0.px)
+                    listStyleType = ListStyleType.none
                 }
-                for (f in props.files) {
+                val filesIterator = props.files.iterator()
+                while (filesIterator.hasNext()) {
                     fileItemComponent {
-                        file = f
+                        file = filesIterator.next()
+                        onDelete = {
+                            setState {
+                                props.files.remove(it)
+                            }
+                        }
+                    }
+                    if (filesIterator.hasNext()) {
+                        styledDiv {
+                            css {
+                                borderBottom(width = 2.px, style = BorderStyle.solid, color = HL7_RED)
+                                margin(horizontal = 16.px)
+                            }
+                        }
                     }
                 }
             }
