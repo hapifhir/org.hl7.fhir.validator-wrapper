@@ -2,17 +2,13 @@ package uicomponents
 
 import css.TabBarStyle
 import css.TextStyle
-import io.ktor.http.cio.websocket.Frame
 import kotlinx.css.*
 import kotlinx.html.js.onClickFunction
 import model.CliContext
 import model.FileInfo
-import org.w3c.dom.asList
 import react.*
 import styled.*
-import styles
 import uistate.TabState
-import kotlin.browser.document
 
 /**
  *
@@ -37,17 +33,11 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                height = 512.px
-                display = Display.flex
-                flexDirection = FlexDirection.column
-                backgroundColor = Color.yellow
+                +TabBarStyle.mainLayout
             }
             styledDiv {
                 css {
-                    +TabBarStyle.tabContainer
-                    alignItems = Align.flexStart
-                    flex(flexBasis = 48.px)
-                    backgroundColor = Color.blueViolet
+                    +TabBarStyle.tabBar
                 }
                 for (tabState in state.tabStates) {
                     styledButton {
@@ -80,10 +70,7 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
             }
             styledDiv {
                 css {
-                    flex(flexBasis = 100.pct)
-                    display = Display.flex
-                    flexDirection = FlexDirection.column
-                    backgroundColor = Color.yellowGreen
+                    +TabBarStyle.tabBodyContainer
                 }
                 manualEnterTab {
                     active = state.tabStates[0].active

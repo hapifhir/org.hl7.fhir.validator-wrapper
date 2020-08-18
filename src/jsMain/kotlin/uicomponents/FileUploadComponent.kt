@@ -1,20 +1,17 @@
 package uicomponents
 
 import css.FABStyle
+import css.FileUploadStyle
 import kotlinx.css.*
 import kotlinx.html.*
-import kotlinx.html.attributes.enumEncode
 import kotlinx.html.js.*
 import react.*
-import react.dom.*
 
 import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.HTMLTextAreaElement
 import org.w3c.dom.asList
 import org.w3c.files.File
 import org.w3c.files.FileReader
 import react.RProps
-import react.dom.textArea
 import styled.*
 import kotlin.browser.document
 
@@ -37,40 +34,27 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
     }
 
     override fun RBuilder.render() {
-
         styledDiv {
             css {
-                position = Position.relative
-                display = Display.flex
-                flex(flexBasis = 100.pct)
+                +FileUploadStyle.layout
             }
-
             fileListComponent {
                 files = state.files
             }
-
             styledDiv {
                 css {
-                    display = Display.flex
-                    flexDirection = FlexDirection.column
-                    position = Position.absolute
-                    right = 0.px
-                    bottom = 0.px
-                    margin(24.px)
+                    +FileUploadStyle.buttonContainer
                 }
                 styledDiv {
                     css {
                         +FABStyle.fab
-                        marginBottom = 12.px
-                        display = Display.flex
-                        justifyContent = JustifyContent.center
                     }
                     styledImg {
                         css {
-                            setProp("fill", Color.white)
+
                         }
                         attrs {
-                            src = "upload.svg"
+                            src = "images/upload.svg"
                         }
                     }
                     attrs {
@@ -83,15 +67,13 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
                 styledDiv {
                     css {
                         +FABStyle.fab
-                        display = Display.flex
-                        justifyContent = JustifyContent.center
                     }
                     styledImg {
                         css {
-                            setProp("fill", Color.white)
+
                         }
                         attrs {
-                            src = "validate.svg"
+                            src = "images/validate.svg"
                         }
                     }
                     attrs {
@@ -104,6 +86,7 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
 
             styledInput(InputType.file, name = "fileUpload", formEncType = InputFormEncType.multipartFormData) {
                 css {
+                    // We don't display this object because it is
                     display = Display.none
                 }
                 attrs {

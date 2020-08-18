@@ -30,7 +30,6 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
             css {
                 display = if (props.active) Display.flex else Display.none
                 +TabBarStyle.body
-                flex(flexBasis = 100.pct)
             }
             resourceEntryComponent {
                 onSubmit = {

@@ -5,8 +5,6 @@ import css.TextStyle
 import kotlinx.css.*
 import kotlinx.html.js.*
 import react.*
-import org.w3c.files.File
-import org.w3c.files.FileReader
 import react.RProps
 import styled.*
 
@@ -49,7 +47,7 @@ class FileSummaryComponent : RComponent<FileSummaryProps, RState>() {
                             +FileSummaryStyle.closeButtonHover
                         }
                         attrs {
-                            src = "highlight_off-24px.svg"
+                            src = "images/close.svg"
                             onClickFunction = {
                                 props.onClose()
                             }

@@ -1,33 +1,15 @@
 package uicomponents
 
 import constants.MIMEType
-import constants.MIMEType.Companion.get
-import css.FileInfoStyle
-import css.FileSummaryStyle
-import css.HL7_RED
-import css.NOT_BLACK
-import io.ktor.utils.io.charsets.Charset
-import io.ktor.utils.io.charsets.Charsets
-import io.ktor.utils.io.core.toByteArray
+import css.FileItemStyle
 import kotlinx.css.*
-import kotlinx.css.properties.border
-import kotlinx.css.properties.borderBottom
-import kotlinx.html.*
-import kotlinx.html.attributes.enumEncode
 import kotlinx.html.js.*
 import react.*
-import react.dom.*
 
-import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.HTMLTextAreaElement
-import org.w3c.dom.MimeType
-import org.w3c.dom.asList
 import org.w3c.files.File
 import org.w3c.files.FileReader
 import react.RProps
-import react.dom.textArea
 import styled.*
-import kotlin.browser.document
 
 /**
  * We need a way to provide a callback to the main page using this component. This can be done, through React props.
@@ -47,29 +29,21 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
     override fun RBuilder.render() {
         styledLi {
             css {
-//                +FileInfoStyle.listItem
-                display = Display.flex
-                margin(4.px)
-                flex(flexBasis = 100.pct)
-                flexDirection = FlexDirection.row
-                justifyContent = JustifyContent.flexStart
-                alignItems = Align.center
+                +FileItemStyle.listItem
             }
             styledImg {
                 css {
-                    padding(8.px)
-                    +FileInfoStyle.typeImage
-
+                    +FileItemStyle.typeImage
                 }
                 attrs {
-                    src = MIMEType.get(props.file.type)?.image ?: "upload.svg"
+                    src = MIMEType.get(props.file.type)?.image ?: "images/upload.svg"
                 }
                 println(props.file.type)
             }
             styledP {
                 +props.file?.name
                 css {
-                    flexGrow = 1.0
+                    +FileItemStyle.titleField
                 }
                 attrs {
                     onClickFunction = {
@@ -82,11 +56,10 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
             }
             styledImg {
                 css {
-                    padding(8.px)
-                    +FileInfoStyle.typeImage
+                    +FileItemStyle.typeImage
                 }
                 attrs {
-                    src = "delete.svg"
+                    src = "images/delete.svg"
                     onClickFunction = {
                         setState {
                             props.onDelete(props.file)

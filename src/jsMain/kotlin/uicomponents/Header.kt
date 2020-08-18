@@ -7,10 +7,7 @@ import model.ValidationOutcome
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventListener
 import react.*
-import react.dom.div
-import react.dom.p
 import styled.*
-import uistate.TabState
 import kotlin.browser.document
 
 val HEADER_HEIGHT = 60.px
@@ -50,7 +47,7 @@ class Header : RComponent<FooterProps, HeaderState>(), EventListener {
             attrs {
                 id = "HeaderView"
             }
-            styledImg (src = "fhir-logo.png") {
+            styledImg (src = "images/fhir-logo.png") {
                 attrs {
 
                 }

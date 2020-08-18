@@ -26,7 +26,6 @@ class FileUploadTab: RComponent<FileUploadTabProps, RState>() {
             css {
                 display = if (props.active) Display.flex else Display.none
                 +TabBarStyle.body
-                flex(flexBasis = 100.pct)
             }
             fileUploadComponent {
                 onValidate = {

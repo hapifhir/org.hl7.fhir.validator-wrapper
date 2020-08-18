@@ -15,6 +15,9 @@ object FABStyle : StyleSheet("FAB", isStatic = true) {
         width = FAB_DIAMETER
         height = FAB_DIAMETER
         boxShadow(color = SURLY_SHADOW, offsetX = 2.px, offsetY = 5.px, blurRadius = 5.px)
+        marginBottom = 12.px
+        display = Display.flex
+        justifyContent = JustifyContent.center
         cursor = Cursor.pointer
         hover {
             backgroundColor = FADED_HL7_RED

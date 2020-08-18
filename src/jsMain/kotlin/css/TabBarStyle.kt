@@ -5,12 +5,20 @@ import kotlinx.css.properties.*
 import styled.StyleSheet
 import styled.animation
 
-object TabBarStyle : StyleSheet("Tabs", isStatic = true) {
+object TabBarStyle : StyleSheet("TabBar", isStatic = true) {
 
-    val tabContainer by css {
+    val mainLayout by css {
+        height = 512.px
+        display = Display.flex
+        flexDirection = FlexDirection.column
+    }
+
+    val tabBar by css {
         overflow = Overflow.hidden
         display = Display.flex
         justifyContent = JustifyContent.center
+        alignItems = Align.flexStart
+        flex(flexBasis = 48.px)
     }
 
     val tabButton by css {
@@ -45,14 +53,21 @@ object TabBarStyle : StyleSheet("Tabs", isStatic = true) {
         +tabButton
     }
 
+    val tabBodyContainer by css {
+        flex(flexBasis = 100.pct)
+        display = Display.flex
+        flexDirection = FlexDirection.column
+    }
+
     val body by css {
         backgroundColor = Color("#ddd")
         padding(24.px)
         fadeIn()
+        flex(flexBasis = 100.pct)
     }
 
     fun CSSBuilder.fadeIn() {
-        animation (duration = 2.s) {
+        animation (duration = 1.s) {
             from { opacity = 0 }
             to {opacity = 1}
         }

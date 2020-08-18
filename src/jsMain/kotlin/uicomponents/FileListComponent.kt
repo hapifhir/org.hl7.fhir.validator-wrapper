@@ -33,15 +33,10 @@ class FileListComponent : RComponent<FileListProps, RState>() {
         styledDiv {
             css {
                 +FileListStyle.listBackground
-                display = Display.flex
-                flex(flexBasis = 100.pct)
             }
             styledUl {
                 css {
-                    //display = Display.flex
-                    flex(flexBasis = 100.pct)
-                    padding(0.px)
-                    listStyleType = ListStyleType.none
+                    +FileListStyle.listContainer
                 }
                 val filesIterator = props.files.iterator()
                 while (filesIterator.hasNext()) {
@@ -56,8 +51,7 @@ class FileListComponent : RComponent<FileListProps, RState>() {
                     if (filesIterator.hasNext()) {
                         styledDiv {
                             css {
-                                borderBottom(width = 2.px, style = BorderStyle.solid, color = HL7_RED)
-                                margin(horizontal = 16.px)
+                                +FileListStyle.listSeparator
                             }
                         }
                     }

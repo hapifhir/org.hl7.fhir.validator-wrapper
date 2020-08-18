@@ -1,0 +1,4 @@
+package css
+
+object FooterStyle {
+}
