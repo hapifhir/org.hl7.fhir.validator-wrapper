@@ -1,23 +1,22 @@
 import api.sendValidationRequest
-import constants.FhirFormat
-import css.FileListStyle
 import css.LandingPageStyle
 import css.TextStyle
 import css.const.PADDING_L
 import css.const.PADDING_XXL
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import kotlinx.css.*
+import kotlinx.css.TextAlign
+import kotlinx.css.marginBottom
+import kotlinx.css.marginTop
+import kotlinx.css.textAlign
 import model.CliContext
-import model.FileInfo
 import model.ValidationOutcome
 import react.*
-import react.dom.div
-import react.dom.h1
-import react.dom.h2
-import react.dom.ul
-import styled.*
-import uicomponents.*
+import styled.css
+import styled.styledDiv
+import styled.styledH1
+import ui.components.header
+import ui.components.tabLayout
 import utils.assembleRequest
 
 external interface AppState : RState {
@@ -53,7 +52,7 @@ class App : RComponent<RProps, AppState>() {
                 +LandingPageStyle.mainDiv
             }
             header { }
-            styledP {
+            styledDiv {
                 css {
                     textAlign = TextAlign.center
                     marginTop = PADDING_L
@@ -73,7 +72,7 @@ class App : RComponent<RProps, AppState>() {
                     mainScope.launch {
                         val returnedOutcome = sendValidationRequest(request)
                         returnedOutcome.forEach { vo ->
-                            println("Validation for: ${vo.getFileInfo().fileName}")
+                            println("Validation result for: ${vo.getFileInfo().fileName}")
                             vo.getIssues().forEach { vi ->
                                 println("${vi.getSeverity()} :: ${vi.getDetails()}")
                             }

@@ -17,7 +17,7 @@ object TabBarStyle : StyleSheet("TabBar", isStatic = true) {
     val tabBar by css {
         display = Display.flex
         justifyContent = JustifyContent.center
-        flex(flexBasis = 48.px)
+        flex(flexBasis = 64.px)
     }
 
     val tabButton by css {
@@ -41,7 +41,7 @@ object TabBarStyle : StyleSheet("TabBar", isStatic = true) {
         backgroundColor = GRAY_100
         borderLeft(width = 1.px, style = BorderStyle.solid, color = GRAY_600)
         borderRight(width = 1.px, style = BorderStyle.solid, color = GRAY_600)
-        borderTop(width = 1.px, style = BorderStyle.solid, color = GRAY_600)
+        borderTop(width = 4.px, style = BorderStyle.solid, color = TRULY_RED)
         +tabButton
     }
 
@@ -64,9 +64,9 @@ object TabBarStyle : StyleSheet("TabBar", isStatic = true) {
     }
 
     fun CSSBuilder.fadeIn() {
-        animation (duration = 1.s) {
+        animation(duration = 1.s) {
             from { opacity = 0 }
-            to {opacity = 1}
+            to { opacity = 1 }
         }
     }
 }

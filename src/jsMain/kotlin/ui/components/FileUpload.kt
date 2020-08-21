@@ -1,24 +1,24 @@
-package uicomponents
+package ui.components
 
 import css.FABStyle
 import css.FileUploadStyle
-import kotlinx.css.*
-import kotlinx.html.*
-import kotlinx.html.js.*
-import react.*
-
+import kotlinx.css.Display
+import kotlinx.css.display
+import kotlinx.html.InputFormEncType
+import kotlinx.html.InputType
+import kotlinx.html.id
+import kotlinx.html.js.onClickFunction
+import kotlinx.html.js.onInputFunction
 import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.asList
 import org.w3c.files.File
-import org.w3c.files.FileReader
-import react.RProps
-import styled.*
+import react.*
+import styled.css
+import styled.styledDiv
+import styled.styledImg
+import styled.styledInput
 import kotlin.browser.document
 
-/**
- * We need a way to provide a callback to the main page using this component. This can be done, through React props.
- * In this case, we define the callback for the Submit funtionality here.
- */
 external interface FileUploadProps : RProps {
     var onValidate: (MutableList<File>) -> Unit
 }
@@ -105,9 +105,6 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
     }
 }
 
-/**
- * We can use lambdas with receivers to make the component easier to work with.
- */
 fun RBuilder.fileUploadComponent(handler: FileUploadProps.() -> Unit): ReactElement {
     return child(FileUploadComponent::class) {
         this.attrs(handler)

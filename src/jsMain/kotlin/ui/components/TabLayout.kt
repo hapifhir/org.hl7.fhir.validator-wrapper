@@ -1,28 +1,18 @@
-package uicomponents
+package ui.components
 
-import api.sendValidationRequest
-import constants.FhirFormat
 import css.TabBarStyle
 import css.TextStyle
-import css.const.BLACK
 import css.const.GRAY_600
-import css.const.TRULY_RED
 import kotlinx.css.*
-import kotlinx.css.properties.border
 import kotlinx.css.properties.borderBottom
-import kotlinx.css.properties.borderLeft
-import kotlinx.css.properties.borderTop
 import kotlinx.html.js.onClickFunction
 import model.CliContext
 import model.FileInfo
 import react.*
-import styled.*
-import uistate.TabState
-import utils.assembleRequest
+import styled.css
+import styled.styledDiv
+import ui.state.TabState
 
-/**
- *
- */
 external interface TabLayoutProps : RProps {
     var cliContext: CliContext
     var onValidate: (List<FileInfo>) -> Unit
@@ -49,7 +39,7 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                 css {
                     +TabBarStyle.tabBar
                 }
-                styledDiv{
+                styledDiv {
                     css {
                         flexGrow = 1.0
                         height = 100.pct
@@ -85,7 +75,7 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                         }
                     }
                 }
-                styledDiv{
+                styledDiv {
                     css {
                         flexGrow = 1.0
                         height = 100.pct
@@ -115,9 +105,6 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
     }
 }
 
-/**
- *
- */
 fun RBuilder.tabLayout(handler: TabLayoutProps.() -> Unit): ReactElement {
     return child(TabLayout::class) {
         this.attrs(handler)

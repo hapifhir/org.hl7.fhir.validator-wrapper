@@ -1,6 +1,9 @@
 package css
 
-import css.const.*
+import css.const.ALMOST_RED
+import css.const.GRAY_700
+import css.const.GRAY_800
+import css.const.TRULY_RED
 import kotlinx.css.*
 import styled.StyleSheet
 

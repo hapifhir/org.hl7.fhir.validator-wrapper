@@ -1,8 +1,8 @@
 package constants
 
 enum class MIMEType(val code: String, val image: String, val fhirType: String) {
-    JSON("text/xml", "images/xml_icon.svg", "json"),
-    XML("application/json", "images/json_icon.svg", "xml");
+    JSON("text/xml", "images/xml_icon.svg", "xml"),
+    XML("application/json", "images/json_icon.svg", "json");
 
     companion object {
         // Reverse-lookup map for getting a day from an abbreviation

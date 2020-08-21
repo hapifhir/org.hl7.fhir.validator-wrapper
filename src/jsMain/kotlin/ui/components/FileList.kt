@@ -1,16 +1,12 @@
-package uicomponents
+package ui.components
 
 import css.FileListStyle
-import react.*
-
 import org.w3c.files.File
-import react.RProps
-import styled.*
+import react.*
+import styled.css
+import styled.styledDiv
+import styled.styledUl
 
-/**
- * We need a way to provide a callback to the main page using this component. This can be done, through React props.
- * In this case, we define the callback for the Submit funtionality here.
- */
 external interface FileListProps : RProps {
     var files: MutableList<File>
 }
@@ -48,9 +44,6 @@ class FileListComponent : RComponent<FileListProps, RState>() {
     }
 }
 
-/**
- * We can use lambdas with receivers to make the component easier to work with.
- */
 fun RBuilder.fileListComponent(handler: FileListProps.() -> Unit): ReactElement {
     return child(FileListComponent::class) {
         this.attrs(handler)

@@ -1,4 +1,3 @@
-import kotlinext.js.invoke
 import kotlinx.css.*
 
 val styles = CSSBuilder().apply {

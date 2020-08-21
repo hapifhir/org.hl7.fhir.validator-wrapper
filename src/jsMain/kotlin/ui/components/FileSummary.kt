@@ -1,17 +1,13 @@
-package uicomponents
+package ui.components
 
 import css.FileSummaryStyle
 import css.TextStyle
-import kotlinx.css.*
-import kotlinx.html.js.*
+import kotlinx.css.Display
+import kotlinx.css.display
+import kotlinx.html.js.onClickFunction
 import react.*
-import react.RProps
 import styled.*
 
-/**
- * We need a way to provide a callback to the main page using this component. This can be done, through React props.
- * In this case, we define the callback for the Submit funtionality here.
- */
 external interface FileSummaryProps : RProps {
     var fileName: String
     var fileContent: String
@@ -70,9 +66,6 @@ class FileSummaryComponent : RComponent<FileSummaryProps, RState>() {
     }
 }
 
-/**
- * We can use lambdas with receivers to make the component easier to work with.
- */
 fun RBuilder.fileSummaryComponent(handler: FileSummaryProps.() -> Unit): ReactElement {
     return child(FileSummaryComponent::class) {
         this.attrs(handler)

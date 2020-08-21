@@ -1,21 +1,18 @@
-package uicomponents
+package ui.components
 
 import constants.MIMEType
 import css.FileItemStyle
 import css.TextStyle
-import kotlinx.css.*
-import kotlinx.html.js.*
-import react.*
-
+import kotlinx.html.js.onClickFunction
 import org.w3c.files.File
-import org.w3c.files.FileReader
-import react.RProps
-import styled.*
+import react.*
+import styled.css
+import styled.styledImg
+import styled.styledLi
+import styled.styledP
+import utils.FileEventListener
+import utils.parseFile
 
-/**
- * We need a way to provide a callback to the main page using this component. This can be done, through React props.
- * In this case, we define the callback for the Submit funtionality here.
- */
 external interface FileItemProps : RProps {
     var file: File
     var onDelete: (File) -> Unit
@@ -26,7 +23,7 @@ class FileItemState : RState {
     var fileContent: String = ""
 }
 
-class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
+class FileItemComponent : RComponent<FileItemProps, FileItemState>(), FileEventListener {
     override fun RBuilder.render() {
         styledLi {
             css {
@@ -49,7 +46,7 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
                 }
                 attrs {
                     onClickFunction = {
-                        readFile(props.file)
+                        load(props.file)
                         setState {
                             summaryActive = true
                         }
@@ -81,26 +78,24 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
             }
         }
     }
-    fun readFile(file: File?) {
-        val reader = FileReader()
-        if (file != null) {
-            println("reading file ${file.name}")
-            reader.readAsText(file)
-            reader.onloadend = {
-                setState {
-                    fileContent = reader.result
-                    println(fileContent)
-                }
-            }
-        } else {
-            println("null file")
+
+    private fun load(file: File) {
+        parseFile(props.file, this)
+    }
+
+    override fun onLoadStart(file: File) {}
+
+    override fun onLoadProgress(file: File, loaded: Double, total: Double) {}
+
+    override fun onLoadComplete(file: File, result: String) {
+        setState {
+            fileContent = result
         }
     }
+
+    override fun onLoadError(file: File, error: Any?, message: String) {}
 }
 
-/**
- * We can use lambdas with receivers to make the component easier to work with.
- */
 fun RBuilder.fileItemComponent(handler: FileItemProps.() -> Unit): ReactElement {
     return child(FileItemComponent::class) {
         this.attrs(handler)

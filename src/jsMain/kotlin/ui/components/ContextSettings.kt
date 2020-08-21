@@ -1,21 +1,11 @@
-package uicomponents
+package ui.components
 
 import kotlinx.html.InputType
-import kotlinx.html.js.onClickFunction
+import kotlinx.html.id
+import model.CliContext
 import react.*
 import react.dom.*
 
-import kotlinx.html.id
-import model.CliContext
-import org.w3c.dom.HTMLTextAreaElement
-import react.RProps
-import react.dom.textArea
-import kotlin.browser.document
-
-/**
- * We need a way to provide a callback to the main page using this component. This can be done, through React props.
- * In this case, we define the callback for the Submit funtionality here.
- */
 external interface ContextSettingsProps : RProps {
     var onSave: (CliContext) -> Unit
     var cliContext: CliContext
@@ -24,7 +14,7 @@ external interface ContextSettingsProps : RProps {
 class ContextSettings : RComponent<ContextSettingsProps, RState>() {
     override fun RBuilder.render() {
         h2 {
-            + "CliContext Settings"
+            +"CliContext Settings"
         }
         ul {
             li {
@@ -34,7 +24,7 @@ class ContextSettings : RComponent<ContextSettingsProps, RState>() {
                     }
                 }
                 span {
-                    + "doNative"
+                    +"doNative"
                 }
             }
             li {
@@ -44,7 +34,7 @@ class ContextSettings : RComponent<ContextSettingsProps, RState>() {
                     }
                 }
                 span {
-                    + "hintAboutNonMustSupport"
+                    +"hintAboutNonMustSupport"
                 }
             }
             li {
@@ -54,7 +44,7 @@ class ContextSettings : RComponent<ContextSettingsProps, RState>() {
                     }
                 }
                 span {
-                    + "assumeValidRestReferences"
+                    +"assumeValidRestReferences"
                 }
             }
             li {
@@ -64,7 +54,7 @@ class ContextSettings : RComponent<ContextSettingsProps, RState>() {
                     }
                 }
                 span {
-                    + "noExtensibleBindingMessages"
+                    +"noExtensibleBindingMessages"
                 }
             }
             li {
@@ -74,7 +64,7 @@ class ContextSettings : RComponent<ContextSettingsProps, RState>() {
                     }
                 }
                 span {
-                    + "securityChecks"
+                    +"securityChecks"
                 }
             }
             li {
@@ -84,16 +74,13 @@ class ContextSettings : RComponent<ContextSettingsProps, RState>() {
                     }
                 }
                 span {
-                    + "showTimes"
+                    +"showTimes"
                 }
             }
         }
     }
 }
 
-/**
- * We can use lambdas with receivers to make the component easier to work with.
- */
 fun RBuilder.contextSettings(handler: ContextSettingsProps.() -> Unit): ReactElement {
     return child(ContextSettings::class) {
         this.attrs(handler)

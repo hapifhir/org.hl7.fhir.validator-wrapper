@@ -1,10 +1,10 @@
 package css
 
 import css.const.PADDING_S
-import css.const.REALLY_RED
 import css.const.TRULY_RED
 import kotlinx.css.*
-import kotlinx.css.properties.*
+import kotlinx.css.properties.borderBottom
+import kotlinx.css.properties.boxShadow
 import styled.StyleSheet
 
 object FileListStyle : StyleSheet("FileInfo", isStatic = true) {

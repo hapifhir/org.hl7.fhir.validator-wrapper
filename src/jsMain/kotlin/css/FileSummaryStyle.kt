@@ -2,7 +2,8 @@ package css
 
 import css.const.*
 import kotlinx.css.*
-import kotlinx.css.properties.*
+import kotlinx.css.properties.border
+import kotlinx.css.properties.ms
 import styled.StyleSheet
 import styled.animation
 
@@ -16,6 +17,7 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
 
     val overlay by FileSummaryStyle.css {
         position = Position.fixed
+        zIndex = 2
         left = 0.px
         top = 0.px
         right = 0.px
@@ -74,9 +76,9 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
     }
 
     fun CSSBuilder.quickFadeIn() {
-        animation (duration = 500.ms) {
+        animation(duration = 500.ms) {
             from { opacity = 0 }
-            to {opacity = 1}
+            to { opacity = 1 }
         }
     }
 }

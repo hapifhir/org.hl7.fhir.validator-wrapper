@@ -1,11 +1,10 @@
 package css
 
-import kotlinx.css.*
-import kotlinx.css.properties.border
-import kotlinx.css.properties.s
+import kotlinx.css.margin
+import kotlinx.css.padding
+import kotlinx.css.paddingTop
+import kotlinx.css.px
 import styled.StyleSheet
-import styled.animation
-import kotlin.Float
 
 object LandingPageStyle : StyleSheet("LandingPage", isStatic = true) {
     val mainDiv by css {
