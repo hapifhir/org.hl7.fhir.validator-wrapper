@@ -38,15 +38,7 @@ actual class FileInfo actual constructor() {
     }
 
     actual fun setFileType(fileType: String): FileInfo {
-        println("Setting file type :: $fileType")
         this.fileType = fileType
         return this
     }
-}
-
-fun FileInfo.prettyPrint(): String {
-    return "\nFileInfo:" +
-            "\n\tFileInfo.fileName :: ${this.fileName}" +
-            "\n\tFileInfo.fileContent :: ${this.fileContent}" +
-            "\n\tFileInfo.fileType :: ${this.fileType}\n"
 }

@@ -31,9 +31,3 @@ actual class ValidationRequest actual constructor() {
         return this
     }
 }
-
-fun ValidationRequest.prettyPrint() {
-    for (file in this.getFilesToValidate()) {
-        println(file.prettyPrint())
-    }
-}

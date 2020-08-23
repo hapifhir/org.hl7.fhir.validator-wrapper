@@ -5,7 +5,12 @@ import model.CliContext
 import model.FileInfo
 import model.ValidationRequest
 
-fun assembleRequest(cliContext: CliContext, fileName:String, fileContent: String, fileType: FhirFormat): ValidationRequest {
+fun assembleRequest(
+    cliContext: CliContext,
+    fileName: String,
+    fileContent: String,
+    fileType: FhirFormat
+): ValidationRequest {
     return assembleRequest(cliContext, FileInfo(fileName, fileContent, fileType.code))
 }
 

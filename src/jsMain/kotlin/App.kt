@@ -1,15 +1,22 @@
 import api.sendValidationRequest
-import constants.FhirFormat
+import css.LandingPageStyle
+import css.TextStyle
+import css.const.PADDING_L
+import css.const.PADDING_XXL
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import kotlinx.css.TextAlign
+import kotlinx.css.marginBottom
+import kotlinx.css.marginTop
+import kotlinx.css.textAlign
 import model.CliContext
-import model.FileInfo
 import model.ValidationOutcome
 import react.*
-import react.dom.div
-import react.dom.h1
-import uicomponents.resourceEntryField
-import uicomponents.validationOutcome
+import styled.css
+import styled.styledDiv
+import styled.styledH1
+import ui.components.header
+import ui.components.tabLayout
 import utils.assembleRequest
 
 external interface AppState : RState {
@@ -21,6 +28,9 @@ val mainScope = MainScope()
 
 class App : RComponent<RProps, AppState>() {
     override fun AppState.init() {
+        // Inject global styles
+//        StyledComponents.injectGlobal(styles.toString())
+
         // For testing
         validationOutcome = ValidationOutcome().setIssues(listOf())
 
@@ -36,29 +46,36 @@ class App : RComponent<RProps, AppState>() {
     }
 
     override fun RBuilder.render() {
-        h1 {
-            +"Validator GUI"
-        }
 
-        div {
-            validationOutcome {
-                outcome = state.validationOutcome
+        styledDiv {
+            css {
+                +LandingPageStyle.mainDiv
             }
-        }
-
-        div {
-            resourceEntryField {
-                onSubmit = {
-                    val request = assembleRequest(state.cliContext, FileInfo().setFileName("Temp").setFileContent(it).setFileType(FhirFormat.JSON.code))
+            header { }
+            styledDiv {
+                css {
+                    textAlign = TextAlign.center
+                    marginTop = PADDING_L
+                    marginBottom = PADDING_XXL
+                }
+                styledH1 {
+                    css {
+                        +TextStyle.h1
+                    }
+                    +"FHIR Validator"
+                }
+            }
+            tabLayout {
+                cliContext = state.cliContext
+                onValidate = { it ->
+                    val request = assembleRequest(state.cliContext, it)
                     mainScope.launch {
                         val returnedOutcome = sendValidationRequest(request)
-                        setState {
-                            // Only one returned outcome in single submitted validation operation
-                            println("setting state")
-                            for (issue in returnedOutcome[0].getIssues()) {
-                                println("${issue.getSeverity()} :: ${issue.getDetails()}")
+                        returnedOutcome.forEach { vo ->
+                            println("Validation result for: ${vo.getFileInfo().fileName}")
+                            vo.getIssues().forEach { vi ->
+                                println("${vi.getSeverity()} :: ${vi.getDetails()}")
                             }
-                            validationOutcome = returnedOutcome[0]
                         }
                     }
                 }
@@ -66,3 +83,5 @@ class App : RComponent<RProps, AppState>() {
         }
     }
 }
+
+

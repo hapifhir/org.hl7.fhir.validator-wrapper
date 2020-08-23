@@ -1,39 +1,31 @@
 package api
 
 import constants.VALIDATION_ENDPOINT
-import io.ktor.http.*
 import io.ktor.client.*
-import io.ktor.client.request.*
 import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.features.json.serializer.*
+import io.ktor.client.request.*
+import io.ktor.http.*
+import kotlinx.browser.window
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
-import model.*
-
-import kotlin.browser.window
+import model.ValidationOutcome
+import model.ValidationRequest
+import model.ValidationResponse
 
 val endpoint = window.location.origin // only needed until https://github.com/ktorio/ktor/issues/1695 is resolved
 
-val nonStrict = Json(
-    JsonConfiguration(
-        isLenient = true,
-        ignoreUnknownKeys = true,
-        serializeSpecialFloatingPointValues = true,
-        useArrayPolymorphism = true
-    )
-)
-
 val jsonClient = HttpClient {
     install(JsonFeature) {
-        serializer = KotlinxSerializer(nonStrict)
+        serializer = KotlinxSerializer(Json {
+            prettyPrint = true
+            isLenient = true
+            ignoreUnknownKeys = true
+            useArrayPolymorphism = true
+        })
     }
 }
 
 suspend fun sendValidationRequest(validationRequest: ValidationRequest): List<ValidationOutcome> {
-    for (file in validationRequest.getFilesToValidate()) {
-        println(file.prettyPrint())
-    }
-
     val message = jsonClient.post<ValidationResponse>(endpoint + VALIDATION_ENDPOINT) {
         contentType(ContentType.Application.Json)
         body = validationRequest
