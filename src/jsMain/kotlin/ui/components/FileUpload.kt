@@ -2,10 +2,13 @@ package ui.components
 
 import css.FABStyle
 import css.FileUploadStyle
+import kotlinx.browser.document
 import kotlinx.css.Display
 import kotlinx.css.display
+import kotlinx.css.svg
 import kotlinx.html.InputFormEncType
 import kotlinx.html.InputType
+import kotlinx.html.SVG
 import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.js.onInputFunction
@@ -13,11 +16,7 @@ import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.asList
 import org.w3c.files.File
 import react.*
-import styled.css
-import styled.styledDiv
-import styled.styledImg
-import styled.styledInput
-import kotlin.browser.document
+import styled.*
 
 external interface FileUploadProps : RProps {
     var onValidate: (MutableList<File>) -> Unit
@@ -55,6 +54,7 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
                         }
                         attrs {
                             src = "images/upload.svg"
+
                         }
                     }
                     attrs {

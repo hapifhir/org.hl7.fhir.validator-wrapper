@@ -1,6 +1,7 @@
 package ui.components
 
 import css.HeaderStyle
+import kotlinx.browser.document
 import kotlinx.html.id
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventListener
@@ -8,7 +9,6 @@ import react.*
 import styled.css
 import styled.styledDiv
 import styled.styledImg
-import kotlin.browser.document
 
 class HeaderState : RState {
     var currentScroll: Double = 0.0

@@ -1,8 +1,11 @@
 import react.dom.render
-import kotlin.browser.document
+import kotlinx.browser.document
+import kotlinx.browser.window
 
 fun main() {
-    render(document.getElementById("root")) {
-        child(App::class) {}
+    window.onload = {
+        render(document.getElementById("root")) {
+            child(App::class) {}
+        }
     }
 }

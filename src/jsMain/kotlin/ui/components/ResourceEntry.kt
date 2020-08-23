@@ -3,6 +3,7 @@ package ui.components
 import css.FABStyle
 import css.FileUploadStyle
 import css.ManualEntryStyle
+import kotlinx.browser.document
 import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLTextAreaElement
@@ -11,7 +12,6 @@ import styled.css
 import styled.styledDiv
 import styled.styledImg
 import styled.styledTextArea
-import kotlin.browser.document
 
 external interface ResourceEntryProps : RProps {
     var onSubmit: (String) -> Unit

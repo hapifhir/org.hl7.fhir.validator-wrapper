@@ -39,7 +39,7 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>(), FileEventL
                 println(props.file.type)
             }
             styledP {
-                +props.file?.name
+                +props.file.name
                 css {
                     +FileItemStyle.titleField
                     +TextStyle.h3
@@ -80,7 +80,7 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>(), FileEventL
     }
 
     private fun load(file: File) {
-        parseFile(props.file, this)
+        parseFile(file, this)
     }
 
     override fun onLoadStart(file: File) {}
