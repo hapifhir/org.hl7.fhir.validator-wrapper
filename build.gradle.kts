@@ -12,8 +12,11 @@ version = "1.0-SNAPSHOT"
 repositories {
     google()
     jcenter()
-    mavenLocal()
+    //mavenLocal()
     mavenCentral()
+    maven {
+        url = uri("https://jitpack.io")
+    }
     maven {
         url = uri("https://dl.bintray.com/kotlin/ktor")
     }
@@ -25,6 +28,9 @@ repositories {
     }
     maven {
         url = uri("https://oss.sonatype.org/content/groups/public/")
+    }
+    maven {
+        url = uri("https://plugins.gradle.org/m2/")
     }
 }
 
@@ -57,10 +63,12 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-common"))
                 implementation("com.fasterxml.jackson.core:jackson-databind:${property("jacksonVersion")}")
-                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
 
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-core:${property("serializationVersion")}")
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:${property("serializationVersion")}")
+                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
+
+
             }
         }
         val commonTest by getting {
@@ -83,7 +91,6 @@ kotlin {
                 implementation("ch.qos.logback:logback-classic:1.2.3")
                 implementation("org.litote.kmongo:kmongo-coroutine-serialization:3.12.2")
                 implementation("no.tornado:tornadofx:${property("tornadoFXVersion")}")
-                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
             }
         }
         val jvmTest by getting {
