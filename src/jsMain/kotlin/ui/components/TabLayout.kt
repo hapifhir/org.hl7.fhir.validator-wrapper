@@ -11,7 +11,7 @@ import model.FileInfo
 import react.*
 import styled.css
 import styled.styledDiv
-import ui.state.TabState
+import ui.entity.TabState
 
 external interface TabLayoutProps : RProps {
     var cliContext: CliContext

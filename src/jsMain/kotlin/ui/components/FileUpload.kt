@@ -16,6 +16,7 @@ import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.asList
 import org.w3c.files.File
 import react.*
+import reactredux.containers.uploadFilesButton
 import styled.*
 
 external interface FileUploadProps : RProps {
@@ -84,22 +85,8 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
                 }
             }
 
-            styledInput(InputType.file, name = "fileUpload", formEncType = InputFormEncType.multipartFormData) {
-                css {
-                    // We don't display this object because it is
-                    display = Display.none
-                }
-                attrs {
-                    id = "FileUploadInput"
-                    multiple = true
-                    onInputFunction = { event ->
-                        println("onInputFunction :: $event")
-                        val input = document.getElementById("FileUploadInput") as HTMLInputElement
-                        setState {
-                            files.addAll(input.files?.asList()!!)
-                        }
-                    }
-                }
+            uploadFilesButton {
+
             }
         }
     }

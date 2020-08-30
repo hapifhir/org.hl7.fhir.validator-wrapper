@@ -4,26 +4,23 @@ import constants.MIMEType
 import css.FileItemStyle
 import css.TextStyle
 import kotlinx.html.js.onClickFunction
-import org.w3c.files.File
+import model.FileInfo
 import react.*
 import styled.css
 import styled.styledImg
 import styled.styledLi
 import styled.styledP
-import utils.FileEventListener
-import utils.parseFile
 
 external interface FileItemProps : RProps {
-    var file: File
-    var onDelete: (File) -> Unit
+    var fileInfo: FileInfo
+    var onDelete: (FileInfo) -> Unit
 }
 
 class FileItemState : RState {
     var summaryActive: Boolean = false
-    var fileContent: String = ""
 }
 
-class FileItemComponent : RComponent<FileItemProps, FileItemState>(), FileEventListener {
+class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
     override fun RBuilder.render() {
         styledLi {
             css {
@@ -34,19 +31,18 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>(), FileEventL
                     +FileItemStyle.typeImage
                 }
                 attrs {
-                    src = MIMEType.get(props.file.type)?.image ?: "images/upload.svg"
+                    src = MIMEType.get(props.fileInfo.fileType)?.image ?: "images/upload.svg"
                 }
-                println(props.file.type)
+                println(props.fileInfo.fileType)
             }
             styledP {
-                +props.file.name
+                +props.fileInfo.fileName
                 css {
                     +FileItemStyle.titleField
                     +TextStyle.h3
                 }
                 attrs {
                     onClickFunction = {
-                        load(props.file)
                         setState {
                             summaryActive = true
                         }
@@ -61,7 +57,7 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>(), FileEventL
                     src = "images/delete.svg"
                     onClickFunction = {
                         setState {
-                            props.onDelete(props.file)
+                            props.onDelete(props.fileInfo)
                         }
                     }
                 }
@@ -69,8 +65,8 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>(), FileEventL
         }
         fileSummaryComponent {
             active = state.summaryActive
-            fileName = props.file.name
-            fileContent = state.fileContent
+            fileName = props.fileInfo.fileName
+            fileContent = props.fileInfo.fileContent
             onClose = {
                 setState {
                     summaryActive = false
@@ -78,22 +74,6 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>(), FileEventL
             }
         }
     }
-
-    private fun load(file: File) {
-        parseFile(file, this)
-    }
-
-    override fun onLoadStart(file: File) {}
-
-    override fun onLoadProgress(file: File, loaded: Double, total: Double) {}
-
-    override fun onLoadComplete(file: File, result: String) {
-        setState {
-            fileContent = result
-        }
-    }
-
-    override fun onLoadError(file: File, error: Any?, message: String) {}
 }
 
 fun RBuilder.fileItemComponent(handler: FileItemProps.() -> Unit): ReactElement {

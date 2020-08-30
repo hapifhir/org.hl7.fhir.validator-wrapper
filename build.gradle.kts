@@ -67,8 +67,6 @@ kotlin {
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-core:${property("serializationVersion")}")
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:${property("serializationVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
-
-
             }
         }
         val commonTest by getting {
@@ -109,6 +107,9 @@ kotlin {
                 implementation("org.jetbrains:kotlin-react-dom:${property("kotlinReactVersion")}")
                 implementation("org.jetbrains:kotlin-react-router-dom:${property("kotlinReactRouterVersion")}")
                 implementation("org.jetbrains:kotlin-styled:${property("kotlinStyledVersion")}")
+                implementation("org.jetbrains:kotlin-react-redux:${property("kotlinReactReduxVersion")}")
+                //implementation("org.jetbrains:kotlin-redux:${property("kotlinReactReduxVersion")}")
+                implementation("org.reduxkotlin:redux-kotlin-threadsafe:0.5.5")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${property("kotlinxCoroutinesVersion")}")
@@ -118,6 +119,8 @@ kotlin {
                 implementation(npm("react-router-dom", "5.1.2"))
                 implementation(npm("styled-components", "4.4.1")) // Animations don't work with styled components 5+
                 implementation(npm("inline-style-prefixer", "5.1.0"))
+                implementation(npm("react-redux", "4.0.0"))
+                implementation(npm("redux", "4.0.0"))
             }
         }
         val jsTest by getting {
