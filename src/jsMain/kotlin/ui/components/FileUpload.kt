@@ -17,6 +17,7 @@ import org.w3c.dom.asList
 import org.w3c.files.File
 import react.*
 import reactredux.containers.uploadFilesButton
+import reactredux.containers.uploadFilesList
 import styled.*
 
 external interface FileUploadProps : RProps {
@@ -38,9 +39,7 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
             css {
                 +FileUploadStyle.layout
             }
-            fileListComponent {
-                files = state.files
-            }
+            uploadFilesList { }
             styledDiv {
                 css {
                     +FileUploadStyle.buttonContainer
@@ -85,9 +84,7 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
                 }
             }
 
-            uploadFilesButton {
-
-            }
+            uploadFilesButton { }
         }
     }
 }

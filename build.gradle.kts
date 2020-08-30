@@ -42,6 +42,7 @@ kotlin {
         withJava()
     }
     js(){
+        useCommonJs()
         browser {
             binaries.executable()
             webpackTask {
@@ -109,7 +110,7 @@ kotlin {
                 implementation("org.jetbrains:kotlin-styled:${property("kotlinStyledVersion")}")
                 implementation("org.jetbrains:kotlin-react-redux:${property("kotlinReactReduxVersion")}")
                 //implementation("org.jetbrains:kotlin-redux:${property("kotlinReactReduxVersion")}")
-                implementation("org.reduxkotlin:redux-kotlin-threadsafe:0.5.5")
+                //implementation("org.reduxkotlin:redux-kotlin-threadsafe:0.5.5")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${property("kotlinxCoroutinesVersion")}")
@@ -119,8 +120,8 @@ kotlin {
                 implementation(npm("react-router-dom", "5.1.2"))
                 implementation(npm("styled-components", "4.4.1")) // Animations don't work with styled components 5+
                 implementation(npm("inline-style-prefixer", "5.1.0"))
-                implementation(npm("react-redux", "4.0.0"))
-                implementation(npm("redux", "4.0.0"))
+                //implementation(npm("react-redux", "4.0.0"))
+                //implementation(npm("redux", "4.0.0"))
             }
         }
         val jsTest by getting {
