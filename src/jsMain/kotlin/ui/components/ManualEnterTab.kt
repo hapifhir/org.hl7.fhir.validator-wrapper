@@ -1,28 +1,18 @@
 package ui.components
 
-import constants.FhirFormat
 import css.TabBarStyle
 import kotlinx.css.Display
 import kotlinx.css.display
-import model.FileInfo
 import react.*
+import reactredux.containers.resourceEntryField
 import styled.css
 import styled.styledDiv
 
 external interface ManualEnterTabProps : RProps {
     var active: Boolean
-    var onValidate: (List<FileInfo>) -> Unit
 }
 
-class ManualEnterTabState : RState {
-    var files: MutableList<FileInfo> = mutableListOf()
-}
-
-class ManualEnterTab : RComponent<ManualEnterTabProps, ManualEnterTabState>() {
-
-    init {
-        state = ManualEnterTabState()
-    }
+class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
 
     override fun RBuilder.render() {
         styledDiv {
@@ -30,18 +20,7 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, ManualEnterTabState>() {
                 display = if (props.active) Display.flex else Display.none
                 +TabBarStyle.body
             }
-            resourceEntryComponent {
-                onSubmit = {
-                    setState {
-                        println("Generating fileInfo")
-                        files.add(
-                            FileInfo().setFileName("manually_gen_file").setFileContent(it)
-                                .setFileType(FhirFormat.JSON.code)
-                        )
-                    }
-                    props.onValidate(state.files)
-                }
-            }
+            resourceEntryField { }
         }
     }
 }

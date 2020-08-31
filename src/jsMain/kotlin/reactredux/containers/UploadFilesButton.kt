@@ -11,7 +11,7 @@ import redux.WrapperAction
 import ui.components.UploadFilesButton
 import ui.components.UploadFilesButtonProps
 
-private interface UploadFilesButtonStateProps : RProps { }
+private interface UploadFilesButtonStateProps : RProps {}
 
 private interface UploadFilesButtonDispatchProps : RProps {
     var uploadFile: (FileInfo) -> Unit

@@ -11,15 +11,7 @@ external interface FileUploadTabProps : RProps {
     var active: Boolean
 }
 
-class FileUploadTabState : RState {
-
-}
-
-class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
-
-    init {
-        state = FileUploadTabState()
-    }
+class FileUploadTab : RComponent<FileUploadTabProps, RState>() {
 
     override fun RBuilder.render() {
         styledDiv {

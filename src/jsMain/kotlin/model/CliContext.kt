@@ -1,6 +1,5 @@
 package model
 
-import constants.Snomed
 import kotlinx.serialization.Serializable
 
 @Serializable

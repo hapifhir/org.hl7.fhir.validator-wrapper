@@ -29,7 +29,7 @@ class UploadFilesButtonState : RState {
 
 class UploadFilesButton(props: UploadFilesButtonProps) : RComponent<UploadFilesButtonProps,
         UploadFilesButtonState>(props),
-        FileLoadEventListener {
+    FileLoadEventListener {
 
     init {
         state = UploadFilesButtonState()
@@ -66,7 +66,7 @@ class UploadFilesButton(props: UploadFilesButtonProps) : RComponent<UploadFilesB
 
     override fun onLoadStart(fileLoadState: FileLoadState) {}
 
-    override fun onLoadProgress(fileLoadState: FileLoadState) { }
+    override fun onLoadProgress(fileLoadState: FileLoadState) {}
 
     override fun onLoadComplete(fileLoadState: FileLoadState) {
         setState {
