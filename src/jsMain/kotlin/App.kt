@@ -1,4 +1,3 @@
-import api.sendValidationRequest
 import css.LandingPageStyle
 import css.TextStyle
 import css.const.PADDING_L
@@ -17,7 +16,6 @@ import styled.styledDiv
 import styled.styledH1
 import ui.components.header
 import ui.components.tabLayout
-import utils.assembleRequest
 
 external interface AppState : RState {
     var validationOutcome: ValidationOutcome
@@ -66,19 +64,7 @@ class App : RComponent<RProps, AppState>() {
                 }
             }
             tabLayout {
-                cliContext = state.cliContext
-                onValidate = { it ->
-                    val request = assembleRequest(state.cliContext, it)
-                    mainScope.launch {
-                        val returnedOutcome = sendValidationRequest(request)
-                        returnedOutcome.forEach { vo ->
-                            println("Validation result for: ${vo.getFileInfo().fileName}")
-                            vo.getIssues().forEach { vi ->
-                                println("${vi.getSeverity()} :: ${vi.getDetails()}")
-                            }
-                        }
-                    }
-                }
+
             }
         }
     }

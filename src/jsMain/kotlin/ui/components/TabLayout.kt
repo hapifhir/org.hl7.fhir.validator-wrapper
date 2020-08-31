@@ -6,16 +6,13 @@ import css.const.GRAY_600
 import kotlinx.css.*
 import kotlinx.css.properties.borderBottom
 import kotlinx.html.js.onClickFunction
-import model.CliContext
-import model.FileInfo
 import react.*
 import styled.css
 import styled.styledDiv
-import ui.state.TabState
+import ui.entity.TabState
 
 external interface TabLayoutProps : RProps {
-    var cliContext: CliContext
-    var onValidate: (List<FileInfo>) -> Unit
+
 }
 
 class TabLayoutState : RState {
@@ -90,15 +87,9 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                 }
                 manualEnterTab {
                     active = state.tabStates[0].active
-                    onValidate = {
-                        props.onValidate(it)
-                    }
                 }
                 fileUploadTab {
                     active = state.tabStates[1].active
-                    onValidate = {
-                        props.onValidate(it)
-                    }
                 }
             }
         }

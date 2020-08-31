@@ -34,6 +34,14 @@ repositories {
     }
 }
 
+val npm_core_js_version = "3.6.0"
+val npm_react_version = "16.12.0"
+val npm_redux_version = "4.0.5"
+val npm_react_redux_version = "7.1.3"
+val npm_react_router_dom_version = "5.1.2"
+val npm_styled_components_version = "^4.4.1"
+val npm_inline_styled_prefixer_version = "^5.1.0"
+
 kotlin {
     jvm {
         compilations.all {
@@ -42,6 +50,7 @@ kotlin {
         withJava()
     }
     js(){
+        useCommonJs()
         browser {
             binaries.executable()
             webpackTask {
@@ -67,8 +76,6 @@ kotlin {
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-core:${property("serializationVersion")}")
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:${property("serializationVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
-
-
             }
         }
         val commonTest by getting {
@@ -109,15 +116,30 @@ kotlin {
                 implementation("org.jetbrains:kotlin-react-dom:${property("kotlinReactVersion")}")
                 implementation("org.jetbrains:kotlin-react-router-dom:${property("kotlinReactRouterVersion")}")
                 implementation("org.jetbrains:kotlin-styled:${property("kotlinStyledVersion")}")
+                implementation("org.jetbrains:kotlin-react-redux:${property("kotlinReactReduxVersion")}")
+                //implementation("org.jetbrains:kotlin-redux:${property("kotlinReactReduxVersion")}")
+                //implementation("org.reduxkotlin:redux-kotlin-threadsafe:0.5.5")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${property("kotlinxCoroutinesVersion")}")
 
-                implementation(npm("react", "${property("reactVersion")}"))
-                implementation(npm("react-dom", "${property("reactVersion")}"))
-                implementation(npm("react-router-dom", "5.1.2"))
-                implementation(npm("styled-components", "4.4.1")) // Animations don't work with styled components 5+
-                implementation(npm("inline-style-prefixer", "5.1.0"))
+//                implementation(npm("react", "${property("reactVersion")}"))
+//                implementation(npm("react-dom", "${property("reactVersion")}"))
+//                implementation(npm("react-router-dom", "5.1.2"))
+//                implementation(npm("styled-components", "4.4.1")) // Animations don't work with styled components 5+
+//                implementation(npm("inline-style-prefixer", "5.1.0"))
+//                implementation(npm("react-redux", "4.0.0"))
+//                implementation(npm("redux", "4.0.0"))
+
+                implementation(npm("core-js", npm_core_js_version))
+                implementation(npm("react", npm_react_version))
+                implementation(npm("react-dom", npm_react_version))
+                implementation(npm("redux", npm_redux_version))
+                implementation(npm("react-redux", npm_react_redux_version))
+                implementation(npm("react-router-dom", npm_react_router_dom_version))
+                implementation(npm("styled-components", npm_styled_components_version))
+                implementation(npm("inline-style-prefixer", npm_inline_styled_prefixer_version))
+
             }
         }
         val jsTest by getting {

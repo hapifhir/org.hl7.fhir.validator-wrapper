@@ -1,14 +1,16 @@
 package ui.components
 
 import css.FileListStyle
-import org.w3c.files.File
+import model.FileInfo
+import model.ValidationOutcome
 import react.*
 import styled.css
 import styled.styledDiv
 import styled.styledUl
 
 external interface FileListProps : RProps {
-    var files: MutableList<File>
+    var uploadedFiles: List<ValidationOutcome>
+    var removeFile: (FileInfo) -> Unit
 }
 
 class FileListComponent : RComponent<FileListProps, RState>() {
@@ -21,14 +23,12 @@ class FileListComponent : RComponent<FileListProps, RState>() {
                 css {
                     +FileListStyle.listContainer
                 }
-                val filesIterator = props.files.iterator()
+                val filesIterator = props.uploadedFiles.iterator()
                 while (filesIterator.hasNext()) {
                     fileItemComponent {
-                        file = filesIterator.next()
+                        fileInfo = filesIterator.next().getFileInfo()
                         onDelete = {
-                            setState {
-                                props.files.remove(it)
-                            }
+                            props.removeFile(it)
                         }
                     }
                     if (filesIterator.hasNext()) {
