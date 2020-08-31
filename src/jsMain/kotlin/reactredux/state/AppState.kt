@@ -8,7 +8,7 @@ import reactredux.reducers.validationInProgress
 import redux.RAction
 
 data class AppState(
-    val uploadedFiles: MutableList<ValidationOutcome> = mutableListOf(),
+    val uploadedFiles: List<ValidationOutcome> = emptyList(),
     val manuallyEnteredFile: ValidationOutcome = ValidationOutcome(),
     val uploadInProgress: Boolean = false,
     val validationInProgress: Boolean = false

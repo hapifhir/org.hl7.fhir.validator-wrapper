@@ -9,7 +9,7 @@ import styled.styledDiv
 import styled.styledUl
 
 external interface FileListProps : RProps {
-    var uploadedFiles: MutableList<ValidationOutcome>
+    var uploadedFiles: List<ValidationOutcome>
     var removeFile: (FileInfo) -> Unit
 }
 

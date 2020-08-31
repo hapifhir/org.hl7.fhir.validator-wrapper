@@ -31,9 +31,8 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
                     +FileItemStyle.typeImage
                 }
                 attrs {
-                    src = MIMEType.get(props.fileInfo.fileType)?.image ?: "images/upload.svg"
+                    src = MIMEType.fromFhirType(props.fileInfo.fileType)?.image ?: "images/upload.svg"
                 }
-                println(props.fileInfo.fileType)
             }
             styledP {
                 +props.fileInfo.fileName

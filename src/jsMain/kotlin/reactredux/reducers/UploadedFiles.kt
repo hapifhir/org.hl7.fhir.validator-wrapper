@@ -7,16 +7,16 @@ import reactredux.actions.RemoveFile
 import reactredux.actions.UploadFile
 import redux.RAction
 
-fun uploadedFiles(state: MutableList<ValidationOutcome> = mutableListOf(), action: RAction): MutableList<ValidationOutcome> =
+fun uploadedFiles(state: List<ValidationOutcome> = emptyList(), action: RAction): List<ValidationOutcome> =
     when (action) {
         is UploadFile -> {
-            state.add(ValidationOutcome().setFileInfo(action.fileInfo))
-            state
+            println("Adding file ${action.fileInfo.fileName} to state list")
+            state + ValidationOutcome().setFileInfo(action.fileInfo)
         }
         is RemoveFile -> {
             state.filter {
                 it.getFileInfo() != action.fileInfo
-            }.toMutableList()
+            }.toList()
         }
         is AddValidationOutcome -> {
             state.map {
@@ -25,10 +25,10 @@ fun uploadedFiles(state: MutableList<ValidationOutcome> = mutableListOf(), actio
                 } else {
                     it
                 }
-            }.toMutableList()
+            }.toList()
         }
         is ClearValidationOutcomes -> {
-            mutableListOf()
+            emptyList()
         }
         else -> state
     }

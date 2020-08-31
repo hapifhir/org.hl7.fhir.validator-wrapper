@@ -19,7 +19,6 @@ val store = createStore(
 
 fun main() {
     val rootDiv = document.getElementById("root")
-
     window.onload = {
         render(rootDiv) {
             provider(store) {

@@ -2,7 +2,6 @@ package reactredux.containers
 
 import model.FileInfo
 import model.ValidationOutcome
-import org.w3c.files.FileList
 import react.RClass
 import react.RProps
 import react.invoke
@@ -10,11 +9,11 @@ import react.redux.rConnect
 import reactredux.actions.RemoveFile
 import reactredux.state.AppState
 import redux.WrapperAction
-import ui.components.UploadFilesButton
-import ui.components.UploadFilesButtonProps
+import ui.components.FileListComponent
+import ui.components.FileListProps
 
 private interface UploadedFileListStateProps : RProps {
-    var uploadedFiles: MutableList<ValidationOutcome>
+    var uploadedFiles: List<ValidationOutcome>
 }
 
 private interface UploadedFileListDispatchProps : RProps {
@@ -22,11 +21,11 @@ private interface UploadedFileListDispatchProps : RProps {
 }
 
 val uploadFilesList: RClass<RProps> =
-    rConnect<AppState, RemoveFile, WrapperAction, RProps, UploadedFileListStateProps, UploadedFileListDispatchProps, UploadFilesButtonProps>(
+    rConnect<AppState, RemoveFile, WrapperAction, RProps, UploadedFileListStateProps, UploadedFileListDispatchProps, FileListProps>(
         { state, _ ->
             uploadedFiles = state.uploadedFiles
         },
         { dispatch, _ ->
             removeFile = { dispatch(RemoveFile(it)) }
         }
-    )(FileList::class.js.unsafeCast<RClass<UploadFilesButtonProps>>())
+    )(FileListComponent::class.js.unsafeCast<RClass<FileListProps>>())

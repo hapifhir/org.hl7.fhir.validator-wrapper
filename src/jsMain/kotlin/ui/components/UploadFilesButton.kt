@@ -27,8 +27,9 @@ class UploadFilesButtonState : RState {
     var filesCurrentlyValidating: Int = 0
 }
 
-class UploadFilesButton(props: UploadFilesButtonProps) :
-    RComponent<UploadFilesButtonProps, UploadFilesButtonState>(props), FileLoadEventListener {
+class UploadFilesButton(props: UploadFilesButtonProps) : RComponent<UploadFilesButtonProps,
+        UploadFilesButtonState>(props),
+        FileLoadEventListener {
 
     init {
         state = UploadFilesButtonState()
@@ -71,6 +72,8 @@ class UploadFilesButton(props: UploadFilesButtonProps) :
         setState {
             filesCurrentlyValidating--
         }
+        val f = FileLoadState.toFileInfo(fileLoadState)
+        println("name: ${f.fileName} \ncontent: ${f.fileContent}")
         props.uploadFile(FileLoadState.toFileInfo(fileLoadState))
         checkValidationQueue()
     }

@@ -18,7 +18,7 @@ data class FileLoadState(
             val fileInfo = FileInfo()
             fileInfo.fileName = file.file.name
             fileInfo.fileContent = file.content
-            fileInfo.fileType = MIMEType[file.file.type]?.fhirType as String
+            fileInfo.fileType = MIMEType.fromFileType(file.file.type)?.fhirType!!
             return fileInfo
         }
     }

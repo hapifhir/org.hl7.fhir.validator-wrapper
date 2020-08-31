@@ -18,6 +18,7 @@ fun loadFile(file: File, listener: FileLoadEventListener) {
     })
     reader.addEventListener(type = EVENT_LOAD, callback = {
         fileLoadState.completed = true
+        fileLoadState.content = reader.result as String
         listener.onLoadComplete(fileLoadState = fileLoadState)
     })
     reader.addEventListener(type = EVENT_PROGRESS, callback = {

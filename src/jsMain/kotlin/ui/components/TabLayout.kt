@@ -96,9 +96,6 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                 }
                 fileUploadTab {
                     active = state.tabStates[1].active
-                    onValidate = {
-                        props.onValidate(it)
-                    }
                 }
             }
         }
