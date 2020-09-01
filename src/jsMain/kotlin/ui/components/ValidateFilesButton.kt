@@ -7,6 +7,7 @@ import kotlinx.html.js.onClickFunction
 import mainScope
 import model.CliContext
 import model.ValidationOutcome
+import model.prettyPrint
 import react.RBuilder
 import react.RComponent
 import react.RProps
@@ -44,8 +45,8 @@ class ValidateFilesButton(props: ValidateFilesButtonProps) : RComponent<Validate
                         val returnedOutcome = sendValidationRequest(request)
                         returnedOutcome.forEach { vo ->
                             println("Validation result for: ${vo.getFileInfo().fileName}")
-                            vo.getIssues().forEach { vi ->
-                                println("${vi.getSeverity()} :: ${vi.getDetails()}")
+                            vo.getMessages().forEach { message ->
+                                message.prettyPrint()
                             }
                             props.addValidationOutcome(vo)
                         }

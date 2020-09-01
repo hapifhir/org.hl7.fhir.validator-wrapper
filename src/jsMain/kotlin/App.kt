@@ -18,8 +18,6 @@ import ui.components.header
 import ui.components.tabLayout
 
 external interface AppState : RState {
-    var validationOutcome: ValidationOutcome
-    var cliContext: CliContext
 }
 
 val mainScope = MainScope()
@@ -29,16 +27,9 @@ class App : RComponent<RProps, AppState>() {
         // Inject global styles
 //        StyledComponents.injectGlobal(styles.toString())
 
-        // For testing
-        validationOutcome = ValidationOutcome().setIssues(listOf())
-
-        // Initialize CLI Context
-        var context = CliContext()
-
         mainScope.launch {
             setState {
-                // Set CLI Context
-                cliContext = context
+
             }
         }
     }

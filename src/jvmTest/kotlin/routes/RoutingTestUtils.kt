@@ -17,7 +17,7 @@ object SingletonEngine {
     init {
         val v = VersionUtilities.CURRENT_FULL_VERSION
         val definitions = VersionUtilities.packageForVersion(v) + "#" + v
-        engine = Common.getValidationEngine(v, definitions, null)
+        engine = Common.getValidationEngine(v, definitions, null, null)
     }
     fun engine(): ValidationEngine {
         return engine;

@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 actual class ValidationOutcome actual constructor() {
 
     private var fileInfo: FileInfo = FileInfo()
-    private var issues: List<ValidationIssue> = listOf()
+    private var issues: List<ValidationMessage> = listOf()
 
-    constructor(fileInfo: FileInfo, issues: List<ValidationIssue>) : this() {
+    constructor(fileInfo: FileInfo, issues: List<ValidationMessage>) : this() {
         this.fileInfo = fileInfo
         this.issues = issues
     }
@@ -22,11 +22,11 @@ actual class ValidationOutcome actual constructor() {
         return this
     }
 
-    actual fun getIssues(): List<ValidationIssue> {
+    actual fun getMessages(): List<ValidationMessage> {
         return issues
     }
 
-    actual fun setIssues(issues: List<ValidationIssue>): ValidationOutcome {
+    actual fun setMessages(issues: List<ValidationMessage>): ValidationOutcome {
         this.issues = issues
         return this
     }

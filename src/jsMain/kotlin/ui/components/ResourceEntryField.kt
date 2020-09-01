@@ -12,6 +12,7 @@ import kotlinx.html.js.onClickFunction
 import mainScope
 import model.CliContext
 import model.ValidationOutcome
+import model.prettyPrint
 import org.w3c.dom.HTMLTextAreaElement
 import react.*
 import styled.css
@@ -70,8 +71,8 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, RState>(
                                 )
                                 props.addManuallyEnteredFileValidationOutcome(returnedOutcome.first())
                                 println("Validation result for: ${returnedOutcome.first().getFileInfo().fileName}")
-                                returnedOutcome.first().getIssues().forEach { vi ->
-                                    println("${vi.getSeverity()} :: ${vi.getDetails()}")
+                                returnedOutcome.first().getMessages().forEach { message ->
+                                    message.prettyPrint()
                                 }
                             }
                         }

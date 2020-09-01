@@ -38,7 +38,7 @@ fun startServer(args: Array<String>) {
 fun Application.module() {
     val v = VersionUtilities.CURRENT_FULL_VERSION
     val definitions = VersionUtilities.packageForVersion(v) + "#" + v
-    val engine = Common.getValidationEngine(v, definitions, null)
+    val engine = Common.getValidationEngine(v, definitions, null, null)
     init(false, engine, CliContext())
 }
 
