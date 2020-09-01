@@ -12,9 +12,9 @@ external interface OutcomeListProps : RProps {
 class OutcomeList : RComponent<OutcomeListProps, RState>() {
     override fun RBuilder.render() {
         ul {
-            for (issue in props.outcome.getIssues()) {
+            for (issue in props.outcome.getMessages()) {
                 li {
-                    +"${issue.getSeverity()}: ${issue.getDetails()}"
+                    +"issue"
                 }
             }
         }
