@@ -7,10 +7,12 @@ actual class ValidationOutcome actual constructor() {
 
     private var fileInfo: FileInfo = FileInfo()
     private var issues: List<ValidationMessage> = listOf()
+    private var validated: Boolean = false
 
-    constructor(fileInfo: FileInfo, issues: List<ValidationMessage>) : this() {
+    constructor(fileInfo: FileInfo, issues: List<ValidationMessage>, validated: Boolean) : this() {
         this.fileInfo = fileInfo
         this.issues = issues
+        this.validated = false
     }
 
     actual fun getFileInfo(): FileInfo {
@@ -28,6 +30,15 @@ actual class ValidationOutcome actual constructor() {
 
     actual fun setMessages(issues: List<ValidationMessage>): ValidationOutcome {
         this.issues = issues
+        return this
+    }
+
+    fun isValidated(): Boolean {
+        return validated
+    }
+
+    fun setValidated(validated: Boolean): ValidationOutcome {
+        this.validated = validated
         return this
     }
 }

@@ -1,5 +1,6 @@
 package css
 
+import css.const.GRAY_300
 import css.const.PADDING_S
 import css.const.TRULY_RED
 import kotlinx.css.*
@@ -24,7 +25,7 @@ object FileListStyle : StyleSheet("FileInfo", isStatic = true) {
         paddingLeft = 0.px
     }
     val listSeparator by FileListStyle.css {
-        borderBottom(width = 2.px, style = BorderStyle.solid, color = TRULY_RED)
+        borderBottom(width = 2.px, style = BorderStyle.solid, color = GRAY_300)
         margin(horizontal = PADDING_S)
     }
 }

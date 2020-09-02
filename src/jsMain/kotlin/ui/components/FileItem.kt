@@ -1,23 +1,27 @@
 package ui.components
 
-import constants.MIMEType
 import css.FileItemStyle
 import css.TextStyle
+import kotlinx.css.*
 import kotlinx.html.js.onClickFunction
+import kotlinx.html.js.onMouseOutFunction
+import kotlinx.html.js.onMouseOverFunction
 import model.FileInfo
+import model.IssueSeverity
+import model.ValidationOutcome
 import react.*
-import styled.css
-import styled.styledImg
-import styled.styledLi
-import styled.styledP
+import styled.*
+import utils.getMessageTypeCounts
+import utils.getMostSevereValidationSeverity
 
 external interface FileItemProps : RProps {
-    var fileInfo: FileInfo
+    var validationOutcome: ValidationOutcome
     var onDelete: (FileInfo) -> Unit
 }
 
 class FileItemState : RState {
     var summaryActive: Boolean = false
+    var toolTipVisible: Boolean = false
 }
 
 class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
@@ -26,16 +30,59 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
             css {
                 +FileItemStyle.listItem
             }
-            styledImg {
+            styledSpan {
                 css {
-                    +FileItemStyle.typeImage
+                    if (!props.validationOutcome.isValidated()) {
+                        +FileItemStyle.indicatorNoStatus
+                    } else {
+                        when (getMostSevereValidationSeverity(props.validationOutcome.getMessages())) {
+                            IssueSeverity.INFORMATION -> +FileItemStyle.indicatorInformation
+                            IssueSeverity.WARNING -> +FileItemStyle.indicatorWarning
+                            IssueSeverity.ERROR -> +FileItemStyle.indicatorError
+                            IssueSeverity.FATAL -> +FileItemStyle.indicatorFatal
+                            IssueSeverity.NULL -> +FileItemStyle.indicatorGood
+                        }
+                    }
                 }
+
                 attrs {
-                    src = MIMEType.fromFhirType(props.fileInfo.fileType)?.image ?: "images/upload.svg"
+                    onMouseOverFunction = {
+                        setState {
+                            if (props.validationOutcome.isValidated()) {
+                                toolTipVisible = true
+                            }
+                        }
+                    }
+                    onMouseOutFunction = {
+                        setState {
+                            toolTipVisible = false
+                        }
+                    }
+                }
+
+                styledDiv {
+                    css {
+                        +FileItemStyle.toolTipContainer
+                        if (state.toolTipVisible) {
+                            display = Display.inlineBlock
+                            opacity = 1
+                        } else {
+                            display = Display.none
+                            opacity = 0
+                        }
+                    }
+                    styledPre {
+                        css {
+                            +TextStyle.toolTipText
+                            +FileItemStyle.toolTipOutput
+                        }
+                        val (info, warning, error, fatal) = getMessageTypeCounts(props.validationOutcome.getMessages())
+                        +"information: $info\nwarnings: $warning\nerrors: $error\nfatals: $fatal"
+                    }
                 }
             }
             styledP {
-                +props.fileInfo.fileName
+                +props.validationOutcome.getFileInfo().fileName
                 css {
                     +FileItemStyle.titleField
                     +TextStyle.h3
@@ -56,7 +103,7 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
                     src = "images/delete.svg"
                     onClickFunction = {
                         setState {
-                            props.onDelete(props.fileInfo)
+                            props.onDelete(props.validationOutcome.getFileInfo())
                         }
                     }
                 }
@@ -64,8 +111,8 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
         }
         fileSummaryComponent {
             active = state.summaryActive
-            fileName = props.fileInfo.fileName
-            fileContent = props.fileInfo.fileContent
+            fileName = props.validationOutcome.getFileInfo().fileName
+            fileContent = props.validationOutcome.getFileInfo().fileContent
             onClose = {
                 setState {
                     summaryActive = false

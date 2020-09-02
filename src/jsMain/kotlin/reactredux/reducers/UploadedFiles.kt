@@ -20,8 +20,8 @@ fun uploadedFiles(state: List<ValidationOutcome> = emptyList(), action: RAction)
         }
         is AddValidationOutcome -> {
             state.map {
-                if (it.getFileInfo() == action.outcome.getFileInfo()) {
-                    action.outcome
+                if (it.getFileInfo().fileName == action.outcome.getFileInfo().fileName) {
+                    action.outcome.setValidated(true)
                 } else {
                     it
                 }

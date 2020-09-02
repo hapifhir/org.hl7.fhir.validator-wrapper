@@ -31,7 +31,6 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         color = GRAY_700
     }
 
-
     val tab by css {
         fontFamily = FONT_FAMILY
         fontSize = 12.pt
@@ -51,5 +50,13 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
     val tabHover by css {
         color = ALMOST_RED
         +tab
+    }
+
+    val toolTipText by css {
+        color = GRAY_800
+        fontFamily = FONT_FAMILY
+        fontSize = 10.pt
+        fontWeight = FontWeight.w400
+        textAlign = TextAlign.start
     }
 }
