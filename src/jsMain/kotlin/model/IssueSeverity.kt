@@ -1,7 +1,7 @@
 package model
 
 actual enum class IssueSeverity {
-    FATAL, ERROR, WARNING, INFORMATION;
+    FATAL, ERROR, WARNING, INFORMATION, NULL;
 
     actual fun toCode(): String {
         return when (this) {
@@ -9,6 +9,7 @@ actual enum class IssueSeverity {
             ERROR -> "error"
             WARNING -> "warning"
             INFORMATION -> "information"
+            NULL -> "null"
         }
     }
 
@@ -19,6 +20,7 @@ actual enum class IssueSeverity {
                 ERROR -> "Error"
                 WARNING -> "Warning"
                 INFORMATION -> "Information"
+                NULL -> "Null"
             }
         }
 
@@ -27,26 +29,13 @@ actual enum class IssueSeverity {
 
     companion object {
         fun fromCode(codeString: String?): IssueSeverity? {
-            return if (codeString != null && "" != codeString) {
-                when (codeString) {
-                    "fatal" -> {
-                        FATAL
-                    }
-                    "error" -> {
-                        ERROR
-                    }
-                    "warning" -> {
-                        WARNING
-                    }
-                    "information" -> {
-                        INFORMATION
-                    }
-                    else -> {
-                        throw Exception("Unknown IssueSeverity code '$codeString'")
-                    }
-                }
-            } else {
-                null
+            return when (codeString) {
+                "fatal" -> FATAL
+                "error" -> ERROR
+                "warning" -> WARNING
+                "information" -> INFORMATION
+                "null" -> NULL
+                else -> throw Exception("Unknown IssueSeverity code '$codeString'")
             }
         }
     }

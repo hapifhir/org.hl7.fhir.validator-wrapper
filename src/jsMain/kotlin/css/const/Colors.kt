@@ -3,11 +3,17 @@ package css.const
 import kotlinx.css.Color
 
 val REALLY_RED = Color("#B00000FF")
-val TRULY_RED = Color("#EB2229FF")
+val TRULY_RED = Color("#eb2229FF")
 val ALMOST_RED = Color("#FF6153FF")
 
 val BLACK = Color("#000000")
 val WHITE = Color("#FFFFFF")
+
+val BARELY_BLUE = Color("#22ebe4")
+val PERFECT_PINK = Color("#eb228d")
+val OVERT_ORANGE = Color("#eb8022")
+val YAPPY_YELLOW = Color("#ebe422")
+val GARISH_GREEN = Color("#29eb22")
 
 val SHADOW = Color("#00000077")
 

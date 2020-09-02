@@ -26,7 +26,7 @@ class FileListComponent : RComponent<FileListProps, RState>() {
                 val filesIterator = props.uploadedFiles.iterator()
                 while (filesIterator.hasNext()) {
                     fileItemComponent {
-                        fileInfo = filesIterator.next().getFileInfo()
+                        validationOutcome = filesIterator.next()
                         onDelete = {
                             props.removeFile(it)
                         }
