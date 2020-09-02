@@ -110,7 +110,6 @@ object FileItemStyle : StyleSheet("FileItemStyle") {
             borderRadius = TOOL_TIP_BORDER_RADIUS)
         top = TOOL_TIP_TOP_OFFSET
         left = TOOL_TIP_LEFT_OFFSET
-        //marginLeft = TOOL_TIP_MARGIN_LEFT
         fadeIn()
         opacity = 0
     }
