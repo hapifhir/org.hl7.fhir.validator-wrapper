@@ -16,7 +16,6 @@ data class AppState(
 fun rootReducer(state: AppState, action: RAction) = AppState(
     uploadedFiles = uploadedFiles(state.uploadedFiles, action),
     manuallyEnteredFile = manuallyEnteredFile(state.manuallyEnteredFile, action),
-    uploadInProgress = uploadInProgress(state.uploadInProgress, action),
     validationInProgress = validationInProgress(state.validationInProgress, action),
     cliContext = cliContext(state.cliContext, action)
 )

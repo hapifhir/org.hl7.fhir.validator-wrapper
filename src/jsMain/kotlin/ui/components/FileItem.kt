@@ -33,7 +33,11 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
             styledSpan {
                 css {
                     if (!props.validationOutcome.isValidated()) {
-                        +FileItemStyle.indicatorNoStatus
+                        if (props.validationOutcome.isValidating()) {
+                            +FileItemStyle.loadingIcon
+                        } else {
+                            +FileItemStyle.indicatorNoStatus
+                        }
                     } else {
                         when (getMostSevereValidationSeverity(props.validationOutcome.getMessages())) {
                             IssueSeverity.INFORMATION -> +FileItemStyle.indicatorInformation

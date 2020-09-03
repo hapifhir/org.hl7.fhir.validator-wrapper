@@ -8,6 +8,7 @@ import react.invoke
 import react.redux.rConnect
 import reactredux.actions.RemoveFile
 import reactredux.state.AppState
+import redux.RAction
 import redux.WrapperAction
 import ui.components.FileListComponent
 import ui.components.FileListProps
@@ -21,7 +22,7 @@ private interface UploadedFileListDispatchProps : RProps {
 }
 
 val uploadFilesList: RClass<RProps> =
-    rConnect<AppState, RemoveFile, WrapperAction, RProps, UploadedFileListStateProps, UploadedFileListDispatchProps, FileListProps>(
+    rConnect<AppState, RAction, WrapperAction, RProps, UploadedFileListStateProps, UploadedFileListDispatchProps, FileListProps>(
         { state, _ ->
             uploadedFiles = state.uploadedFiles
         },

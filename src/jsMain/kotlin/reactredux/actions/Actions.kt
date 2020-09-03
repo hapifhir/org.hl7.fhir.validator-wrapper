@@ -9,7 +9,7 @@ class UploadFile(val fileInfo: FileInfo) : RAction
 class RemoveFile(val fileInfo: FileInfo) : RAction
 class AddValidationOutcome(val outcome: ValidationOutcome) : RAction
 class ClearValidationOutcomes() : RAction
-class ToggleUploadInProgress(val uploading: Boolean) : RAction
+class ToggleValidationInProgress(val validating: Boolean, val fileInfo: FileInfo) : RAction
 
 class AddManuallyEnteredFileValidationOutcome(val validationOutcome: ValidationOutcome) : RAction
 

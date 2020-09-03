@@ -7,6 +7,7 @@ import react.invoke
 import react.redux.rConnect
 import reactredux.actions.UploadFile
 import reactredux.state.AppState
+import redux.RAction
 import redux.WrapperAction
 import ui.components.UploadFilesButton
 import ui.components.UploadFilesButtonProps
@@ -18,7 +19,7 @@ private interface UploadFilesButtonDispatchProps : RProps {
 }
 
 val uploadFilesButton: RClass<RProps> =
-    rConnect<AppState, UploadFile, WrapperAction, RProps, UploadFilesButtonStateProps, UploadFilesButtonDispatchProps, UploadFilesButtonProps>(
+    rConnect<AppState, RAction, WrapperAction, RProps, UploadFilesButtonStateProps, UploadFilesButtonDispatchProps, UploadFilesButtonProps>(
         { state, _ ->
         },
         { dispatch, _ ->

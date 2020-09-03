@@ -20,7 +20,6 @@ import utils.fileutils.loadFile
 
 interface UploadFilesButtonProps : RProps {
     var uploadFile: (FileInfo) -> Unit
-//    var toggleUploadInProgress: (Boolean) -> Unit
 }
 
 class UploadFilesButtonState : RState {
