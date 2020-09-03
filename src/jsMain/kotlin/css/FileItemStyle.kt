@@ -2,10 +2,10 @@ package css
 
 import css.const.*
 import kotlinx.css.*
-import kotlinx.css.properties.border
-import kotlinx.css.properties.s
+import kotlinx.css.properties.*
 import styled.StyleSheet
 import styled.animation
+import styled.keyframes
 
 object FileItemStyle : StyleSheet("FileItemStyle") {
 
@@ -119,10 +119,36 @@ object FileItemStyle : StyleSheet("FileItemStyle") {
         margin(0.px)
     }
 
+    val loadingIcon by css {
+        +indicator
+        border(width = INDICATOR_BORDER_WIDTH, style = BorderStyle.solid, color = GRAY_200, borderRadius = 50.pct)
+        borderTop(width = INDICATOR_BORDER_WIDTH, style = BorderStyle.solid, color = GRAY_900)
+        spinner()
+    }
+
     fun CSSBuilder.fadeIn() {
         animation(duration = 0.5.s) {
             from { opacity = 0 }
             to { opacity = 1 }
+        }
+    }
+
+    fun CSSBuilder.spinner() {
+        animation(
+            duration = 2.s,
+            timing = Timing.linear,
+            iterationCount = IterationCount.infinite
+        ) {
+            this.run {
+                rules.addAll(listOf(
+                    0.invoke {
+                        transform { rotate(0.deg) }
+                    },
+                    100.invoke {
+                         transform { rotate(360.deg) }
+                    }
+                ))
+            }
         }
     }
 }

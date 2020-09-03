@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import kotlinx.html.js.onClickFunction
 import mainScope
 import model.CliContext
+import model.FileInfo
 import model.ValidationOutcome
 import model.prettyPrint
 import react.RBuilder
@@ -21,6 +22,7 @@ interface ValidateFilesButtonProps : RProps {
     var cliContext: CliContext
     var uploadedFiles: List<ValidationOutcome>
     var addValidationOutcome: (ValidationOutcome) -> Unit
+    var toggleValidationInProgress: (Boolean, FileInfo) -> Unit
 }
 
 class ValidateFilesButton(props: ValidateFilesButtonProps) : RComponent<ValidateFilesButtonProps, RState>(props) {
@@ -41,6 +43,10 @@ class ValidateFilesButton(props: ValidateFilesButtonProps) : RComponent<Validate
             attrs {
                 onClickFunction = {
                     val request = assembleRequest(props.cliContext, props.uploadedFiles.map { it.getFileInfo() })
+                    // TODO separate coroutine execution of validation
+                    props.uploadedFiles.forEach {
+                        props.toggleValidationInProgress(true, it.getFileInfo())
+                    }
                     mainScope.launch {
                         val returnedOutcome = sendValidationRequest(request)
                         returnedOutcome.forEach { vo ->
@@ -49,6 +55,7 @@ class ValidateFilesButton(props: ValidateFilesButtonProps) : RComponent<Validate
                                 message.prettyPrint()
                             }
                             props.addValidationOutcome(vo)
+                            props.toggleValidationInProgress(true, vo.getFileInfo())
                         }
                     }
                 }

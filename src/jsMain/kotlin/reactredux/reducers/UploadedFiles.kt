@@ -1,10 +1,7 @@
 package reactredux.reducers
 
 import model.ValidationOutcome
-import reactredux.actions.AddValidationOutcome
-import reactredux.actions.ClearValidationOutcomes
-import reactredux.actions.RemoveFile
-import reactredux.actions.UploadFile
+import reactredux.actions.*
 import redux.RAction
 
 fun uploadedFiles(state: List<ValidationOutcome> = emptyList(), action: RAction): List<ValidationOutcome> =
@@ -22,6 +19,15 @@ fun uploadedFiles(state: List<ValidationOutcome> = emptyList(), action: RAction)
             state.map {
                 if (it.getFileInfo().fileName == action.outcome.getFileInfo().fileName) {
                     action.outcome.setValidated(true)
+                } else {
+                    it
+                }
+            }.toList()
+        }
+        is ToggleValidationInProgress -> {
+            state.map {
+                if (it.getFileInfo().fileName == action.fileInfo.fileName) {
+                    it.setValidating(action.validating)
                 } else {
                     it
                 }

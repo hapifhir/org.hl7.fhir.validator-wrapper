@@ -8,6 +8,7 @@ import react.invoke
 import react.redux.rConnect
 import reactredux.actions.AddManuallyEnteredFileValidationOutcome
 import reactredux.state.AppState
+import redux.RAction
 import redux.WrapperAction
 import ui.components.ResourceEntryFieldComponent
 import ui.components.ResourceEntryFieldProps
@@ -21,7 +22,7 @@ private interface ResourceEntryFieldDispatchProps : RProps {
 }
 
 val resourceEntryField: RClass<RProps> =
-    rConnect<AppState, AddManuallyEnteredFileValidationOutcome, WrapperAction, RProps, ResourceEntryFieldStateProps, ResourceEntryFieldDispatchProps, ResourceEntryFieldProps>(
+    rConnect<AppState, RAction, WrapperAction, RProps, ResourceEntryFieldStateProps, ResourceEntryFieldDispatchProps, ResourceEntryFieldProps>(
         { state, _ ->
             cliContext = state.cliContext
         },
