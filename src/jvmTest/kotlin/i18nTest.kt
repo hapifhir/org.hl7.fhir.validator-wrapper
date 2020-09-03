@@ -3,18 +3,14 @@ import kotlin.test.*
 import java.text.MessageFormat
 
 class i18nTest {
-    val name = "James"
-    val year = "2020"
-
+    // Testing the United States, English locale
     @Test
     fun testEnglish() {
         i18n.setLocale("en", "US")
         assertEquals(i18n.getMessage("GREETING"), "Hello World!")
-
-        assertEquals(MessageFormat.format(i18n.getMessage("PERSONAL_GREETING"), name, year),
-        MessageFormat.format("Hello {0}, the current year is {1}", name, year))
     }
 
+    // Testing the Germany, German locale
     @Test
     fun testGerman() {
         i18n.setLocale("de", "DE")
