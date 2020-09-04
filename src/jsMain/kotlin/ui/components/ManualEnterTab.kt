@@ -1,12 +1,15 @@
 package ui.components
 
 import css.TabBarStyle
-import kotlinx.css.Display
-import kotlinx.css.display
+import kotlinx.css.*
+import kotlinx.html.js.onMouseOverFunction
+import kotlinx.html.onMouseOver
 import react.*
 import reactredux.containers.resourceEntryField
 import styled.css
 import styled.styledDiv
+import styled.styledMark
+import styled.styledP
 
 external interface ManualEnterTabProps : RProps {
     var active: Boolean
@@ -20,7 +23,22 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
                 display = if (props.active) Display.flex else Display.none
                 +TabBarStyle.body
             }
-            resourceEntryField { }
+            styledP {
+                +"Mark"
+                styledMark {
+                    css {
+                        background = "images/close.svg"
+                        backgroundColor = Color.transparent
+                    }
+                    +"Iantorno"
+                    attrs {
+                        onMouseOverFunction = {
+                            println("sdfsdfdsfsd")
+                        }
+                    }
+                }
+            }
+            //resourceEntryField { }
         }
     }
 }

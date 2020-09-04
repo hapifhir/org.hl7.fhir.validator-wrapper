@@ -3,7 +3,7 @@ package utils
 import model.IssueSeverity
 import model.ValidationMessage
 
-fun getMostSevereValidationSeverity(validationMessages: List<ValidationMessage>): IssueSeverity {
+fun getHighestIssueSeverity(validationMessages: List<ValidationMessage>): IssueSeverity {
     var error = false
     var warning = false
     var info = false

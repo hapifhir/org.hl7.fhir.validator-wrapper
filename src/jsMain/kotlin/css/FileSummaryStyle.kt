@@ -8,14 +8,14 @@ import styled.StyleSheet
 import styled.animation
 
 object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
-    //val MODAL_BACKDROP = rgba(0,0,0,0.7)
+
     val MODAL_MARGIN = 64.px
     val MODAL_BORDER_RADIUS = 8.px
     val BORDER_WIDTH = 1.px
     val TITLE_BAR_PADDING = 4.px
     val TITLE_BAR_HEIGHT = PADDING_XL
 
-    val overlay by FileSummaryStyle.css {
+    val overlay by css {
         position = Position.fixed
         zIndex = 2
         left = 0.px
@@ -26,7 +26,7 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
         quickFadeIn()
     }
 
-    val modalContent by FileSummaryStyle.css {
+    val modalContent by css {
         margin = "auto"
         marginTop = MODAL_MARGIN
         padding(PADDING_M)
@@ -39,7 +39,7 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
         flexDirection = FlexDirection.column
     }
 
-    val titleBar by FileSummaryStyle.css {
+    val titleBar by css {
         padding(TITLE_BAR_PADDING)
         height = TITLE_BAR_HEIGHT
         width = 100.pct
@@ -47,27 +47,31 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
         justifyContent = JustifyContent.right
     }
 
-    val closeButton by FileSummaryStyle.css {
+    val closeButton by css {
         width = ICON_SMALL_DIM
         height = ICON_SMALL_DIM
         alignSelf = Align.center
     }
 
-    val closeButtonHover by FileSummaryStyle.css {
+    val closeButtonHover by css {
         // TODO
     }
 
-    val filename by FileSummaryStyle.css {
+    val filename by css {
         width = 100.pct
         alignSelf = Align.center
     }
 
-    val horizontalRule by FileSummaryStyle.css {
+    val horizontalRule by css {
         border(width = BORDER_WIDTH, style = BorderStyle.solid, color = GRAY_500)
         width = 100.pct
     }
 
-    val fileContent by FileSummaryStyle.css {
+    val fileContentContainer by css {
+
+    }
+
+    val fileContent by css {
         width = 100.pct
         flexGrow = 1.0
         display = Display.flex
