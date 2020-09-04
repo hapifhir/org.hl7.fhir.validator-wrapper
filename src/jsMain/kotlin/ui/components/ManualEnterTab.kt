@@ -23,22 +23,7 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
                 display = if (props.active) Display.flex else Display.none
                 +TabBarStyle.body
             }
-            styledP {
-                +"Mark"
-                styledMark {
-                    css {
-                        background = "images/close.svg"
-                        backgroundColor = Color.transparent
-                    }
-                    +"Iantorno"
-                    attrs {
-                        onMouseOverFunction = {
-                            println("sdfsdfdsfsd")
-                        }
-                    }
-                }
-            }
-            //resourceEntryField { }
+            resourceEntryField { }
         }
     }
 }

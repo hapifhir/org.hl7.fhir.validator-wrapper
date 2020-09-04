@@ -59,13 +59,4 @@ object FileErrorDisplayStyle : StyleSheet("TabBar", isStatic = true) {
         }
     }
 
-
-
-//    val fileContent by css {
-//        width = 100.pct
-//        flexGrow = 1.0
-//        display = Display.flex
-//        overflow = Overflow.scroll
-//        whiteSpace = WhiteSpace.preWrap
-//    }
 }
