@@ -1,5 +1,6 @@
 package ui.components
 
+import css.MessageDisplayStyle
 import css.TextStyle
 import css.const.*
 import kotlinx.css.*
@@ -18,13 +19,7 @@ class MessageDisplayComponent : RComponent<MessageDisplayProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                display = Display.inlineFlex
-                flexDirection = FlexDirection.row
-                minHeight = 64.px
-                width = 100.pct
-                backgroundColor = GRAY_200
-                boxShadow(color = SHADOW, offsetX = 0.px, offsetY = 5.px, blurRadius = 5.px)
-                marginBottom = 10.px
+                +MessageDisplayStyle.messageLayout
             }
 
             styledDiv {
@@ -43,21 +38,14 @@ class MessageDisplayComponent : RComponent<MessageDisplayProps, RState>() {
 
             styledPre {
                 css {
-                    padding(6.px)
-                    flex(flexBasis = FlexBasis.auto)
-                    alignSelf = Align.center
-                    +TextStyle.toolTipTextBold
+                    +MessageDisplayStyle.levelAndLineNumber
                 }
                 +"${props.validationMessage.getLevel().display}\nLine: ${props.validationMessage.getLine()}"
             }
 
             styledSpan {
                 css {
-                    padding(6.px)
-                    flex(flexBasis = 100.pct)
-                    alignSelf = Align.center
-                    overflowWrap = OverflowWrap.breakWord
-                    +TextStyle.code
+                    +MessageDisplayStyle.messageDetails
                 }
                 +props.validationMessage.getMessage()
             }
