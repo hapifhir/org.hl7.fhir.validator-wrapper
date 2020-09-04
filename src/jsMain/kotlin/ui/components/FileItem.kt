@@ -12,7 +12,7 @@ import model.ValidationOutcome
 import react.*
 import styled.*
 import utils.getMessageTypeCounts
-import utils.getMostSevereValidationSeverity
+import utils.getHighestIssueSeverity
 
 external interface FileItemProps : RProps {
     var validationOutcome: ValidationOutcome
@@ -39,7 +39,7 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
                             +FileItemStyle.indicatorNoStatus
                         }
                     } else {
-                        when (getMostSevereValidationSeverity(props.validationOutcome.getMessages())) {
+                        when (getHighestIssueSeverity(props.validationOutcome.getMessages())) {
                             IssueSeverity.INFORMATION -> +FileItemStyle.indicatorInformation
                             IssueSeverity.WARNING -> +FileItemStyle.indicatorWarning
                             IssueSeverity.ERROR -> +FileItemStyle.indicatorError
@@ -115,8 +115,7 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
         }
         fileSummaryComponent {
             active = state.summaryActive
-            fileName = props.validationOutcome.getFileInfo().fileName
-            fileContent = props.validationOutcome.getFileInfo().fileContent
+            validationOutcome = props.validationOutcome
             onClose = {
                 setState {
                     summaryActive = false

@@ -5,12 +5,12 @@ import css.TextStyle
 import kotlinx.css.Display
 import kotlinx.css.display
 import kotlinx.html.js.onClickFunction
+import model.ValidationOutcome
 import react.*
 import styled.*
 
 external interface FileSummaryProps : RProps {
-    var fileName: String
-    var fileContent: String
+    var validationOutcome: ValidationOutcome
     var active: Boolean
     var onClose: () -> Unit
 }
@@ -35,7 +35,7 @@ class FileSummaryComponent : RComponent<FileSummaryProps, RState>() {
                             +TextStyle.h2
                             +FileSummaryStyle.filename
                         }
-                        +props.fileName
+                        +props.validationOutcome.getFileInfo().fileName
                     }
                     styledImg {
                         css {
@@ -55,11 +55,8 @@ class FileSummaryComponent : RComponent<FileSummaryProps, RState>() {
                         +FileSummaryStyle.horizontalRule
                     }
                 }
-                styledP {
-                    css {
-                        +FileSummaryStyle.fileContent
-                    }
-                    +props.fileContent
+                fileIssueDisplayComponent {
+                    validationOutcome = props.validationOutcome
                 }
             }
         }

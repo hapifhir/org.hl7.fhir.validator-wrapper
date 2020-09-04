@@ -1,12 +1,15 @@
 package ui.components
 
 import css.TabBarStyle
-import kotlinx.css.Display
-import kotlinx.css.display
+import kotlinx.css.*
+import kotlinx.html.js.onMouseOverFunction
+import kotlinx.html.onMouseOver
 import react.*
 import reactredux.containers.resourceEntryField
 import styled.css
 import styled.styledDiv
+import styled.styledMark
+import styled.styledP
 
 external interface ManualEnterTabProps : RProps {
     var active: Boolean
