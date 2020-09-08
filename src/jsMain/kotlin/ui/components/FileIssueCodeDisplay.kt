@@ -1,34 +1,30 @@
 package ui.components
 
 import css.FileErrorDisplayStyle
-import css.FileItemStyle
 import css.TextStyle
-import kotlinx.css.*
-import kotlinx.html.js.onMouseOverFunction
-import kotlinx.html.onMouseOver
-import model.IssueSeverity
 import model.ValidationOutcome
 import react.*
-import styled.*
-import utils.getHighestIssueSeverity
+import styled.css
+import styled.styledDiv
+import styled.styledSpan
 
-external interface FileIssueDisplayProps : RProps {
+external interface FileIssueCodeDisplayProps : RProps {
     var validationOutcome: ValidationOutcome
 }
 
-class FileIssueDisplayState : RState {
+class FileIssueCodeDisplayState : RState {
 
 }
 
-class FileIssueDisplayComponent : RComponent<FileIssueDisplayProps, FileIssueDisplayState>() {
+class FileIssueCodeDisplayComponent : RComponent<FileIssueCodeDisplayProps, FileIssueCodeDisplayState>() {
     init {
-        state = FileIssueDisplayState()
+        state = FileIssueCodeDisplayState()
     }
 
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +FileErrorDisplayStyle.mainDiv
+                +FileErrorDisplayStyle.mainDivCode
             }
             var fileAsLines = props.validationOutcome.getFileInfo().fileContent.lines()
             var lineMap = props.validationOutcome.getMessages().groupBy({ it.getLine() }, { it })
@@ -52,8 +48,8 @@ class FileIssueDisplayComponent : RComponent<FileIssueDisplayProps, FileIssueDis
     }
 }
 
-fun RBuilder.fileIssueDisplayComponent(handler: FileIssueDisplayProps.() -> Unit): ReactElement {
-    return child(FileIssueDisplayComponent::class) {
+fun RBuilder.fileIssueCodeDisplayComponent(handler: FileIssueCodeDisplayProps.() -> Unit): ReactElement {
+    return child(FileIssueCodeDisplayComponent::class) {
         this.attrs(handler)
     }
 }

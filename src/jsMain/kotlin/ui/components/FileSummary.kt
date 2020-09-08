@@ -15,7 +15,16 @@ external interface FileSummaryProps : RProps {
     var onClose: () -> Unit
 }
 
-class FileSummaryComponent : RComponent<FileSummaryProps, RState>() {
+class FileSummaryState : RState {
+    var codeDisplay = true
+}
+
+class FileSummaryComponent : RComponent<FileSummaryProps, FileSummaryState>() {
+
+    init {
+        state = FileSummaryState()
+    }
+
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -39,8 +48,33 @@ class FileSummaryComponent : RComponent<FileSummaryProps, RState>() {
                     }
                     styledImg {
                         css {
-                            +FileSummaryStyle.closeButton
-                            +FileSummaryStyle.closeButtonHover
+                            +FileSummaryStyle.button
+                        }
+                        attrs {
+                            src = "images/code-view.svg"
+                            onClickFunction = {
+                                setState {
+                                    codeDisplay = true
+                                }
+                            }
+                        }
+                    }
+                    styledImg {
+                        css {
+                            +FileSummaryStyle.button
+                        }
+                        attrs {
+                            src = "images/list-view.svg"
+                            onClickFunction = {
+                                setState {
+                                    codeDisplay = false
+                                }
+                            }
+                        }
+                    }
+                    styledImg {
+                        css {
+                            +FileSummaryStyle.button
                         }
                         attrs {
                             src = "images/close.svg"
@@ -55,8 +89,14 @@ class FileSummaryComponent : RComponent<FileSummaryProps, RState>() {
                         +FileSummaryStyle.horizontalRule
                     }
                 }
-                fileIssueDisplayComponent {
-                    validationOutcome = props.validationOutcome
+                if (state.codeDisplay) {
+                    fileIssueCodeDisplayComponent {
+                        validationOutcome = props.validationOutcome
+                    }
+                } else {
+                    fileIssueListDisplayComponent {
+                        validationOutcome = props.validationOutcome
+                    }
                 }
             }
         }

@@ -2,7 +2,9 @@ package ui.components
 
 import css.FileItemStyle
 import css.TextStyle
-import kotlinx.css.*
+import kotlinx.css.Display
+import kotlinx.css.display
+import kotlinx.css.opacity
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.js.onMouseOutFunction
 import kotlinx.html.js.onMouseOverFunction
@@ -11,8 +13,8 @@ import model.IssueSeverity
 import model.ValidationOutcome
 import react.*
 import styled.*
-import utils.getMessageTypeCounts
 import utils.getHighestIssueSeverity
+import utils.getMessageTypeCounts
 
 external interface FileItemProps : RProps {
     var validationOutcome: ValidationOutcome

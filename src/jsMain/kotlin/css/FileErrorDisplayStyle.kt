@@ -8,12 +8,22 @@ import styled.animation
 
 object FileErrorDisplayStyle : StyleSheet("TabBar", isStatic = true) {
 
-    val mainDiv by css {
+    private val mainDiv by css {
         width = 100.pct
         flexGrow = 1.0
         display = Display.flex
-        overflow = Overflow.scroll
         flexDirection = FlexDirection.column
+    }
+
+    val mainDivCode by css {
+        +mainDiv
+        overflow = Overflow.scroll
+    }
+
+    val mainDivList by css {
+        +mainDiv
+        padding(6.px)
+        overflowY = Overflow.scroll
     }
 
     val lineStyle by css {
