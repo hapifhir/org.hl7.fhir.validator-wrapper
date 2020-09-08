@@ -47,10 +47,11 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
         justifyContent = JustifyContent.right
     }
 
-    val closeButton by css {
+    val button by css {
         width = ICON_SMALL_DIM
         height = ICON_SMALL_DIM
         alignSelf = Align.center
+        paddingLeft = 4.px
     }
 
     val closeButtonHover by css {

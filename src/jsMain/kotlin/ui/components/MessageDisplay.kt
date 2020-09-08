@@ -1,15 +1,20 @@
 package ui.components
 
 import css.MessageDisplayStyle
-import css.TextStyle
-import css.const.*
-import kotlinx.css.*
-import kotlinx.css.properties.boxShadow
+import css.const.BARELY_BLUE
+import css.const.OVERT_ORANGE
+import css.const.PERFECT_PINK
+import css.const.YAPPY_YELLOW
+import kotlinx.css.backgroundColor
+import kotlinx.css.flex
+import kotlinx.css.px
 import model.IssueSeverity
 import model.ValidationMessage
 import react.*
-import styled.*
+import styled.css
+import styled.styledDiv
 import styled.styledPre
+import styled.styledSpan
 
 external interface MessageDisplayProps : RProps {
     var validationMessage: ValidationMessage
