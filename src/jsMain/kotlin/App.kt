@@ -1,24 +1,25 @@
-import css.HeaderStyle
 import css.LandingPageStyle
-import css.TextStyle
-import css.const.PADDING_L
-import css.const.PADDING_XXL
 import kotlinx.coroutines.MainScope
-import kotlinx.css.*
+import kotlinx.css.FlexDirection
+import kotlinx.css.flexDirection
 import model.AppScreen
-import react.*
+import react.RBuilder
+import react.RComponent
+import react.RProps
+import react.RState
 import reactredux.containers.header
 import styled.css
 import styled.injectGlobal
 import styled.styledDiv
-import styled.styledH1
+import ui.components.contextSettings
+import ui.components.sectionTitle
 import ui.components.tabLayout
 
 external interface AppProps : RProps {
     var appScreen: AppScreen
 }
 
-class AppState : RState { }
+class AppState : RState {}
 
 val mainScope = MainScope()
 
@@ -38,26 +39,22 @@ class App : RComponent<AppProps, AppState>() {
             header { }
             when (props.appScreen) {
                 AppScreen.VALIDATOR -> {
-                    styledDiv {
-                        css {
-                            textAlign = TextAlign.center
-                            marginTop = 2.rem
-                            marginBottom = 3.rem
-                            justifyContent = JustifyContent.center
-                        }
-                        styledH1 {
-                            css {
-                                +TextStyle.h1
-                            }
-                            +"Validate Resources"
-                        }
+                    sectionTitle {
+                        majorText = "Validate Resources"
+                        minorText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                     }
                     tabLayout {
 
                     }
                 }
                 AppScreen.SETTINGS -> {
+                    sectionTitle {
+                        majorText = "Validation Options"
+                        minorText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                    }
+                    contextSettings {
 
+                    }
                 }
             }
         }
