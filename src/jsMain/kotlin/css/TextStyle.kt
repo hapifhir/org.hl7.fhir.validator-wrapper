@@ -2,6 +2,7 @@ package css
 
 import css.const.*
 import kotlinx.css.*
+import kotlinx.css.properties.*
 import styled.StyleSheet
 
 object TextStyle : StyleSheet("Tabs", isStatic = true) {
@@ -11,9 +12,9 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
 
     val h1 by css {
         fontFamily = FONT_FAMILY_MAIN
-        fontSize = 32.pt
-        fontWeight = FontWeight.w700
-        fontWeight = FontWeight.bold
+        fontSize = 40.pt
+        fontWeight = FontWeight.w600
+        //fontWeight = FontWeight.bold
         color = TRULY_RED
     }
     val h2 by css {
@@ -70,4 +71,36 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         fontWeight = FontWeight.w700
         textAlign = TextAlign.start
     }
+
+    val headerMenuItem by css {
+        cursor = Cursor.pointer
+        color = GRAY_800
+        fontFamily = FONT_FAMILY_MAIN
+        fontSize = 16.pt
+        fontWeight = FontWeight.w400
+        textAlign = TextAlign.center
+        hover {
+            color = ALMOST_RED
+            after {
+                transform {
+                    scaleX(1)
+                }
+            }
+        }
+        after {
+            display = Display.block
+            content = QuotedString("")
+            border(width = 1.px, style = BorderStyle.solid, color = ALMOST_RED)
+            transform {
+                scaleX(0)
+            }
+            transition(duration = 250.ms, timing = Timing.easeInOut, delay = 0.ms)
+        }
+    }
+
+    val headerMenuItemSelected by css {
+        +headerMenuItem
+        color = TRULY_RED
+    }
+
 }

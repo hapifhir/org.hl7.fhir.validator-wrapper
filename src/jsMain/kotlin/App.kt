@@ -1,37 +1,31 @@
+import css.HeaderStyle
 import css.LandingPageStyle
 import css.TextStyle
 import css.const.PADDING_L
 import css.const.PADDING_XXL
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import kotlinx.css.TextAlign
-import kotlinx.css.marginBottom
-import kotlinx.css.marginTop
-import kotlinx.css.textAlign
-import model.CliContext
-import model.ValidationOutcome
+import kotlinx.css.*
+import model.AppScreen
 import react.*
+import reactredux.containers.header
 import styled.css
+import styled.injectGlobal
 import styled.styledDiv
 import styled.styledH1
-import ui.components.header
 import ui.components.tabLayout
 
-external interface AppState : RState {
+external interface AppProps : RProps {
+    var appScreen: AppScreen
 }
+
+class AppState : RState { }
 
 val mainScope = MainScope()
 
-class App : RComponent<RProps, AppState>() {
-    override fun AppState.init() {
-        // Inject global styles
-//        StyledComponents.injectGlobal(styles.toString())
-
-        mainScope.launch {
-            setState {
-
-            }
-        }
+class App : RComponent<AppProps, AppState>() {
+    init {
+        injectGlobal(styles.toString())
+        state = AppState()
     }
 
     override fun RBuilder.render() {
@@ -39,23 +33,32 @@ class App : RComponent<RProps, AppState>() {
         styledDiv {
             css {
                 +LandingPageStyle.mainDiv
+                flexDirection = FlexDirection.column
             }
             header { }
-            styledDiv {
-                css {
-                    textAlign = TextAlign.center
-                    marginTop = PADDING_L
-                    marginBottom = PADDING_XXL
-                }
-                styledH1 {
-                    css {
-                        +TextStyle.h1
+            when (props.appScreen) {
+                AppScreen.VALIDATOR -> {
+                    styledDiv {
+                        css {
+                            textAlign = TextAlign.center
+                            marginTop = 2.rem
+                            marginBottom = 3.rem
+                            justifyContent = JustifyContent.center
+                        }
+                        styledH1 {
+                            css {
+                                +TextStyle.h1
+                            }
+                            +"Validate Resources"
+                        }
                     }
-                    +"FHIR Validator"
-                }
-            }
-            tabLayout {
+                    tabLayout {
 
+                    }
+                }
+                AppScreen.SETTINGS -> {
+
+                }
             }
         }
     }
