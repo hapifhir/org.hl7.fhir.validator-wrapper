@@ -2,6 +2,7 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 import react.dom.render
 import react.redux.provider
+import reactredux.containers.app
 import reactredux.state.AppState
 import reactredux.state.rootReducer
 import redux.compose
@@ -22,7 +23,8 @@ fun main() {
     window.onload = {
         render(rootDiv) {
             provider(store) {
-                child(App::class) {}
+                app{ }
+                //child(App::class) {}
             }
         }
     }

@@ -1,5 +1,6 @@
 package reactredux.actions
 
+import model.AppScreen
 import model.CliContext
 import model.FileInfo
 import model.ValidationOutcome
@@ -10,6 +11,7 @@ class RemoveFile(val fileInfo: FileInfo) : RAction
 class AddValidationOutcome(val outcome: ValidationOutcome) : RAction
 class ClearValidationOutcomes() : RAction
 class ToggleValidationInProgress(val validating: Boolean, val fileInfo: FileInfo) : RAction
+class SetScreen(val appScreen: AppScreen) : RAction
 
 class AddManuallyEnteredFileValidationOutcome(val validationOutcome: ValidationOutcome) : RAction
 
