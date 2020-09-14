@@ -43,10 +43,8 @@ class UploadFilesButton(props: UploadFilesButtonProps) : RComponent<UploadFilesB
             attrs {
                 id = "FileUploadInput"
                 multiple = true
-                onInputFunction = { event ->
-                    println("onInputFunction :: $event")
+                onInputFunction = {
                     val input = document.getElementById("FileUploadInput") as HTMLInputElement
-//                    props.toggleUploadInProgress(true)
                     val files = input.files?.asList()
                     setState {
                         filesCurrentlyValidating = files?.size!!
@@ -74,16 +72,9 @@ class UploadFilesButton(props: UploadFilesButtonProps) : RComponent<UploadFilesB
         val f = FileLoadState.toFileInfo(fileLoadState)
         println("name: ${f.fileName} \ncontent: ${f.fileContent}")
         props.uploadFile(FileLoadState.toFileInfo(fileLoadState))
-        checkValidationQueue()
     }
 
     override fun onLoadError(fileLoadState: FileLoadState) {
         // TODO deal with this eventually
-    }
-
-    private fun checkValidationQueue() {
-        if (state.filesCurrentlyValidating == 0) {
-//            props.toggleUploadInProgress(false)
-        }
     }
 }

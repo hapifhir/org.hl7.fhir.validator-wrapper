@@ -16,6 +16,11 @@ class ContextSettings : RComponent<ContextSettingsProps, RState>() {
         h2 {
             +"CliContext Settings"
         }
+        checkboxInput {
+            settingName = "Mark Iantorno"
+            settingDescription = "Mark is a senior developer at SmileCDR"
+            onChange = { println(it) }
+        }
         ul {
             li {
                 input(type = InputType.checkBox, name = "doNative") {
