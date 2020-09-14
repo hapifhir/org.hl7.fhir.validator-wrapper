@@ -2,11 +2,15 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import desktop.launchLocalApp
 import io.ktor.application.*
 import io.ktor.features.*
+import io.ktor.html.*
 import io.ktor.http.*
 import io.ktor.http.content.*
-import io.ktor.response.*
+import io.ktor.jackson.*
 import io.ktor.routing.*
-import io.ktor.jackson.jackson
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
+import io.ktor.utils.io.charsets.*
+import kotlinx.html.*
 import org.hl7.fhir.utilities.VersionUtilities
 import org.hl7.fhir.validation.ValidationEngine
 import org.hl7.fhir.validation.cli.model.CliContext
@@ -34,7 +38,7 @@ fun startServer(args: Array<String>) {
 fun Application.module() {
     val v = VersionUtilities.CURRENT_FULL_VERSION
     val definitions = VersionUtilities.packageForVersion(v) + "#" + v
-    val engine = Common.getValidationEngine(v, definitions, null)
+    val engine = Common.getValidationEngine(v, definitions, null, null)
     init(false, engine, CliContext())
 }
 
@@ -102,16 +106,50 @@ fun Application.start() {
 
     routing {
         get("/") {
-            call.respondText(
-                    this::class.java.classLoader.getResource("index.html")!!.readText(),
-                    ContentType.Text.Html
-            )
+            call.respondHtml(HttpStatusCode.OK, HTML::index)
         }
-        static("/") {
-            resources("")
+        static("/static") {
+            resources()
         }
-
+        resources()
         contextRoutes()
         validationRoutes()
     }
 }
+
+fun HTML.index() {
+    head {
+        meta {
+            charset = "UTF-8"
+        }
+        title("Validator GUI")
+        link(
+            href = "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+            rel = "stylesheet"
+        )
+        link(
+            href = "https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap",
+            rel = "stylesheet"
+        )
+    }
+    body {
+        div {
+            id = "root"
+        }
+        script(src = "/static/output.js") {}
+        //script(src = "/validator-wrapper.js") {}
+    }
+}
+
+//fun main() {
+//    embeddedServer(Netty, port = 8081, host = "127.0.0.1") {
+//        routing {
+//            get("/") {
+//                call.respondHtml(HttpStatusCode.OK, HTML::index)
+//            }
+//            static("/static") {
+//                resources()
+//            }
+//        }
+//    }.start(wait = true)
+//}

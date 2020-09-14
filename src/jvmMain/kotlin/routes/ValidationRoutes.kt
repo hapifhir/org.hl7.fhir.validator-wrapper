@@ -13,9 +13,16 @@ import validationEngine
 
 fun Route.validationRoutes() {
 
-    post (VALIDATION_ENDPOINT) {
+    post(VALIDATION_ENDPOINT) {
         val logger = call.application.environment.log
         val request = call.receive<ValidationRequest>()
+//        request.filesToValidate.forEach {
+//            println("request -> " +
+//                    "\nFileName -> ${it.fileName}" +
+//                    "\nFileContent -> ${it.fileContent}" +
+//                    "\nFileType -> ${it.fileType}")
+//        }
+
         val response = ValidationService.validateSources(request, validationEngine)
 
         if (response == null) {

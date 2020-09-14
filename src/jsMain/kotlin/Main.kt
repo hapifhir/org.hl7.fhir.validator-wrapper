@@ -1,8 +1,31 @@
+import kotlinx.browser.document
+import kotlinx.browser.window
 import react.dom.render
-import kotlin.browser.document
+import react.redux.provider
+import reactredux.containers.app
+import reactredux.state.AppState
+import reactredux.state.rootReducer
+import redux.compose
+import redux.createStore
+import redux.rEnhancer
+
+val store = createStore(
+    ::rootReducer,
+    AppState(),
+    compose(
+        rEnhancer(),
+        js("if(window.__REDUX_DEVTOOLS_EXTENSION__ )window.__REDUX_DEVTOOLS_EXTENSION__ ();else(function(f){return f;});")
+    )
+)
 
 fun main() {
-    render(document.getElementById("root")) {
-        child(App::class) {}
+    val rootDiv = document.getElementById("root")
+    window.onload = {
+        render(rootDiv) {
+            provider(store) {
+                app{ }
+                //child(App::class) {}
+            }
+        }
     }
 }

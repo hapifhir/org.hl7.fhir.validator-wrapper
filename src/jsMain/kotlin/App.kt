@@ -1,68 +1,64 @@
-import api.sendValidationRequest
-import constants.FhirFormat
+import css.LandingPageStyle
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import model.CliContext
-import model.FileInfo
-import model.ValidationOutcome
-import react.*
-import react.dom.div
-import react.dom.h1
-import uicomponents.resourceEntryField
-import uicomponents.validationOutcome
-import utils.assembleRequest
+import kotlinx.css.FlexDirection
+import kotlinx.css.flexDirection
+import model.AppScreen
+import react.RBuilder
+import react.RComponent
+import react.RProps
+import react.RState
+import reactredux.containers.header
+import styled.css
+import styled.injectGlobal
+import styled.styledDiv
+import ui.components.contextSettings
+import ui.components.sectionTitle
+import ui.components.tabLayout
 
-external interface AppState : RState {
-    var validationOutcome: ValidationOutcome
-    var cliContext: CliContext
+external interface AppProps : RProps {
+    var appScreen: AppScreen
 }
+
+class AppState : RState {}
 
 val mainScope = MainScope()
 
-class App : RComponent<RProps, AppState>() {
-    override fun AppState.init() {
-        // For testing
-        validationOutcome = ValidationOutcome().setIssues(listOf())
-
-        // Initialize CLI Context
-        var context = CliContext()
-
-        mainScope.launch {
-            setState {
-                // Set CLI Context
-                cliContext = context
-            }
-        }
+class App : RComponent<AppProps, AppState>() {
+    init {
+        injectGlobal(styles.toString())
+        state = AppState()
     }
 
     override fun RBuilder.render() {
-        h1 {
-            +"Validator GUI"
-        }
 
-        div {
-            validationOutcome {
-                outcome = state.validationOutcome
+        styledDiv {
+            css {
+                +LandingPageStyle.mainDiv
+                flexDirection = FlexDirection.column
             }
-        }
+            header { }
+            when (props.appScreen) {
+                AppScreen.VALIDATOR -> {
+                    sectionTitle {
+                        majorText = "Validate Resources"
+                        minorText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                    }
+                    tabLayout {
 
-        div {
-            resourceEntryField {
-                onSubmit = {
-                    val request = assembleRequest(state.cliContext, FileInfo().setFileName("Temp").setFileContent(it).setFileType(FhirFormat.JSON.code))
-                    mainScope.launch {
-                        val returnedOutcome = sendValidationRequest(request)
-                        setState {
-                            // Only one returned outcome in single submitted validation operation
-                            println("setting state")
-                            for (issue in returnedOutcome[0].getIssues()) {
-                                println("${issue.getSeverity()} :: ${issue.getDetails()}")
-                            }
-                            validationOutcome = returnedOutcome[0]
-                        }
+                    }
+                }
+                AppScreen.SETTINGS -> {
+                    sectionTitle {
+                        majorText = "Validation Options"
+                        minorText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                    }
+                    contextSettings {
+
                     }
                 }
             }
         }
     }
 }
+
+

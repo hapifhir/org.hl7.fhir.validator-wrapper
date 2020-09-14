@@ -1,3 +1,3 @@
-rootProject.name = "org.hl7.fhir.validator-wrapper"
 
+rootProject.name = "validator-wrapper"
 
