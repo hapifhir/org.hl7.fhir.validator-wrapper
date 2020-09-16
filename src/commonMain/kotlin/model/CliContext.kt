@@ -14,27 +14,24 @@ expect class CliContext() {
     fun isNoExtensibleBindingMessages(): Boolean
     fun setNoExtensibleBindingMessages(noExtensibleBindingMessages: Boolean): CliContext
 
-    fun isSecurityChecks(): Boolean
-    fun setSecurityChecks(securityChecks: Boolean): CliContext
-
     fun isShowTimes(): Boolean
     fun setShowTimes(showTimes: Boolean)
-//
-//    fun getTxServer(): String
-//    fun setTxServer(txServer: String): CliContext
-//
-//    fun getTxLog(): String
-//    fun setTxLog(txLog: String): CliContext
-//
-//    fun getSnomedCTCode(): String
-//    fun setSnomedCT(snomedCT: String): CliContext
-//
-//    fun getTargetVer(): String
-//    fun setTargetVer(targetVer: String): CliContext
-//
-//    fun getIgs(): List<String>
-//    fun setIgs(igs: List<String>): CliContext
-//
-//    fun getQuestionnaires(): List<String>
-//    fun setQuestionnaires(questionnaires: List<String>): CliContext
+
+    fun getTxServer(): String
+    fun setTxServer(txServer: String): CliContext
+
+    fun getTxLog(): String
+    fun setTxLog(txLog: String): CliContext
+
+    fun getSnomedCTCode(): String
+    fun setSnomedCT(snomedCT: String): CliContext
+
+    fun getTargetVer(): String
+    fun setTargetVer(targetVer: String): CliContext
+
+    fun getIgs(): List<String>
+    fun setIgs(igs: List<String>): CliContext
+
+    fun getQuestionnaires(): List<String>
+    fun setQuestionnaires(questionnaires: List<String>): CliContext
 }

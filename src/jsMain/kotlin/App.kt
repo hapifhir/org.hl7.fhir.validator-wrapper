@@ -7,11 +7,11 @@ import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
+import reactredux.containers.contextSettings
 import reactredux.containers.header
 import styled.css
 import styled.injectGlobal
 import styled.styledDiv
-import ui.components.contextSettings
 import ui.components.sectionTitle
 import ui.components.tabLayout
 
@@ -41,7 +41,7 @@ class App : RComponent<AppProps, AppState>() {
                 AppScreen.VALIDATOR -> {
                     sectionTitle {
                         majorText = "Validate Resources"
-                        minorText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                        minorText = "Manually enter, up upload resources for validation."
                     }
                     tabLayout {
 
@@ -50,7 +50,7 @@ class App : RComponent<AppProps, AppState>() {
                 AppScreen.SETTINGS -> {
                     sectionTitle {
                         majorText = "Validation Options"
-                        minorText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                        minorText = "Modify setting for validating resources."
                     }
                     contextSettings {
 
