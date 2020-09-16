@@ -8,6 +8,7 @@ import io.ktor.server.testing.*
 import org.hl7.fhir.validation.cli.model.CliContext
 
 class ContextRouteTests {
+
     @Test
     fun testGetContext() = testWithApp {
         val expectedContext = CliContext()

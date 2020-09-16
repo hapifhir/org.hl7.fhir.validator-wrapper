@@ -17,6 +17,7 @@ import org.hl7.fhir.validation.cli.model.CliContext
 import org.hl7.fhir.validation.cli.utils.Common
 import org.hl7.fhir.validation.cli.utils.Params
 import routes.contextRoutes
+import routes.igRoutes
 import routes.validationRoutes
 
 lateinit var validationEngine: ValidationEngine
@@ -113,6 +114,7 @@ fun Application.start() {
         }
         resources()
         contextRoutes()
+        igRoutes()
         validationRoutes()
     }
 }
@@ -137,19 +139,5 @@ fun HTML.index() {
             id = "root"
         }
         script(src = "/static/output.js") {}
-        //script(src = "/validator-wrapper.js") {}
     }
 }
-
-//fun main() {
-//    embeddedServer(Netty, port = 8081, host = "127.0.0.1") {
-//        routing {
-//            get("/") {
-//                call.respondHtml(HttpStatusCode.OK, HTML::index)
-//            }
-//            static("/static") {
-//                resources()
-//            }
-//        }
-//    }.start(wait = true)
-//}
