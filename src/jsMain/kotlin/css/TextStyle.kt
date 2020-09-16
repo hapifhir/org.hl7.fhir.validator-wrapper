@@ -14,7 +14,6 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         fontFamily = FONT_FAMILY_MAIN
         fontSize = 40.pt
         fontWeight = FontWeight.w600
-        //fontWeight = FontWeight.bold
         color = TRULY_RED
     }
     val h2 by css {
@@ -40,6 +39,12 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         fontSize = 10.pt
         fontWeight = FontWeight.w400
         color = GRAY_900
+    }
+    val settingName by css {
+        fontFamily = FONT_FAMILY_MAIN
+        fontSize = 16.pt
+        fontWeight = FontWeight.w400
+        color = GRAY_700
     }
     val tab by css {
         fontFamily = FONT_FAMILY_MAIN
