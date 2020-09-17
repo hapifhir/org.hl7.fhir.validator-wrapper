@@ -27,7 +27,7 @@ steps:
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
     jdkArchitectureOption: 'x64'
-    tasks: 'build'
+    tasks: 'build --debug'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
