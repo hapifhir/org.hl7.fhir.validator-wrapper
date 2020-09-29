@@ -25,4 +25,11 @@ object FABStyle : StyleSheet("FAB", isStatic = true) {
             backgroundColor = REALLY_RED
         }
     }
+    val endButtonContainer by css {
+        position = Position.absolute
+        right = 0.px
+        bottom = 0.px
+        margin(1.rem)
+        display = Display.flex
+    }
 }

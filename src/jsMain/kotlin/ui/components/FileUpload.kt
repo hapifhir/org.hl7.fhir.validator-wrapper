@@ -34,11 +34,7 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
             uploadFilesList { }
             styledDiv {
                 css {
-                    position = Position.absolute
-                    right = 0.px
-                    bottom = 0.px
-                    margin(1.rem)
-                    display = Display.flex
+                    +FABStyle.endButtonContainer
                 }
 
                 styledDiv {

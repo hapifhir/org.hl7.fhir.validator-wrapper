@@ -3,9 +3,8 @@ package ui.components
 import api.sendValidationRequest
 import constants.FhirFormat
 import css.widget.FABStyle
-import css.component.FileItemStyle
 import css.component.FileUploadStyle
-import css.component.ManualEntryStyle
+import css.component.ResourceEntryStyle
 import css.widget.Spinner
 import kotlinx.browser.document
 import kotlinx.coroutines.delay
@@ -41,11 +40,11 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +ManualEntryStyle.entryContainer
+                +ResourceEntryStyle.entryContainer
             }
             styledTextArea {
                 css {
-                    +ManualEntryStyle.entryField
+                    +ResourceEntryStyle.entryField
                 }
                 attrs {
                     id = "inputTextArea"
@@ -54,11 +53,7 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
             }
             styledDiv {
                 css {
-                    position = Position.absolute
-                    right = 0.px
-                    bottom = 0.px
-                    margin(1.rem)
-                    display = Display.flex
+                    +FABStyle.endButtonContainer
                 }
 
                 if (state.validating) {
@@ -90,7 +85,6 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
                                         setState {
                                             validating = true
                                         }
-                                        delay(10000)
                                         val returnedOutcome = sendValidationRequest(
                                             assembleRequest(
                                                 cliContext = props.cliContext,
