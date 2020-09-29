@@ -1,7 +1,7 @@
 package ui.components
 
 import api.sendValidationRequest
-import css.FABStyle
+import css.widget.FABStyle
 import kotlinx.coroutines.launch
 import kotlinx.html.js.onClickFunction
 import mainScope

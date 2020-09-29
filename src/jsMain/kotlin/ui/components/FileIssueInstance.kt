@@ -1,9 +1,9 @@
 package ui.components
 
-import css.FileErrorDisplayStyle
-import css.FileItemStyle
-import css.FileItemStyle.fadeIn
-import css.TextStyle
+import css.animation.FadeIn.fadeIn
+import css.component.FileErrorDisplayStyle
+import css.component.FileItemStyle
+import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.html.js.onMouseOutFunction
 import kotlinx.html.js.onMouseOverFunction

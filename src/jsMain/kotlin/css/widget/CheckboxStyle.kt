@@ -1,4 +1,4 @@
-package css
+package css.widget
 
 import css.const.*
 import kotlinx.css.*

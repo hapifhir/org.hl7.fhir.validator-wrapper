@@ -1,6 +1,6 @@
 package ui.components
 
-import css.FileListStyle
+import css.component.FileListStyle
 import model.FileInfo
 import model.ValidationOutcome
 import react.*

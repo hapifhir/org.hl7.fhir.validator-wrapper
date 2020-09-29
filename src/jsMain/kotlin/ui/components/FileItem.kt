@@ -1,7 +1,9 @@
 package ui.components
 
-import css.FileItemStyle
-import css.TextStyle
+import css.component.FileItemStyle
+import css.text.TextStyle
+import css.widget.FileStatusIndicator
+import css.widget.Spinner
 import kotlinx.css.Display
 import kotlinx.css.display
 import kotlinx.css.opacity
@@ -36,17 +38,17 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
                 css {
                     if (!props.validationOutcome.isValidated()) {
                         if (props.validationOutcome.isValidating()) {
-                            +FileItemStyle.loadingIcon
+                            +Spinner.loadingIconDark
                         } else {
-                            +FileItemStyle.indicatorNoStatus
+                            +FileStatusIndicator.indicatorNoStatus
                         }
                     } else {
                         when (getHighestIssueSeverity(props.validationOutcome.getMessages())) {
-                            IssueSeverity.INFORMATION -> +FileItemStyle.indicatorInformation
-                            IssueSeverity.WARNING -> +FileItemStyle.indicatorWarning
-                            IssueSeverity.ERROR -> +FileItemStyle.indicatorError
-                            IssueSeverity.FATAL -> +FileItemStyle.indicatorFatal
-                            IssueSeverity.NULL -> +FileItemStyle.indicatorGood
+                            IssueSeverity.INFORMATION -> +FileStatusIndicator.indicatorInformation
+                            IssueSeverity.WARNING -> +FileStatusIndicator.indicatorWarning
+                            IssueSeverity.ERROR -> +FileStatusIndicator.indicatorError
+                            IssueSeverity.FATAL -> +FileStatusIndicator.indicatorFatal
+                            IssueSeverity.NULL -> +FileStatusIndicator.indicatorGood
                         }
                     }
                 }

@@ -1,15 +1,13 @@
-package css
+package css.component
 
-import css.FileItemStyle.fadeIn
-import css.const.*
+import css.text.TextStyle
+import css.const.GRAY_200
+import css.const.SHADOW
 import kotlinx.css.*
-import kotlinx.css.properties.border
 import kotlinx.css.properties.boxShadow
-import kotlinx.css.properties.ms
 import styled.StyleSheet
-import styled.animation
 
-object MessageDisplayStyle : StyleSheet("FileSummary", isStatic = true) {
+object MessageDisplayStyle : StyleSheet("MessageDisplayStyle", isStatic = true) {
 
     val messageLayout by css {
         display = Display.inlineFlex

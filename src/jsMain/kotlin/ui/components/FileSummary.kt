@@ -1,7 +1,7 @@
 package ui.components
 
-import css.FileSummaryStyle
-import css.TextStyle
+import css.component.FileSummaryStyle
+import css.text.TextStyle
 import kotlinx.css.Display
 import kotlinx.css.display
 import kotlinx.html.js.onClickFunction

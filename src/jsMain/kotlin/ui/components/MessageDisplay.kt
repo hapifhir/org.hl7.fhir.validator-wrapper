@@ -1,6 +1,6 @@
 package ui.components
 
-import css.MessageDisplayStyle
+import css.component.MessageDisplayStyle
 import css.const.BARELY_BLUE
 import css.const.OVERT_ORANGE
 import css.const.PERFECT_PINK

@@ -2,11 +2,14 @@ package ui.components
 
 import api.sendValidationRequest
 import constants.FhirFormat
-import css.FABStyle
-import css.FileUploadStyle
-import css.ManualEntryStyle
+import css.widget.FABStyle
+import css.component.FileUploadStyle
+import css.component.ResourceEntryStyle
+import css.widget.Spinner
 import kotlinx.browser.document
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.css.*
 import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
 import mainScope
@@ -15,26 +18,33 @@ import model.ValidationOutcome
 import model.prettyPrint
 import org.w3c.dom.HTMLTextAreaElement
 import react.*
-import styled.css
-import styled.styledDiv
-import styled.styledImg
-import styled.styledTextArea
+import styled.*
 import utils.assembleRequest
 
 external interface ResourceEntryFieldProps : RProps {
     var cliContext: CliContext
+    var validationOutcome: ValidationOutcome
     var addManuallyEnteredFileValidationOutcome: (ValidationOutcome) -> Unit
 }
 
-class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, RState>() {
+class ResourceEntryFieldState : RState {
+    var validating: Boolean = false
+}
+
+class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, ResourceEntryFieldState>() {
+
+    init {
+        state = ResourceEntryFieldState()
+    }
+
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +ManualEntryStyle.entryContainer
+                +ResourceEntryStyle.entryContainer
             }
             styledTextArea {
                 css {
-                    +ManualEntryStyle.entryField
+                    +ResourceEntryStyle.entryField
                 }
                 attrs {
                     id = "inputTextArea"
@@ -43,36 +53,57 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, RState>(
             }
             styledDiv {
                 css {
-                    +FileUploadStyle.buttonContainer
+                    +FABStyle.endButtonContainer
                 }
-                styledDiv {
-                    css {
-                        +FABStyle.fab
-                    }
-                    styledImg {
-                        css {
 
-                        }
-                        attrs {
-                            src = "images/validate.svg"
+                if (state.validating) {
+                    styledSpan {
+                        css {
+                            +Spinner.loadingIconLight
+                            justifyContent = JustifyContent.center
                         }
                     }
-                    attrs {
-                        onClickFunction = {
-                            val field = document.getElementById("inputTextArea") as HTMLTextAreaElement
-                            mainScope.launch {
-                                val returnedOutcome = sendValidationRequest(
-                                    assembleRequest(
-                                        cliContext = props.cliContext,
-                                        fileName = "",
-                                        fileContent = field.value,
-                                        fileType = FhirFormat.JSON
-                                    )
-                                )
-                                props.addManuallyEnteredFileValidationOutcome(returnedOutcome.first())
-                                println("Validation result for: ${returnedOutcome.first().getFileInfo().fileName}")
-                                returnedOutcome.first().getMessages().forEach { message ->
-                                    message.prettyPrint()
+                } else {
+                    styledDiv {
+                        css {
+                            +FileUploadStyle.buttonContainer
+                        }
+                        styledDiv {
+                            css {
+                                +FABStyle.fab
+                            }
+                            styledImg {
+                                css {}
+                                attrs {
+                                    src = "images/validate.svg"
+                                }
+                            }
+                            attrs {
+                                onClickFunction = {
+                                    val field = document.getElementById("inputTextArea") as HTMLTextAreaElement
+                                    mainScope.launch {
+                                        setState {
+                                            validating = true
+                                        }
+                                        val returnedOutcome = sendValidationRequest(
+                                            assembleRequest(
+                                                cliContext = props.cliContext,
+                                                fileName = "",
+                                                fileContent = field.value,
+                                                fileType = FhirFormat.JSON
+                                            )
+                                        )
+                                        props.addManuallyEnteredFileValidationOutcome(returnedOutcome.first())
+                                        setState {
+                                            validating = false
+                                        }
+                                        println("Validation result for: ${
+                                            returnedOutcome.first().getFileInfo().fileName
+                                        }")
+                                        returnedOutcome.first().getMessages().forEach { message ->
+                                            message.prettyPrint()
+                                        }
+                                    }
                                 }
                             }
                         }

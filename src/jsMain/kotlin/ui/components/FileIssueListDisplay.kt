@@ -1,6 +1,6 @@
 package ui.components
 
-import css.FileErrorDisplayStyle
+import css.component.FileErrorDisplayStyle
 import model.ValidationOutcome
 import react.*
 import styled.css

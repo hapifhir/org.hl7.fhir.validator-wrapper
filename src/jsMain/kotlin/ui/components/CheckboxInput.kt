@@ -1,7 +1,7 @@
 package ui.components
 
-import css.CheckboxStyle
-import css.TextStyle
+import css.widget.CheckboxStyle
+import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.html.InputType
 import kotlinx.html.id

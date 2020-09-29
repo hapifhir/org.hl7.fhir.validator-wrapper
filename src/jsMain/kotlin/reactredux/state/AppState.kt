@@ -3,6 +3,7 @@ package reactredux.state
 import model.AppScreen
 import model.CliContext
 import model.ValidationOutcome
+import reactredux.actions.ToggleValidationInProgress
 import reactredux.reducers.*
 import redux.RAction
 

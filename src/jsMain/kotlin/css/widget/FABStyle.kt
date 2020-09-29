@@ -1,4 +1,4 @@
-package css
+package css.widget
 
 import css.const.*
 import kotlinx.css.*
@@ -7,16 +7,14 @@ import styled.StyleSheet
 
 object FABStyle : StyleSheet("FAB", isStatic = true) {
 
-    val FAB_DIAMETER = 56.px
-
     val fab by css {
         backgroundColor = TRULY_RED
         borderStyle = BorderStyle.none
         borderRadius = 50.pct
-        width = FAB_DIAMETER
-        height = FAB_DIAMETER
+        width = 3.rem
+        height = 3.rem
         boxShadow(color = GRAY_400, offsetX = 2.px, offsetY = 5.px, blurRadius = 5.px)
-        marginBottom = PADDING_XS
+        marginBottom = 1.rem
         display = Display.flex
         justifyContent = JustifyContent.center
         cursor = Cursor.pointer
@@ -27,5 +25,11 @@ object FABStyle : StyleSheet("FAB", isStatic = true) {
             backgroundColor = REALLY_RED
         }
     }
-
+    val endButtonContainer by css {
+        position = Position.absolute
+        right = 0.px
+        bottom = 0.px
+        margin(1.rem)
+        display = Display.flex
+    }
 }

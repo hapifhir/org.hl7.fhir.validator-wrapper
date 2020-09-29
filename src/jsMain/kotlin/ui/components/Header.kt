@@ -1,7 +1,7 @@
 package ui.components
 
-import css.HeaderStyle
-import css.TextStyle
+import css.component.HeaderStyle
+import css.text.TextStyle
 import kotlinx.browser.document
 import kotlinx.html.js.onClickFunction
 import model.AppScreen

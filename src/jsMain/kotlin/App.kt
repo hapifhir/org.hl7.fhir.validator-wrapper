@@ -1,4 +1,4 @@
-import css.LandingPageStyle
+import css.component.LandingPageStyle
 import kotlinx.coroutines.MainScope
 import kotlinx.css.FlexDirection
 import kotlinx.css.flexDirection
