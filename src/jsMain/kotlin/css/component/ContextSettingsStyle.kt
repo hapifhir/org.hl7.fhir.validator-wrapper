@@ -1,4 +1,4 @@
-package css
+package css.component
 
 import css.const.*
 import kotlinx.css.*

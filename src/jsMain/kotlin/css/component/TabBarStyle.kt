@@ -1,10 +1,10 @@
-package css
+package css.component
 
+import css.animation.FadeIn.fadeIn
 import css.const.*
 import kotlinx.css.*
 import kotlinx.css.properties.*
 import styled.StyleSheet
-import styled.animation
 
 object TabBarStyle : StyleSheet("TabBar", isStatic = true) {
 
@@ -61,12 +61,5 @@ object TabBarStyle : StyleSheet("TabBar", isStatic = true) {
         padding(24.px)
         fadeIn()
         flex(flexBasis = 100.pct)
-    }
-
-    fun CSSBuilder.fadeIn() {
-        animation(duration = 1.s) {
-            from { opacity = 0 }
-            to { opacity = 1 }
-        }
     }
 }

@@ -1,10 +1,7 @@
 package ui.components
 
-import css.ContextSettingsStyle
-import css.TextStyle
-import css.const.GRAY_300
-import kotlinx.css.*
-import kotlinx.css.properties.border
+import css.component.ContextSettingsStyle
+import css.text.TextStyle
 import model.CliContext
 import react.*
 import styled.css

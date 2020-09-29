@@ -1,4 +1,4 @@
-package css
+package css.component
 
 import css.const.WHITE
 import kotlinx.css.*
@@ -7,12 +7,12 @@ import styled.StyleSheet
 
 object HeaderStyle : StyleSheet("HeaderStyle", isStatic = true) {
 
-    val HEADER_HEIGHT = 80.px
+    val HEADER_HEIGHT =  5.rem
 
     val headerBar by css {
         display = Display.flex
         width = 100.pct
-        height = 5.rem
+        height = HEADER_HEIGHT
         zIndex = 1
         top = 0.px
         position = Position.fixed

@@ -1,7 +1,7 @@
 package ui.components
 
-import css.SectionTitleStyle
-import css.TextStyle
+import css.component.SectionTitleStyle
+import css.text.TextStyle
 import kotlinx.css.*
 import react.*
 import styled.*

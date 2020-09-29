@@ -1,7 +1,7 @@
 package ui.components
 
-import css.TabBarStyle
-import css.TextStyle
+import css.component.TabBarStyle
+import css.text.TextStyle
 import css.const.GRAY_600
 import kotlinx.css.*
 import kotlinx.css.properties.borderBottom

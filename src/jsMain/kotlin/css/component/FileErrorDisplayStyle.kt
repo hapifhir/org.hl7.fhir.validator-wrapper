@@ -1,10 +1,8 @@
-package css
+package css.component
 
 import css.const.*
 import kotlinx.css.*
-import kotlinx.css.properties.*
 import styled.StyleSheet
-import styled.animation
 
 object FileErrorDisplayStyle : StyleSheet("TabBar", isStatic = true) {
 
@@ -27,7 +25,6 @@ object FileErrorDisplayStyle : StyleSheet("TabBar", isStatic = true) {
     }
 
     val lineStyle by css {
-        //width = 100.pct
         display = Display.flex
         whiteSpace = WhiteSpace.pre
     }

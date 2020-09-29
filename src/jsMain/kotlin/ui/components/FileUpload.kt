@@ -1,8 +1,9 @@
 package ui.components
 
-import css.FABStyle
-import css.FileUploadStyle
+import css.widget.FABStyle
+import css.component.FileUploadStyle
 import kotlinx.browser.document
+import kotlinx.css.*
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLInputElement
 import react.*
@@ -33,32 +34,42 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
             uploadFilesList { }
             styledDiv {
                 css {
-                    +FileUploadStyle.buttonContainer
+                    position = Position.absolute
+                    right = 0.px
+                    bottom = 0.px
+                    margin(1.rem)
+                    display = Display.flex
                 }
+
                 styledDiv {
                     css {
-                        +FABStyle.fab
+                        +FileUploadStyle.buttonContainer
                     }
-                    styledImg {
+                    styledDiv {
                         css {
+                            +FABStyle.fab
+                        }
+                        styledImg {
+                            css {
 
+                            }
+                            attrs {
+                                src = "images/upload.svg"
+
+                            }
                         }
                         attrs {
-                            src = "images/upload.svg"
-
+                            onClickFunction = {
+                                val field = document.getElementById("FileUploadInput") as HTMLInputElement
+                                field.click()
+                            }
                         }
                     }
-                    attrs {
-                        onClickFunction = {
-                            val field = document.getElementById("FileUploadInput") as HTMLInputElement
-                            field.click()
-                        }
-                    }
+                    validateFilesButton { }
                 }
-                validateFilesButton { }
-            }
 
-            uploadFilesButton { }
+                uploadFilesButton { }
+            }
         }
     }
 }

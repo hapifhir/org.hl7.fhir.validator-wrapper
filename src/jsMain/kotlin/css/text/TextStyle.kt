@@ -1,4 +1,4 @@
-package css
+package css.text
 
 import css.const.*
 import kotlinx.css.*
@@ -8,7 +8,7 @@ import styled.StyleSheet
 object TextStyle : StyleSheet("Tabs", isStatic = true) {
 
     val FONT_FAMILY_MAIN = "Montserrat"
-    val `FONT_FAMILY_CODE` = "Source Code Pro"
+    val FONT_FAMILY_CODE = "Source Code Pro"
 
     val h1 by css {
         fontFamily = FONT_FAMILY_MAIN

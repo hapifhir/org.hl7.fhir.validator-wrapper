@@ -14,6 +14,7 @@ class ToggleValidationInProgress(val validating: Boolean, val fileInfo: FileInfo
 class SetScreen(val appScreen: AppScreen) : RAction
 
 class AddManuallyEnteredFileValidationOutcome(val validationOutcome: ValidationOutcome) : RAction
+class ToggleManuallyEnteredValidationInProgress(val validationInProgress: Boolean) : RAction
 
 class UpdateContext(val context: CliContext) : RAction
 

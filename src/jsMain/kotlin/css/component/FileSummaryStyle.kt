@@ -1,11 +1,10 @@
-package css
+package css.component
 
+import css.animation.FadeIn.quickFadeIn
 import css.const.*
 import kotlinx.css.*
 import kotlinx.css.properties.border
-import kotlinx.css.properties.ms
 import styled.StyleSheet
-import styled.animation
 
 object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
 
@@ -54,10 +53,6 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
         paddingLeft = 4.px
     }
 
-    val closeButtonHover by css {
-        // TODO
-    }
-
     val filename by css {
         width = 100.pct
         alignSelf = Align.center
@@ -68,10 +63,6 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
         width = 100.pct
     }
 
-    val fileContentContainer by css {
-
-    }
-
     val fileContent by css {
         width = 100.pct
         flexGrow = 1.0
@@ -80,10 +71,4 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
         whiteSpace = WhiteSpace.preWrap
     }
 
-    fun CSSBuilder.quickFadeIn() {
-        animation(duration = 500.ms) {
-            from { opacity = 0 }
-            to { opacity = 1 }
-        }
-    }
 }

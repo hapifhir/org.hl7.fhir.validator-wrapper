@@ -1,6 +1,6 @@
 package ui.components
 
-import css.TabBarStyle
+import css.component.TabBarStyle
 import kotlinx.css.Display
 import kotlinx.css.display
 import react.*

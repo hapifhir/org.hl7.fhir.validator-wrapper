@@ -1,14 +1,13 @@
-package css
+package css.component
 
 import css.const.GRAY_300
 import css.const.PADDING_S
-import css.const.TRULY_RED
 import kotlinx.css.*
 import kotlinx.css.properties.borderBottom
 import kotlinx.css.properties.boxShadow
 import styled.StyleSheet
 
-object FileListStyle : StyleSheet("FileInfo", isStatic = true) {
+object FileListStyle : StyleSheet("FileListStyle", isStatic = true) {
     val listBackground by FileListStyle.css {
         boxShadow(color = Color("#BBBBBB"), offsetX = 0.px, offsetY = 5.px, blurRadius = 5.px)
         backgroundColor = Color.white
