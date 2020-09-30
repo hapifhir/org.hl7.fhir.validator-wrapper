@@ -2,14 +2,14 @@ package ui.components
 
 import api.sendValidationRequest
 import constants.FhirFormat
-import css.widget.FABStyle
 import css.component.FileUploadStyle
 import css.component.ResourceEntryStyle
+import css.widget.FABStyle
 import css.widget.Spinner
 import kotlinx.browser.document
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.css.*
+import kotlinx.css.JustifyContent
+import kotlinx.css.justifyContent
 import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
 import mainScope
@@ -29,6 +29,7 @@ external interface ResourceEntryFieldProps : RProps {
 
 class ResourceEntryFieldState : RState {
     var validating: Boolean = false
+    var codeDisplay: Boolean = true
 }
 
 class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, ResourceEntryFieldState>() {
@@ -42,13 +43,33 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
             css {
                 +ResourceEntryStyle.entryContainer
             }
-            styledTextArea {
-                css {
-                    +ResourceEntryStyle.entryField
+            validationResultDisplayMenuComponent {
+                closeButton = false
+                listDisplay = {
+                    setState {
+                        codeDisplay = false
+                    }
                 }
-                attrs {
-                    id = "inputTextArea"
-                    placeholder = "Enter Resource Manually"
+                codeDisplay = {
+                    setState {
+                        codeDisplay = true
+                    }
+                }
+            }
+
+            if (state.codeDisplay) {
+                styledTextArea {
+                    css {
+                        +ResourceEntryStyle.entryField
+                    }
+                    attrs {
+                        id = "inputTextArea"
+                        placeholder = "Enter Resource Manually"
+                    }
+                }
+            } else {
+                fileIssueListDisplayComponent {
+                    validationOutcome = props.validationOutcome
                 }
             }
             styledDiv {

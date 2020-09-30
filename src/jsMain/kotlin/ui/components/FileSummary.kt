@@ -1,13 +1,13 @@
 package ui.components
 
 import css.component.FileSummaryStyle
-import css.text.TextStyle
 import kotlinx.css.Display
 import kotlinx.css.display
-import kotlinx.html.js.onClickFunction
 import model.ValidationOutcome
 import react.*
-import styled.*
+import styled.css
+import styled.styledDiv
+import styled.styledHr
 
 external interface FileSummaryProps : RProps {
     var validationOutcome: ValidationOutcome
@@ -35,53 +35,22 @@ class FileSummaryComponent : RComponent<FileSummaryProps, FileSummaryState>() {
                 css {
                     +FileSummaryStyle.modalContent
                 }
-                styledDiv {
-                    css {
-                        +FileSummaryStyle.titleBar
-                    }
-                    styledP {
-                        css {
-                            +TextStyle.h2
-                            +FileSummaryStyle.filename
-                        }
-                        +props.validationOutcome.getFileInfo().fileName
-                    }
-                    styledImg {
-                        css {
-                            +FileSummaryStyle.button
-                        }
-                        attrs {
-                            src = "images/code-view.svg"
-                            onClickFunction = {
-                                setState {
-                                    codeDisplay = true
-                                }
-                            }
+                validationResultDisplayMenuComponent {
+                    title = props.validationOutcome.getFileInfo().fileName
+                    closeButton = true
+                    listDisplay = {
+                        setState {
+                            codeDisplay = false
                         }
                     }
-                    styledImg {
-                        css {
-                            +FileSummaryStyle.button
-                        }
-                        attrs {
-                            src = "images/list-view.svg"
-                            onClickFunction = {
-                                setState {
-                                    codeDisplay = false
-                                }
-                            }
+                    codeDisplay = {
+                        setState {
+                            codeDisplay = true
                         }
                     }
-                    styledImg {
-                        css {
-                            +FileSummaryStyle.button
-                        }
-                        attrs {
-                            src = "images/close.svg"
-                            onClickFunction = {
-                                props.onClose()
-                            }
-                        }
+                    close = {
+                        println("on close received")
+                        props.onClose()
                     }
                 }
                 styledHr {

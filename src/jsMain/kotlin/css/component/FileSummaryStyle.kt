@@ -53,10 +53,7 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
         paddingLeft = 4.px
     }
 
-    val filename by css {
-        width = 100.pct
-        alignSelf = Align.center
-    }
+
 
     val horizontalRule by css {
         border(width = BORDER_WIDTH, style = BorderStyle.solid, color = GRAY_500)

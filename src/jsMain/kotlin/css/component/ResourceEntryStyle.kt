@@ -8,6 +8,7 @@ object ResourceEntryStyle : StyleSheet("ResourceEntryStyle", isStatic = true) {
     val entryContainer by css {
         position = Position.relative
         display = Display.flex
+        flexDirection = FlexDirection.column
         flex(flexBasis = 100.pct)
     }
     val entryField by css {
