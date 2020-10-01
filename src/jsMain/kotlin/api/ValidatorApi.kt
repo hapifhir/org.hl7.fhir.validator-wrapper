@@ -9,6 +9,7 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.browser.window
 import kotlinx.serialization.json.Json
+import model.IGResponse
 import model.ValidationOutcome
 import model.ValidationRequest
 import model.ValidationResponse
@@ -27,7 +28,7 @@ val jsonClient = HttpClient {
 }
 
 suspend fun sendValidationRequest(validationRequest: ValidationRequest): List<ValidationOutcome> {
-    val message = jsonClient.post<ValidationResponse>(endpoint + VALIDATION_ENDPOINT) {
+    val message = jsonClient.post<ValidationResponse>(urlString = endpoint + VALIDATION_ENDPOINT) {
         contentType(ContentType.Application.Json)
         body = validationRequest
     }
@@ -35,6 +36,6 @@ suspend fun sendValidationRequest(validationRequest: ValidationRequest): List<Va
     return message.getOutcomes()
 }
 
-suspend fun sendIGsRequest(): List<String> {
+suspend fun sendIGsRequest(): IGResponse {
     return jsonClient.get(urlString = endpoint + IG_ENDPOINT)
 }

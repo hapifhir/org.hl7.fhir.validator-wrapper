@@ -1,13 +1,14 @@
 package ui.components
 
 import api.sendIGsRequest
-import api.sendValidationRequest
 import css.component.ContextSettingsStyle
 import css.text.TextStyle
 import kotlinx.coroutines.launch
 import kotlinx.css.*
+import kotlinx.html.js.onClickFunction
 import mainScope
 import model.CliContext
+import model.IgSelectionState
 import react.*
 import styled.*
 
@@ -17,7 +18,7 @@ external interface ContextSettingsProps : RProps {
 }
 
 class ContextSettingsState : RState {
-    var igsList = listOf<String>()
+    var igStateList = mutableListOf<IgSelectionState>()
 }
 
 class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSettingsState>() {
@@ -27,7 +28,7 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
         mainScope.launch {
             val igs = sendIGsRequest()
             setState {
-                igsList = igs
+                igStateList = igs.getIgs().map { IgSelectionState(url = it, selected = props.cliContext.getIgs().contains(it)) }.toMutableList()
             }
         }
     }
@@ -123,40 +124,86 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                 css {
                     +TextStyle.h3
                 }
-                +"Parameters"
+                +"Implementation Guides"
             }
-
             styledDiv {
                 css {
                     display = Display.flex
-                    flexDirection = FlexDirection.row
+                    flexDirection = FlexDirection.column
+                    padding(vertical = 1.rem)
                 }
                 styledDiv {
                     css {
-                        +ContextSettingsStyle.dropdown
-                    }
-                    styledButton {
-                        css {
-                            +ContextSettingsStyle.dropbtn
-                        }
-                        +"Select IG"
+                        display = Display.flex
+                        flexDirection = FlexDirection.row
                     }
                     styledDiv {
                         css {
-                            +ContextSettingsStyle.dropdownContent
+                            +ContextSettingsStyle.dropdown
                         }
-                        state.igsList.forEach {
-                            styledSpan {
-                                +it
+                        styledButton {
+                            css {
+                                +ContextSettingsStyle.dropbtn
+                                +TextStyle.settingButton
+                                minWidth = 20.pct
+                            }
+                            +"Select IGs"
+                        }
+                        styledDiv {
+                            css {
+                                +ContextSettingsStyle.dropdownContent
+                            }
+                            state.igStateList.filterNot {it.selected}.forEach { igState ->
+                                styledSpan {
+                                    attrs {
+                                        onClickFunction = {
+                                            selectIg(igState.url)
+                                        }
+                                    }
+                                    +igState.url
+                                }
+                            }
+                        }
+                    }
+                }
+
+                styledDiv {
+                    css {
+                        display = Display.flex
+                        flexDirection = FlexDirection.row
+                        flexWrap = FlexWrap.wrap
+                        if (state.igStateList.filter {it.selected}.toList().isNotEmpty()) {
+                            padding(top = 1.rem)
+                        }
+                    }
+                    state.igStateList.filter {it.selected}.forEach { igState ->
+                        igUrlDisplay {
+                            igUrl = igState.url
+                            onDelete = {
+                                deselectIg(igState.url)
                             }
                         }
                     }
                 }
             }
-
         }
     }
+
+    private fun selectIg(igUrl: String) {
+        setState {
+            igStateList.first { it.url == igUrl }.selected = true
+        }
+        props.update(props.cliContext.addIg(igUrl))
+    }
+
+    private fun deselectIg(igUrl: String) {
+        setState {
+            igStateList.first { it.url == igUrl }.selected = false
+        }
+        props.update(props.cliContext.removeIg(igUrl))
+    }
 }
+
 
 fun RBuilder.contextSettings(handler: ContextSettingsProps.() -> Unit): ReactElement {
     return child(ContextSettingsComponent::class) {

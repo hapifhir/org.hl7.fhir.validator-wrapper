@@ -18,7 +18,6 @@ actual class CliContext actual constructor() {
     private var targetVer: String = ""
 
     private var igs: List<String> = listOf()
-    private var questionnaires: List<String> = listOf()
 
     actual fun isDoNative(): Boolean {
         return doNative
@@ -109,12 +108,15 @@ actual class CliContext actual constructor() {
         return this
     }
 
-    actual fun getQuestionnaires(): List<String> {
-        return questionnaires
+    fun addIg(ig: String): CliContext {
+        this.igs += ig
+        return this
     }
 
-    actual fun setQuestionnaires(questionnaires: List<String>): CliContext {
-        this.questionnaires = questionnaires
+    fun removeIg(ig: String): CliContext {
+        if (this.igs.contains(ig)) {
+            this.igs = this.igs.filterNot { it == ig }.toList()
+        }
         return this
     }
 

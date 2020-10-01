@@ -2,31 +2,35 @@ package routes
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import constants.IG_ENDPOINT
 import io.ktor.http.*
 import io.ktor.server.testing.*
-import org.hl7.fhir.utilities.cache.PackageClient
+import model.IGResponse
+import org.hl7.fhir.utilities.npm.PackageClient
 import org.hl7.fhir.validation.cli.model.CliContext
-import java.io.BufferedReader
 import kotlin.test.Test
 import kotlin.test.assertEquals
-
+import kotlin.test.assertTrue
+import kotlin.test.fail
 
 class IGRoutesTest {
-    @Test
-    fun testGetContext() {
-        val client = PackageClient("https://packages.fhir.org/")
-        val versions = client.search(null, null ,null, false)
-        versions.forEach{println(it.url)}
 
-//        val reader = BufferedReader(client.fetchCached(null).reader())
-//        val content = StringBuilder()
-//        reader.use { reader ->
-//            var line = reader.readLine()
-//            while (line != null) {
-//                content.append(line)
-//                line = reader.readLine()
-//            }
-//        }
-//        println(content.toString())
+    val expectedIgs = listOf("http://hl7.org/fhir/us/core/STU3.1.1",
+        "http://fhir.org/guides/argonaut/pd/release1",
+        "http://hl7.org/fhir/us/davinci-crd/2019May",
+        "http://hl7.org.au/fhir")
+
+    @Test
+    fun testGetIgs() = testWithApp {
+        handleRequest(HttpMethod.Get, IG_ENDPOINT).apply {
+            assertEquals(HttpStatusCode.OK, response.status())
+            val igResponse= response.content?.let { ObjectMapper().readValue<IGResponse>(it) } ?: fail("Null list of IGs response.")
+            assertTrue(igResponse.getIgs().size > 20)
+            expectedIgs.forEach {
+                assertTrue(igResponse.getIgs().contains(it), "Missing expected ig -> $it")
+            }
+        }
     }
+
+    // TODO mock 0 response internal error
 }

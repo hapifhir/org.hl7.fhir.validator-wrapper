@@ -33,6 +33,11 @@ repositories {
         url = uri("https://plugins.gradle.org/m2/")
     }
 }
+dependencies {
+    implementation("org.junit.jupiter:junit-jupiter:5.4.2")
+    implementation("org.junit.jupiter:junit-jupiter:5.4.2")
+    implementation("org.junit.jupiter:junit-jupiter:5.4.2")
+}
 
 kotlin {
     jvm {

@@ -98,7 +98,7 @@ class CheckboxInput : RComponent<CheckboxInputProps, CheckboxInputState>() {
             }
             styledSpan {
                 css {
-                    +TextStyle.code
+                    +TextStyle.codeDark
                     padding(1.rem)
                 }
                 +props.settingDescription
