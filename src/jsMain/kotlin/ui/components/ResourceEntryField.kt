@@ -118,12 +118,6 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
                                         setState {
                                             validating = false
                                         }
-                                        println("Validation result for: ${
-                                            returnedOutcome.first().getFileInfo().fileName
-                                        }")
-                                        returnedOutcome.first().getMessages().forEach { message ->
-                                            message.prettyPrint()
-                                        }
                                     }
                                 }
                             }

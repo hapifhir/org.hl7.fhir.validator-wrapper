@@ -118,4 +118,20 @@ actual class CliContext actual constructor() {
         return this
     }
 
+    fun prettyPrint() {
+        println("CliContext :: \n" +
+                "doNative = ${doNative}\n" +
+                "hintAboutNonMustSupport = ${hintAboutNonMustSupport}\n" +
+                "assumeValidRestReferences = ${assumeValidRestReferences}\n" +
+                "noExtensibleBindingMessages = ${noExtensibleBindingMessages}\n" +
+                "showTimes = ${showTimes}\n" +
+                "txServer = ${txServer}\n" +
+                "txLog = ${txLog}\n" +
+                "snomedCT = ${snomedCT}\n" +
+                "targetVer = ${targetVer}\n" +
+                "igs -> \n" +
+                igs.forEach { println("\t" + it) }
+        )
+    }
+
 }

@@ -1,19 +1,37 @@
 package ui.components
 
+import api.sendIGsRequest
+import api.sendValidationRequest
 import css.component.ContextSettingsStyle
 import css.text.TextStyle
+import kotlinx.coroutines.launch
+import kotlinx.css.*
+import mainScope
 import model.CliContext
 import react.*
-import styled.css
-import styled.styledDiv
-import styled.styledHeader
+import styled.*
 
 external interface ContextSettingsProps : RProps {
     var cliContext: CliContext
     var update: (CliContext) -> Unit
 }
 
-class ContextSettingsComponent : RComponent<ContextSettingsProps, RState>() {
+class ContextSettingsState : RState {
+    var igsList = listOf<String>()
+}
+
+class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSettingsState>() {
+
+    init {
+        state = ContextSettingsState()
+        mainScope.launch {
+            val igs = sendIGsRequest()
+            setState {
+                igsList = igs
+            }
+        }
+    }
+
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -23,7 +41,7 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, RState>() {
                 css {
                     +TextStyle.h3
                 }
-                +"Parameters"
+                +"Flags"
             }
             checkboxInput {
                 settingName = "Native Validation (doNative)"
@@ -96,6 +114,46 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, RState>() {
                     props.update(props.cliContext)
                 }
             }
+        }
+        styledDiv {
+            css {
+                +ContextSettingsStyle.mainDiv
+            }
+            styledHeader {
+                css {
+                    +TextStyle.h3
+                }
+                +"Parameters"
+            }
+
+            styledDiv {
+                css {
+                    display = Display.flex
+                    flexDirection = FlexDirection.row
+                }
+                styledDiv {
+                    css {
+                        +ContextSettingsStyle.dropdown
+                    }
+                    styledButton {
+                        css {
+                            +ContextSettingsStyle.dropbtn
+                        }
+                        +"Select IG"
+                    }
+                    styledDiv {
+                        css {
+                            +ContextSettingsStyle.dropdownContent
+                        }
+                        state.igsList.forEach {
+                            styledSpan {
+                                +it
+                            }
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

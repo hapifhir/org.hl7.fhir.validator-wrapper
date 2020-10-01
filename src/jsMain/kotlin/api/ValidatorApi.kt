@@ -1,5 +1,6 @@
 package api
 
+import constants.IG_ENDPOINT
 import constants.VALIDATION_ENDPOINT
 import io.ktor.client.*
 import io.ktor.client.features.json.JsonFeature
@@ -32,4 +33,8 @@ suspend fun sendValidationRequest(validationRequest: ValidationRequest): List<Va
     }
 
     return message.getOutcomes()
+}
+
+suspend fun sendIGsRequest(): List<String> {
+    return jsonClient.get(urlString = endpoint + IG_ENDPOINT)
 }

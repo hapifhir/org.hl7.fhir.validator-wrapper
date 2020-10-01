@@ -42,6 +42,7 @@ class ValidateFilesButton(props: ValidateFilesButtonProps) : RComponent<Validate
             }
             attrs {
                 onClickFunction = {
+                    props.cliContext.prettyPrint()
                     val request = assembleRequest(props.cliContext, props.uploadedFiles.map { it.getFileInfo() })
                     // TODO separate coroutine execution of validation
                     props.uploadedFiles.forEach {
