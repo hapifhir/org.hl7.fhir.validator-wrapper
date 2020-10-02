@@ -1,10 +1,11 @@
-package ui.components
+package ui.components.generic
 
 import css.component.FileErrorDisplayStyle
 import model.ValidationOutcome
 import react.*
 import styled.css
 import styled.styledDiv
+import ui.components.messageDisplayComponent
 
 external interface FileIssueListDisplayProps : RProps {
     var validationOutcome: ValidationOutcome

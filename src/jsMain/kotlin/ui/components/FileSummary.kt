@@ -8,6 +8,8 @@ import react.*
 import styled.css
 import styled.styledDiv
 import styled.styledHr
+import ui.components.generic.fileIssueCodeDisplayComponent
+import ui.components.generic.fileIssueListDisplayComponent
 
 external interface FileSummaryProps : RProps {
     var validationOutcome: ValidationOutcome

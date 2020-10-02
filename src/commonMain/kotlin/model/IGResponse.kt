@@ -1,6 +1,6 @@
 package model
 
-expect class IGResponse() {
-    fun getIgs(): MutableList<String>
-    fun setIgs(igs: MutableList<String>): IGResponse
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class IGResponse(var igs: MutableList<String> = mutableListOf())

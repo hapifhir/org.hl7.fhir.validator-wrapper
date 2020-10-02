@@ -25,9 +25,9 @@ class IGRoutesTest {
         handleRequest(HttpMethod.Get, IG_ENDPOINT).apply {
             assertEquals(HttpStatusCode.OK, response.status())
             val igResponse= response.content?.let { ObjectMapper().readValue<IGResponse>(it) } ?: fail("Null list of IGs response.")
-            assertTrue(igResponse.getIgs().size > 20)
+            assertTrue(igResponse.igs.size > 20)
             expectedIgs.forEach {
-                assertTrue(igResponse.getIgs().contains(it), "Missing expected ig -> $it")
+                assertTrue(igResponse.igs.contains(it), "Missing expected ig -> $it")
             }
         }
     }

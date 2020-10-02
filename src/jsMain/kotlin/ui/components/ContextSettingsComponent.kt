@@ -1,8 +1,8 @@
 package ui.components
 
 import api.sendIGsRequest
+import api.sendVersionsRequest
 import css.component.ContextSettingsStyle
-import css.const.ICON_SMALL_DIM
 import css.text.TextStyle
 import css.widget.CheckboxStyle
 import kotlinx.coroutines.launch
@@ -14,6 +14,8 @@ import model.CliContext
 import model.IgSelectionState
 import react.*
 import styled.*
+import ui.components.generic.checkboxInput
+import ui.components.generic.dropDownChoice
 
 external interface ContextSettingsProps : RProps {
     var cliContext: CliContext
@@ -22,6 +24,7 @@ external interface ContextSettingsProps : RProps {
 
 class ContextSettingsState : RState {
     var igStateList = mutableListOf<IgSelectionState>()
+    var fhirVersionsList = mutableListOf<String>()
     var implementationGuideDetailsOpen: Boolean = false
 }
 
@@ -30,9 +33,11 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
     init {
         state = ContextSettingsState()
         mainScope.launch {
-            val igs = sendIGsRequest()
+            val igResponse = sendIGsRequest()
+            val versionsResponse = sendVersionsRequest()
             setState {
-                igStateList = igs.getIgs().map { IgSelectionState(url = it, selected = props.cliContext.getIgs().contains(it)) }.toMutableList()
+                igStateList = igResponse.igs.map { IgSelectionState(url = it, selected = props.cliContext.getIgs().contains(it)) }.toMutableList()
+                fhirVersionsList = versionsResponse.versions
             }
         }
     }
@@ -232,6 +237,24 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                         }
                     }
                 }
+            }
+        }
+        styledDiv {
+            css {
+                +ContextSettingsStyle.mainDiv
+            }
+            styledHeader {
+                css {
+                    +TextStyle.h3
+                }
+                +"Other Settings"
+            }
+            dropDownChoice {
+                onSelected = {
+                    println("pressed $it")
+                }
+                defaultButtonLabel = "FHIR Version"
+                choices = state.fhirVersionsList
             }
         }
     }

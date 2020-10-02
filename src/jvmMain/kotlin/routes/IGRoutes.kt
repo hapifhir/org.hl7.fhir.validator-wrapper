@@ -22,7 +22,9 @@ fun Route.igRoutes() {
         if (urls.size == 0) {
             call.respond(HttpStatusCode.InternalServerError)
         } else {
-            call.respond(HttpStatusCode.OK, IGResponse().setIgs(urls))
+            val response = IGResponse()
+            response.igs = urls
+            call.respond(HttpStatusCode.OK, response)
         }
     }
 }

@@ -15,10 +15,10 @@ import kotlinx.html.js.onClickFunction
 import mainScope
 import model.CliContext
 import model.ValidationOutcome
-import model.prettyPrint
 import org.w3c.dom.HTMLTextAreaElement
 import react.*
 import styled.*
+import ui.components.generic.fileIssueListDisplayComponent
 import utils.assembleRequest
 
 external interface ResourceEntryFieldProps : RProps {

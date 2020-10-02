@@ -1,4 +1,4 @@
-package ui.components
+package ui.components.generic
 
 import css.component.FileErrorDisplayStyle
 import css.text.TextStyle
@@ -7,6 +7,7 @@ import react.*
 import styled.css
 import styled.styledDiv
 import styled.styledSpan
+import ui.components.fileIssueInstanceComponent
 
 external interface FileIssueCodeDisplayProps : RProps {
     var validationOutcome: ValidationOutcome
