@@ -38,13 +38,26 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         fontFamily = FONT_FAMILY_CODE
         fontSize = 10.pt
         fontWeight = FontWeight.w400
+    }
+    val codeDark by css {
+        +code
         color = GRAY_900
+    }
+    val codeLight by css {
+        +code
+        color = GRAY_100
     }
     val settingName by css {
         fontFamily = FONT_FAMILY_MAIN
         fontSize = 16.pt
         fontWeight = FontWeight.w400
         color = GRAY_700
+    }
+    val settingButton by css {
+        fontFamily = FONT_FAMILY_MAIN
+        fontSize = 16.pt
+        fontWeight = FontWeight.w400
+        color = WHITE
     }
     val tab by css {
         fontFamily = FONT_FAMILY_MAIN

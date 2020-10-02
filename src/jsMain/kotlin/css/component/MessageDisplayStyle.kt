@@ -31,6 +31,6 @@ object MessageDisplayStyle : StyleSheet("MessageDisplayStyle", isStatic = true) 
         flex(flexBasis = 100.pct)
         alignSelf = Align.center
         overflowWrap = OverflowWrap.breakWord
-        +TextStyle.code
+        +TextStyle.codeDark
     }
 }

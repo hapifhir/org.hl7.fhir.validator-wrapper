@@ -39,7 +39,7 @@ class FileIssueInstanceComponent : RComponent<FileIssueInstanceProps, FileIssueI
             }
             styledSpan {
                 css {
-                    +TextStyle.code
+                    +TextStyle.codeDark
                     +FileErrorDisplayStyle.lineStyle
                 }
                 /*
@@ -50,7 +50,7 @@ class FileIssueInstanceComponent : RComponent<FileIssueInstanceProps, FileIssueI
             }
             styledMark {
                 css {
-                    +TextStyle.code
+                    +TextStyle.codeDark
                     when (issueSeverity) {
                         IssueSeverity.INFORMATION -> +FileErrorDisplayStyle.textHighlightInfo
                         IssueSeverity.WARNING -> +FileErrorDisplayStyle.textHighlightWarning

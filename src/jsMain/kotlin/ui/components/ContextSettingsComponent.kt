@@ -1,19 +1,42 @@
 package ui.components
 
+import api.sendIGsRequest
 import css.component.ContextSettingsStyle
+import css.const.ICON_SMALL_DIM
 import css.text.TextStyle
+import css.widget.CheckboxStyle
+import kotlinx.coroutines.launch
+import kotlinx.css.*
+import kotlinx.html.id
+import kotlinx.html.js.onClickFunction
+import mainScope
 import model.CliContext
+import model.IgSelectionState
 import react.*
-import styled.css
-import styled.styledDiv
-import styled.styledHeader
+import styled.*
 
 external interface ContextSettingsProps : RProps {
     var cliContext: CliContext
     var update: (CliContext) -> Unit
 }
 
-class ContextSettingsComponent : RComponent<ContextSettingsProps, RState>() {
+class ContextSettingsState : RState {
+    var igStateList = mutableListOf<IgSelectionState>()
+    var implementationGuideDetailsOpen: Boolean = false
+}
+
+class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSettingsState>() {
+
+    init {
+        state = ContextSettingsState()
+        mainScope.launch {
+            val igs = sendIGsRequest()
+            setState {
+                igStateList = igs.getIgs().map { IgSelectionState(url = it, selected = props.cliContext.getIgs().contains(it)) }.toMutableList()
+            }
+        }
+    }
+
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -23,7 +46,7 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, RState>() {
                 css {
                     +TextStyle.h3
                 }
-                +"Parameters"
+                +"Flags"
             }
             checkboxInput {
                 settingName = "Native Validation (doNative)"
@@ -97,8 +120,137 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, RState>() {
                 }
             }
         }
+        styledDiv {
+            css {
+                +ContextSettingsStyle.mainDiv
+            }
+            styledDiv {
+                css {
+                    +ContextSettingsStyle.sectionTitleBar
+                }
+                attrs {
+                    onClickFunction = {
+                        setState {
+                            implementationGuideDetailsOpen = !implementationGuideDetailsOpen
+                        }
+                    }
+                }
+                styledHeader {
+                    css {
+                        +TextStyle.h3
+                    }
+                    +"Implementation Guides"
+                }
+                styledDiv {
+                    css {
+                        +ContextSettingsStyle.dropDownArrowDiv
+                    }
+                    styledImg {
+                        css {
+                            +ContextSettingsStyle.dropDownArrow
+                        }
+                        attrs {
+                            src = if (state.implementationGuideDetailsOpen) {
+                                "images/arrow_up.svg"
+                            } else {
+                                "images/arrow_down.svg"
+                            }
+                        }
+                    }
+                }
+            }
+            styledDiv {
+                css {
+                    +CheckboxStyle.propertiesDetails
+                    display = if (state.implementationGuideDetailsOpen) {
+                        Display.flex
+                    } else {
+                        Display.none
+                    }
+                }
+                attrs {
+                    id = "setting_info_drawer"
+                }
+                styledSpan {
+                    css {
+                        +TextStyle.codeDark
+                        padding(1.rem)
+                    }
+                    +"You can validate against one or more published implementation guides. Select from the dropdown menu below."
+                }
+            }
+            styledDiv {
+                css {
+                    +ContextSettingsStyle.dropDownAndSelectedIgDiv
+                }
+                styledDiv {
+                    css {
+                        +ContextSettingsStyle.dropDownButtonAndContentDiv
+                    }
+                    styledDiv {
+                        css {
+                            +ContextSettingsStyle.dropdown
+                        }
+                        styledButton {
+                            css {
+                                +ContextSettingsStyle.dropbtn
+                                +TextStyle.settingButton
+                            }
+                            +"Select IGs"
+                        }
+                        styledDiv {
+                            css {
+                                +ContextSettingsStyle.dropdownContent
+                            }
+                            state.igStateList.filterNot {it.selected}.forEach { igState ->
+                                styledSpan {
+                                    attrs {
+                                        onClickFunction = {
+                                            selectIg(igState.url)
+                                        }
+                                    }
+                                    +igState.url
+                                }
+                            }
+                        }
+                    }
+                }
+
+                styledDiv {
+                    css {
+                        +ContextSettingsStyle.selectedIgsDiv
+                        if (state.igStateList.filter {it.selected}.toList().isNotEmpty()) {
+                            padding(top = 1.rem)
+                        }
+                    }
+                    state.igStateList.filter {it.selected}.forEach { igState ->
+                        igUrlDisplay {
+                            igUrl = igState.url
+                            onDelete = {
+                                deselectIg(igState.url)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun selectIg(igUrl: String) {
+        setState {
+            igStateList.first { it.url == igUrl }.selected = true
+        }
+        props.update(props.cliContext.addIg(igUrl))
+    }
+
+    private fun deselectIg(igUrl: String) {
+        setState {
+            igStateList.first { it.url == igUrl }.selected = false
+        }
+        props.update(props.cliContext.removeIg(igUrl))
     }
 }
+
 
 fun RBuilder.contextSettings(handler: ContextSettingsProps.() -> Unit): ReactElement {
     return child(ContextSettingsComponent::class) {

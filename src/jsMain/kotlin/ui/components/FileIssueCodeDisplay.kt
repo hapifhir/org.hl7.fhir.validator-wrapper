@@ -37,7 +37,7 @@ class FileIssueCodeDisplayComponent : RComponent<FileIssueCodeDisplayProps, File
                 } else {
                     styledSpan {
                         css {
-                            +TextStyle.code
+                            +TextStyle.codeDark
                             +FileErrorDisplayStyle.lineStyle
                         }
                         +text
