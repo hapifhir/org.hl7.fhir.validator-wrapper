@@ -17,6 +17,36 @@ object ContextSettingsStyle : StyleSheet("ContextSettingsStyle", isStatic = true
         border(width = 1.px, style = BorderStyle.solid, color = GRAY_300, borderRadius = 4.px)
     }
 
+    val sectionTitleBar by css {
+        display = Display.flex
+        flexDirection = FlexDirection.row
+        marginBottom = 0.5.rem
+    }
+
+    val dropDownArrowDiv by css {
+        display = Display.flex
+        flex(flexGrow = 1.0)
+        flexDirection = FlexDirection.row
+        justifyContent = JustifyContent.flexEnd
+    }
+
+    val dropDownArrow by css {
+        width = ICON_SMALL_DIM
+        height = ICON_SMALL_DIM
+        alignSelf = Align.center
+    }
+
+    val dropDownAndSelectedIgDiv by css {
+        display = Display.flex
+        flexDirection = FlexDirection.column
+        padding(vertical = 1.rem)
+    }
+
+    val dropDownButtonAndContentDiv by css {
+        display = Display.flex
+        flexDirection = FlexDirection.row
+    }
+
     val dropbtn by css {
         backgroundColor = GRAY_700
         color = WHITE
@@ -51,5 +81,11 @@ object ContextSettingsStyle : StyleSheet("ContextSettingsStyle", isStatic = true
         ancestorHover(".${ContextSettingsStyle.name}-${ContextSettingsStyle::dropdown.name}") {
             display = Display.block
         }
+    }
+
+    val selectedIgsDiv by css {
+        display = Display.flex
+        flexDirection = FlexDirection.row
+        flexWrap = FlexWrap.wrap
     }
 }

@@ -2,9 +2,12 @@ package ui.components
 
 import api.sendIGsRequest
 import css.component.ContextSettingsStyle
+import css.const.ICON_SMALL_DIM
 import css.text.TextStyle
+import css.widget.CheckboxStyle
 import kotlinx.coroutines.launch
 import kotlinx.css.*
+import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
 import mainScope
 import model.CliContext
@@ -19,6 +22,7 @@ external interface ContextSettingsProps : RProps {
 
 class ContextSettingsState : RState {
     var igStateList = mutableListOf<IgSelectionState>()
+    var implementationGuideDetailsOpen: Boolean = false
 }
 
 class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSettingsState>() {
@@ -120,22 +124,68 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
             css {
                 +ContextSettingsStyle.mainDiv
             }
-            styledHeader {
-                css {
-                    +TextStyle.h3
-                }
-                +"Implementation Guides"
-            }
             styledDiv {
                 css {
-                    display = Display.flex
-                    flexDirection = FlexDirection.column
-                    padding(vertical = 1.rem)
+                    +ContextSettingsStyle.sectionTitleBar
+                }
+                attrs {
+                    onClickFunction = {
+                        setState {
+                            implementationGuideDetailsOpen = !implementationGuideDetailsOpen
+                        }
+                    }
+                }
+                styledHeader {
+                    css {
+                        +TextStyle.h3
+                    }
+                    +"Implementation Guides"
                 }
                 styledDiv {
                     css {
-                        display = Display.flex
-                        flexDirection = FlexDirection.row
+                        +ContextSettingsStyle.dropDownArrowDiv
+                    }
+                    styledImg {
+                        css {
+                            +ContextSettingsStyle.dropDownArrow
+                        }
+                        attrs {
+                            src = if (state.implementationGuideDetailsOpen) {
+                                "images/arrow_up.svg"
+                            } else {
+                                "images/arrow_down.svg"
+                            }
+                        }
+                    }
+                }
+            }
+            styledDiv {
+                css {
+                    +CheckboxStyle.propertiesDetails
+                    display = if (state.implementationGuideDetailsOpen) {
+                        Display.flex
+                    } else {
+                        Display.none
+                    }
+                }
+                attrs {
+                    id = "setting_info_drawer"
+                }
+                styledSpan {
+                    css {
+                        +TextStyle.codeDark
+                        padding(1.rem)
+                    }
+                    +"You can validate against one or more published implementation guides. Select from the dropdown menu below."
+                }
+            }
+            styledDiv {
+                css {
+                    +ContextSettingsStyle.dropDownAndSelectedIgDiv
+                }
+                styledDiv {
+                    css {
+                        +ContextSettingsStyle.dropDownButtonAndContentDiv
                     }
                     styledDiv {
                         css {
@@ -145,7 +195,6 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                             css {
                                 +ContextSettingsStyle.dropbtn
                                 +TextStyle.settingButton
-                                minWidth = 20.pct
                             }
                             +"Select IGs"
                         }
@@ -169,9 +218,7 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
 
                 styledDiv {
                     css {
-                        display = Display.flex
-                        flexDirection = FlexDirection.row
-                        flexWrap = FlexWrap.wrap
+                        +ContextSettingsStyle.selectedIgsDiv
                         if (state.igStateList.filter {it.selected}.toList().isNotEmpty()) {
                             padding(top = 1.rem)
                         }
