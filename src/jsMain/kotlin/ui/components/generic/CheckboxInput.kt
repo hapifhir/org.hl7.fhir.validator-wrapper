@@ -17,6 +17,7 @@ external interface CheckboxInputProps : RProps {
     var onChange: (Boolean) -> Unit
     var settingName: String
     var settingDescription: String
+    var selected: Boolean
 }
 
 class CheckboxInputState : RState {
@@ -39,6 +40,7 @@ class CheckboxInput : RComponent<CheckboxInputProps, CheckboxInputState>() {
                     alignSelf = Align.center
                 }
                 attrs {
+                    defaultChecked = props.selected
                     onChangeFunction = { event ->
                         if (event.type == CHECKBOX_CHANGE) {
                             var inputElement = event.target as HTMLInputElement
