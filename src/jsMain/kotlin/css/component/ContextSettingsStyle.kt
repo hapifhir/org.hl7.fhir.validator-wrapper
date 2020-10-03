@@ -20,7 +20,6 @@ object ContextSettingsStyle : StyleSheet("ContextSettingsStyle", isStatic = true
     val sectionTitleBar by css {
         display = Display.flex
         flexDirection = FlexDirection.row
-        marginBottom = 0.5.rem
     }
 
     val dropDownArrowDiv by css {
@@ -39,21 +38,27 @@ object ContextSettingsStyle : StyleSheet("ContextSettingsStyle", isStatic = true
     val dropDownAndSelectedIgDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.column
-        padding(vertical = 1.rem)
+        paddingTop = 0.5.rem
     }
 
     val dropDownButtonAndContentDiv by css {
         display = Display.flex
-        flexDirection = FlexDirection.row
+        flexDirection = FlexDirection.column
     }
 
     val dropbtn by css {
         backgroundColor = GRAY_700
         color = WHITE
-        padding(16.px)
-        fontSize = 16.px
+        padding(1.rem)
+        fontSize = 1.rem
         borderStyle = BorderStyle.none
         cursor = Cursor.pointer
+        minWidth = 20.pct
+        hover {
+            children("div") {
+                display = Display.block
+            }
+        }
     }
 
     val dropdown by css {
@@ -78,9 +83,9 @@ object ContextSettingsStyle : StyleSheet("ContextSettingsStyle", isStatic = true
                 backgroundColor = GRAY_400
             }
         }
-        ancestorHover(".${ContextSettingsStyle.name}-${ContextSettingsStyle::dropdown.name}") {
-            display = Display.block
-        }
+//        ancestorHover(".${ContextSettingsStyle.name}-${ContextSettingsStyle::dropdown.name}") {
+//            display = Display.block
+//        }
     }
 
     val selectedIgsDiv by css {

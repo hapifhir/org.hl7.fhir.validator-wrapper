@@ -1,4 +1,4 @@
-package ui.components
+package ui.components.generic
 
 import css.widget.CheckboxStyle
 import css.text.TextStyle

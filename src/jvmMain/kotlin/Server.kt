@@ -19,6 +19,7 @@ import org.hl7.fhir.validation.cli.utils.Params
 import routes.contextRoutes
 import routes.igRoutes
 import routes.validationRoutes
+import routes.versionRoutes
 
 lateinit var validationEngine: ValidationEngine
 lateinit var cliContext: CliContext
@@ -115,6 +116,7 @@ fun Application.start() {
         resources()
         contextRoutes()
         validationRoutes()
+        versionRoutes()
         igRoutes()
     }
 }
