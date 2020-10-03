@@ -2,6 +2,7 @@ package ui.components
 
 import api.sendIGsRequest
 import api.sendVersionsRequest
+import constants.Snomed
 import css.component.ContextSettingsStyle
 import css.text.TextStyle
 import css.widget.CheckboxStyle
@@ -23,6 +24,7 @@ external interface ContextSettingsProps : RProps {
 class ContextSettingsState : RState {
     var igList = mutableListOf<MultiChoiceSelectableItem>()
     var fhirVersionsList = mutableListOf<ChoiceSelectableItem>()
+    var snomedList = mutableListOf<ChoiceSelectableItem>()
     var implementationGuideDetailsOpen: Boolean = false
 }
 
@@ -39,6 +41,9 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                     .toMutableList()
                 fhirVersionsList = versionsResponse.versions
                     .map { ChoiceSelectableItem(value = it, selected = props.cliContext.getTargetVer() == it) }
+                    .toMutableList()
+                snomedList = Snomed.values()
+                    .map { ChoiceSelectableItem(value = "${it.name} - ${it.code}", selected = props.cliContext.getSnomedCTCode() == it.code) }
                     .toMutableList()
                 fhirVersionsList.forEach { println(it) }
                 props.cliContext.prettyPrint()
@@ -64,6 +69,7 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                         "ask the validator to validate against these as well using this option. Note that there is nothing " +
                         "in these schemas that is not validated directly by the engine itself anyway, so the main use for " +
                         "this is to see the kind of errors that would be reported from these schemas by other software."
+                selected = props.cliContext.isDoNative()
                 onChange = {
                     props.cliContext.setDoNative(it)
                     props.update(props.cliContext)
@@ -78,6 +84,7 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                             "profile(s) the instance is being validated against. Identifying situations where this occurs might " +
                             "drive a change to the profile or cause a designer to drop an element from the instance. In other " +
                             "cases, the presence of the element can be fine and the information message ignored."
+                selected = props.cliContext.isHintAboutNonMustSupport()
                 onChange = {
                     props.cliContext.setHintAboutNonMustSupport(it)
                     props.update(props.cliContext)
@@ -97,6 +104,7 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                             "is definitely to a Group resource. (and it's definitely recommended to follow these rules). The " +
                             "flag assumeValidRestReferences instructs the validator to use the type found in references that " +
                             "look like valid RESTful URLs when validating the type of the reference."
+                selected = props.cliContext.isAssumeValidRestReferences()
                 onChange = {
                     props.cliContext.setAssumeValidRestReferences(it)
                     props.update(props.cliContext)
@@ -110,6 +118,7 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                             "meaning of the code makes it an inappropriate extension, or not; this requires human review. " +
                             "Hence, the warning. But the code may be valid - that's why extensible is defined - so in some " +
                             "operational uses of the validator, it is appropriate to turn these warnings off"
+                selected = props.cliContext.isNoExtensibleBindingMessages()
                 onChange = {
                     props.cliContext.setNoExtensibleBindingMessages(it)
                     props.update(props.cliContext)
@@ -123,6 +132,7 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                             "meaning of the code makes it an inappropriate extension, or not; this requires human review. " +
                             "Hence, the warning. But the code may be valid - that's why extensible is defined - so in some " +
                             "operational uses of the validator, it is appropriate to turn these warnings off"
+                selected = props.cliContext.isShowTimes()
                 onChange = {
                     props.cliContext.setShowTimes(it)
                     props.update(props.cliContext)
@@ -243,6 +253,21 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                 }
                 buttonLabel = "FHIR Version"
                 choices = state.fhirVersionsList
+            }
+            headingWithDropDownExplanation {
+                heading = "Select SNOMED Version"
+                explanation = "You can specify which edition of SNOMED CT for the terminology server to use when doing SNOMED CT Validation."
+            }
+            dropDownChoice {
+                onSelected = { selected, list ->
+                    setState{
+                        // Need to just pull out the code from the selected entry
+                        props.cliContext.setSnomedCT(selected.replace("[^0-9]".toRegex(), ""))
+                        state.snomedList = list
+                    }
+                }
+                buttonLabel = "SNOMED"
+                choices = state.snomedList
             }
         }
         styledDiv {
