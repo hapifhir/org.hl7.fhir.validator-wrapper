@@ -3,9 +3,11 @@ package ui.components.generic
 import css.component.DropdownChoiceStyle
 import css.text.TextStyle
 import kotlinx.browser.document
-import kotlinx.css.Display
+import kotlinx.css.*
 import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
+import kotlinx.html.js.onFocusInFunction
+import kotlinx.html.js.onFocusOutFunction
 import org.w3c.dom.HTMLDivElement
 import react.*
 import styled.css
@@ -45,18 +47,29 @@ class DropDownChoice : RComponent<DropDownChoiceProps, DropDownChoiceState>() {
             css {
                 +DropdownChoiceStyle.dropDownChoiceContainer
             }
-            styledButton {
+            attrs {
+                onFocusInFunction = {
+                    println("onfocusin")
+                }
+            }
+            styledDiv {
                 css {
-                    +DropdownChoiceStyle.dropDownChoiceButton
-                    +TextStyle.settingButton
+                    display = Display.flex
+                    flexDirection = FlexDirection.row
                 }
-                attrs {
-                    onClickFunction = {
-                        var div = document.getElementById("myDropdown") as HTMLDivElement
-                        div.style.display = Display.block.toString()
+                styledDiv {
+                    css {
+                        +DropdownChoiceStyle.dropDownChoiceButton
+                        +TextStyle.settingButton
                     }
+                    attrs {
+                        onClickFunction = {
+                            var div = document.getElementById("myDropdown") as HTMLDivElement
+                            div.style.display = Display.block.toString()
+                        }
+                    }
+                    +props.defaultButtonLabel
                 }
-                +props.defaultButtonLabel
             }
             styledDiv {
                 css {

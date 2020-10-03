@@ -7,46 +7,14 @@ import kotlinx.css.properties.border
 import kotlinx.css.properties.boxShadow
 import styled.StyleSheet
 
-object ContextSettingsStyle : StyleSheet("ContextSettingsStyle", isStatic = true) {
+object DropDownMultiChoiceStyle : StyleSheet("DropDownMultiChoice", isStatic = true) {
 
     val mainDiv by css {
-        display = Display.flex
-        flexDirection = FlexDirection.column
-        padding(1.rem)
-        margin(horizontal = 2.rem, vertical = 1.rem)
-        border(width = 1.px, style = BorderStyle.solid, color = GRAY_300, borderRadius = 4.px)
+        position = Position.relative
+        display = Display.inlineBlock
     }
 
-    val sectionTitleBar by css {
-        display = Display.flex
-        flexDirection = FlexDirection.row
-    }
-
-    val dropDownArrowDiv by css {
-        display = Display.flex
-        flex(flexGrow = 1.0)
-        flexDirection = FlexDirection.row
-        justifyContent = JustifyContent.flexEnd
-    }
-
-    val dropDownArrow by css {
-        width = ICON_SMALL_DIM
-        height = ICON_SMALL_DIM
-        alignSelf = Align.center
-    }
-
-    val dropDownAndSelectedIgDiv by css {
-        display = Display.flex
-        flexDirection = FlexDirection.column
-        paddingTop = 0.5.rem
-    }
-
-    val dropDownButtonAndContentDiv by css {
-        display = Display.flex
-        flexDirection = FlexDirection.column
-    }
-
-    val dropbtn by css {
+    val dropDownMultiChoiceButton by css {
         backgroundColor = GRAY_700
         color = WHITE
         padding(1.rem)
@@ -54,11 +22,11 @@ object ContextSettingsStyle : StyleSheet("ContextSettingsStyle", isStatic = true
         borderStyle = BorderStyle.none
         cursor = Cursor.pointer
         minWidth = 20.pct
-        hover {
-            children("div") {
-                display = Display.block
-            }
-        }
+//        hover {
+//            children("div") {
+//                display = Display.block
+//            }
+//        }
     }
 
     val dropdown by css {
@@ -66,8 +34,8 @@ object ContextSettingsStyle : StyleSheet("ContextSettingsStyle", isStatic = true
         display = Display.inlineBlock
     }
 
-    val dropdownContent by css {
-        display = Display.none
+    val dropDownMultiChoiceContent by css {
+        //display = Display.none
         position = Position.absolute
         backgroundColor = GRAY_700
         overflowY = Overflow.scroll
@@ -83,6 +51,7 @@ object ContextSettingsStyle : StyleSheet("ContextSettingsStyle", isStatic = true
                 backgroundColor = GRAY_400
             }
         }
+// TODO I'm leaving this here, so I remember how to do it later.
 //        ancestorHover(".${ContextSettingsStyle.name}-${ContextSettingsStyle::dropdown.name}") {
 //            display = Display.block
 //        }

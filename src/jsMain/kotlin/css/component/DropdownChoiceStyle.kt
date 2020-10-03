@@ -12,10 +12,11 @@ object DropdownChoiceStyle : StyleSheet("DropdownChoiceStyle", isStatic = true) 
     val dropDownChoiceButton by css {
         backgroundColor = GRAY_700
         color = WHITE
-        padding(16.px)
-        fontSize = 16.px
+        padding(1.rem)
+        fontSize = 1.rem
         borderStyle = BorderStyle.none
         cursor = Cursor.pointer
+        minWidth = 20.pct
     }
 
     val dropDownChoiceContainer by css {

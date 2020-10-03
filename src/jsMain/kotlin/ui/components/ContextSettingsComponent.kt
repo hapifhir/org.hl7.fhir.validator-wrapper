@@ -11,11 +11,12 @@ import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
 import mainScope
 import model.CliContext
-import model.IgSelectionState
 import react.*
 import styled.*
+import ui.components.generic.SelectableItem
 import ui.components.generic.checkboxInput
 import ui.components.generic.dropDownChoice
+import ui.components.generic.dropDownMultiChoice
 
 external interface ContextSettingsProps : RProps {
     var cliContext: CliContext
@@ -23,7 +24,7 @@ external interface ContextSettingsProps : RProps {
 }
 
 class ContextSettingsState : RState {
-    var igStateList = mutableListOf<IgSelectionState>()
+    var igList = mutableListOf<SelectableItem>()
     var fhirVersionsList = mutableListOf<String>()
     var implementationGuideDetailsOpen: Boolean = false
 }
@@ -36,7 +37,7 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
             val igResponse = sendIGsRequest()
             val versionsResponse = sendVersionsRequest()
             setState {
-                igStateList = igResponse.igs.map { IgSelectionState(url = it, selected = props.cliContext.getIgs().contains(it)) }.toMutableList()
+                igList = igResponse.igs.map { SelectableItem(value = it, selected = props.cliContext.getIgs().contains(it)) }.toMutableList()
                 fhirVersionsList = versionsResponse.versions
             }
         }
@@ -179,7 +180,9 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                 styledSpan {
                     css {
                         +TextStyle.codeDark
-                        padding(1.rem)
+                        if (state.implementationGuideDetailsOpen) {
+                            padding(1.rem)
+                        }
                     }
                     +"You can validate against one or more published implementation guides. Select from the dropdown menu below."
                 }
@@ -188,51 +191,27 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                 css {
                     +ContextSettingsStyle.dropDownAndSelectedIgDiv
                 }
-                styledDiv {
-                    css {
-                        +ContextSettingsStyle.dropDownButtonAndContentDiv
-                    }
-                    styledDiv {
-                        css {
-                            +ContextSettingsStyle.dropdown
-                        }
-                        styledButton {
-                            css {
-                                +ContextSettingsStyle.dropbtn
-                                +TextStyle.settingButton
-                            }
-                            +"Select IGs"
-                        }
-                        styledDiv {
-                            css {
-                                +ContextSettingsStyle.dropdownContent
-                            }
-                            state.igStateList.filterNot {it.selected}.forEach { igState ->
-                                styledSpan {
-                                    attrs {
-                                        onClickFunction = {
-                                            selectIg(igState.url)
-                                        }
-                                    }
-                                    +igState.url
-                                }
-                            }
-                        }
+
+                dropDownMultiChoice {
+                    choices = state.igList
+                    buttonLabel = "Select IG"
+                    onSelected = { selected, _ ->
+                        selectIg(selected)
                     }
                 }
 
                 styledDiv {
                     css {
                         +ContextSettingsStyle.selectedIgsDiv
-                        if (state.igStateList.filter {it.selected}.toList().isNotEmpty()) {
+                        if (state.igList.filter {it.selected}.toList().isNotEmpty()) {
                             padding(top = 1.rem)
                         }
                     }
-                    state.igStateList.filter {it.selected}.forEach { igState ->
+                    state.igList.filter {it.selected}.forEach { igState ->
                         igUrlDisplay {
-                            igUrl = igState.url
+                            igUrl = igState.value
                             onDelete = {
-                                deselectIg(igState.url)
+                                deselectIg(igState.value)
                             }
                         }
                     }
@@ -246,6 +225,7 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
             styledHeader {
                 css {
                     +TextStyle.h3
+                    paddingBottom = 0.5.rem
                 }
                 +"Other Settings"
             }
@@ -257,18 +237,23 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                 choices = state.fhirVersionsList
             }
         }
+        styledDiv {
+            css {
+                height = 4.rem
+            }
+        }
     }
 
     private fun selectIg(igUrl: String) {
         setState {
-            igStateList.first { it.url == igUrl }.selected = true
+            igList.first { it.value == igUrl }.selected = true
         }
         props.update(props.cliContext.addIg(igUrl))
     }
 
     private fun deselectIg(igUrl: String) {
         setState {
-            igStateList.first { it.url == igUrl }.selected = false
+            igList.first { it.value == igUrl }.selected = false
         }
         props.update(props.cliContext.removeIg(igUrl))
     }
