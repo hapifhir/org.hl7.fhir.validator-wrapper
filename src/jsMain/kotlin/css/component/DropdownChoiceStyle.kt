@@ -25,11 +25,10 @@ object DropdownChoiceStyle : StyleSheet("DropdownChoiceStyle", isStatic = true) 
     }
 
     val dropDownChoiceContent by css {
-        display = Display.none
         position = Position.absolute
         backgroundColor = GRAY_700
         overflowY = Overflow.scroll
-        minWidth = 160.px
+        minWidth = 20.pct
         maxHeight = 240.px
         boxShadow(color = SHADOW, offsetX = 0.px, offsetY = 5.px, blurRadius = 5.px)
         zIndex = 1
@@ -41,9 +40,6 @@ object DropdownChoiceStyle : StyleSheet("DropdownChoiceStyle", isStatic = true) 
                 backgroundColor = GRAY_400
             }
         }
-//        ancestorHover(".${DropdownChoiceStyle.name}-${DropdownChoiceStyle::dropDownChoiceContainer.name}") {
-//            display = Display.block
-//        }
     }
 
     val show by css {

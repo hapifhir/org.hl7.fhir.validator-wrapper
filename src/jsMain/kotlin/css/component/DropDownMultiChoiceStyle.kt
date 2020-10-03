@@ -22,16 +22,6 @@ object DropDownMultiChoiceStyle : StyleSheet("DropDownMultiChoice", isStatic = t
         borderStyle = BorderStyle.none
         cursor = Cursor.pointer
         minWidth = 20.pct
-//        hover {
-//            children("div") {
-//                display = Display.block
-//            }
-//        }
-    }
-
-    val dropdown by css {
-        position = Position.relative
-        display = Display.inlineBlock
     }
 
     val dropDownMultiChoiceContent by css {
@@ -55,11 +45,5 @@ object DropDownMultiChoiceStyle : StyleSheet("DropDownMultiChoice", isStatic = t
 //        ancestorHover(".${ContextSettingsStyle.name}-${ContextSettingsStyle::dropdown.name}") {
 //            display = Display.block
 //        }
-    }
-
-    val selectedIgsDiv by css {
-        display = Display.flex
-        flexDirection = FlexDirection.row
-        flexWrap = FlexWrap.wrap
     }
 }

@@ -13,10 +13,7 @@ import mainScope
 import model.CliContext
 import react.*
 import styled.*
-import ui.components.generic.SelectableItem
-import ui.components.generic.checkboxInput
-import ui.components.generic.dropDownChoice
-import ui.components.generic.dropDownMultiChoice
+import ui.components.generic.*
 
 external interface ContextSettingsProps : RProps {
     var cliContext: CliContext
@@ -24,8 +21,8 @@ external interface ContextSettingsProps : RProps {
 }
 
 class ContextSettingsState : RState {
-    var igList = mutableListOf<SelectableItem>()
-    var fhirVersionsList = mutableListOf<String>()
+    var igList = mutableListOf<MultiChoiceSelectableItem>()
+    var fhirVersionsList = mutableListOf<ChoiceSelectableItem>()
     var implementationGuideDetailsOpen: Boolean = false
 }
 
@@ -37,8 +34,14 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
             val igResponse = sendIGsRequest()
             val versionsResponse = sendVersionsRequest()
             setState {
-                igList = igResponse.igs.map { SelectableItem(value = it, selected = props.cliContext.getIgs().contains(it)) }.toMutableList()
+                igList = igResponse.igs
+                    .map { MultiChoiceSelectableItem(value = it, selected = props.cliContext.getIgs().contains(it)) }
+                    .toMutableList()
                 fhirVersionsList = versionsResponse.versions
+                    .map { ChoiceSelectableItem(value = it, selected = props.cliContext.getTargetVer() == it) }
+                    .toMutableList()
+                fhirVersionsList.forEach { println(it) }
+                props.cliContext.prettyPrint()
             }
         }
     }
@@ -174,9 +177,6 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                         Display.none
                     }
                 }
-                attrs {
-                    id = "setting_info_drawer"
-                }
                 styledSpan {
                     css {
                         +TextStyle.codeDark
@@ -191,23 +191,24 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                 css {
                     +ContextSettingsStyle.dropDownAndSelectedIgDiv
                 }
-
                 dropDownMultiChoice {
                     choices = state.igList
                     buttonLabel = "Select IG"
-                    onSelected = { selected, _ ->
-                        selectIg(selected)
+                    onSelected = { selected, list ->
+                        setState {
+                            igList = list
+                            props.update(props.cliContext.addIg(selected))
+                        }
                     }
                 }
-
                 styledDiv {
                     css {
                         +ContextSettingsStyle.selectedIgsDiv
-                        if (state.igList.filter {it.selected}.toList().isNotEmpty()) {
+                        if (state.igList.any { it.selected }) {
                             padding(top = 1.rem)
                         }
                     }
-                    state.igList.filter {it.selected}.forEach { igState ->
+                    state.igList.filter { it.selected }.forEach { igState ->
                         igUrlDisplay {
                             igUrl = igState.value
                             onDelete = {
@@ -229,11 +230,18 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                 }
                 +"Other Settings"
             }
+            headingWithDropDownExplanation {
+                heading = "Select FHIR Version"
+                explanation = "The validator checks the resource against the base specification. By default, this is the current build version of the specification. You probably don't want to validate against that version, so the first thing to do is to specify which version of the spec to use."
+            }
             dropDownChoice {
-                onSelected = {
-                    println("pressed $it")
+                onSelected = { selected, list ->
+                    setState{
+                        props.cliContext.setTargetVer(selected)
+                        state.fhirVersionsList = list
+                    }
                 }
-                defaultButtonLabel = "FHIR Version"
+                buttonLabel = "FHIR Version"
                 choices = state.fhirVersionsList
             }
         }
@@ -242,13 +250,6 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                 height = 4.rem
             }
         }
-    }
-
-    private fun selectIg(igUrl: String) {
-        setState {
-            igList.first { it.value == igUrl }.selected = true
-        }
-        props.update(props.cliContext.addIg(igUrl))
     }
 
     private fun deselectIg(igUrl: String) {

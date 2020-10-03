@@ -6,7 +6,6 @@ import kotlinx.css.Display
 import kotlinx.css.FlexDirection
 import kotlinx.css.display
 import kotlinx.css.flexDirection
-import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.js.onMouseOutFunction
 import kotlinx.html.js.onMouseOverFunction
@@ -18,17 +17,17 @@ import styled.styledSpan
 /**
  * Data class for managing list of displayed items. Each entry consists of a label, and selected state.
  */
-data class SelectableItem(var value: String, var selected: Boolean = false)
+data class MultiChoiceSelectableItem(var value: String, var selected: Boolean = false)
 
 external interface DropDownMultiChoiceProps : RProps {
     /*
      * Callback for when item in list is selected. Returns newly selected item, as well as
      * list of all selected options currently
      */
-    var onSelected: (String, MutableList<SelectableItem>) -> Unit
+    var onSelected: (String, MutableList<MultiChoiceSelectableItem>) -> Unit
 
     // Initial list of choices to populate the list with.
-    var choices: MutableList<SelectableItem>
+    var choices: MutableList<MultiChoiceSelectableItem>
 
     // Default label for button, will be replaced with the selected String option, once a selection is made.
     var buttonLabel: String
