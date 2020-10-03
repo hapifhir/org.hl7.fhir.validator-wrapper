@@ -40,7 +40,7 @@ class CheckboxInput : RComponent<CheckboxInputProps, CheckboxInputState>() {
                     alignSelf = Align.center
                 }
                 attrs {
-                    checked = props.selected
+                    defaultChecked = props.selected
                     onChangeFunction = { event ->
                         if (event.type == CHECKBOX_CHANGE) {
                             var inputElement = event.target as HTMLInputElement
