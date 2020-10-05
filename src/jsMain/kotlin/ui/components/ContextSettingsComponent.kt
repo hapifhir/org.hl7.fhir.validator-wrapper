@@ -240,36 +240,59 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                 }
                 +"Other Settings"
             }
-            headingWithDropDownExplanation {
-                heading = "Select FHIR Version"
-                explanation = "The validator checks the resource against the base specification. By default, this is the current build version of the specification. You probably don't want to validate against that version, so the first thing to do is to specify which version of the spec to use."
-            }
-            dropDownChoice {
-                onSelected = { selected, list ->
-                    setState{
-                        props.cliContext.setTargetVer(selected)
-                        state.fhirVersionsList = list
-                    }
+            styledDiv {
+                headingWithDropDownExplanation {
+                    heading = "Select FHIR Version"
+                    explanation =
+                        "The validator checks the resource against the base specification. By default, this is the current build version of the specification. You probably don't want to validate against that version, so the first thing to do is to specify which version of the spec to use."
                 }
-                buttonLabel = "FHIR Version"
-                choices = state.fhirVersionsList
-            }
-            headingWithDropDownExplanation {
-                heading = "Select SNOMED Version"
-                explanation = "You can specify which edition of SNOMED CT for the terminology server to use when doing SNOMED CT Validation."
-            }
-            dropDownChoice {
-                onSelected = { selected, list ->
-                    setState{
-                        // Need to just pull out the code from the selected entry
-                        props.cliContext.setSnomedCT(selected.replace("[^0-9]".toRegex(), ""))
-                        state.snomedList = list
+                dropDownChoice {
+                    onSelected = { selected, list ->
+                        setState {
+                            props.cliContext.setTargetVer(selected)
+                            state.fhirVersionsList = list
+                        }
                     }
+                    buttonLabel = "FHIR Version"
+                    choices = state.fhirVersionsList
                 }
-                buttonLabel = "SNOMED"
-                choices = state.snomedList
+            }
+            styledDiv {
+                headingWithDropDownExplanation {
+                    heading = "Select SNOMED Version"
+                    explanation =
+                        "You can specify which edition of SNOMED CT for the terminology server to use when doing SNOMED CT Validation."
+                }
+                dropDownChoice {
+                    onSelected = { selected, list ->
+                        setState {
+                            // Need to just pull out the code from the selected entry
+                            props.cliContext.setSnomedCT(selected.replace("[^0-9]".toRegex(), ""))
+                            state.snomedList = list
+                        }
+                    }
+                    buttonLabel = "SNOMED"
+                    choices = state.snomedList
+                }
+            }
+            styledDiv {
+                headingWithDropDownExplanation {
+                    heading = "Set Terminology Server"
+                    explanation = "The validation engine uses a terminology server to validate codes from large external terminologies such as SNOMED CT, LOINC, RxNorm, etc. By default, the terminology server used is tx.fhir.org, which supports most of these terminologies. If you want to use another terminology server, you can specify one here. As a warning, the server will check that the CapabilityStatement of the provided server is set correctly."
+                }
+                optionEntryField {
+                    submitEntry = { url ->
+                        println(url)
+                        validateTerminologyServer(url)
+
+
+                        Pair(false, "It is recommended that you use this shorthand property rather than set the individual properties. The shorthand sets the other values intelligently.")
+                    }
+                    defaultValue = props.cliContext.getTxServer()
+                }
             }
         }
+
         styledDiv {
             css {
                 height = 4.rem
@@ -283,8 +306,11 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
         }
         props.update(props.cliContext.removeIg(igUrl))
     }
-}
 
+    private fun validateTerminologyServer(txUrl: String) {
+
+    }
+}
 
 fun RBuilder.contextSettings(handler: ContextSettingsProps.() -> Unit): ReactElement {
     return child(ContextSettingsComponent::class) {
