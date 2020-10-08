@@ -2,6 +2,7 @@ package ui.components
 
 import api.sendIGsRequest
 import api.sendVersionsRequest
+import api.validateTxServer
 import constants.Snomed
 import css.component.ContextSettingsStyle
 import css.text.TextStyle
@@ -15,6 +16,8 @@ import model.CliContext
 import react.*
 import styled.*
 import ui.components.generic.*
+
+const val TERMINOLOGY_SERVER_ERROR = "Server capability statement does not indicate it is a valid terminology server."
 
 external interface ContextSettingsProps : RProps {
     var cliContext: CliContext
@@ -283,10 +286,7 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
                 optionEntryField {
                     submitEntry = { url ->
                         println(url)
-                        validateTerminologyServer(url)
-
-
-                        Pair(false, "It is recommended that you use this shorthand property rather than set the individual properties. The shorthand sets the other values intelligently.")
+                        checkTxServer(url)
                     }
                     defaultValue = props.cliContext.getTxServer()
                 }
@@ -307,8 +307,12 @@ class ContextSettingsComponent : RComponent<ContextSettingsProps, ContextSetting
         props.update(props.cliContext.removeIg(igUrl))
     }
 
-    private fun validateTerminologyServer(txUrl: String) {
-
+    private fun checkTxServer(txUrl: String): Pair<Boolean, String> {
+        var response = false
+        mainScope.launch {
+             response = validateTxServer(txUrl)
+        }
+        return Pair(response, if (response) "" else TERMINOLOGY_SERVER_ERROR);
     }
 }
 

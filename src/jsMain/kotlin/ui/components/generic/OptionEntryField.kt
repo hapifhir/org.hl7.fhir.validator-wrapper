@@ -106,7 +106,7 @@ class OptionEntryField : RComponent<OptionEntryFieldProps, OptionEntryFieldState
                     css {
                         +OptionEntryFieldStyle.errorMessage
                     }
-                    +"This defines the alignment along the main axis. It helps distribute extra free space leftover when either all the flex items on a line are inflexible, or are flexible but have reached their maximum size. It also exerts some control over the alignment of items when they overflow the line."
+                    +state.errorMessage
                 }
             }
         }
