@@ -7,9 +7,6 @@ import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.jackson.*
 import io.ktor.routing.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
-import io.ktor.utils.io.charsets.*
 import kotlinx.html.*
 import org.hl7.fhir.utilities.VersionUtilities
 import org.hl7.fhir.validation.ValidationEngine
