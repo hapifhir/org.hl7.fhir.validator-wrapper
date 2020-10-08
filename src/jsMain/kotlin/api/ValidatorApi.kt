@@ -54,7 +54,5 @@ suspend fun validateTxServer(url: String): Boolean {
      * matching capability statement we want.
      */
     response = response.replace("\\s".toRegex(), "")
-    println("check xml == " + response.contains(XML_CAP_STMT_TX))
-    println("check json == " + response.contains(JSON_CAP_STMT_TX))
     return (response.contains(XML_CAP_STMT_TX) || response.contains(JSON_CAP_STMT_TX))
 }
