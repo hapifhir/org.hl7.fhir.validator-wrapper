@@ -53,6 +53,10 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         +code
         color = GRAY_100
     }
+    val codeError by css {
+        +code
+        color = REALLY_RED
+    }
     val settingName by css {
         fontFamily = FONT_FAMILY_MAIN
         fontSize = 16.pt

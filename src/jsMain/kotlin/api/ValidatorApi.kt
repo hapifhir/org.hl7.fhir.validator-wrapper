@@ -14,6 +14,11 @@ import model.*
 
 val endpoint = window.location.origin // only needed until https://github.com/ktorio/ktor/issues/1695 is resolved
 
+const val CONFORMANCE_ENDPOINT = "metadata?_summary=true"
+
+const val XML_CAP_STMT_TX = "<instantiates value=\"http://hl7.org/fhir/CapabilityStatement/terminology-server\"/>"
+const val JSON_CAP_STMT_TX = "\"instantiates\":\"http://hl7.org/fhir/CapabilityStatement/terminology-server\""
+
 val jsonClient = HttpClient {
     install(JsonFeature) {
         serializer = KotlinxSerializer(Json {
@@ -40,4 +45,14 @@ suspend fun sendIGsRequest(): IGResponse {
 
 suspend fun sendVersionsRequest(): FhirVersionsResponse {
     return jsonClient.get(urlString = endpoint + VERSIONS_ENDPOINT)
+}
+
+suspend fun validateTxServer(url: String): Boolean {
+    var response: String = jsonClient.get(urlString = if (url.endsWith('/')) url + CONFORMANCE_ENDPOINT else "$url/$CONFORMANCE_ENDPOINT")
+    /*
+     * We take the returned capability statement as a big string, remove all the whitespace, and search for the
+     * matching capability statement we want.
+     */
+    response = response.replace("\\s".toRegex(), "")
+    return (response.contains(XML_CAP_STMT_TX) || response.contains(JSON_CAP_STMT_TX))
 }
