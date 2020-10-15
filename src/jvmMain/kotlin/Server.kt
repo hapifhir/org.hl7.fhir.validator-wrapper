@@ -10,6 +10,7 @@ import io.ktor.routing.*
 import kotlinx.html.*
 import org.hl7.fhir.utilities.VersionUtilities
 import org.hl7.fhir.validation.ValidationEngine
+import org.hl7.fhir.validation.Validator
 import org.hl7.fhir.validation.cli.model.CliContext
 import org.hl7.fhir.validation.cli.utils.Common
 import org.hl7.fhir.validation.cli.utils.Params
@@ -21,10 +22,12 @@ lateinit var cliContext: CliContext
 var runningAsDesktopStandalone: Boolean = false
 
 fun main(args: Array<String>) {
-    if (Params.hasParam(args, "-gui")) {
-        runningAsDesktopStandalone = true
+    if (args.isNotEmpty() && !Params.hasParam(args, "-gui")) {
+        Validator.main(args)
+    } else {
+        runningAsDesktopStandalone = Params.hasParam(args, "-gui")
+        startServer(args)
     }
-    startServer(args)
 }
 
 fun startServer(args: Array<String>) {
