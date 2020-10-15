@@ -85,7 +85,7 @@ kotlin {
                 implementation("io.ktor:ktor-server-core:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-websockets:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-jackson:${property("ktorVersion")}")
-
+                //implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${property("kotlinxVersion")}")
 
                 implementation("ch.qos.logback:logback-classic:1.2.3")
@@ -133,7 +133,7 @@ kotlin {
     }
 }
 javafx {
-    version = "11.0.2"
+    version = "14"//"11.0.2"
     modules("javafx.controls", "javafx.graphics", "javafx.web")
 }
 application {
@@ -143,6 +143,9 @@ tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack") {
     outputFileName = "output.js"
 }
 tasks.getByName<Jar>("jvmJar") {
+    manifest {
+        attributes["Main-Class"] = "ServerKt"
+    }
     dependsOn(tasks.getByName("jsBrowserProductionWebpack"))
     val jsBrowserProductionWebpack = tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack")
     from(File(jsBrowserProductionWebpack.destinationDirectory, jsBrowserProductionWebpack.outputFileName))
@@ -150,4 +153,17 @@ tasks.getByName<Jar>("jvmJar") {
 tasks.getByName<JavaExec>("run") {
     dependsOn(tasks.getByName<Jar>("jvmJar"))
     classpath(tasks.getByName<Jar>("jvmJar"))
+}
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "ServerKt"
+    }
+
+    // To add all of the dependencies otherwise a "NoClassDefFoundError" error
+    from(sourceSets.main.get().output)
+
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
 }

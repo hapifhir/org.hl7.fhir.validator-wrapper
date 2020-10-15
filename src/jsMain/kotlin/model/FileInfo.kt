@@ -41,4 +41,8 @@ actual class FileInfo actual constructor() {
         this.fileType = fileType
         return this
     }
+
+    fun prettyPrint(): String {
+        return "fileName:: ${fileName} \nfileType:: ${fileType}\nfileContent:: ${fileContent}"
+    }
 }

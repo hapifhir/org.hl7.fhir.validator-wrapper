@@ -7,21 +7,16 @@ import styled.StyleSheet
 object FileErrorDisplayStyle : StyleSheet("TabBar", isStatic = true) {
 
     private val mainDiv by css {
-        width = 100.pct
-        flexGrow = 1.0
-        display = Display.flex
-        flexDirection = FlexDirection.column
+        overflow = Overflow.auto
     }
 
     val mainDivCode by css {
         +mainDiv
-        overflow = Overflow.scroll
     }
 
     val mainDivList by css {
         +mainDiv
         padding(6.px)
-        overflowY = Overflow.scroll
     }
 
     val lineStyle by css {

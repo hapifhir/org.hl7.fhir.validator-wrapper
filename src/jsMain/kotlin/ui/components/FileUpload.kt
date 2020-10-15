@@ -1,10 +1,11 @@
 package ui.components
 
-import css.widget.FABStyle
 import css.component.FileUploadStyle
+import css.widget.FABStyle
 import kotlinx.browser.document
-import kotlinx.css.*
+import kotlinx.coroutines.launch
 import kotlinx.html.js.onClickFunction
+import mainScope
 import org.w3c.dom.HTMLInputElement
 import react.*
 import reactredux.containers.uploadFilesButton
@@ -63,7 +64,6 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
                     }
                     validateFilesButton { }
                 }
-
                 uploadFilesButton { }
             }
         }

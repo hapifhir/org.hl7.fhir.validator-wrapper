@@ -42,7 +42,7 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
     }
     val code by css {
         fontFamily = FONT_FAMILY_CODE
-        fontSize = 10.pt
+        fontSize = 1.rem
         fontWeight = FontWeight.w400
     }
     val codeDark by css {

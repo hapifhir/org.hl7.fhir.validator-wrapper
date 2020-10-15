@@ -6,10 +6,11 @@ import kotlinx.css.display
 import kotlinx.html.InputFormEncType
 import kotlinx.html.InputType
 import kotlinx.html.id
-import kotlinx.html.js.onInputFunction
+import kotlinx.html.js.onChangeFunction
 import model.FileInfo
 import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.asList
+import org.w3c.dom.events.Event
 import org.w3c.files.File
 import react.*
 import styled.css
@@ -26,9 +27,7 @@ class UploadFilesButtonState : RState {
     var filesCurrentlyValidating: Int = 0
 }
 
-class UploadFilesButton(props: UploadFilesButtonProps) : RComponent<UploadFilesButtonProps,
-        UploadFilesButtonState>(props),
-    FileLoadEventListener {
+class UploadFilesButton : RComponent<UploadFilesButtonProps, UploadFilesButtonState>(), FileLoadEventListener {
 
     init {
         state = UploadFilesButtonState()
@@ -37,13 +36,13 @@ class UploadFilesButton(props: UploadFilesButtonProps) : RComponent<UploadFilesB
     override fun RBuilder.render() {
         styledInput(InputType.file, name = "fileUpload", formEncType = InputFormEncType.multipartFormData) {
             css {
-                // We don't display this object because it is
+                // We don't display this object
                 display = Display.none
             }
             attrs {
                 id = "FileUploadInput"
                 multiple = true
-                onInputFunction = {
+                onChangeFunction = {
                     val input = document.getElementById("FileUploadInput") as HTMLInputElement
                     val files = input.files?.asList()
                     setState {
@@ -61,20 +60,30 @@ class UploadFilesButton(props: UploadFilesButtonProps) : RComponent<UploadFilesB
         loadFile(file, this)
     }
 
-    override fun onLoadStart(fileLoadState: FileLoadState) {}
+    override fun onLoadStart(fileLoadState: FileLoadState) {
+    }
 
-    override fun onLoadProgress(fileLoadState: FileLoadState) {}
+    override fun onLoadProgress(fileLoadState: FileLoadState) {
+    }
 
-    override fun onLoadComplete(fileLoadState: FileLoadState) {
+    override fun onLoadComplete(event: Event, fileLoadState: FileLoadState) {
         setState {
             filesCurrentlyValidating--
         }
-        val f = FileLoadState.toFileInfo(fileLoadState)
-        println("name: ${f.fileName} \ncontent: ${f.fileContent}")
-        props.uploadFile(FileLoadState.toFileInfo(fileLoadState))
+        props.uploadFile(FileInfo(fileName = fileLoadState.file.name,
+            fileContent = fileLoadState.content,
+            fileType = fileLoadState.file.extension))
     }
 
     override fun onLoadError(fileLoadState: FileLoadState) {
         // TODO deal with this eventually
     }
+
+    override fun onAbort(fileLoadState: FileLoadState) {
+    }
+
+    override fun onLoadEnd(event: Event, fileLoadState: FileLoadState) {
+    }
 }
+
+val File.extension: String get() = name.substringAfterLast('.', "")

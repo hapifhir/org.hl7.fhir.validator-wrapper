@@ -23,6 +23,8 @@ val uploadFilesButton: RClass<RProps> =
         { state, _ ->
         },
         { dispatch, _ ->
-            uploadFile = { dispatch(UploadFile(it)) }
+            uploadFile = {
+                dispatch(UploadFile(it))
+            }
         }
     )(UploadFilesButton::class.js.unsafeCast<RClass<UploadFilesButtonProps>>())

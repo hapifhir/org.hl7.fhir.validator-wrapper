@@ -5,21 +5,27 @@ import org.w3c.files.File
 import org.w3c.files.FileReader
 import org.w3c.xhr.ProgressEvent
 
+const val EVENT_ABORT = "abort"
+const val EVENT_ERROR = "error"
 const val EVENT_LOAD = "load"
 const val EVENT_LOAD_START = "loadstart"
-const val EVENT_ERROR = "error"
+const val EVENT_LOAD_END = "loadend"
 const val EVENT_PROGRESS = "progress"
 
 fun loadFile(file: File, listener: FileLoadEventListener) {
     val reader = FileReader()
     val fileLoadState = FileLoadState(file = file)
+
+    reader.addEventListener(EVENT_ABORT, callback =  {
+        listener.onAbort(fileLoadState = fileLoadState)
+    })
     reader.addEventListener(type = EVENT_LOAD_START, callback = {
         listener.onLoadStart(fileLoadState = fileLoadState)
     })
     reader.addEventListener(type = EVENT_LOAD, callback = {
         fileLoadState.completed = true
         fileLoadState.content = reader.result as String
-        listener.onLoadComplete(fileLoadState = fileLoadState)
+        listener.onLoadComplete(it, fileLoadState = fileLoadState)
     })
     reader.addEventListener(type = EVENT_PROGRESS, callback = {
         it as ProgressEvent
@@ -33,6 +39,9 @@ fun loadFile(file: File, listener: FileLoadEventListener) {
         fileLoadState.errorMessage = it.message
         fileLoadState.completed = true
         listener.onLoadError(fileLoadState = fileLoadState)
+    })
+    reader.addEventListener(type = EVENT_LOAD_END, callback = {
+        listener.onLoadEnd(it, fileLoadState = fileLoadState)
     })
     reader.readAsText(file)
 }

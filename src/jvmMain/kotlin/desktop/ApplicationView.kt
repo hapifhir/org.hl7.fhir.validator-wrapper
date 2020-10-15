@@ -5,12 +5,16 @@ import kotlinx.coroutines.launch
 import tornadofx.App
 import tornadofx.View
 import tornadofx.webview
+import java.io.File
+
+
+
 
 /*
  * Initial dimensions of the 'application' window we spawn to contain the webview.
  */
-private const val PREF_WIDTH = 1000.0
-private const val PREF_HEIGHT = 800.0
+private const val PREF_WIDTH = 1200.0
+private const val PREF_HEIGHT = 1000.0
 
 /**
  * To display the webview natively as an application on desktops, we use the TornadoFX library (https://tornadofx.io/).
@@ -27,6 +31,7 @@ class ApplicationView: View() {
     init {
         with(root) {
             setPrefSize(PREF_WIDTH, PREF_HEIGHT)
+//            engine.userDataDirectory = File(System.getProperty("user.home"), ".myapp/webviewdata")
             engine.load("http://localhost:8080/")
         }
     }
