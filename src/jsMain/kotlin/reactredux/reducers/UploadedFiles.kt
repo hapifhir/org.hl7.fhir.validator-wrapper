@@ -36,5 +36,7 @@ fun uploadedFiles(state: List<ValidationOutcome> = emptyList(), action: RAction)
         is ClearValidationOutcomes -> {
             emptyList()
         }
-        else -> state
+        else -> {
+            state
+        }
     }

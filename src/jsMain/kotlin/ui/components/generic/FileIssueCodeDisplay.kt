@@ -2,6 +2,8 @@ package ui.components.generic
 
 import css.component.FileErrorDisplayStyle
 import css.text.TextStyle
+import kotlinx.css.margin
+import kotlinx.css.px
 import model.ValidationOutcome
 import react.*
 import styled.css

@@ -133,7 +133,7 @@ kotlin {
     }
 }
 javafx {
-    version = "11.0.2"
+    version = "14"//"11.0.2"
     modules("javafx.controls", "javafx.graphics", "javafx.web")
 }
 application {

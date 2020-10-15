@@ -11,8 +11,6 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
     val MODAL_MARGIN = 64.px
     val MODAL_BORDER_RADIUS = 8.px
     val BORDER_WIDTH = 1.px
-    val TITLE_BAR_PADDING = 4.px
-    val TITLE_BAR_HEIGHT = PADDING_XL
 
     val overlay by css {
         position = Position.fixed
@@ -32,15 +30,14 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
         backgroundColor = GRAY_100
         borderRadius = MODAL_BORDER_RADIUS
         width = 70.pct
-        minHeight = 50.pct
-        maxHeight = 70.pct
+        height = 80.pct
         display = Display.flex
         flexDirection = FlexDirection.column
     }
 
     val titleBar by css {
-        padding(TITLE_BAR_PADDING)
-        height = TITLE_BAR_HEIGHT
+        padding(0.25.rem)
+        height = 3.rem
         width = 100.pct
         display = Display.flex
         justifyContent = JustifyContent.right
@@ -53,19 +50,8 @@ object FileSummaryStyle : StyleSheet("FileSummary", isStatic = true) {
         paddingLeft = 4.px
     }
 
-
-
     val horizontalRule by css {
         border(width = BORDER_WIDTH, style = BorderStyle.solid, color = GRAY_500)
         width = 100.pct
     }
-
-    val fileContent by css {
-        width = 100.pct
-        flexGrow = 1.0
-        display = Display.flex
-        overflow = Overflow.scroll
-        whiteSpace = WhiteSpace.preWrap
-    }
-
 }

@@ -1,5 +1,6 @@
 package api
 
+import constants.DEBUG_ENDPOINT
 import constants.IG_ENDPOINT
 import constants.VALIDATION_ENDPOINT
 import constants.VERSIONS_ENDPOINT
@@ -56,3 +57,10 @@ suspend fun validateTxServer(url: String): Boolean {
     response = response.replace("\\s".toRegex(), "")
     return (response.contains(XML_CAP_STMT_TX) || response.contains(JSON_CAP_STMT_TX))
 }
+
+//suspend fun sendDebugMessage(message: String) {
+//    val message = jsonClient.post<String>(urlString = endpoint + DEBUG_ENDPOINT) {
+//        contentType(ContentType.Application.Json)
+//        body = message
+//    }
+//}
