@@ -12,7 +12,7 @@ version = "1.0-SNAPSHOT"
 repositories {
     google()
     jcenter()
-    //mavenLocal()
+    mavenLocal()
     mavenCentral()
     maven {
         url = uri("https://jitpack.io")
@@ -122,7 +122,6 @@ kotlin {
                 implementation(npm("react-router-dom", "${property("npm_react_router_dom_version")}"))
                 implementation(npm("styled-components", "${property("npm_styled_components_version")}"))
                 implementation(npm("inline-style-prefixer", "${property("npm_inline_styled_prefixer_version")}"))
-
             }
         }
         val jsTest by getting {

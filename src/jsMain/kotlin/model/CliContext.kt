@@ -12,7 +12,7 @@ actual class CliContext actual constructor() {
     private var noExtensibleBindingMessages = false
     private var showTimes = false
 
-    private var txServer = "http://tx.fhir.org/r4/"
+    private var txServer = "http://tx.fhir.org"
     private var txLog: String = ""
     private var snomedCT = Snomed.INTL.code
     private var targetVer: String = "4.5.0"

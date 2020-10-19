@@ -12,7 +12,6 @@ import org.hl7.fhir.validation.cli.services.ValidationService
 import validationEngine
 
 fun Route.validationRoutes() {
-
     post(VALIDATION_ENDPOINT) {
         val logger = call.application.environment.log
         val request = call.receive<ValidationRequest>()
@@ -23,7 +22,7 @@ fun Route.validationRoutes() {
 //                    "\nFileType -> ${it.fileType}")
 //        }
 
-        val response = ValidationService.validateSources(request, validationEngine)
+        val response = ValidationService.validateSources(request)
 
         if (response == null) {
             call.respond(HttpStatusCode.InternalServerError)
