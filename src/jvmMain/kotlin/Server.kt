@@ -7,23 +7,27 @@ import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.jackson.*
 import io.ktor.routing.*
+import io.ktor.server.engine.*
+import io.ktor.server.jetty.*
 import kotlinx.html.*
 import org.hl7.fhir.utilities.VersionUtilities
 import org.hl7.fhir.validation.ValidationEngine
-import org.hl7.fhir.validation.Validator
+import org.hl7.fhir.validation.ValidatorCli
 import org.hl7.fhir.validation.cli.model.CliContext
 import org.hl7.fhir.validation.cli.utils.Common
 import org.hl7.fhir.validation.cli.utils.Params
 import routes.*
+import java.util.concurrent.TimeUnit
 
 lateinit var validationEngine: ValidationEngine
 lateinit var cliContext: CliContext
+lateinit var engine: JettyApplicationEngine
 
 var runningAsDesktopStandalone: Boolean = false
 
 fun main(args: Array<String>) {
     if (args.isNotEmpty() && !Params.hasParam(args, "-gui")) {
-        Validator.main(args)
+        ValidatorCli.main(args)
     } else {
         runningAsDesktopStandalone = Params.hasParam(args, "-gui")
         startServer(args)
@@ -31,7 +35,15 @@ fun main(args: Array<String>) {
 }
 
 fun startServer(args: Array<String>) {
-    io.ktor.server.jetty.EngineMain.main(args)
+    val applicationEnvironment = commandLineEnvironment(args)
+    engine = JettyApplicationEngine(applicationEnvironment) {
+        loadCommonConfiguration(applicationEnvironment.config)
+    }
+    engine.start(true)
+}
+
+fun stopServer() {
+    engine.stop(0, 5, TimeUnit.SECONDS)
 }
 
 fun Application.module() {
