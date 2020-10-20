@@ -166,3 +166,7 @@ tasks.withType<Jar> {
         configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
     })
 }
+
+tasks.withType<JavaCompile>().configureEach {
+    options.compilerArgs = listOf("-Xmx2g", "-XX:MaxMetaspaceSize=512m")
+}
