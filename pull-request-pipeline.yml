@@ -25,7 +25,7 @@ steps:
 - task: Gradle@2
   inputs:
     gradleWrapperFile: 'gradlew'
-    gradleOptions: '-Xmx4096m'
+    gradleOptions: '-Xmx8192m'
     jdkArchitectureOption: 'x64'
     tasks: 'build --debug'
     publishJUnitResults: true
