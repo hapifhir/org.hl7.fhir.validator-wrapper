@@ -85,7 +85,6 @@ kotlin {
                 implementation("io.ktor:ktor-server-core:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-websockets:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-jackson:${property("ktorVersion")}")
-                //implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${property("kotlinxVersion")}")
 
                 implementation("ch.qos.logback:logback-classic:1.2.3")
@@ -97,6 +96,8 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("io.ktor:ktor-server-tests:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-server-test-host:${property("ktorVersion")}")
+                implementation("io.mockk:mockk:${property("mockk_version")}")
             }
         }
         val jsMain by getting {

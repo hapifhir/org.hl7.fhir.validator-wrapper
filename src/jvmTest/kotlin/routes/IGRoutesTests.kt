@@ -6,8 +6,6 @@ import constants.IG_ENDPOINT
 import io.ktor.http.*
 import io.ktor.server.testing.*
 import model.IGResponse
-import org.hl7.fhir.utilities.npm.PackageClient
-import org.hl7.fhir.validation.cli.model.CliContext
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

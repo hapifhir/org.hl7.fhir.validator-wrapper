@@ -8,8 +8,8 @@ import io.ktor.response.respond
 import io.ktor.routing.Route
 import io.ktor.routing.post
 import model.ValidationRequest
+import model.ValidationResponse
 import org.hl7.fhir.validation.cli.services.ValidationService
-import validationEngine
 
 fun Route.validationRoutes() {
     post(VALIDATION_ENDPOINT) {
@@ -22,13 +22,8 @@ fun Route.validationRoutes() {
 //                    "\nFileType -> ${it.fileType}")
 //        }
 
-        val response = ValidationService.validateSources(request)
-
-        if (response == null) {
-            call.respond(HttpStatusCode.InternalServerError)
-        } else {
-            call.respond(HttpStatusCode.OK, response)
-        }
+        val response: ValidationResponse = ValidationService.validateSources(request)
+        call.respond(HttpStatusCode.OK, response)
     }
 
 }
