@@ -3,12 +3,14 @@ package routes
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import constants.FhirFormat
 import constants.VALIDATION_ENDPOINT
 import io.ktor.http.*
 import io.ktor.server.testing.*
 import io.mockk.every
 import io.mockk.mockkStatic
 import model.*
+import org.hl7.fhir.exceptions.FHIRException
 import org.hl7.fhir.validation.cli.services.ValidationService
 import org.junit.Before
 import kotlin.test.Test
@@ -17,7 +19,7 @@ import kotlin.test.fail
 
 class ValidationRouteTests {
 
-    lateinit var objMapper: ObjectMapper
+    private lateinit var objMapper: ObjectMapper
 
     private val validationResults = listOf(
         Pair("Picard was the best starship captain.", IssueSeverity.INFORMATION),
@@ -37,7 +39,7 @@ class ValidationRouteTests {
         mockkStatic(ValidationService::class)
         every { ValidationService.validateSources(any()) } returns fhirValidationResult
 
-        val request = ValidationRequest().setCliContext(CliContext())
+        val request = generateValidDummyValidationRequest()
 
         handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
@@ -57,7 +59,7 @@ class ValidationRouteTests {
         mockkStatic(ValidationService::class)
         every { ValidationService.validateSources(any()) } returns fhirValidationResult
 
-        val request = ValidationRequest().setCliContext(CliContext())
+        val request = generateValidDummyValidationRequest()
 
         handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
@@ -69,6 +71,105 @@ class ValidationRouteTests {
             } ?: fail("Null ValidationResponse.")
             compareValidationResponses(fhirValidationResult, validationResponse)
         }
+    }
+
+    @Test
+    fun `Internal exception thrown by FHIR validator`() = testWithApp() {
+        val expectedErrorMessage = "Danger Will Robinson!"
+        mockkStatic(ValidationService::class)
+        every { ValidationService.validateSources(any()) } throws FHIRException(expectedErrorMessage)
+
+        val request = generateValidDummyValidationRequest()
+
+        handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            setBody(objMapper.writeValueAsString(request))
+        }.apply {
+            assertEquals(HttpStatusCode.InternalServerError, response.status())
+            assertEquals(expectedErrorMessage, response.content)
+        }
+    }
+
+    @Test
+    fun `No files provided in request for validation`() = testWithApp() {
+        val request = ValidationRequest().setCliContext(CliContext())
+
+        handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            setBody(objMapper.writeValueAsString(request))
+        }.apply {
+            assertEquals(HttpStatusCode.BadRequest, response.status())
+            assertEquals(NO_FILES_PROVIDED_MESSAGE, response.content)
+        }
+    }
+
+    @Test
+    fun `Bad file name provided`() = testWithApp() {
+        val request = generateValidDummyValidationRequest()
+        request.filesToValidate.first().fileName = ""
+
+        handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            setBody(objMapper.writeValueAsString(request))
+        }.apply {
+            assertEquals(HttpStatusCode.BadRequest, response.status())
+            assertEquals(INVALID_FILE_MESSAGE, response.content)
+        }
+
+        request.filesToValidate.first().fileName = null
+
+        handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            setBody(objMapper.writeValueAsString(request))
+        }.apply {
+            assertEquals(HttpStatusCode.BadRequest, response.status())
+            assertEquals(INVALID_FILE_MESSAGE, response.content)
+        }
+    }
+
+    @Test
+    fun `Bad file type provided`() = testWithApp() {
+        val request = generateValidDummyValidationRequest()
+        request.filesToValidate.first().fileType = "pdf"
+
+        handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            setBody(objMapper.writeValueAsString(request))
+        }.apply {
+            assertEquals(HttpStatusCode.BadRequest, response.status())
+            assertEquals(INVALID_FILE_MESSAGE, response.content)
+        }
+
+        request.filesToValidate.first().fileType = null
+
+        handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            setBody(objMapper.writeValueAsString(request))
+        }.apply {
+            assertEquals(HttpStatusCode.BadRequest, response.status())
+            assertEquals(INVALID_FILE_MESSAGE, response.content)
+        }
+    }
+
+    @Test
+    fun `Null file content provided`() = testWithApp() {
+        val request = generateValidDummyValidationRequest()
+        request.filesToValidate.first().fileContent = null
+
+        handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+            setBody(objMapper.writeValueAsString(request))
+        }.apply {
+            assertEquals(HttpStatusCode.BadRequest, response.status())
+            assertEquals(INVALID_FILE_MESSAGE, response.content)
+        }
+    }
+
+    private fun generateValidDummyValidationRequest(): org.hl7.fhir.validation.cli.model.ValidationRequest {
+        // Add a dummy file with no data so as to not trigger bad request return
+        val listOfFiles = mutableListOf(FileInfo().setFileName("DUMMY_NAME").setFileType(FhirFormat.JSON.code)
+            .setFileContent("DUMMY_CONTENT"))
+        return ValidationRequest().setCliContext(CliContext()).setFilesToValidate(listOfFiles)
     }
 
     private fun createValidationResult(numOutcomes: Int, numMessages: Int): ValidationResponse {
