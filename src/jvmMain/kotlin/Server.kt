@@ -123,7 +123,6 @@ fun Application.start() {
             resources()
         }
         resources()
-        contextRoutes()
         validationRoutes()
         versionRoutes()
         igRoutes()

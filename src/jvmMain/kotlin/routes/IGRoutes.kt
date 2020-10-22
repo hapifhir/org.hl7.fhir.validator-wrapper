@@ -1,9 +1,9 @@
 package routes
 
 import constants.IG_ENDPOINT
-import io.ktor.application.call
-import io.ktor.http.HttpStatusCode
-import io.ktor.response.respond
+import io.ktor.application.*
+import io.ktor.http.*
+import io.ktor.response.*
 import io.ktor.routing.*
 import model.IGResponse
 import org.hl7.fhir.utilities.npm.PackageClient
@@ -15,7 +15,7 @@ fun Route.igRoutes() {
     get(IG_ENDPOINT) {
         val logger = call.application.environment.log
         val packageList = PackageClient(PACKAGE_CLIENT_ADDRESS).listFromRegistry(null, null, null)
-        val urls = packageList.map{
+        val urls = packageList.map {
             it.url
         }.toMutableList()
 

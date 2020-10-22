@@ -29,6 +29,4 @@ class IGRoutesTest {
             }
         }
     }
-
-    // TODO mock 0 response internal error
 }
