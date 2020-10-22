@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import desktop.launchLocalApp
 import io.ktor.application.*
@@ -19,7 +20,6 @@ import org.hl7.fhir.validation.cli.utils.Params
 import routes.*
 import java.util.concurrent.TimeUnit
 
-lateinit var validationEngine: ValidationEngine
 lateinit var cliContext: CliContext
 lateinit var engine: JettyApplicationEngine
 
@@ -47,21 +47,16 @@ fun stopServer() {
 }
 
 fun Application.module() {
-    val v = VersionUtilities.CURRENT_FULL_VERSION
-    val definitions = VersionUtilities.packageForVersion(v) + "#" + v
-    val engine = Common.getValidationEngine(v, definitions, null, null)
-    init(false, engine, CliContext())
+    init(CliContext())
 }
 
 /**
  * Entry Point of the application. This function is referenced in the resources/application.conf file.
  */
-fun Application.init(testing: Boolean = false, engine: ValidationEngine, context: CliContext) {
+fun Application.init(context: CliContext) {
     // Any DB initialization will go here.
 
     // Any event subscriptions or other setup will go here.
-    // Set ValidationEngine
-    validationEngine = engine
     cliContext = context
 
     val starting: (Application) -> Unit = { log.info("Application starting: $it") }
@@ -112,6 +107,11 @@ fun Application.start() {
     install(ContentNegotiation) {
         jackson {
             enable(SerializationFeature.INDENT_OUTPUT)
+            /*
+             * Right now we need to ignore unknown fields because we take a very simplified version of many of the fhir
+             * model classes, and map them to classes across JVM/Common/JS.
+             */
+            configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         }
     }
 
@@ -123,7 +123,6 @@ fun Application.start() {
             resources()
         }
         resources()
-        contextRoutes()
         validationRoutes()
         versionRoutes()
         igRoutes()

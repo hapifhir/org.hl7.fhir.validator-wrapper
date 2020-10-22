@@ -15,7 +15,7 @@ enum class FhirFormat(val code: String) {
                 "xml" -> XML
                 "text" -> TEXT
                 "hl7" -> VBAR
-                else -> throw IllegalArgumentException("Bad code $code passed to FhirFormat.fromCode.")
+                else -> null
             }
     }
 }
