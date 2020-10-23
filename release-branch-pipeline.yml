@@ -1,0 +1,29 @@
+trigger:
+- release
+
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps: 
+# Checks if the release notes file is populated. Exits if it is not.
+- bash: |
+    if [ -s RELEASE_NOTES.md ]
+    then
+          echo "RELEASE_NOTES.md has data, proceeding to next step."
+    else
+          echo "Your RELEASE_NOTES.md file is empty. Please provide release notes before creating a release."
+          exit 1
+    fi
+
+- task: Gradle@2
+  inputs:
+    gradleWrapperFile: 'gradlew'
+    tasks: 'build'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    sonarQubeRunAnalysis: false
+    jdkVersionOption: 1.11
+  displayName: 'gradle build'
