@@ -1,15 +1,11 @@
 package routes
 
-import init
 import io.ktor.server.testing.*
-import org.hl7.fhir.validation.cli.model.CliContext
+import module
 
 /**
  * Private method used to reduce boilerplate when testing the application.
  */
-fun testWithApp(
-    cliContext: CliContext = CliContext(),
-    callback: TestApplicationEngine.() -> Unit,
-) {
-    withTestApplication({ init(context = cliContext) }) { callback() }
+fun testWithApp(callback: TestApplicationEngine.() -> Unit, ) {
+    withTestApplication({ module() }) { callback() }
 }

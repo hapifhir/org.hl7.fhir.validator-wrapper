@@ -1,19 +1,11 @@
 package ui.components.generic
 
 import css.component.OptionEntryFieldStyle
-import css.const.GRAY_100
-import css.const.ICON_SMALL_DIM
-import css.const.SHADOW
-import css.text.TextStyle
-import css.widget.Spinner
 import kotlinx.browser.document
-import kotlinx.css.*
-import kotlinx.css.properties.boxShadow
 import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLTextAreaElement
 import react.*
-import react.dom.textArea
 import styled.*
 
 external interface OptionEntryFieldProps : RProps {

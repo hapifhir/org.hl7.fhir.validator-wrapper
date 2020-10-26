@@ -3,11 +3,12 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 plugins {
     kotlin("multiplatform") version "1.4.0"
     kotlin("plugin.serialization") version "1.4.0"
+    id("org.hidetake.ssh") version "2.10.1"
     id ("org.openjfx.javafxplugin") version "0.0.8"
     application
 }
 group = "org.hl7.fhir"
-version = "1.0-SNAPSHOT"
+version = "0.0.1"
 
 repositories {
     google()
@@ -133,7 +134,7 @@ kotlin {
     }
 }
 javafx {
-    version = "14"//"11.0.2"
+    version = "14"
     modules("javafx.controls", "javafx.graphics", "javafx.web")
 }
 application {
@@ -154,20 +155,30 @@ tasks.getByName<JavaExec>("run") {
     dependsOn(tasks.getByName<Jar>("jvmJar"))
     classpath(tasks.getByName<Jar>("jvmJar"))
 }
-tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = "ServerKt"
-    }
-
-    // To add all of the dependencies otherwise a "NoClassDefFoundError" error
-    from(sourceSets.main.get().output)
-
-    dependsOn(configurations.runtimeClasspath)
-    from({
-        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-    })
-}
+//
+//tasks.withType<Jar> {
+//    manifest {
+//        attributes["Main-Class"] = "ServerKt"
+//    }
+//
+//    // To add all of the dependencies otherwise a "NoClassDefFoundError" error
+//    from(sourceSets.main.get().output)
+//
+//    dependsOn(configurations.runtimeClasspath)
+//    from({
+//        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+//    })
+//}
 
 tasks.withType<JavaCompile>().configureEach {
     options.compilerArgs = listOf("-Xmx2g", "-XX:MaxMetaspaceSize=512m")
+}
+
+/**
+ * Utility function to retrieve the current version number.
+ */
+task("printVersion") {
+    doLast {
+        println(project.version)
+    }
 }
