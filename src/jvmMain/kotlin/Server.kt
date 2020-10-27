@@ -57,10 +57,12 @@ fun startServer(args: Array<String>) {
     val environment = System.getenv()["ENVIRONMENT"] ?: handleDefaultEnvironment()
     val config = extractConfig(environment, HoconApplicationConfig(ConfigFactory.load()))
 
-    embeddedServer(Jetty,host = config.host, port = config.port) {
+    engine = embeddedServer(Jetty, host = config.host, port = config.port) {
         println("Starting instance in ${config.host}:${config.port}")
         module()
-    }.start(wait = true)
+    }
+
+    engine.start(wait = true)
 }
 
 /**
@@ -78,10 +80,7 @@ private fun runningAsDesktopApp(args: Array<String>): Boolean {
     return args.isNotEmpty() && Params.hasParam(args, LOCAL_APP_FLAG) && !Params.hasParam(args, FULL_STACK_FLAG)
 }
 
-data class Config(
-    val host: String,
-    val port: Int,
-)
+data class Config(val host: String, val port: Int)
 
 @KtorExperimentalAPI
 fun extractConfig(environment: String, hoconConfig: HoconApplicationConfig): Config {

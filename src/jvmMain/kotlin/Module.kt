@@ -16,8 +16,7 @@ import routes.validationRoutes
 import routes.versionRoutes
 
 /**
- * Entry point of the application. This function is referenced in the resources/application.conf file (see the line
- * that says `modules = [ ModuleKt.module ]`, pointing to this method.
+ * Entry point of the application.
  */
 fun Application.module() {
     // Any DB initialization will go here.
@@ -48,13 +47,13 @@ fun Application.module() {
     // Separating this function with its dependencies allows us to provide several modules with
     // the same code and different data-sources living in the same application,
     // and to provide mocked instances for doing integration tests.
-    start()
+    setup()
 }
 
 /**
  * Application extension function where we configure Ktor application with features, interceptors and routing.
  */
-fun Application.start() {
+fun Application.setup() {
 
     install(CallLogging) {
         level = Level.DEBUG

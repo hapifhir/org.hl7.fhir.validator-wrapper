@@ -155,23 +155,19 @@ tasks.getByName<JavaExec>("run") {
     dependsOn(tasks.getByName<Jar>("jvmJar"))
     classpath(tasks.getByName<Jar>("jvmJar"))
 }
-//
-//tasks.withType<Jar> {
-//    manifest {
-//        attributes["Main-Class"] = "ServerKt"
-//    }
-//
-//    // To add all of the dependencies otherwise a "NoClassDefFoundError" error
-//    from(sourceSets.main.get().output)
-//
-//    dependsOn(configurations.runtimeClasspath)
-//    from({
-//        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-//    })
-//}
 
-tasks.withType<JavaCompile>().configureEach {
-    options.compilerArgs = listOf("-Xmx2g", "-XX:MaxMetaspaceSize=512m")
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "ServerKt"
+    }
+
+    // To add all of the dependencies otherwise a "NoClassDefFoundError" error
+    from(sourceSets.main.get().output)
+
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
 }
 
 /**
