@@ -14,10 +14,18 @@ private const val PREF_WIDTH = 1200.0
 private const val PREF_HEIGHT = 1000.0
 
 /**
- * To display the webview natively as an application on desktops, we use the TornadoFX library (https://tornadofx.io/).
- * As a result, our desktop.CliApp mus extend the App class in TornadoFx.
+ * Instead of maintaining code for three separate desktop applications (OSX, Linux, Windows), we take the existing
+ * KotlinJS front end, and use the TornadoFX library `(https://tornadofx.io/)` to wrap it in a Chromium powered webview.
+ * This chromium app then communicates with a locally hosted instance of the Ktor backend, giving the 'illusion' of a
+ * local desktop application.
+ *
+ * To use TornadoFX, our desktop.CliApp must extend the App class in TornadoFx.
  */
 class CliApp: App(ApplicationView::class) {
+    /**
+     * On close, we need to shutdown the Ktor backend server as well. We do this by overriding the stop method, then
+     * calling the `stopServer()` we defined.
+     */
     override fun stop() {
         super.stop()
         stopServer()
@@ -33,6 +41,7 @@ class ApplicationView: View() {
     init {
         with(root) {
             setPrefSize(PREF_WIDTH, PREF_HEIGHT)
+            // TODO fix this so it's not hardcoded
             engine.load("http://localhost:8080/")
         }
     }
@@ -46,5 +55,3 @@ fun launchLocalApp() {
         tornadofx.launch<CliApp>()
     }
 }
-
-//TODO shut down server on window close

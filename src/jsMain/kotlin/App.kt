@@ -41,7 +41,7 @@ class App : RComponent<AppProps, AppState>() {
                 AppScreen.VALIDATOR -> {
                     sectionTitle {
                         majorText = "Validate Resources"
-                        minorText = "Manually enter, up upload resources for validation."
+                        minorText = "Manually enter, or upload resources for validation."
                     }
                     tabLayout {
 

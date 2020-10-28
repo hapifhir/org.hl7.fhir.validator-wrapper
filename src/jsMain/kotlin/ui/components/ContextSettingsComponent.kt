@@ -9,7 +9,6 @@ import css.text.TextStyle
 import css.widget.CheckboxStyle
 import kotlinx.coroutines.launch
 import kotlinx.css.*
-import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
 import mainScope
 import model.CliContext

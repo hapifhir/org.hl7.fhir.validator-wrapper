@@ -3,11 +3,12 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 plugins {
     kotlin("multiplatform") version "1.4.0"
     kotlin("plugin.serialization") version "1.4.0"
-    id ("org.openjfx.javafxplugin") version "0.0.8"
+    id("org.hidetake.ssh") version "2.10.1"
+    id("org.openjfx.javafxplugin") version "0.0.8"
     application
 }
 group = "org.hl7.fhir"
-version = "1.0-SNAPSHOT"
+version = "0.0.1"
 
 repositories {
     google()
@@ -36,12 +37,14 @@ repositories {
 
 kotlin {
     jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
+        compilations {
+            all {
+                kotlinOptions.jvmTarget = "1.8"
+            }
         }
         withJava()
     }
-    js(){
+    js() {
         useCommonJs()
         browser {
             binaries.executable()
@@ -65,8 +68,8 @@ kotlin {
                 implementation(kotlin("stdlib-common"))
                 implementation("com.fasterxml.jackson.core:jackson-databind:${property("jacksonVersion")}")
 
-                implementation ("org.jetbrains.kotlinx:kotlinx-serialization-core:${property("serializationVersion")}")
-                implementation ("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:${property("serializationVersion")}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${property("serializationVersion")}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:${property("serializationVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
             }
@@ -132,16 +135,20 @@ kotlin {
         }
     }
 }
+
 javafx {
-    version = "14"//"11.0.2"
+    version = "14"
     modules("javafx.controls", "javafx.graphics", "javafx.web")
 }
+
 application {
     mainClassName = "ServerKt"
 }
+
 tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack") {
     outputFileName = "output.js"
 }
+
 tasks.getByName<Jar>("jvmJar") {
     manifest {
         attributes["Main-Class"] = "ServerKt"
@@ -150,10 +157,12 @@ tasks.getByName<Jar>("jvmJar") {
     val jsBrowserProductionWebpack = tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack")
     from(File(jsBrowserProductionWebpack.destinationDirectory, jsBrowserProductionWebpack.outputFileName))
 }
+
 tasks.getByName<JavaExec>("run") {
     dependsOn(tasks.getByName<Jar>("jvmJar"))
     classpath(tasks.getByName<Jar>("jvmJar"))
 }
+
 tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = "ServerKt"
@@ -168,6 +177,11 @@ tasks.withType<Jar> {
     })
 }
 
-tasks.withType<JavaCompile>().configureEach {
-    options.compilerArgs = listOf("-Xmx2g", "-XX:MaxMetaspaceSize=512m")
+/**
+ * Utility function to retrieve the current version number.
+ */
+task("printVersion") {
+    doLast {
+        println(project.version)
+    }
 }
