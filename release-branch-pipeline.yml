@@ -34,7 +34,7 @@ steps:
 # We need the project version to tag the docker image correctly.
 # This is done through a helper function within the gradle.kts file.
 - bash: |
-   VERSION=$(gradlew -q printVersion)
+   VERSION=$(./gradlew -q printVersion)
 
 # Executes docker build and push to publish our build container image
 # to the docker registry
