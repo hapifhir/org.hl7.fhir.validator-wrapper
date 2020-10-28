@@ -15,7 +15,10 @@ USER $APPLICATION_USER
 COPY ./build/libs/validator-wrapper-jvm-0.0.1.jar /app/validator-wrapper.jar
 WORKDIR /app
 
-EXPOSE 8080
+# Environment vars here
+ENV ENVIRONMENT prod
+
+EXPOSE 3500
 
 # The last line instructs Docker to run java with G10s GC, 4G of memory and the packaged application.
 CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "validator-wrapper.jar", "-startServer"]
