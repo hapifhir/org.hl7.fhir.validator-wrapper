@@ -6,6 +6,9 @@ pr: none
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  VERSION:
+
 steps: 
 # Checks if the release notes file is populated. Exits if it is not.
 - bash: |
@@ -17,6 +20,12 @@ steps:
           exit 1
     fi
 
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '11'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+
 - task: Gradle@2
   inputs:
     gradleWrapperFile: 'gradlew'
@@ -27,3 +36,23 @@ steps:
     sonarQubeRunAnalysis: false
     jdkVersionOption: 1.11
   displayName: 'gradle build'
+
+# We need the project version to tag the docker image correctly.
+# This is done through a helper function within the gradle.kts file.
+- bash: |
+   gradle wrapper --gradle-version=6.7
+   VERSION=$(./gradlew -q printVersion)
+   echo $(VERSION)
+
+# Executes docker build and push to publish our build container image
+# to the docker registry
+- task: Docker@2
+  displayName: 'docker build and push'
+  inputs:
+    containerRegistry: 'dockerhub connection'
+    repository: 'markiantorno/validator-wrapper'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: $(VERSION)
+
+

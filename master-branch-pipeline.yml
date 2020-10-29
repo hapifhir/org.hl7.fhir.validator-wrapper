@@ -10,10 +10,10 @@ steps:
 - task: Gradle@2
   inputs:
     gradleWrapperFile: 'gradlew'
-    tasks: 'build'
+    tasks: 'build -d'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
     jdkVersionOption: 1.11
-  displayName: 'gradle build'
+  displayName: 'gradle build -d'
