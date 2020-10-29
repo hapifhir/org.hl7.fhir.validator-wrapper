@@ -16,4 +16,4 @@ steps:
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
     jdkVersionOption: 1.11
-  displayName: 'gradle build'
+  displayName: 'gradle build -d'
