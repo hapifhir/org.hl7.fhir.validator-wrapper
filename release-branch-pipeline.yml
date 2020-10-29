@@ -20,6 +20,12 @@ steps:
           exit 1
     fi
 
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '14'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+
 - task: Gradle@2
   inputs:
     gradleWrapperFile: 'gradlew'
