@@ -42,6 +42,7 @@ steps:
 - bash: |
    gradle wrapper --gradle-version=6.7
    VERSION=$(./gradlew -q printVersion)
+   echo $(VERSION)
 
 # Executes docker build and push to publish our build container image
 # to the docker registry
@@ -52,6 +53,6 @@ steps:
     repository: 'markiantorno/validator-wrapper'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-    tags: $VERSION
+    tags: $(VERSION)
 
 
