@@ -39,7 +39,7 @@ Running the jar
 There are three possible ways this jar can be utilized:
 #### As a full-stack hosted server:
 Execute the jar by providing the argument `'-startServer'`. This boots the Ktor validation back end and KotlinJS 
-front-end. Refer to the application.conf file in the resources directory to view the different deployment flavours available. 
+front-end. Refer to the `jvmMain/resources/application.conf` file in the resources directory to view the different deployment flavours available. 
 These deployment types can be set through the environment variable `ENVIRONMENT`. If no such environment variable is 
 set, the application will default to a `dev` type deployment.
 
