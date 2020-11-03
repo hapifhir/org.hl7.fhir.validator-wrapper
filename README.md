@@ -49,7 +49,7 @@ wrapped instance of the KotlinJS front end within a Chromium web window to appea
 wrapped website should mimic all the same functionality of the full KotlinJS website in the full-stack hosted server. 
 Once the Chromium browser window is closed, the local Ktor server is also shutdown.
 
-#### 3. As the traditional validator clr:
+#### As the traditional validator clr:
 We realize that for many users, the cli is still the primary way in which validation is performed, so we've made
 it possible to still execute this jar, as done previously, from the command line. All validator cli functionality 
 remains as detailed [on the confluence wiki][Link-ValidatorConfluence].
