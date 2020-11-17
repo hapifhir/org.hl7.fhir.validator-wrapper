@@ -36,8 +36,7 @@ suspend fun sendValidationRequest(validationRequest: ValidationRequest): List<Va
         contentType(ContentType.Application.Json)
         body = validationRequest
     }
-
-    return message.getOutcomes()
+    return message.getOutcomes().map { it.setValidated(true) }
 }
 
 suspend fun sendIGsRequest(): IGResponse {

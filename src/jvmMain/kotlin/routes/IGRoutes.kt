@@ -14,7 +14,8 @@ fun Route.igRoutes() {
 
     get(IG_ENDPOINT) {
         val logger = call.application.environment.log
-        val packageList = PackageClient(PACKAGE_CLIENT_ADDRESS).listFromRegistry(null, null, null)
+        val packageList = PackageClient(PACKAGE_CLIENT_ADDRESS)
+            .listFromRegistry(null, null, null)
         val urls = packageList.map {
             it.url
         }.toMutableList()

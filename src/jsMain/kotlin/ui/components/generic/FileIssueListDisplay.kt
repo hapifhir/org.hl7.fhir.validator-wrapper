@@ -1,10 +1,14 @@
 package ui.components.generic
 
 import css.component.FileErrorDisplayStyle
+import css.text.TextStyle
+import kotlinx.css.*
 import model.ValidationOutcome
 import react.*
 import styled.css
 import styled.styledDiv
+import styled.styledImg
+import styled.styledP
 import ui.components.messageDisplayComponent
 
 external interface FileIssueListDisplayProps : RProps {
@@ -25,9 +29,39 @@ class FileIssueListDisplayComponent : RComponent<FileIssueListDisplayProps, File
             css {
                 +FileErrorDisplayStyle.mainDivList
             }
-            props.validationOutcome.getMessages().sortedBy { it.getLine() }.forEach {
-                messageDisplayComponent {
-                    validationMessage = it
+            if (props.validationOutcome.getMessages().isNotEmpty()) {
+                props.validationOutcome.getMessages().sortedBy { it.getLine() }.forEach {
+                    messageDisplayComponent {
+                        validationMessage = it
+                    }
+                }
+            } else {
+                styledDiv {
+                    css {
+
+                    }
+                    styledImg {
+                        css {
+                            display = Display.block
+                            marginLeft = LinearDimension.auto
+                            marginRight = LinearDimension.auto
+                            width = 128.px
+                        }
+                        attrs {
+                            src = "images/smile_racoon.png"
+                        }
+                    }
+                    styledP {
+                        css {
+                            textAlign = TextAlign.center
+                            +TextStyle.h3
+                        }
+                        if (props.validationOutcome.isValidated()) {
+                            +"Smile! There are no issues to display!"
+                        } else {
+                            +"Press the arrow button to validate your file!"
+                        }
+                    }
                 }
             }
         }
