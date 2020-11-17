@@ -33,7 +33,6 @@ external interface ResourceEntryFieldProps : RProps {
 class ResourceEntryFieldState : RState {
     var validating: Boolean = false
     var codeDisplay: Boolean = true
-    var firstTime: Boolean = true
 }
 
 const val INPUT_TEXT_ID = "inputTextArea"
@@ -78,31 +77,9 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
                     onInputFunction = {
                         val currentEntry = this.value
                         props.validationOutcome.getFileInfo().setFileContent(currentEntry)
-                        println("onInputFunction")
-                    }
-                    onLoadFunction = {
-                        this.value = props.validationOutcome.getFileInfo().fileContent
-                        println("onLoadFunction")
-                    }
-                    onFocusInFunction = {
-                        println("onFocusInFunction")
-                    }
-                    onLoadStartFunction = {
-                        println("onLoadStartFunction")
-                    }
-                    onLoadedDataFunction = {
-                        println("onLoadedDataFunction")
                     }
                     if (this.value.isEmpty() && props.validationOutcome.getFileInfo().fileContent.isNotEmpty()) {
                         this.value = props.validationOutcome.getFileInfo().fileContent
-                        println("loadcondition")
-
-                    }
-                }
-                if (state.firstTime) {
-                    println("state.firstTime")
-                    setState {
-                        firstTime = false
                     }
                 }
             }
