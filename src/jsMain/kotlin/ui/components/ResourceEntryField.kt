@@ -8,12 +8,12 @@ import css.widget.FABStyle
 import css.widget.Spinner
 import kotlinx.browser.document
 import kotlinx.coroutines.launch
+import kotlinx.css.Display
 import kotlinx.css.JustifyContent
+import kotlinx.css.display
 import kotlinx.css.justifyContent
 import kotlinx.html.id
-import kotlinx.html.js.onChangeFunction
-import kotlinx.html.js.onClickFunction
-import kotlinx.html.js.onInputFunction
+import kotlinx.html.js.*
 import mainScope
 import model.CliContext
 import model.ValidationOutcome
@@ -33,6 +33,7 @@ external interface ResourceEntryFieldProps : RProps {
 class ResourceEntryFieldState : RState {
     var validating: Boolean = false
     var codeDisplay: Boolean = true
+    var firstTime: Boolean = true
 }
 
 const val INPUT_TEXT_ID = "inputTextArea"
@@ -62,28 +63,57 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
                 }
             }
 
-            if (state.codeDisplay) {
-                styledTextArea {
-                    css {
-                        +ResourceEntryStyle.entryField
+            styledTextArea {
+                css {
+                    display = if (state.codeDisplay) {
+                        Display.block
+                    } else {
+                        Display.none
                     }
-                    attrs {
-                        id = INPUT_TEXT_ID
-                        placeholder = "Enter Resource Manually"
-                        onInputFunction = {
-                            props.validationOutcome.getFileInfo().setFileContent(this.value)
-                        }
-                        /*
-                         * If we have a previously entered manual entry, and the user has not already entered a new
-                         * value, populate the field with our stored value.
-                         */
-                        if (this.value.isEmpty() && props.validationOutcome.getFileInfo().getFileContent().isNotEmpty()) {
-                            this.value = props.validationOutcome.getFileInfo().getFileContent()
-                        }
-                    }
-
+                    +ResourceEntryStyle.entryField
                 }
-            } else {
+                attrs {
+                    id = INPUT_TEXT_ID
+                    placeholder = "Enter Resource Manually"
+                    onInputFunction = {
+                        val currentEntry = this.value
+                        props.validationOutcome.getFileInfo().setFileContent(currentEntry)
+                        println("onInputFunction")
+                    }
+                    onLoadFunction = {
+                        this.value = props.validationOutcome.getFileInfo().fileContent
+                        println("onLoadFunction")
+                    }
+                    onFocusInFunction = {
+                        println("onFocusInFunction")
+                    }
+                    onLoadStartFunction = {
+                        println("onLoadStartFunction")
+                    }
+                    onLoadedDataFunction = {
+                        println("onLoadedDataFunction")
+                    }
+                    if (this.value.isEmpty() && props.validationOutcome.getFileInfo().fileContent.isNotEmpty()) {
+                        this.value = props.validationOutcome.getFileInfo().fileContent
+                        println("loadcondition")
+
+                    }
+                }
+                if (state.firstTime) {
+                    println("state.firstTime")
+                    setState {
+                        firstTime = false
+                    }
+                }
+            }
+            styledDiv {
+                css {
+                    display = if (state.codeDisplay) {
+                        Display.none
+                    } else {
+                        Display.block
+                    }
+                }
                 fileIssueListDisplayComponent {
                     validationOutcome = props.validationOutcome
                 }
@@ -134,7 +164,8 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
                                                 + "filename -> " + returnedOutcome.first().getFileInfo().fileName
                                                 + "content -> " + returnedOutcome.first().getFileInfo().fileContent
                                                 + "type -> " + returnedOutcome.first().getFileInfo().fileType
-                                                + "Issues ::\n" + returnedOutcome.first().getMessages().joinToString { "\n" })
+                                                + "Issues ::\n" + returnedOutcome.first().getMessages()
+                                            .joinToString { "\n" })
                                         props.addManuallyEnteredFileValidationOutcome(returnedOutcome.first())
                                         setState {
                                             validating = false
