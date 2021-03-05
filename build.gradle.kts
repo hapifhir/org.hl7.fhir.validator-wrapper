@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 plugins {
-    kotlin("multiplatform") version "1.4.0"
-    kotlin("plugin.serialization") version "1.4.0"
+    kotlin("multiplatform") version "1.4.31"
+    kotlin("plugin.serialization") version "1.4.31"
     id("org.hidetake.ssh") version "2.10.1"
     id("org.openjfx.javafxplugin") version "0.0.8"
     application
@@ -43,6 +43,14 @@ kotlin {
             }
         }
         withJava()
+        tasks.test { useJUnit() }
+        testRuns["test"].executionTask.configure {
+            useJUnit()
+        }
+
+//        tasks.named<Test>("test") {
+//            useJUnit()
+//        }
     }
     js() {
         useCommonJs()
@@ -76,8 +84,10 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+//                implementation(kotlin("test-common"))
+//                implementation(kotlin("test-annotations-common"))
+                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
+                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
             }
         }
         val jvmMain by getting {
@@ -87,8 +97,9 @@ kotlin {
                 implementation("io.ktor:ktor-server-jetty:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-server-core:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-websockets:${property("ktorVersion")}")
-                implementation("io.ktor:ktor-jackson:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-gson:${property("ktorVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${property("kotlinxVersion")}")
+                implementation("org.koin:koin-ktor:${property("koinVersion")}")
 
                 implementation("ch.qos.logback:logback-classic:1.2.3")
                 implementation("org.litote.kmongo:kmongo-coroutine-serialization:3.12.2")
@@ -97,11 +108,23 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
-                implementation(kotlin("test-junit"))
+//                implementation(kotlin("test-junit"))
+//                implementation("org.jetbrains.kotlin:kotlin-test-junit5:1.4.31")
+//                implementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
+//                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3")
+
+                implementation("org.junit.jupiter:junit-jupiter:${property("junitVersion")}")
+                implementation("org.junit.jupiter:junit-jupiter-engine:${property("junitVersion")}")
+                implementation("org.junit.jupiter:junit-jupiter-api:${property("junitVersion")}")
+                implementation("org.junit.jupiter:junit-jupiter-params:${property("junitVersion")}")
+
                 implementation("io.ktor:ktor-server-tests:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-server-test-host:${property("ktorVersion")}")
                 implementation("io.mockk:mockk:${property("mockk_version")}")
+                implementation("io.ktor:ktor-client-mock:${property("ktorVersion")}")
+                implementation("org.koin:koin-test:${property("koinVersion")}")
             }
+
         }
         val jsMain by getting {
             dependencies {
@@ -126,6 +149,8 @@ kotlin {
                 implementation(npm("react-router-dom", "${property("npm_react_router_dom_version")}"))
                 implementation(npm("styled-components", "${property("npm_styled_components_version")}"))
                 implementation(npm("inline-style-prefixer", "${property("npm_inline_styled_prefixer_version")}"))
+
+                implementation(npm("node-polyglot", "2.4.0"))
             }
         }
         val jsTest by getting {
@@ -184,4 +209,8 @@ task("printVersion") {
     doLast {
         println(project.version)
     }
+}
+
+tasks.named<Test>("jvmTest") {
+    useJUnitPlatform()
 }

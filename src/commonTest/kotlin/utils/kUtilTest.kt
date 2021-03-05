@@ -4,9 +4,9 @@ import kotlin.test.*
 
 class kUtilTest {
 
-    @Test
-    fun testDoSomething() {
-
-    }
+//    @Test
+//    fun testDoSomething() {
+//
+//    }
 
 }

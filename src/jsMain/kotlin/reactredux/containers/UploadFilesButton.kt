@@ -5,8 +5,8 @@ import react.RClass
 import react.RProps
 import react.invoke
 import react.redux.rConnect
-import reactredux.actions.UploadFile
-import reactredux.state.AppState
+import reactredux.slices.UploadedResourceSlice
+import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
 import ui.components.UploadFilesButton
@@ -20,11 +20,11 @@ private interface UploadFilesButtonDispatchProps : RProps {
 
 val uploadFilesButton: RClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, UploadFilesButtonStateProps, UploadFilesButtonDispatchProps, UploadFilesButtonProps>(
-        { state, _ ->
+        { _, _ ->
         },
         { dispatch, _ ->
             uploadFile = {
-                dispatch(UploadFile(it))
+                dispatch(UploadedResourceSlice.UploadFile(it))
             }
         }
     )(UploadFilesButton::class.js.unsafeCast<RClass<UploadFilesButtonProps>>())

@@ -1,25 +1,23 @@
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.SerializationFeature
+import controller.debug.debugModule
+import controller.ig.igModule
+import controller.validation.validationModule
+import controller.version.versionModule
 import desktop.launchLocalApp
 import io.ktor.application.*
 import io.ktor.features.*
+import io.ktor.gson.*
 import io.ktor.html.*
 import io.ktor.http.*
 import io.ktor.http.content.*
-import io.ktor.jackson.*
 import io.ktor.routing.*
 import kotlinx.html.*
 import org.slf4j.event.Level
-import routes.debugRoutes
-import routes.igRoutes
-import routes.validationRoutes
-import routes.versionRoutes
 
 /**
  * Entry point of the application.
  */
 fun Application.module() {
-    // Any DB initialization will go here.
+    // Any DB initialization or logging initialization will go here.
     val starting: (Application) -> Unit = { log.info("Application starting: $it") }
     val started: (Application) -> Unit = {
         log.info("Application started: $it")
@@ -71,13 +69,8 @@ fun Application.setup() {
     }
 
     install(ContentNegotiation) {
-        jackson {
-            enable(SerializationFeature.INDENT_OUTPUT)
-            /*
-             * Right now we need to ignore unknown fields because we take a very simplified version of many of the fhir
-             * model classes, and map them to classes across JVM/Common/JS.
-             */
-            configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        gson {
+           setLenient()
         }
     }
 
@@ -90,10 +83,10 @@ fun Application.setup() {
             resources()
         }
         resources()
-        validationRoutes()
-        versionRoutes()
-        igRoutes()
-        // Only enable if things have gone horribly, and you need to add a debug logging endpoint.
-        //debugRoutes()
+
+        debugModule()
+        igModule()
+        validationModule()
+        versionModule()
     }
 }

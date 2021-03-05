@@ -19,15 +19,18 @@ import model.CliContext
 import model.ValidationOutcome
 import org.w3c.dom.HTMLTextAreaElement
 import react.*
+import react.dom.span
 import react.dom.value
 import styled.*
 import ui.components.generic.fileIssueListDisplayComponent
 import utils.assembleRequest
+import Polyglot
 
 external interface ResourceEntryFieldProps : RProps {
     var cliContext: CliContext
     var validationOutcome: ValidationOutcome
     var addManuallyEnteredFileValidationOutcome: (ValidationOutcome) -> Unit
+    var polyglot: Polyglot
 }
 
 class ResourceEntryFieldState : RState {
@@ -73,7 +76,7 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
                 }
                 attrs {
                     id = INPUT_TEXT_ID
-                    placeholder = "Enter Resource Manually"
+                    placeholder = props.polyglot.t("test_string")//"Enter Resource Manually"
                     onInputFunction = {
                         val currentEntry = this.value
                         props.validationOutcome.getFileInfo().setFileContent(currentEntry)

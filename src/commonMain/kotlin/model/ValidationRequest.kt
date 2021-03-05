@@ -5,4 +5,6 @@ expect class ValidationRequest() {
     fun setCliContext(cliContext: CliContext): ValidationRequest
     fun getFilesToValidate(): List<FileInfo>
     fun setFilesToValidate(filesToValidate: List<FileInfo>): ValidationRequest
+    fun getSessionId(): String
+    fun setSessionId(sessionId: String): ValidationRequest
 }

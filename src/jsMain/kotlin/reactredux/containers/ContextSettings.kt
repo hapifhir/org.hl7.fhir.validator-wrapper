@@ -5,8 +5,8 @@ import react.RClass
 import react.RProps
 import react.invoke
 import react.redux.rConnect
-import reactredux.actions.UpdateContext
-import reactredux.state.AppState
+import reactredux.slices.ValidationContextSlice
+import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
 import ui.components.ContextSettingsComponent
@@ -23,11 +23,11 @@ private interface ContextSettingsDispatchProps : RProps {
 val contextSettings: RClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, ContextSettingsStateProps, ContextSettingsDispatchProps, ContextSettingsProps>(
         { state, _ ->
-            cliContext = state.cliContext
+            cliContext = state.validationContextSlice.cliContext
         },
         { dispatch, _ ->
             update = {
-                dispatch(UpdateContext(it))
+                dispatch(ValidationContextSlice.UpdateContext(it))
             }
         }
     )(ContextSettingsComponent::class.js.unsafeCast<RClass<ContextSettingsProps>>())

@@ -1,36 +1,42 @@
 package reactredux.containers
 
 import model.AppScreen
-import model.FileInfo
-import model.ValidationOutcome
 import react.RClass
 import react.RProps
 import react.invoke
 import react.redux.rConnect
-import reactredux.actions.RemoveFile
-import reactredux.actions.SetScreen
-import reactredux.state.AppState
+import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
-import ui.components.FileListComponent
-import ui.components.FileListProps
 import ui.components.Header
 import ui.components.HeaderProps
+import utils.Language
+import Polyglot
+import reactredux.slices.AppScreenSlice
+import reactredux.slices.LocalizationSlice
 
 private interface HeaderStateProps : RProps {
     var appScreen: AppScreen
+    var language: Language
+    var polyglot: Polyglot
 }
 
 private interface HeaderDispatchProps : RProps {
     var setScreen: (AppScreen) -> Unit
+    var setPolyglot: (Polyglot) -> Unit
+    var setLanguage: (Language) -> Unit
 }
 
 val header: RClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, HeaderStateProps, HeaderDispatchProps, HeaderProps>(
         { state, _ ->
-            appScreen = state.appScreen
+            appScreen = state.appScreenSlice.appScreen
+            language = state.localizationState.selectedLangauge
+            polyglot = state.localizationState.polyglotInstance
         },
         { dispatch, _ ->
-            setScreen = { dispatch(SetScreen(it)) }
+            setScreen = { dispatch(AppScreenSlice.SetScreen(it)) }
+            setPolyglot = { dispatch(LocalizationSlice.SetPolyglot(it)) }
+            setLanguage = { dispatch(LocalizationSlice.SetLanguage(it)) }
         }
     )(Header::class.js.unsafeCast<RClass<HeaderProps>>())
