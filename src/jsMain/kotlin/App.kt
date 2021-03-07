@@ -37,7 +37,9 @@ class App : RComponent<AppProps, RState>() {
             when (props.appScreen) {
                 AppScreen.VALIDATOR -> {
                     sectionTitle {
-                        majorText = props.polyglot.t("heading_validate")//"Validate Resources"
+//  TODO once localization is updated
+//  majorText = props.polyglot.t("heading_validate")
+                        majorText = "Validate Resources"
                         minorText = "Manually enter, or upload resources for validation."
                     }
                     tabLayout {

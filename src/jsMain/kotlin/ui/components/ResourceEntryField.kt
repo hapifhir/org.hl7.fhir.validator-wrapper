@@ -76,7 +76,9 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
                 }
                 attrs {
                     id = INPUT_TEXT_ID
-                    placeholder = props.polyglot.t("test_string")//"Enter Resource Manually"
+                    //  TODO once polyglot is working
+                    //  placeholder = props.polyglot.t("test_string")
+                    +"Enter Resource Manually"
                     onInputFunction = {
                         val currentEntry = this.value
                         props.validationOutcome.getFileInfo().setFileContent(currentEntry)

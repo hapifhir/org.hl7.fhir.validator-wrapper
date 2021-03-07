@@ -1,5 +1,6 @@
 package ui.components
 
+import Polyglot
 import css.component.HeaderStyle
 import css.text.TextStyle
 import kotlinx.browser.document
@@ -13,7 +14,6 @@ import styled.styledDiv
 import styled.styledImg
 import styled.styledSpan
 import utils.Language
-import Polyglot
 
 external interface HeaderProps : RProps {
     var appScreen: AppScreen
@@ -84,32 +84,32 @@ class Header : RComponent<HeaderProps, HeaderState>(), EventListener {
                         css {
                             +HeaderStyle.sideOptions
                         }
-                        styledSpan {
-                            css {
-                                +TextStyle.headerMenuItem
-                            }
-                            +  props.polyglot.t("heading_validate") //"Language"
-                            attrs {
-                                onClickFunction = {
-                                    //setState {
-                                    println("ON CLICK BUTTON")
-                                        props.setLanguage(if (props.language == Language.US_ENGLISH) Language.MEX_SPANISH else Language.US_ENGLISH)
-                                        var polyglot = Polyglot()
-                                        when (props.language) {
-                                            Language.US_ENGLISH -> polyglot.extend(phrases = js("{" +
-                                                    "'heading_validate': 'Validate Resources'," +
-                                                    "'test_string': 'Test String'" +
-                                                    "}"))
-                                            Language.MEX_SPANISH -> polyglot.extend(phrases = js("{" +
-                                                    "'heading_validate': 'Spanish Resources'," +
-                                                    "'test_string': 'Spanish String'" +
-                                                    "}"))
-                                        }
-                                        props.setPolyglot(polyglot)
-                                    //}
-                                }
-                            }
-                        }
+//                        styledSpan {
+//                            css {
+//                                +TextStyle.headerMenuItem
+//                            }
+//                            +props.polyglot.t("heading_validate") //"Language"
+//                            attrs {
+//                                onClickFunction = {
+//                                    //setState {
+//                                    println("ON CLICK BUTTON")
+//                                    props.setLanguage(if (props.language == Language.US_ENGLISH) Language.MEX_SPANISH else Language.US_ENGLISH)
+//                                    var polyglot = Polyglot()
+//                                    when (props.language) {
+//                                        Language.US_ENGLISH -> polyglot.extend(phrases = js("{" +
+//                                                "'heading_validate': 'Validate Resources'," +
+//                                                "'test_string': 'Test String'" +
+//                                                "}"))
+//                                        Language.MEX_SPANISH -> polyglot.extend(phrases = js("{" +
+//                                                "'heading_validate': 'Spanish Resources'," +
+//                                                "'test_string': 'Spanish String'" +
+//                                                "}"))
+//                                    }
+//                                    props.setPolyglot(polyglot)
+//                                    //}
+//                                }
+//                            }
+//                        }
                     }
                 }
             }
