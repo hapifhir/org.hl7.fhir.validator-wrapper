@@ -47,27 +47,24 @@ kotlin {
         testRuns["test"].executionTask.configure {
             useJUnit()
         }
-
-//        tasks.named<Test>("test") {
-//            useJUnit()
-//        }
     }
     js() {
         useCommonJs()
+        binaries.executable()
         browser {
             binaries.executable()
-            webpackTask {
-                cssSupport.enabled = true
-            }
-            runTask {
-                cssSupport.enabled = true
-            }
-            testTask {
-                useKarma {
-                    useChromeHeadless()
-                    webpackConfig.cssSupport.enabled = true
-                }
-            }
+//            webpackTask {
+//                cssSupport.enabled = true
+//            }
+//            runTask {
+//                cssSupport.enabled = true
+//            }
+//            testTask {
+//                useKarma {
+//                    useChromeHeadless()
+//                    webpackConfig.cssSupport.enabled = true
+//                }
+//            }
         }
     }
     sourceSets {
@@ -98,6 +95,7 @@ kotlin {
                 implementation("io.ktor:ktor-server-core:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-websockets:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-gson:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-jackson:${property("ktorVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${property("kotlinxVersion")}")
                 implementation("org.koin:koin-ktor:${property("koinVersion")}")
 
@@ -108,11 +106,6 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
-//                implementation(kotlin("test-junit"))
-//                implementation("org.jetbrains.kotlin:kotlin-test-junit5:1.4.31")
-//                implementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
-//                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3")
-
                 implementation("org.junit.jupiter:junit-jupiter:${property("junitVersion")}")
                 implementation("org.junit.jupiter:junit-jupiter-engine:${property("junitVersion")}")
                 implementation("org.junit.jupiter:junit-jupiter-api:${property("junitVersion")}")
@@ -166,41 +159,41 @@ javafx {
     modules("javafx.controls", "javafx.graphics", "javafx.web")
 }
 
-application {
-    mainClassName = "ServerKt"
-}
-
-tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack") {
-    outputFileName = "output.js"
-}
-
-tasks.getByName<Jar>("jvmJar") {
-    manifest {
-        attributes["Main-Class"] = "ServerKt"
-    }
-    dependsOn(tasks.getByName("jsBrowserProductionWebpack"))
-    val jsBrowserProductionWebpack = tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack")
-    from(File(jsBrowserProductionWebpack.destinationDirectory, jsBrowserProductionWebpack.outputFileName))
-}
-
-tasks.getByName<JavaExec>("run") {
-    dependsOn(tasks.getByName<Jar>("jvmJar"))
-    classpath(tasks.getByName<Jar>("jvmJar"))
-}
-
-tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = "ServerKt"
-    }
-
-    // To add all of the dependencies otherwise a "NoClassDefFoundError" error
-    from(sourceSets.main.get().output)
-
-    dependsOn(configurations.runtimeClasspath)
-    from({
-        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-    })
-}
+//application {
+//    mainClassName = "ServerKt"
+//}
+//
+//tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack") {
+//    outputFileName = "output.js"
+//}
+//
+//tasks.getByName<Jar>("jvmJar") {
+//    manifest {
+//        attributes["Main-Class"] = "ServerKt"
+//    }
+//    dependsOn(tasks.getByName("jsBrowserProductionWebpack"))
+//    val jsBrowserProductionWebpack = tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack")
+//    from(File(jsBrowserProductionWebpack.destinationDirectory, jsBrowserProductionWebpack.outputFileName))
+//}
+//
+//tasks.getByName<JavaExec>("run") {
+//    dependsOn(tasks.getByName<Jar>("jvmJar"))
+//    classpath(tasks.getByName<Jar>("jvmJar"))
+//}
+//
+//tasks.withType<Jar> {
+//    manifest {
+//        attributes["Main-Class"] = "ServerKt"
+//    }
+//
+//    // To add all of the dependencies otherwise a "NoClassDefFoundError" error
+//    from(sourceSets.main.get().output)
+//
+//    dependsOn(configurations.runtimeClasspath)
+//    from({
+//        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+//    })
+//}
 
 /**
  * Utility function to retrieve the current version number.
@@ -213,4 +206,48 @@ task("printVersion") {
 
 tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
+}
+
+application {
+    mainClassName = "ServerKt"
+}
+
+// include JS artifacts in any JAR we generate
+tasks.getByName<Jar>("jvmJar") {
+    val taskName = if (project.hasProperty("isProduction")) {
+        "jsBrowserProductionWebpack"
+    } else {
+        "jsBrowserDevelopmentWebpack"
+    }
+    val webpackTask = tasks.getByName<KotlinWebpack>(taskName)
+    dependsOn(webpackTask) // make sure JS gets compiled first
+    from(File(webpackTask.destinationDirectory, webpackTask.outputFileName)) // bring output file along into the JAR
+}
+
+tasks {
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+}
+
+distributions {
+    main {
+        contents {
+            from("$buildDir/libs") {
+                rename("${rootProject.name}-jvm", rootProject.name)
+                into("lib")
+            }
+        }
+    }
+}
+
+// Alias "installDist" as "stage" (for cloud providers)
+tasks.create("stage") {
+    dependsOn(tasks.getByName("installDist"))
+}
+
+tasks.getByName<JavaExec>("run") {
+    classpath(tasks.getByName<Jar>("jvmJar")) // so that the JS artifacts generated by `jvmJar` can be found and served
 }

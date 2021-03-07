@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.SerializationFeature
 import controller.debug.debugModule
 import controller.ig.igModule
 import controller.validation.validationModule
@@ -9,6 +11,8 @@ import io.ktor.gson.*
 import io.ktor.html.*
 import io.ktor.http.*
 import io.ktor.http.content.*
+import io.ktor.jackson.*
+import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.html.*
 import org.slf4j.event.Level
@@ -69,20 +73,27 @@ fun Application.setup() {
     }
 
     install(ContentNegotiation) {
-        gson {
-           setLenient()
+        jackson {
+            enable(SerializationFeature.INDENT_OUTPUT)
+            /*
+             * Right now we need to ignore unknown fields because we take a very simplified version of many of the fhir
+             * model classes, and map them to classes across JVM/Common/JS.
+             */
+            configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         }
     }
 
     install(Routing) {
         get("/") {
-            call.respondHtml(HttpStatusCode.OK, HTML::index)
+            call.respondText(
+                this::class.java.classLoader.getResource("index.html")!!.readText(),
+                ContentType.Text.Html
+            )
         }
 
-        static("/static") {
-            resources()
+        static("/") {
+            resources("")
         }
-        resources()
 
         debugModule()
         igModule()
