@@ -1,10 +1,15 @@
+import api.ApiInjection
 import com.typesafe.config.ConfigFactory
+import controller.ControllersInjection
+import io.ktor.application.*
 import io.ktor.config.*
 import io.ktor.server.engine.*
 import io.ktor.server.jetty.*
 import io.ktor.util.*
 import org.hl7.fhir.validation.ValidatorCli
 import org.hl7.fhir.validation.cli.utils.Params
+import org.koin.dsl.module
+import org.koin.ktor.ext.Koin
 import java.util.concurrent.TimeUnit
 
 private const val DEFAULT_ENVIRONMENT: String = "dev"
@@ -59,6 +64,14 @@ fun startServer(args: Array<String>) {
 
     engine = embeddedServer(Jetty, host = config.host, port = config.port) {
         println("Starting instance in ${config.host}:${config.port}")
+        module {
+            install(Koin) {
+                modules(
+                    ApiInjection.koinBeans,
+                    ControllersInjection.koinBeans
+                )
+            }
+        }
         module()
     }
 

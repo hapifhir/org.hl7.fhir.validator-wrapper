@@ -3,36 +3,28 @@ package reactredux.containers
 import App
 import AppProps
 import model.AppScreen
-import model.FileInfo
-import model.ValidationOutcome
 import react.RClass
 import react.RProps
 import react.invoke
 import react.redux.rConnect
-import reactredux.actions.RemoveFile
-import reactredux.actions.SetScreen
-import reactredux.state.AppState
+import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
-import ui.components.FileListComponent
-import ui.components.FileListProps
-import ui.components.Header
-import ui.components.HeaderProps
+import Polyglot
 
 private interface AppStateProps : RProps {
     var appScreen: AppScreen
+    var polyglot: Polyglot
 }
 
-private interface AppDispatchProps : RProps {
-
-}
+private interface AppDispatchProps : RProps {}
 
 val app: RClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, AppStateProps, AppDispatchProps, AppProps>(
         { state, _ ->
-            appScreen = state.appScreen
+            appScreen = state.appScreenSlice.appScreen
+            polyglot = state.localizationState.polyglotInstance
         },
-        { dispatch, _ ->
-
+        { _, _ ->
         }
     )(App::class.js.unsafeCast<RClass<AppProps>>())

@@ -7,6 +7,7 @@ actual class ValidationRequest actual constructor() {
 
     private var cliContext: CliContext = CliContext()
     private var filesToValidate: List<FileInfo> = listOf()
+    private var sessionId: String = ""
 
     constructor(cliContext: CliContext, filesToValidate: List<FileInfo>) : this() {
         this.cliContext = cliContext
@@ -30,4 +31,14 @@ actual class ValidationRequest actual constructor() {
         this.filesToValidate = filesToValidate
         return this
     }
+
+    actual fun getSessionId(): String {
+        return sessionId
+    }
+
+    actual fun setSessionId(sessionId: String): ValidationRequest {
+        this.sessionId = sessionId
+        return this
+    }
+
 }

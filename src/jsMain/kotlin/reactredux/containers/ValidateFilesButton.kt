@@ -7,9 +7,8 @@ import react.RClass
 import react.RProps
 import react.invoke
 import react.redux.rConnect
-import reactredux.actions.AddValidationOutcome
-import reactredux.actions.ToggleValidationInProgress
-import reactredux.state.AppState
+import reactredux.slices.UploadedResourceSlice
+import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
 import ui.components.ValidateFilesButton
@@ -28,11 +27,11 @@ private interface ValidateFilesButtonDispatchProps : RProps {
 val validateFilesButton: RClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, ValidateFilesButtonStateProps, ValidateFilesButtonDispatchProps, ValidateFilesButtonProps>(
         { state, _ ->
-            cliContext = state.cliContext
-            uploadedFiles = state.uploadedFiles
+            cliContext = state.validationContextSlice.cliContext
+            uploadedFiles = state.uploadedResourceSlice.uploadedFiles
         },
         { dispatch, _ ->
-            addValidationOutcome = { dispatch(AddValidationOutcome(it)) }
-            toggleValidationInProgress = { b: Boolean, fileInfo: FileInfo -> dispatch(ToggleValidationInProgress(b, fileInfo)) }
+            addValidationOutcome = { dispatch(UploadedResourceSlice.AddValidationOutcome(it)) }
+            toggleValidationInProgress = { b: Boolean, fileInfo: FileInfo -> dispatch(UploadedResourceSlice.ToggleValidationInProgress(b, fileInfo)) }
         }
     )(ValidateFilesButton::class.js.unsafeCast<RClass<ValidateFilesButtonProps>>())

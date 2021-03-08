@@ -7,6 +7,7 @@ import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
+import react.dom.span
 import reactredux.containers.contextSettings
 import reactredux.containers.header
 import styled.css
@@ -17,18 +18,12 @@ import ui.components.tabLayout
 
 external interface AppProps : RProps {
     var appScreen: AppScreen
+    var polyglot: Polyglot
 }
-
-class AppState : RState {}
 
 val mainScope = MainScope()
 
-class App : RComponent<AppProps, AppState>() {
-    init {
-        injectGlobal(styles.toString())
-        state = AppState()
-    }
-
+class App : RComponent<AppProps, RState>() {
     override fun RBuilder.render() {
 
         styledDiv {
@@ -36,10 +31,14 @@ class App : RComponent<AppProps, AppState>() {
                 +LandingPageStyle.mainDiv
                 flexDirection = FlexDirection.column
             }
-            header { }
+            header {
+
+            }
             when (props.appScreen) {
                 AppScreen.VALIDATOR -> {
                     sectionTitle {
+//  TODO once localization is updated
+//  majorText = props.polyglot.t("heading_validate")
                         majorText = "Validate Resources"
                         minorText = "Manually enter, or upload resources for validation."
                     }
