@@ -1,6 +1,6 @@
 package constants
 
-enum class FhirFormat(val code: String) {
+enum class FhirFormat(var code: String) {
     JSON("json"),
     TURTLE("ttl"),
     XML("xml"),

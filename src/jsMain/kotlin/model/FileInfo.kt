@@ -7,7 +7,7 @@ actual class FileInfo actual constructor() {
 
     var fileName: String = ""
     var fileContent: String = ""
-    var fileType: String = "json"
+    var fileType: String = ""
 
     constructor(fileName: String, fileContent: String, fileType: String) : this() {
         this.fileName = fileName

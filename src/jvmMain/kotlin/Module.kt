@@ -15,6 +15,7 @@ import io.ktor.jackson.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.html.*
+import org.slf4j.Logger
 import org.slf4j.event.Level
 
 /**
@@ -57,8 +58,9 @@ fun Application.module() {
  */
 fun Application.setup() {
 
-    install(CallLogging) {
-        level = Level.DEBUG
+    install(CallLogging)
+    {
+
     }
 
     install(CORS) {

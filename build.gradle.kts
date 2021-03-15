@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform") version "1.4.31"
@@ -33,6 +34,7 @@ repositories {
     maven {
         url = uri("https://plugins.gradle.org/m2/")
     }
+    maven("https://dl.bintray.com/kotlin/kotlin-eap")
 }
 
 kotlin {
@@ -53,18 +55,18 @@ kotlin {
         binaries.executable()
         browser {
             binaries.executable()
-//            webpackTask {
-//                cssSupport.enabled = true
-//            }
-//            runTask {
-//                cssSupport.enabled = true
-//            }
-//            testTask {
-//                useKarma {
-//                    useChromeHeadless()
-//                    webpackConfig.cssSupport.enabled = true
-//                }
-//            }
+            webpackTask {
+                cssSupport.enabled = true
+            }
+            runTask {
+                cssSupport.enabled = true
+            }
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                    webpackConfig.cssSupport.enabled = true
+                }
+            }
         }
     }
     sourceSets {
@@ -81,8 +83,8 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-//                implementation(kotlin("test-common"))
-//                implementation(kotlin("test-annotations-common"))
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
             }
@@ -99,7 +101,9 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${property("kotlinxVersion")}")
                 implementation("org.koin:koin-ktor:${property("koinVersion")}")
 
-                implementation("ch.qos.logback:logback-classic:1.2.3")
+                implementation("com.squareup.okhttp3:okhttp:4.9.0")
+
+                implementation("ch.qos.logback:logback-classic:${property("logbackVersion")}")
                 implementation("org.litote.kmongo:kmongo-coroutine-serialization:3.12.2")
                 implementation("no.tornado:tornadofx:${property("tornadoFXVersion")}")
             }

@@ -7,6 +7,7 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import model.*
+import org.hl7.fhir.validation.cli.model.ValidationResponse
 import org.koin.ktor.ext.inject
 import utils.badFileEntryExists
 

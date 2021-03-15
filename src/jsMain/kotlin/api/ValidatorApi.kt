@@ -1,6 +1,5 @@
 package api
 
-import constants.DEBUG_ENDPOINT
 import constants.IG_ENDPOINT
 import constants.VALIDATION_ENDPOINT
 import constants.VERSIONS_ENDPOINT
@@ -31,12 +30,19 @@ val jsonClient = HttpClient {
     }
 }
 
-suspend fun sendValidationRequest(validationRequest: ValidationRequest): List<ValidationOutcome> {
-    val message = jsonClient.post<ValidationResponse>(urlString = endpoint + VALIDATION_ENDPOINT) {
+//suspend fun sendValidationRequest(validationRequest: ValidationRequest): List<ValidationOutcome> {
+//    val message = jsonClient.post<ValidationResponse>(urlString = endpoint + VALIDATION_ENDPOINT) {
+//        contentType(ContentType.Application.Json)
+//        body = validationRequest
+//    }
+//    return message.getOutcomes().map { it.setValidated(true) }
+//}
+
+suspend fun sendValidationRequest(validationRequest: ValidationRequest): ValidationResponse {
+    return jsonClient.post(urlString = endpoint + VALIDATION_ENDPOINT) {
         contentType(ContentType.Application.Json)
         body = validationRequest
     }
-    return message.getOutcomes().map { it.setValidated(true) }
 }
 
 suspend fun sendIGsRequest(): IGResponse {

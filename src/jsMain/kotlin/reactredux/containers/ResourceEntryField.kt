@@ -13,16 +13,19 @@ import ui.components.ResourceEntryFieldComponent
 import ui.components.ResourceEntryFieldProps
 import Polyglot
 import reactredux.slices.ManuallyEnteredResourceSlice
+import reactredux.slices.ValidationSessionSlice
 
 private interface ResourceEntryFieldStateProps : RProps {
     var cliContext: CliContext
     var validationOutcome: ValidationOutcome
     var polyglot: Polyglot
+    var sessionId: String
 }
 
 private interface ResourceEntryFieldDispatchProps : RProps {
     var addManuallyEnteredFileValidationOutcome: (ValidationOutcome) -> Unit
     var toggleValidationInProgress: (Boolean) -> Unit
+    var setSessionId: (String) -> Unit
 }
 
 val resourceEntryField: RClass<RProps> =
@@ -31,9 +34,11 @@ val resourceEntryField: RClass<RProps> =
             cliContext = state.validationContextSlice.cliContext
             validationOutcome = state.manuallyEnteredResourceState.manuallyEnteredFileData
             polyglot = state.localizationState.polyglotInstance
+            sessionId = state.validationSessionState.sessionId
         },
         { dispatch, _ ->
             addManuallyEnteredFileValidationOutcome = { dispatch(ManuallyEnteredResourceSlice.AddManuallyEnteredFileValidationOutcome(it)) }
             toggleValidationInProgress = { dispatch(ManuallyEnteredResourceSlice.ToggleValidationInProgress(it)) }
+            setSessionId = { id: String -> dispatch(ValidationSessionSlice.SetSessionId(id)) }
         }
     )(ResourceEntryFieldComponent::class.js.unsafeCast<RClass<ResourceEntryFieldProps>>())
