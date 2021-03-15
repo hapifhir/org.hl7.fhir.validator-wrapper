@@ -32,9 +32,9 @@ val resourceEntryField: RClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, ResourceEntryFieldStateProps, ResourceEntryFieldDispatchProps, ResourceEntryFieldProps>(
         { state, _ ->
             cliContext = state.validationContextSlice.cliContext
-            validationOutcome = state.manuallyEnteredResourceState.manuallyEnteredFileData
-            polyglot = state.localizationState.polyglotInstance
-            sessionId = state.validationSessionState.sessionId
+            validationOutcome = state.manuallyEnteredResourceSlice.manuallyEnteredFileData
+            polyglot = state.localizationSlice.polyglotInstance
+            sessionId = state.validationSessionSlice.sessionId
         },
         { dispatch, _ ->
             addManuallyEnteredFileValidationOutcome = { dispatch(ManuallyEnteredResourceSlice.AddManuallyEnteredFileValidationOutcome(it)) }

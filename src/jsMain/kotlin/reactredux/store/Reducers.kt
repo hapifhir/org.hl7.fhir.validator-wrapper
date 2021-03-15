@@ -9,9 +9,9 @@ import kotlin.reflect.KProperty1
  */
 fun combinedReducers() = combineReducersInferred(
     mapOf(
-        AppState::localizationState to LocalizationSlice::reducer,
-        AppState::validationSessionState to ValidationSessionSlice::reducer,
-        AppState::manuallyEnteredResourceState to ManuallyEnteredResourceSlice::reducer,
+        AppState::localizationSlice to LocalizationSlice::reducer,
+        AppState::validationSessionSlice to ValidationSessionSlice::reducer,
+        AppState::manuallyEnteredResourceSlice to ManuallyEnteredResourceSlice::reducer,
         AppState::uploadedResourceSlice to UploadedResourceSlice::reducer,
         AppState::validationContextSlice to ValidationContextSlice::reducer,
         AppState::appScreenSlice to AppScreenSlice::reducer

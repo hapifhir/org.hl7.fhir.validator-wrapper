@@ -8,8 +8,8 @@ import react.redux.rConnect
 import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
-import ui.components.Header
-import ui.components.HeaderProps
+import ui.components.header.Header
+import ui.components.header.HeaderProps
 import utils.Language
 import Polyglot
 import reactredux.slices.AppScreenSlice
@@ -31,8 +31,8 @@ val header: RClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, HeaderStateProps, HeaderDispatchProps, HeaderProps>(
         { state, _ ->
             appScreen = state.appScreenSlice.appScreen
-            language = state.localizationState.selectedLangauge
-            polyglot = state.localizationState.polyglotInstance
+            language = state.localizationSlice.selectedLangauge
+            polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->
             setScreen = { dispatch(AppScreenSlice.SetScreen(it)) }

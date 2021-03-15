@@ -1,4 +1,4 @@
-package ui.components
+package ui.components.header
 
 import Polyglot
 import css.component.HeaderStyle

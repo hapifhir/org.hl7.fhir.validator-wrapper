@@ -25,6 +25,7 @@ import model.FileInfo
 import model.ValidationOutcome
 import org.w3c.dom.HTMLTextAreaElement
 import react.*
+import react.dom.defaultValue
 import react.dom.value
 import styled.*
 import ui.components.generic.fileIssueListDisplayComponent
@@ -84,7 +85,7 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
                     id = INPUT_TEXT_ID
                     //  TODO once polyglot is working
                     //  placeholder = props.polyglot.t("test_string")
-                    +"Enter Resource Manually"
+                    defaultValue = "Enter Resource Manually"
                     onInputFunction = {
                         val currentEntry = this.value
                         props.validationOutcome.getFileInfo().setFileContent(currentEntry)

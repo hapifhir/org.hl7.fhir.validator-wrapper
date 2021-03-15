@@ -32,7 +32,7 @@ val validateFilesButton: RClass<RProps> =
         { state, _ ->
             cliContext = state.validationContextSlice.cliContext
             uploadedFiles = state.uploadedResourceSlice.uploadedFiles
-            sessionId = state.validationSessionState.sessionId
+            sessionId = state.validationSessionSlice.sessionId
         },
         { dispatch, _ ->
             addValidationOutcome = { dispatch(UploadedResourceSlice.AddValidationOutcome(it)) }
