@@ -1,5 +1,6 @@
 package controller.ig
 
+import constants.FhirFormat
 import controller.BaseControllerTest
 import instrumentation.IgInstrumentation.givenANullReturnedListOfPackageInfo
 import instrumentation.IgInstrumentation.givenAReturnedListOfValidPackageInfo
@@ -67,3 +68,4 @@ class IgControllerTest : BaseControllerTest() {
         }
     }
 }
+

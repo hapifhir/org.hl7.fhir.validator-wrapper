@@ -1,6 +1,5 @@
 package api
 
-import org.hl7.fhir.utilities.VersionUtilities
 import org.hl7.fhir.utilities.npm.PackageClient
 import org.hl7.fhir.validation.cli.services.ValidationService
 import org.koin.dsl.module

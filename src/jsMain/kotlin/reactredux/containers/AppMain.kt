@@ -23,7 +23,7 @@ val app: RClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, AppStateProps, AppDispatchProps, AppProps>(
         { state, _ ->
             appScreen = state.appScreenSlice.appScreen
-            polyglot = state.localizationState.polyglotInstance
+            polyglot = state.localizationSlice.polyglotInstance
         },
         { _, _ ->
         }

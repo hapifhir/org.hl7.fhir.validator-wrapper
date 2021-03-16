@@ -1,5 +1,6 @@
 package ui.components
 
+import Polyglot
 import api.sendValidationRequest
 import constants.FhirFormat
 import css.component.FileUploadStyle
@@ -13,23 +14,29 @@ import kotlinx.css.JustifyContent
 import kotlinx.css.display
 import kotlinx.css.justifyContent
 import kotlinx.html.id
-import kotlinx.html.js.*
+import kotlinx.html.js.onClickFunction
+import kotlinx.html.js.onInputFunction
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import mainScope
 import model.CliContext
+import model.FileInfo
 import model.ValidationOutcome
 import org.w3c.dom.HTMLTextAreaElement
 import react.*
-import react.dom.span
+import react.dom.defaultValue
 import react.dom.value
 import styled.*
 import ui.components.generic.fileIssueListDisplayComponent
 import utils.assembleRequest
-import Polyglot
 
 external interface ResourceEntryFieldProps : RProps {
     var cliContext: CliContext
     var validationOutcome: ValidationOutcome
     var addManuallyEnteredFileValidationOutcome: (ValidationOutcome) -> Unit
+    var sessionId: String
+    var setSessionId: (String) -> Unit
     var polyglot: Polyglot
 }
 
@@ -78,7 +85,7 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
                     id = INPUT_TEXT_ID
                     //  TODO once polyglot is working
                     //  placeholder = props.polyglot.t("test_string")
-                    +"Enter Resource Manually"
+                    defaultValue = "Enter Resource Manually"
                     onInputFunction = {
                         val currentEntry = this.value
                         props.validationOutcome.getFileInfo().setFileContent(currentEntry)
@@ -134,14 +141,23 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
                                         setState {
                                             validating = true
                                         }
-                                        val returnedOutcome = sendValidationRequest(
-                                            assembleRequest(
-                                                cliContext = props.cliContext,
-                                                fileName = "testfile.json",
-                                                fileContent = field.value,
-                                                fileType = FhirFormat.JSON
-                                            )
+
+                                        val req = assembleRequest(
+                                            cliContext = props.cliContext,
+                                            fileName = "testfile.json",
+                                            fileContent = field.value,
+                                            fileType = FhirFormat.JSON
+                                        ).setSessionId(props.sessionId)
+
+                                        val validationResponse = sendValidationRequest(
+                                            req
                                         )
+
+                                        props.setSessionId(validationResponse.getSessionId())
+
+                                        val returnedOutcome =
+                                            validationResponse.getOutcomes().map { it.setValidated(true) }
+
                                         println("File validated\n"
                                                 + "filename -> " + returnedOutcome.first().getFileInfo().fileName
                                                 + "content -> " + returnedOutcome.first().getFileInfo().fileContent

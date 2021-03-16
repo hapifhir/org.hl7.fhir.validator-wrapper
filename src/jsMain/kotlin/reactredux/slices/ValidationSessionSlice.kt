@@ -2,7 +2,7 @@ package reactredux.slices
 
 import redux.RAction
 
-object ValidationSlice {
+object ValidationSessionSlice {
 
     data class State(
         val sessionId: String = "",
