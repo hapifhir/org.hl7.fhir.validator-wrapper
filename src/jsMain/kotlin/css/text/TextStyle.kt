@@ -7,9 +7,18 @@ import styled.StyleSheet
 
 object TextStyle : StyleSheet("Tabs", isStatic = true) {
 
-    val FONT_FAMILY_MAIN = "Montserrat"
-    val FONT_FAMILY_CODE = "Source Code Pro"
+    private const val FONT_FAMILY_MAIN = "Open Sans"
+    private const val FONT_FAMILY_CODE = "Courier Prime"
 
+    val headerButtonLabel by css {
+        fontFamily = FONT_FAMILY_MAIN
+        fontSize = 14.pt
+        fontWeight = FontWeight.w400
+        color = TEXT_BLACK
+    }
+
+
+    // Legacy Values TODO DELETE
     val h1 by css {
         fontFamily = FONT_FAMILY_MAIN
         fontSize = 40.pt

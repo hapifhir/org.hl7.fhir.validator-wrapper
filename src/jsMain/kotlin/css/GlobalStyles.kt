@@ -15,7 +15,6 @@ object GlobalStyles {
                 padding(0.px)
             }
         }
-
         createGlobalStyle(styles.toString())
     }
 }

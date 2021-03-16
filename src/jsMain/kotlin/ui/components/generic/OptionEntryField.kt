@@ -6,6 +6,7 @@ import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLTextAreaElement
 import react.*
+import react.dom.defaultValue
 import styled.*
 
 external interface OptionEntryFieldProps : RProps {
@@ -58,8 +59,8 @@ class OptionEntryField : RComponent<OptionEntryFieldProps, OptionEntryFieldState
                     }
                     attrs {
                         id = "OptionEntryFieldTextArea"
+                        defaultValue = props.defaultValue
                     }
-                    +props.defaultValue
                 }
                 styledDiv {
                     css {

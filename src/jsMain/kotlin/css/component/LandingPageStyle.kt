@@ -1,6 +1,6 @@
 package css.component
 
-import css.component.HeaderStyle
+import css.component.header.HeaderStyle
 import kotlinx.css.*
 import styled.StyleSheet
 

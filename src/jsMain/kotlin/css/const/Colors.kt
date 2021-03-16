@@ -2,6 +2,9 @@ package css.const
 
 import kotlinx.css.Color
 
+val TEXT_BLACK = Color("#383838")
+
+// LEGACY COLORS TODO DELETE
 val REALLY_RED = Color("#B00000FF")
 val TRULY_RED = Color("#eb2229FF")
 val ALMOST_RED = Color("#FF6153FF")
