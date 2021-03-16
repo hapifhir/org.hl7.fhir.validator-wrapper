@@ -1,6 +1,7 @@
 package css.component.header
 
 import css.const.ALMOST_RED
+import css.const.HL7_RED
 import kotlinx.css.*
 import kotlinx.css.properties.*
 import styled.StyleSheet
@@ -10,7 +11,7 @@ object HeaderButtonIndicatorStyle : StyleSheet("HeaderButtonIndicator", isStatic
     val headerButtonIndicator by css {
         cursor = Cursor.pointer
         hover {
-            color = ALMOST_RED
+            color = HL7_RED
             after {
                 transform {
                     scaleX(1)
@@ -20,7 +21,7 @@ object HeaderButtonIndicatorStyle : StyleSheet("HeaderButtonIndicator", isStatic
         after {
             display = Display.block
             content = QuotedString("")
-            border(width = 1.px, style = BorderStyle.solid, color = ALMOST_RED)
+            border(width = 1.px, style = BorderStyle.solid, color = HL7_RED)
             transform {
                 scaleX(0)
             }
@@ -33,7 +34,7 @@ object HeaderButtonIndicatorStyle : StyleSheet("HeaderButtonIndicator", isStatic
         after {
             display = Display.block
             content = QuotedString("")
-            border(width = 1.px, style = BorderStyle.solid, color = ALMOST_RED)
+            border(width = 1.px, style = BorderStyle.solid, color = HL7_RED)
         }
     }
 

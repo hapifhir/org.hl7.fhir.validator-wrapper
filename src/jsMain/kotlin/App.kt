@@ -7,13 +7,11 @@ import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
-import react.dom.span
 import reactredux.containers.contextSettings
 import reactredux.containers.header
 import styled.css
-import styled.injectGlobal
 import styled.styledDiv
-import ui.components.sectionTitle
+import ui.components.main.sectionTitle
 import ui.components.tabLayout
 
 external interface AppProps : RProps {
@@ -31,9 +29,7 @@ class App : RComponent<AppProps, RState>() {
                 +LandingPageStyle.mainDiv
                 flexDirection = FlexDirection.column
             }
-            header {
-
-            }
+            header {}
             when (props.appScreen) {
                 AppScreen.VALIDATOR -> {
                     sectionTitle {
@@ -42,18 +38,14 @@ class App : RComponent<AppProps, RState>() {
                         majorText = "Validate Resources"
                         minorText = "Manually enter, or upload resources for validation."
                     }
-                    tabLayout {
-
-                    }
+                    tabLayout {}
                 }
                 AppScreen.SETTINGS -> {
                     sectionTitle {
                         majorText = "Validation Options"
                         minorText = "Modify setting for validating resources."
                     }
-                    contextSettings {
-
-                    }
+                    contextSettings {}
                 }
             }
         }

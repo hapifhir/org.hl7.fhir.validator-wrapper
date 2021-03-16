@@ -1,9 +1,9 @@
-package css.component
+package css.component.page
 
 import kotlinx.css.*
 import styled.StyleSheet
 
-object SectionTitleStyle : StyleSheet("SectionTitleStyle", isStatic = true) {
+object PageTitleStyle : StyleSheet("SectionTitleStyle", isStatic = true) {
 
     val sectionTitle by css {
         textAlign = TextAlign.center

@@ -1,32 +1,32 @@
-package ui.components
+package ui.components.main
 
-import css.component.SectionTitleStyle
+import css.component.page.PageTitleStyle
 import css.text.TextStyle
 import kotlinx.css.*
 import react.*
 import styled.*
 
-external interface SectionTitleProps : RProps {
+external interface PageTitleProps : RProps {
     var majorText: String
     var minorText: String
 }
 
-class SectionTitle : RComponent<SectionTitleProps, RState>() {
+class PageTitle : RComponent<PageTitleProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +SectionTitleStyle.sectionTitle
+                +PageTitleStyle.sectionTitle
             }
             styledSpan {
                 css {
-                    +TextStyle.h1
+                    +TextStyle.pageTitle
                     paddingBottom = 1.rem
                 }
                 +props.majorText
             }
             styledSpan {
                 css {
-                    +TextStyle.titleBody
+                    +TextStyle.pageDetails
                 }
                 +props.minorText
             }
@@ -34,8 +34,8 @@ class SectionTitle : RComponent<SectionTitleProps, RState>() {
     }
 }
 
-fun RBuilder.sectionTitle(handler: SectionTitleProps.() -> Unit): ReactElement {
-    return child(SectionTitle::class) {
+fun RBuilder.sectionTitle(handler: PageTitleProps.() -> Unit): ReactElement {
+    return child(PageTitle::class) {
         this.attrs(handler)
     }
 }

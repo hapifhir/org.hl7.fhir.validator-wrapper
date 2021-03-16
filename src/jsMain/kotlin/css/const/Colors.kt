@@ -4,6 +4,8 @@ import kotlinx.css.Color
 
 val TEXT_BLACK = Color("#383838")
 
+val HL7_RED = Color("#eb2229")
+
 // LEGACY COLORS TODO DELETE
 val REALLY_RED = Color("#B00000FF")
 val TRULY_RED = Color("#eb2229FF")
