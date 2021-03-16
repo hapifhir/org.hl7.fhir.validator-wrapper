@@ -1,4 +1,4 @@
-package css.component
+package css.component.page
 
 import css.animation.FadeIn.fadeIn
 import css.const.*
@@ -10,7 +10,7 @@ object TabBarStyle : StyleSheet("TabBar", isStatic = true) {
 
     val mainLayout by css {
         height = 600.px
-        display = Display.flex
+        display = Display.inlineFlex
         flexDirection = FlexDirection.column
     }
 
@@ -23,30 +23,30 @@ object TabBarStyle : StyleSheet("TabBar", isStatic = true) {
     val tabButton by css {
         float = Float.left
         cursor = Cursor.pointer
-        display = Display.flex
+        display = Display.inlineFlex
         alignItems = Align.center
         justifyContent = JustifyContent.center
-        height = 100.pct
-        width = 320.px
+        height = 64.px
+        width = 256.px
         boxSizing = BoxSizing.borderBox
     }
 
     val tabButtonInactive by css {
-        backgroundColor = WHITE
-        border(width = 1.px, style = BorderStyle.solid, color = GRAY_600)
+        backgroundColor = INACTIVE_GRAY
+        border(width = 1.px, style = BorderStyle.solid, color = BORDER_GREY)
         +tabButton
     }
 
     val tabButtonActive by css {
-        backgroundColor = GRAY_100
-        borderLeft(width = 1.px, style = BorderStyle.solid, color = GRAY_600)
-        borderRight(width = 1.px, style = BorderStyle.solid, color = GRAY_600)
-        borderTop(width = 4.px, style = BorderStyle.solid, color = TRULY_RED)
+        backgroundColor = WHITE
+        borderLeft(width = 1.px, style = BorderStyle.solid, color = BORDER_GREY)
+        borderRight(width = 1.px, style = BorderStyle.solid, color = BORDER_GREY)
+        borderTop(width = 4.px, style = BorderStyle.solid, color = HL7_RED)
         +tabButton
     }
 
     val tabButtonHover by css {
-        backgroundColor = GRAY_200
+        backgroundColor = HIGHLIGHT_GRAY
         +tabButton
     }
 
@@ -56,8 +56,24 @@ object TabBarStyle : StyleSheet("TabBar", isStatic = true) {
         flexDirection = FlexDirection.column
     }
 
+    val tabFill by css {
+        height = 100.pct
+        boxSizing = BoxSizing.borderBox
+        borderBottom(width = 1.px, style = BorderStyle.solid, color = BORDER_GREY)
+    }
+
+    val leftRightTabFill by css {
+        flexGrow = 1.0
+        +tabFill
+    }
+
+    val dividerTabFill by css {
+        width = 16.px
+        +tabFill
+    }
+
     val body by css {
-        backgroundColor = GRAY_100
+        backgroundColor = WHITE
         padding(24.px)
         fadeIn()
         flex(flexBasis = 100.pct)

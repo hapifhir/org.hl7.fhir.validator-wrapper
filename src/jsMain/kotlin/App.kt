@@ -12,7 +12,7 @@ import reactredux.containers.header
 import styled.css
 import styled.styledDiv
 import ui.components.main.sectionTitle
-import ui.components.tabLayout
+import ui.components.main.tabLayout
 
 external interface AppProps : RProps {
     var appScreen: AppScreen

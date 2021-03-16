@@ -1,14 +1,17 @@
-package ui.components
+package ui.components.main
 
-import css.component.TabBarStyle
-import css.text.TextStyle
+import css.component.page.TabBarStyle
 import css.const.GRAY_600
+import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.css.properties.borderBottom
+import kotlinx.css.properties.borderLeft
 import kotlinx.html.js.onClickFunction
 import react.*
 import styled.css
 import styled.styledDiv
+import ui.components.fileUploadTab
+import ui.components.manualEnterTab
 import ui.entity.TabState
 
 external interface TabLayoutProps : RProps {
@@ -38,24 +41,23 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                 }
                 styledDiv {
                     css {
-                        flexGrow = 1.0
-                        height = 100.pct
-                        boxSizing = BoxSizing.borderBox
-                        borderBottom(width = 1.px, style = BorderStyle.solid, color = GRAY_600)
+                        +TabBarStyle.leftRightTabFill
                     }
                 }
-                for (tabState in state.tabStates) {
+                val tabsIterator = state.tabStates.iterator()
+                while (tabsIterator.hasNext()) {
+                    val tabState = tabsIterator.next()
                     styledDiv {
                         +tabState.label
                         css {
                             if (tabState.active) {
-                                +TextStyle.tabActive
+                                +TextStyle.tabLabelActive
                                 +TabBarStyle.tabButtonActive
                             } else {
-                                +TextStyle.tabInactive
+                                +TextStyle.tabLabelInactive
                                 +TabBarStyle.tabButtonInactive
                                 hover {
-                                    +TextStyle.tabHover
+                                    +TextStyle.tabLabelHover
                                     +TabBarStyle.tabButtonHover
                                 }
                             }
@@ -71,13 +73,17 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                             }
                         }
                     }
+                    if (tabsIterator.hasNext()) {
+                        styledDiv {
+                            css {
+                                +TabBarStyle.dividerTabFill
+                            }
+                        }
+                    }
                 }
                 styledDiv {
                     css {
-                        flexGrow = 1.0
-                        height = 100.pct
-                        boxSizing = BoxSizing.borderBox
-                        borderBottom(width = 1.px, style = BorderStyle.solid, color = GRAY_600)
+                        +TabBarStyle.leftRightTabFill
                     }
                 }
             }

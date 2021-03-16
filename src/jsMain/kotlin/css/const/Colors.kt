@@ -6,6 +6,11 @@ val TEXT_BLACK = Color("#383838")
 
 val HL7_RED = Color("#eb2229")
 
+val INACTIVE_GRAY = Color("#f4f4f4")
+val BORDER_GREY = Color("#bbbbbb")
+val HIGHLIGHT_GRAY = Color("#eeeeee")
+
+
 // LEGACY COLORS TODO DELETE
 val REALLY_RED = Color("#B00000FF")
 val TRULY_RED = Color("#eb2229FF")

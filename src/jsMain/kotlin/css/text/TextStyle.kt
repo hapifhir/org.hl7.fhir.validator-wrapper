@@ -2,7 +2,6 @@ package css.text
 
 import css.const.*
 import kotlinx.css.*
-import kotlinx.css.properties.*
 import styled.StyleSheet
 
 object TextStyle : StyleSheet("Tabs", isStatic = true) {
@@ -17,6 +16,7 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         color = TEXT_BLACK
     }
 
+    // Section title
     val pageTitle by css {
         fontFamily = FONT_FAMILY_MAIN
         fontSize = 36.pt
@@ -24,6 +24,7 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         color = TRULY_RED
     }
 
+    // Section Details
     val pageDetails by css {
         fontFamily = FONT_FAMILY_MAIN
         fontSize = 18.pt
@@ -31,6 +32,28 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         color = TEXT_BLACK
     }
 
+    // Navigation Tabs
+    val tabLabel by css {
+        fontFamily = FONT_FAMILY_MAIN
+        color = TEXT_BLACK
+        fontSize = 12.pt
+        textTransform = TextTransform.uppercase
+    }
+
+    val tabLabelHover by css {
+        fontWeight = FontWeight.w600
+        +tabLabel
+    }
+
+    val tabLabelActive by css {
+        fontWeight = FontWeight.w600
+        +tabLabel
+    }
+
+    val tabLabelInactive by css {
+        fontWeight = FontWeight.w400
+        +tabLabel
+    }
 
 
     // Legacy Values TODO DELETE
@@ -93,26 +116,7 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         fontWeight = FontWeight.w400
         color = WHITE
     }
-    val tab by css {
-        fontFamily = FONT_FAMILY_MAIN
-        fontSize = 12.pt
-        fontWeight = FontWeight.w600
-    }
 
-    val tabActive by css {
-        color = TRULY_RED
-        +tab
-    }
-
-    val tabInactive by css {
-        color = GRAY_800
-        +tab
-    }
-
-    val tabHover by css {
-        color = ALMOST_RED
-        +tab
-    }
 
     val toolTipText by css {
         color = GRAY_800
