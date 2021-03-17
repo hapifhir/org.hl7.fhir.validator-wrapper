@@ -1,4 +1,4 @@
-package css.component
+package css.component.fileupload
 
 import kotlinx.css.*
 import styled.StyleSheet

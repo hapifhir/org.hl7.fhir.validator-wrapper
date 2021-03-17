@@ -3,7 +3,7 @@ package ui.components
 import Polyglot
 import api.sendValidationRequest
 import constants.FhirFormat
-import css.component.FileUploadStyle
+import css.component.fileupload.FileUploadStyle
 import css.component.ResourceEntryStyle
 import css.widget.FABStyle
 import css.widget.Spinner
@@ -16,12 +16,8 @@ import kotlinx.css.justifyContent
 import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.js.onInputFunction
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import mainScope
 import model.CliContext
-import model.FileInfo
 import model.ValidationOutcome
 import org.w3c.dom.HTMLTextAreaElement
 import react.*

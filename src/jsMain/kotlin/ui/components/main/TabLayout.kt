@@ -1,16 +1,12 @@
 package ui.components.main
 
 import css.component.page.TabBarStyle
-import css.const.GRAY_600
 import css.text.TextStyle
-import kotlinx.css.*
-import kotlinx.css.properties.borderBottom
-import kotlinx.css.properties.borderLeft
 import kotlinx.html.js.onClickFunction
 import react.*
 import styled.css
 import styled.styledDiv
-import ui.components.fileUploadTab
+import ui.components.fileupload.fileUploadTab
 import ui.components.manualEnterTab
 import ui.entity.TabState
 

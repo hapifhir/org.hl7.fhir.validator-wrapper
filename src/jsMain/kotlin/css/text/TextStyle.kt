@@ -6,7 +6,7 @@ import styled.StyleSheet
 
 object TextStyle : StyleSheet("Tabs", isStatic = true) {
 
-    private const val FONT_FAMILY_MAIN = "Open Sans"
+    const val FONT_FAMILY_MAIN = "Open Sans"
     private const val FONT_FAMILY_CODE = "Courier Prime"
 
     val headerButtonLabel by css {
