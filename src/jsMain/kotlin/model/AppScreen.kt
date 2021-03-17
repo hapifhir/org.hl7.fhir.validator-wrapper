@@ -1,8 +1,8 @@
 package model
 
 enum class AppScreen(val display: String) {
-    VALIDATOR("Validate"),
-    SETTINGS("Options");
+    VALIDATOR("HEADER_VALIDATE"),
+    SETTINGS("HEADER_OPTIONS");
 
     companion object {
         private val map = AppScreen.values().associateBy(AppScreen::display)

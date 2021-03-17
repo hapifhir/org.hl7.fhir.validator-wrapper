@@ -9,10 +9,10 @@ import react.RProps
 import react.RState
 import reactredux.containers.contextSettings
 import reactredux.containers.header
+import reactredux.containers.tabLayout
 import styled.css
 import styled.styledDiv
 import ui.components.main.sectionTitle
-import ui.components.tabLayout
 
 external interface AppProps : RProps {
     var appScreen: AppScreen
@@ -34,9 +34,9 @@ class App : RComponent<AppProps, RState>() {
                 AppScreen.VALIDATOR -> {
                     sectionTitle {
 //  TODO once localization is updated
-//  majorText = props.polyglot.t("heading_validate")
-                        majorText = "Validate Resources"
-                        minorText = "Manually enter, or upload resources for validation."
+                        majorText = props.polyglot.t("heading_validate")
+//                        majorText = "Validate Resources"
+//                        minorText = "Manually enter, or upload resources for validation."
                     }
                     tabLayout {}
                 }

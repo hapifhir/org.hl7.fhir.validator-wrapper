@@ -1,5 +1,6 @@
 package ui.components
 
+import Polyglot
 import css.component.TabBarStyle
 import css.text.TextStyle
 import css.const.GRAY_600
@@ -12,13 +13,13 @@ import styled.styledDiv
 import ui.entity.TabState
 
 external interface TabLayoutProps : RProps {
-
+    var polyglot: Polyglot
 }
 
 class TabLayoutState : RState {
     var tabStates: ArrayList<TabState> = arrayListOf(
-        TabState(label = "Enter Resource", active = true),
-        TabState(label = "Upload Resources", active = false)
+        TabState(label = "TAB_LAYOUT_ENTER_RESOURCE", active = true),
+        TabState(label = "TAB_LAYOUT_UPLOAD_RESOURCE", active = false)
     )
 }
 
@@ -46,7 +47,7 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                 }
                 for (tabState in state.tabStates) {
                     styledDiv {
-                        +tabState.label
+                        +props.polyglot.t(tabState.label)
                         css {
                             if (tabState.active) {
                                 +TextStyle.tabActive
@@ -96,8 +97,8 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
     }
 }
 
-fun RBuilder.tabLayout(handler: TabLayoutProps.() -> Unit): ReactElement {
-    return child(TabLayout::class) {
-        this.attrs(handler)
-    }
-}
+//fun RBuilder.tabLayout(handler: TabLayoutProps.() -> Unit): ReactElement {
+//    return child(TabLayout::class) {
+//        this.attrs(handler)
+//    }
+//}
