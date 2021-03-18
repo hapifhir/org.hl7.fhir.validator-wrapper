@@ -35,12 +35,15 @@ class TextButton : RComponent<TextButtonProps, RState>() {
                 border(width = 1.px, style = BorderStyle.solid, color = Color.transparent, borderRadius = 5.px)
                 backgroundColor = Color.transparent
                 if (props.active) {
+                    cursor = Cursor.pointer
                     hover {
                         backgroundColor = props.textColor.changeAlpha(0.1)
                     }
                     active {
                         backgroundColor = props.textColor
                     }
+                } else {
+                    cursor = Cursor.default
                 }
             }
             attrs {

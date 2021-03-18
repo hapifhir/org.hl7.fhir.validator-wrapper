@@ -18,6 +18,11 @@ object FileStatusIndicatorStyle : StyleSheet("FileStatusIndicator", isStatic = t
         borderRadius = 50.pct
     }
 
+    val animatedIndicator by css {
+        +indicator
+        scaleIntro()
+    }
+
     val indicatorNoStatus by css {
         +indicator
         boxSizing = BoxSizing.borderBox
@@ -28,28 +33,27 @@ object FileStatusIndicatorStyle : StyleSheet("FileStatusIndicator", isStatic = t
     }
 
     val indicatorFatal by css {
-        +indicator
+        +animatedIndicator
         backgroundColor = FATAL_PINK
-        scaleIntro()
     }
 
     val indicatorError by css {
-        +indicator
+        +animatedIndicator
         backgroundColor = ERROR_ORANGE
     }
 
     val indicatorWarning by css {
-        +indicator
+        +animatedIndicator
         backgroundColor = WARNING_YELLOW
     }
 
     val indicatorInformation by css {
-        +indicator
+        +animatedIndicator
         backgroundColor = SUCCESS_GREEN
     }
 
     val indicatorGood by css {
-        +indicator
+        +animatedIndicator
         backgroundColor = SUCCESS_GREEN
     }
 

@@ -14,7 +14,6 @@ object FileEntryStyle : StyleSheet("FileItemStyle") {
         flexDirection = FlexDirection.row
         justifyContent = JustifyContent.flexStart
         alignItems = Align.center
-        borderBottom(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
     }
 
     val titleField by css {

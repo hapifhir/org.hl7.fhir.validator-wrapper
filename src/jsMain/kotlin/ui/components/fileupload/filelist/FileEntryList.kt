@@ -1,19 +1,22 @@
-package ui.components
+package ui.components.fileupload.filelist
 
 import css.component.fileupload.filelist.FileEntryListStyle
-import model.FileInfo
 import model.ValidationOutcome
 import react.*
 import styled.css
 import styled.styledDiv
 import styled.styledUl
 
-external interface FileListProps : RProps {
-    var uploadedFiles: List<ValidationOutcome>
-    var removeFile: (FileInfo) -> Unit
+external interface FileEntryListProps : RProps {
+    var validationOutcomes: List<ValidationOutcome>
+    var viewFile: (ValidationOutcome) -> Unit
+    var deleteFile: (ValidationOutcome) -> Unit
 }
 
-class FileListComponent : RComponent<FileListProps, RState>() {
+/**
+ * Component that displays a list of validation outcomes.
+ */
+class FileEntryList : RComponent<FileEntryListProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -21,14 +24,17 @@ class FileListComponent : RComponent<FileListProps, RState>() {
             }
             styledUl {
                 css {
-//                    +FileEntryListStyle.listContainer
+                    +FileEntryListStyle.entryList
                 }
-                val filesIterator = props.uploadedFiles.iterator()
+                val filesIterator = props.validationOutcomes.iterator()
                 while (filesIterator.hasNext()) {
-                    fileItemComponent {
+                    fileEntry {
                         validationOutcome = filesIterator.next()
+                        onView = {
+                            props.viewFile(validationOutcome)
+                        }
                         onDelete = {
-                            props.removeFile(it)
+                            props.deleteFile(validationOutcome)
                         }
                     }
                     if (filesIterator.hasNext()) {
@@ -44,8 +50,8 @@ class FileListComponent : RComponent<FileListProps, RState>() {
     }
 }
 
-fun RBuilder.fileListComponent(handler: FileListProps.() -> Unit): ReactElement {
-    return child(FileListComponent::class) {
+fun RBuilder.fileEntryList(handler: FileEntryListProps.() -> Unit): ReactElement {
+    return child(FileEntryList::class) {
         this.attrs(handler)
     }
 }

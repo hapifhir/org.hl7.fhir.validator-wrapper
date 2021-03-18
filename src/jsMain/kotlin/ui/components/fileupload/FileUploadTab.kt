@@ -12,7 +12,7 @@ import model.ValidationOutcome
 import react.*
 import styled.css
 import styled.styledDiv
-import ui.components.fileupload.filelist.fileEntry
+import ui.components.fileupload.filelist.fileEntryList
 
 external interface FileUploadTabProps : RProps {
     var active: Boolean
@@ -31,16 +31,57 @@ class FileUploadTab : RComponent<FileUploadTabProps, RState>() {
                 alignItems = Align.flexStart
                 +TabBarStyle.body
             }
-            fileEntry {
-                validationOutcome = ValidationOutcome()
-                    .setFileInfo(FileInfo().setFileName("test_file.json"))
+            val results = listOf<ValidationOutcome>(
+                ValidationOutcome()
+                    .setFileInfo(FileInfo().setFileName("test_file1.json"))
                     .setValidated(true)
                     .setValidating(false)
+                    .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.FATAL))),
+                ValidationOutcome()
+                    .setFileInfo(FileInfo().setFileName("test_file2.json"))
+                    .setValidated(true)
+                    .setValidating(false)
+                    .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.ERROR))),
+                ValidationOutcome()
+                    .setFileInfo(FileInfo().setFileName("test_file3.json"))
+                    .setValidated(true)
+                    .setValidating(false)
+                    .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.WARNING))),
+                ValidationOutcome()
+                    .setFileInfo(FileInfo().setFileName("test_file4.json"))
+                    .setValidated(true)
+                    .setValidating(false)
+                    .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.INFORMATION))),
+                ValidationOutcome()
+                    .setFileInfo(FileInfo().setFileName("test_file5.json"))
+                    .setValidated(false)
+                    .setValidating(true)
+                    .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.FATAL))),
+                ValidationOutcome()
+                    .setFileInfo(FileInfo().setFileName("test_file6.json"))
+                    .setValidated(false)
+                    .setValidating(false)
                     .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.FATAL)))
-                onDelete = {
-                    println("Upper level delete called")
+            )
+            fileEntryList {
+                validationOutcomes = results
+                viewFile = {
+                    println("view file ${it.getFileInfo().fileName}")
+                }
+                deleteFile = {
+                    println("delete file ${it.getFileInfo().fileName}")
                 }
             }
+//            fileEntry {
+//                validationOutcome = ValidationOutcome()
+//                    .setFileInfo(FileInfo().setFileName("test_file.json"))
+//                    .setValidated(true)
+//                    .setValidating(false)
+//                    .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.FATAL)))
+//                onDelete = {
+//                    println("Upper level delete called")
+//                }
+//            }
 //            fileUploadComponent {}
 //            fileUploadButtonBar { }
 //            fileItemOptions {
