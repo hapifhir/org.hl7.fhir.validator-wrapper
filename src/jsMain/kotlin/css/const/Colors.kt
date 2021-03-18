@@ -10,7 +10,7 @@ val SUCCESS_GREEN = Color("#83cd7d")
 
 // GRAYS
 val INACTIVE_GRAY = Color("#f4f4f4")
-val BORDER_GREY = Color("#bbbbbb")
+val BORDER_GRAY = Color("#bbbbbb")
 val HIGHLIGHT_GRAY = Color("#eeeeee")
 
 // VALIDATION OUTCOME STATES

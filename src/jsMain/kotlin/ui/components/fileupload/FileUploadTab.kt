@@ -1,16 +1,18 @@
 package ui.components.fileupload
 
 import css.component.page.TabBarStyle
-import kotlinx.css.*
+import kotlinx.css.Align
+import kotlinx.css.Display
+import kotlinx.css.alignItems
+import kotlinx.css.display
+import model.FileInfo
 import model.IssueSeverity
 import model.ValidationMessage
 import model.ValidationOutcome
 import react.*
 import styled.css
 import styled.styledDiv
-import ui.components.fileUploadComponent
-import ui.components.fileupload.filelist.fileItemOptions
-import ui.components.fileupload.filelist.fileStatusIndicator
+import ui.components.fileupload.filelist.fileEntry
 
 external interface FileUploadTabProps : RProps {
     var active: Boolean
@@ -29,51 +31,61 @@ class FileUploadTab : RComponent<FileUploadTabProps, RState>() {
                 alignItems = Align.flexStart
                 +TabBarStyle.body
             }
+            fileEntry {
+                validationOutcome = ValidationOutcome()
+                    .setFileInfo(FileInfo().setFileName("test_file.json"))
+                    .setValidated(true)
+                    .setValidating(false)
+                    .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.FATAL)))
+                onDelete = {
+                    println("Upper level delete called")
+                }
+            }
 //            fileUploadComponent {}
 //            fileUploadButtonBar { }
 //            fileItemOptions {
 //                viewOption = true
 //            }
-            styledDiv {
-                css {
-                    display = Display.flex
-                    flexDirection = FlexDirection.row
-                }
-                fileStatusIndicator {
-                    validationOutcome = ValidationOutcome()
-                        .setValidated(false)
-                        .setValidating(false)
-                }
-                fileStatusIndicator {
-                    validationOutcome = ValidationOutcome()
-                        .setValidated(true)
-                        .setValidating(false)
-                        .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.INFORMATION)))
-                }
-                fileStatusIndicator {
-                    validationOutcome = ValidationOutcome()
-                        .setValidated(false)
-                        .setValidating(true)
-                }
-                fileStatusIndicator {
-                    validationOutcome = ValidationOutcome()
-                        .setValidated(true)
-                        .setValidating(false)
-                        .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.WARNING)))
-                }
-                fileStatusIndicator {
-                    validationOutcome = ValidationOutcome()
-                        .setValidated(true)
-                        .setValidating(false)
-                        .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.ERROR)))
-                }
-                fileStatusIndicator {
-                    validationOutcome = ValidationOutcome()
-                        .setValidated(true)
-                        .setValidating(false)
-                        .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.FATAL)))
-                }
-            }
+//            styledDiv {
+//                css {
+//                    display = Display.flex
+//                    flexDirection = FlexDirection.row
+//                }
+//                fileStatusIndicator {
+//                    validationOutcome = ValidationOutcome()
+//                        .setValidated(false)
+//                        .setValidating(false)
+//                }
+//                fileStatusIndicator {
+//                    validationOutcome = ValidationOutcome()
+//                        .setValidated(true)
+//                        .setValidating(false)
+//                        .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.INFORMATION)))
+//                }
+//                fileStatusIndicator {
+//                    validationOutcome = ValidationOutcome()
+//                        .setValidated(false)
+//                        .setValidating(true)
+//                }
+//                fileStatusIndicator {
+//                    validationOutcome = ValidationOutcome()
+//                        .setValidated(true)
+//                        .setValidating(false)
+//                        .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.WARNING)))
+//                }
+//                fileStatusIndicator {
+//                    validationOutcome = ValidationOutcome()
+//                        .setValidated(true)
+//                        .setValidating(false)
+//                        .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.ERROR)))
+//                }
+//                fileStatusIndicator {
+//                    validationOutcome = ValidationOutcome()
+//                        .setValidated(true)
+//                        .setValidating(false)
+//                        .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.FATAL)))
+//                }
+//            }
         }
     }
 }

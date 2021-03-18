@@ -68,6 +68,13 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         color = TEXT_BLACK
     }
 
+    val fileEntryLabel by css {
+        fontFamily = FONT_FAMILY_MAIN
+        fontSize = 12.pt
+        fontWeight = FontWeight.w600
+        alignSelf = Align.center
+        color = TEXT_BLACK
+    }
 
 
 

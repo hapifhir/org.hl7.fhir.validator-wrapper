@@ -16,7 +16,7 @@ object FileStatusSpinnerStyle : StyleSheet("FileStatusSpinnerStyle", isStatic = 
         height = 100.pct
         borderRadius = 50.pct
         border(width = 2.px, style = BorderStyle.solid, color = HIGHLIGHT_GRAY)
-        borderTop(width = 2.px, style = BorderStyle.solid, color = BORDER_GREY)
+        borderTop(width = 2.px, style = BorderStyle.solid, color = BORDER_GRAY)
         spinner()
     }
 

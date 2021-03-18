@@ -2,21 +2,22 @@ package ui.components.fileupload.filelist
 
 import css.const.HL7_RED
 import css.const.SUCCESS_GREEN
-import css.const.WHITE
 import kotlinx.css.*
 import react.*
 import styled.css
 import styled.styledDiv
 import ui.components.buttons.textButton
 
-external interface FileUploadButtonBarProps : RProps {
+external interface FileEntryOptionsProps : RProps {
     var viewOption: Boolean
+    var onViewClicked: () -> Unit
+    var onDeleteClicked: () -> Unit
 }
 
 /**
  * Component displaying the horizontal list of buttons for file upload and validation
  */
-class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
+class FileEntryOptions : RComponent<FileEntryOptionsProps, RState>() {
 
     override fun RBuilder.render() {
         styledDiv {
@@ -31,13 +32,13 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
                 active = props.viewOption
                 label = "View"
                 onSelected = {
-                    println("View button selected!")
+                    props.onViewClicked()
                 }
             }
 
             styledDiv {
                 css {
-                    width = 16.px
+                    width = 8.px
                 }
             }
 
@@ -46,15 +47,15 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
                 active = true
                 label = "Delete"
                 onSelected = {
-                    println("Delete button selected!")
+                    props.onDeleteClicked()
                 }
             }
         }
     }
 }
 
-fun RBuilder.fileItemOptions(handler: FileUploadButtonBarProps.() -> Unit): ReactElement {
-    return child(FileUploadButtonBar::class) {
+fun RBuilder.fileEntryOptions(handler: FileEntryOptionsProps.() -> Unit): ReactElement {
+    return child(FileEntryOptions::class) {
         this.attrs(handler)
     }
 }

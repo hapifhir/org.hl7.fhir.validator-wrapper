@@ -33,14 +33,14 @@ object TabBarStyle : StyleSheet("TabBar", isStatic = true) {
 
     val tabButtonInactive by css {
         backgroundColor = INACTIVE_GRAY
-        border(width = 1.px, style = BorderStyle.solid, color = BORDER_GREY)
+        border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
         +tabButton
     }
 
     val tabButtonActive by css {
         backgroundColor = WHITE
-        borderLeft(width = 1.px, style = BorderStyle.solid, color = BORDER_GREY)
-        borderRight(width = 1.px, style = BorderStyle.solid, color = BORDER_GREY)
+        borderLeft(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        borderRight(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
         borderTop(width = 4.px, style = BorderStyle.solid, color = HL7_RED)
         +tabButton
     }
@@ -59,7 +59,7 @@ object TabBarStyle : StyleSheet("TabBar", isStatic = true) {
     val tabFill by css {
         height = 100.pct
         boxSizing = BoxSizing.borderBox
-        borderBottom(width = 1.px, style = BorderStyle.solid, color = BORDER_GREY)
+        borderBottom(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
     }
 
     val leftRightTabFill by css {

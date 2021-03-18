@@ -1,6 +1,5 @@
 package css.component.fileupload.filelist
 
-import css.component.fileupload.filelist.FileStatusSpinnerStyle.scaleIntro
 import css.const.*
 import kotlinx.css.*
 import kotlinx.css.properties.*
@@ -25,7 +24,7 @@ object FileStatusIndicatorStyle : StyleSheet("FileStatusIndicator", isStatic = t
         border(
             width = 2.px,
             style = BorderStyle.solid,
-            color = BORDER_GREY)
+            color = BORDER_GRAY)
     }
 
     val indicatorFatal by css {
@@ -70,7 +69,7 @@ object FileStatusIndicatorStyle : StyleSheet("FileStatusIndicator", isStatic = t
     val loadingIndicator by css {
         +indicator
         border(width = 2.px, style = BorderStyle.solid, color = HIGHLIGHT_GRAY)
-        borderTop(width = 2.px, style = BorderStyle.solid, color = BORDER_GREY)
+        borderTop(width = 2.px, style = BorderStyle.solid, color = BORDER_GRAY)
         spinner()
     }
 
