@@ -12,21 +12,22 @@ import redux.RAction
 import redux.WrapperAction
 import ui.components.FileListComponent
 import ui.components.FileListProps
+import ui.components.tabs.uploadtab.FileUploadTab
 
-private interface UploadedFileListStateProps : RProps {
+private interface FileUploadTabProps : RProps {
     var uploadedFiles: List<ValidationOutcome>
 }
 
-private interface UploadedFileListDispatchProps : RProps {
-    var removeFile: (FileInfo) -> Unit
+private interface FileUploadTabDispatchProps : RProps {
+    var deleteFile: (FileInfo) -> Unit
 }
 
 val uploadFilesList: RClass<RProps> =
-    rConnect<AppState, RAction, WrapperAction, RProps, UploadedFileListStateProps, UploadedFileListDispatchProps, FileListProps>(
+    rConnect<AppState, RAction, WrapperAction, RProps, FileUploadTabProps, FileUploadTabDispatchProps, FileUploadTabProps>(
         { state, _ ->
             uploadedFiles = state.uploadedResourceSlice.uploadedFiles
         },
         { dispatch, _ ->
-            removeFile = { dispatch(UploadedResourceSlice.RemoveFile(it)) }
+            deleteFile = { dispatch(UploadedResourceSlice.RemoveFile(it)) }
         }
-    )(FileListComponent::class.js.unsafeCast<RClass<FileListProps>>())
+    )(FileUploadTab::class.js.unsafeCast<RClass<FileUploadTabProps>>())

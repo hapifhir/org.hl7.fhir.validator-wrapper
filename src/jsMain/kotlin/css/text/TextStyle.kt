@@ -55,8 +55,17 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         +tabLabel
     }
 
+    val tabSectionHeading by css {
+        fontFamily = FONT_FAMILY_MAIN
+        fontWeight = FontWeight.w400
+        fontSize = 16.pt
+        color = TEXT_BLACK
+        alignSelf = Align.center
+    }
+
+    // Buttons
     val textButtonLabel by css {
-        fontFamily = TextStyle.FONT_FAMILY_MAIN
+        fontFamily = FONT_FAMILY_MAIN
         fontSize = 12.pt
         margin(0.px)
         fontWeight = FontWeight.w400
@@ -68,6 +77,7 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         color = TEXT_BLACK
     }
 
+    // File List Entries
     val fileEntryLabel by css {
         fontFamily = FONT_FAMILY_MAIN
         fontSize = 12.pt

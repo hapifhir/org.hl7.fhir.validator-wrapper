@@ -1,14 +1,19 @@
-package ui.components.fileupload
+package ui.components.tabs.uploadtab
 
 import css.const.HL7_RED
 import css.const.WHITE
-import kotlinx.css.*
+import css.tabs.uploadtab.FileUploadButtonBarStyle
+import kotlinx.css.px
+import kotlinx.css.width
 import react.*
 import styled.css
 import styled.styledDiv
 import ui.components.buttons.genericButton
 
-external interface FileUploadButtonBarProps : RProps {}
+external interface FileUploadButtonBarProps : RProps {
+    var onUploadRequested: () -> Unit
+    var onValidateRequested: () -> Unit
+}
 
 /**
  * Component displaying the horizontal list of buttons for file upload and validation
@@ -18,9 +23,7 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                display = Display.inlineFlex
-                flexDirection = FlexDirection.row
-                alignItems = Align.center
+                +FileUploadButtonBarStyle.buttonBarContainer
             }
 
             genericButton {
@@ -29,7 +32,7 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
                 image = "images/upload_red.png"
                 label = "Upload"
                 onSelected = {
-                    println("Upload button selected!")
+                    props.onUploadRequested()
                 }
             }
 
@@ -45,7 +48,7 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
                 image = "images/validate_red.png"
                 label = "Validate"
                 onSelected = {
-                    println("Validate button selected!")
+                    props.onValidateRequested()
                 }
             }
         }

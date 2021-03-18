@@ -1,12 +1,9 @@
-package css.component.fileupload.filelist
+package css.tabs.uploadtab.filelist
 
 import css.const.BORDER_GRAY
-import css.const.GRAY_300
-import css.const.PADDING_S
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import kotlinx.css.properties.borderBottom
-import kotlinx.css.properties.boxShadow
 import styled.StyleSheet
 
 object FileEntryListStyle : StyleSheet("FileEntryListStyle", isStatic = true) {

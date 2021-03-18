@@ -1,6 +1,6 @@
-package ui.components.fileupload.filelist
+package ui.components.tabs.uploadtab.filelist
 
-import css.component.fileupload.filelist.FileStatusIndicatorStyle
+import css.tabs.uploadtab.filelist.FileStatusIndicatorStyle
 import model.IssueSeverity
 import model.ValidationOutcome
 import react.*

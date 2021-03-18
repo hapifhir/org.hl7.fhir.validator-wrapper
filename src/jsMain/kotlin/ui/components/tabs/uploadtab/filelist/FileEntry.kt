@@ -1,6 +1,6 @@
-package ui.components.fileupload.filelist
+package ui.components.tabs.uploadtab.filelist
 
-import css.component.fileupload.filelist.FileEntryStyle
+import css.tabs.uploadtab.filelist.FileEntryStyle
 import css.text.TextStyle
 import model.ValidationOutcome
 import react.*

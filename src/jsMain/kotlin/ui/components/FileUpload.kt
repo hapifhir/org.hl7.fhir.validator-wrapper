@@ -1,6 +1,6 @@
 package ui.components
 
-import css.component.fileupload.FileUploadStyle
+import css.tabs.uploadtab.FileUploadStyle
 import css.widget.FABStyle
 import kotlinx.browser.document
 import kotlinx.html.js.onClickFunction

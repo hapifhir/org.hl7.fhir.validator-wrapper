@@ -1,4 +1,4 @@
-package ui.components.fileupload.filelist
+package ui.components.tabs.uploadtab.filelist
 
 import css.const.HL7_RED
 import css.const.SUCCESS_GREEN

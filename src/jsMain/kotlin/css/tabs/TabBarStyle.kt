@@ -1,4 +1,4 @@
-package css.component.page
+package css.tabs
 
 import css.animation.FadeIn.fadeIn
 import css.const.*
@@ -70,12 +70,5 @@ object TabBarStyle : StyleSheet("TabBar", isStatic = true) {
     val dividerTabFill by css {
         width = 16.px
         +tabFill
-    }
-
-    val body by css {
-        backgroundColor = WHITE
-        padding(24.px)
-        fadeIn()
-        flex(flexBasis = 100.pct)
     }
 }

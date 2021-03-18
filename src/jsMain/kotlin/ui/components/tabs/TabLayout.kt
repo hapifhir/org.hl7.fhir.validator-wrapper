@@ -1,12 +1,12 @@
-package ui.components.main
+package ui.components.tabs
 
-import css.component.page.TabBarStyle
+import css.tabs.TabBarStyle
 import css.text.TextStyle
 import kotlinx.html.js.onClickFunction
 import react.*
 import styled.css
 import styled.styledDiv
-import ui.components.fileupload.fileUploadTab
+import ui.components.tabs.uploadtab.fileUploadTab
 import ui.components.manualEnterTab
 import ui.entity.TabState
 

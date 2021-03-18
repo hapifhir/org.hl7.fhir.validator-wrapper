@@ -1,6 +1,6 @@
 package ui.components
 
-import css.component.fileupload.filelist.FileEntryListStyle
+import css.tabs.uploadtab.filelist.FileEntryListStyle
 import model.FileInfo
 import model.ValidationOutcome
 import react.*

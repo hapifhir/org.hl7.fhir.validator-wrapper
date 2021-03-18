@@ -2,7 +2,7 @@ package css.component
 
 import css.const.*
 import css.text.TextStyle
-import css.component.fileupload.filelist.FileStatusSpinnerStyle
+import css.tabs.uploadtab.filelist.FileStatusSpinnerStyle
 import kotlinx.css.*
 import kotlinx.css.properties.boxShadow
 import styled.StyleSheet

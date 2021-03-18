@@ -1,6 +1,6 @@
 package ui.components
 
-import css.component.page.TabBarStyle
+import css.tabs.TabBarStyle
 import kotlinx.css.Display
 import kotlinx.css.display
 import react.*
@@ -18,7 +18,7 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
         styledDiv {
             css {
                 display = if (props.active) Display.flex else Display.none
-                +TabBarStyle.body
+                //+TabBarStyle.body
             }
             resourceEntryField { }
         }
