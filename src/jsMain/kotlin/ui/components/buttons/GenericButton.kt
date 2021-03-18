@@ -1,6 +1,6 @@
 package ui.components.buttons
 
-import css.const.TEXT_BLACK
+import css.component.buttons.GenericButtonStyle
 import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.css.properties.border
@@ -16,6 +16,8 @@ external interface GenericButtonProps : RProps {
     var borderColor: Color
     var backgroundColor: Color
     var label: String
+
+    // Callback function when clicked
     var onSelected: () -> Unit
 }
 
@@ -28,17 +30,14 @@ class GenericButton : RComponent<GenericButtonProps, RState>() {
         // main button layout
         styledDiv {
             css {
-                display = Display.inlineFlex
-                flexDirection = FlexDirection.row
-                minHeight = 32.px
-                padding(horizontal = 16.px, vertical = 8.px)
+                +GenericButtonStyle.button
                 border(width = 1.px, style = BorderStyle.solid, color = props.borderColor, borderRadius = 5.px)
                 backgroundColor = props.backgroundColor
+                hover {
+                    backgroundColor = props.borderColor.changeAlpha(0.1)
+                }
                 active {
                     backgroundColor = props.borderColor
-                }
-                hover {
-                    // backgroundColor = Color(props.borderColor and 0x22FFFFFF)
                 }
             }
             attrs {
@@ -51,11 +50,7 @@ class GenericButton : RComponent<GenericButtonProps, RState>() {
             // button label
             styledP {
                 css {
-                    fontFamily = TextStyle.FONT_FAMILY_MAIN
-                    fontSize = 12.pt
-                    fontWeight = FontWeight.w400
-                    color = TEXT_BLACK
-                    alignSelf = Align.center
+                    +TextStyle.genericButtonLabel
                     if (!props.image.isNullOrEmpty()) {
                         // image has been defined, so we include right padding
                         margin(left = 0.px, top = 0.px, right = 8.px, bottom = 0.px)
@@ -68,9 +63,7 @@ class GenericButton : RComponent<GenericButtonProps, RState>() {
             if (!props.image.isNullOrEmpty()) {
                 styledImg {
                     css {
-                        height = 16.px
-                        width = 16.px
-                        alignSelf = Align.center
+                        +GenericButtonStyle.buttonImage
                     }
                     attrs {
                         src = props.image!!

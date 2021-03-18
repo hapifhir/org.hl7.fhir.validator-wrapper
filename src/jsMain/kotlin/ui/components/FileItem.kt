@@ -2,8 +2,8 @@ package ui.components
 
 import css.component.FileItemStyle
 import css.text.TextStyle
-import css.widget.FileStatusIndicator
-import css.widget.Spinner
+import css.component.fileupload.filelist.FileStatusIndicatorStyle
+import css.component.fileupload.filelist.FileStatusSpinnerStyle
 import kotlinx.css.Display
 import kotlinx.css.display
 import kotlinx.css.opacity
@@ -38,17 +38,17 @@ class FileItemComponent : RComponent<FileItemProps, FileItemState>() {
                 css {
                     if (!props.validationOutcome.isValidated()) {
                         if (props.validationOutcome.isValidating()) {
-                            +Spinner.loadingIconDark
+                            +FileStatusSpinnerStyle.loadingIndicator
                         } else {
-                            +FileStatusIndicator.indicatorNoStatus
+                            +FileStatusIndicatorStyle.indicatorNoStatus
                         }
                     } else {
                         when (getHighestIssueSeverity(props.validationOutcome.getMessages())) {
-                            IssueSeverity.INFORMATION -> +FileStatusIndicator.indicatorInformation
-                            IssueSeverity.WARNING -> +FileStatusIndicator.indicatorWarning
-                            IssueSeverity.ERROR -> +FileStatusIndicator.indicatorError
-                            IssueSeverity.FATAL -> +FileStatusIndicator.indicatorFatal
-                            IssueSeverity.NULL -> +FileStatusIndicator.indicatorGood
+                            IssueSeverity.INFORMATION -> +FileStatusIndicatorStyle.indicatorInformation
+                            IssueSeverity.WARNING -> +FileStatusIndicatorStyle.indicatorWarning
+                            IssueSeverity.ERROR -> +FileStatusIndicatorStyle.indicatorError
+                            IssueSeverity.FATAL -> +FileStatusIndicatorStyle.indicatorFatal
+                            IssueSeverity.NULL -> +FileStatusIndicatorStyle.indicatorGood
                         }
                     }
                 }

@@ -55,6 +55,21 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         +tabLabel
     }
 
+    val textButtonLabel by css {
+        fontFamily = TextStyle.FONT_FAMILY_MAIN
+        fontSize = 12.pt
+        margin(0.px)
+        fontWeight = FontWeight.w400
+        alignSelf = Align.center
+    }
+
+    val genericButtonLabel by css {
+        +textButtonLabel
+        color = TEXT_BLACK
+    }
+
+
+
 
     // Legacy Values TODO DELETE
     val h1 by css {

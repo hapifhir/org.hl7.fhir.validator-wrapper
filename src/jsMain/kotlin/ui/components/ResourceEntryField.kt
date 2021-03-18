@@ -6,7 +6,7 @@ import constants.FhirFormat
 import css.component.fileupload.FileUploadStyle
 import css.component.ResourceEntryStyle
 import css.widget.FABStyle
-import css.widget.Spinner
+import css.component.fileupload.filelist.FileStatusSpinnerStyle
 import kotlinx.browser.document
 import kotlinx.coroutines.launch
 import kotlinx.css.Display
@@ -111,7 +111,7 @@ class ResourceEntryFieldComponent : RComponent<ResourceEntryFieldProps, Resource
                 if (state.validating) {
                     styledSpan {
                         css {
-                            +Spinner.loadingIconLight
+                            +FileStatusSpinnerStyle.loadingIconLight
                             justifyContent = JustifyContent.center
                         }
                     }

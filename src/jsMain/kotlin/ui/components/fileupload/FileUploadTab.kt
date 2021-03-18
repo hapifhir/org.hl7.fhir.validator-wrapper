@@ -1,12 +1,16 @@
 package ui.components.fileupload
 
 import css.component.page.TabBarStyle
-import kotlinx.css.Display
-import kotlinx.css.display
+import kotlinx.css.*
+import model.IssueSeverity
+import model.ValidationMessage
+import model.ValidationOutcome
 import react.*
 import styled.css
 import styled.styledDiv
 import ui.components.fileUploadComponent
+import ui.components.fileupload.filelist.fileItemOptions
+import ui.components.fileupload.filelist.fileStatusIndicator
 
 external interface FileUploadTabProps : RProps {
     var active: Boolean
@@ -22,10 +26,54 @@ class FileUploadTab : RComponent<FileUploadTabProps, RState>() {
             css {
                 // If the tab is currently displayed on screen, we define a layout type, otherwise, we set to none
                 display = if (props.active) Display.flex else Display.none
+                alignItems = Align.flexStart
                 +TabBarStyle.body
             }
 //            fileUploadComponent {}
-            fileUploadButtonBar { }
+//            fileUploadButtonBar { }
+//            fileItemOptions {
+//                viewOption = true
+//            }
+            styledDiv {
+                css {
+                    display = Display.flex
+                    flexDirection = FlexDirection.row
+                }
+                fileStatusIndicator {
+                    validationOutcome = ValidationOutcome()
+                        .setValidated(false)
+                        .setValidating(false)
+                }
+                fileStatusIndicator {
+                    validationOutcome = ValidationOutcome()
+                        .setValidated(true)
+                        .setValidating(false)
+                        .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.INFORMATION)))
+                }
+                fileStatusIndicator {
+                    validationOutcome = ValidationOutcome()
+                        .setValidated(false)
+                        .setValidating(true)
+                }
+                fileStatusIndicator {
+                    validationOutcome = ValidationOutcome()
+                        .setValidated(true)
+                        .setValidating(false)
+                        .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.WARNING)))
+                }
+                fileStatusIndicator {
+                    validationOutcome = ValidationOutcome()
+                        .setValidated(true)
+                        .setValidating(false)
+                        .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.ERROR)))
+                }
+                fileStatusIndicator {
+                    validationOutcome = ValidationOutcome()
+                        .setValidated(true)
+                        .setValidating(false)
+                        .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.FATAL)))
+                }
+            }
         }
     }
 }
