@@ -11,6 +11,7 @@ import styled.css
 import styled.styledDiv
 import ui.components.FileUploadState
 import ui.components.buttons.optionButton
+import ui.components.buttons.toggleButton
 import ui.components.validation.issuelist.filteredIssueEntryList
 import ui.components.validation.issuelist.issueEntry
 import ui.components.validation.issuelist.issueEntryList
@@ -53,8 +54,15 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
                 +TabStyle.tabContent
             }
             //resourceEntryField { }
-            filteredIssueEntryList {
-                validationOutcome = temp
+            toggleButton {
+                optionOneLabel = "option1"
+                optionTwoLabel = "option2"
+                onOptionOne = {
+                    println("option 1 clicked")
+                }
+                onOptionTwo = {
+                    println("option 2 clicked")
+                }
             }
 //            issueEntryList {
 //                validationOutcome = ValidationOutcome().setMessages(listOf(msg1, msg2, msg3, msg4))

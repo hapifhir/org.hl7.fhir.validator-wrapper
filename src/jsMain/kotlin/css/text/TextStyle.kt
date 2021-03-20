@@ -86,6 +86,13 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         color = TEXT_BLACK
     }
 
+    val toggleButtonLabel by css {
+        fontFamily = FONT_FAMILY_MAIN
+        fontSize = 10.pt
+        fontWeight = FontWeight.w400
+        color = TEXT_BLACK
+    }
+
     // File List Entries
     val fileEntryLabel by css {
         fontFamily = FONT_FAMILY_MAIN

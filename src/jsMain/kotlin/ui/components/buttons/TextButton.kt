@@ -1,16 +1,14 @@
 package ui.components.buttons
 
-import css.component.buttons.GenericButtonStyle
-import css.component.buttons.TextButtonStyle
 import css.const.INACTIVE_GRAY
 import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import kotlinx.html.js.onClickFunction
 import react.*
+import styled.StyleSheet
 import styled.css
 import styled.styledDiv
-import styled.styledImg
 import styled.styledP
 
 external interface TextButtonProps : RProps {
@@ -26,7 +24,6 @@ external interface TextButtonProps : RProps {
  * A text only button with the option to customize, color, label, and if it is currently active
  */
 class TextButton : RComponent<TextButtonProps, RState>() {
-
     override fun RBuilder.render() {
         // main button layout
         styledDiv {
@@ -54,7 +51,6 @@ class TextButton : RComponent<TextButtonProps, RState>() {
                     }
                 }
             }
-
             // button label
             styledP {
                 css {
@@ -71,8 +67,23 @@ class TextButton : RComponent<TextButtonProps, RState>() {
     }
 }
 
+/**
+ * React Component Builder
+ */
 fun RBuilder.textButton(handler: TextButtonProps.() -> Unit): ReactElement {
     return child(TextButton::class) {
         this.attrs(handler)
+    }
+}
+
+/**
+ * CSS
+ */
+object TextButtonStyle : StyleSheet("TextButtonStyle", isStatic = true) {
+    val button by TextButtonStyle.css {
+        display = Display.flex
+        alignItems = Align.flexStart
+        flexDirection = FlexDirection.row
+        padding(horizontal = 16.px, vertical = 8.px)
     }
 }

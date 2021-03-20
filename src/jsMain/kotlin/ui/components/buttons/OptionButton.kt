@@ -1,15 +1,16 @@
 package ui.components.buttons
 
-import css.component.buttons.GenericButtonStyle
-import css.component.buttons.OptionButtonStyle
+import css.const.BORDER_GRAY
+import css.const.INACTIVE_GRAY
+import css.const.WHITE
 import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import kotlinx.html.js.onClickFunction
 import react.*
+import styled.StyleSheet
 import styled.css
 import styled.styledDiv
-import styled.styledImg
 import styled.styledP
 
 external interface OptionButtonProps : RProps {
@@ -52,8 +53,48 @@ class OptionButton : RComponent<OptionButtonProps, RState>() {
     }
 }
 
+/**
+ * React Component Builder
+ */
 fun RBuilder.optionButton(handler: OptionButtonProps.() -> Unit): ReactElement {
     return child(OptionButton::class) {
         this.attrs(handler)
+    }
+}
+
+/**
+ * CSS
+ */
+object OptionButtonStyle : StyleSheet("OptionButtonStyle", isStatic = true) {
+    val button by OptionButtonStyle.css {
+        cursor = Cursor.pointer
+        display = Display.inlineFlex
+        minHeight = 24.px
+        minWidth = 160.px
+        alignSelf = Align.center
+        justifyContent = JustifyContent.center
+        alignItems = Align.center
+        border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        borderRadius = 999.px
+    }
+    val buttonInactive by OptionButtonStyle.css {
+        +button
+        backgroundColor = INACTIVE_GRAY
+        hover {
+            backgroundColor = WHITE
+        }
+        active {
+            backgroundColor = BORDER_GRAY
+        }
+    }
+    val buttonActive by OptionButtonStyle.css {
+        +button
+        backgroundColor = WHITE
+        hover {
+            backgroundColor = INACTIVE_GRAY
+        }
+        active {
+            backgroundColor = BORDER_GRAY
+        }
     }
 }

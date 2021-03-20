@@ -7,7 +7,7 @@ import react.*
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
-import ui.components.buttons.genericButton
+import ui.components.buttons.imageButton
 
 external interface FileUploadButtonBarProps : RProps {
     var onUploadRequested: () -> Unit
@@ -25,7 +25,7 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
                 +FileUploadButtonBarStyle.buttonBarContainer
             }
 
-            genericButton {
+            imageButton {
                 backgroundColor = WHITE
                 borderColor = HL7_RED
                 image = "images/upload_red.png"
@@ -41,7 +41,7 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
                 }
             }
 
-            genericButton {
+            imageButton {
                 backgroundColor = WHITE
                 borderColor = HL7_RED
                 image = "images/validate_red.png"
