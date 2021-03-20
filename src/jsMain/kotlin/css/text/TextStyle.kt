@@ -77,6 +77,15 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         color = TEXT_BLACK
     }
 
+    val optionButtonLabel by css {
+        fontFamily = FONT_FAMILY_MAIN
+        fontSize = 12.pt
+        margin(0.px)
+        fontWeight = FontWeight.w200
+        alignSelf = Align.center
+        color = TEXT_BLACK
+    }
+
     // File List Entries
     val fileEntryLabel by css {
         fontFamily = FONT_FAMILY_MAIN

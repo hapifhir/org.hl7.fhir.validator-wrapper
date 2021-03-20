@@ -1,9 +1,10 @@
 package ui.components.tabs.uploadtab.filelist
 
-import css.component.tabs.uploadtab.filelist.FileEntryStyle
 import css.text.TextStyle
+import kotlinx.css.*
 import model.ValidationOutcome
 import react.*
+import styled.StyleSheet
 import styled.css
 import styled.styledLi
 import styled.styledP
@@ -49,8 +50,30 @@ class FileEntry : RComponent<FileEntryProps, FileEntryState>() {
     }
 }
 
+/**
+ * React Component Builder
+ */
 fun RBuilder.fileEntry(handler: FileEntryProps.() -> Unit): ReactElement {
     return child(FileEntry::class) {
         this.attrs(handler)
+    }
+}
+
+/**
+ * CSS
+ */
+object FileEntryStyle : StyleSheet("FileEntryStyle") {
+    val fileEntryContainer by css {
+        display = Display.flex
+        height = 96.px
+        flex(flexBasis = 100.pct)
+        padding(horizontal = 32.px)
+        flexDirection = FlexDirection.row
+        justifyContent = JustifyContent.flexStart
+        alignItems = Align.center
+    }
+    val titleField by css {
+        flexGrow = 1.0
+        paddingLeft = 16.px
     }
 }

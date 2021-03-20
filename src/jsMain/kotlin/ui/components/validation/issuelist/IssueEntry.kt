@@ -2,13 +2,15 @@ package ui.components.validation.issuelist
 
 import css.const.*
 import css.text.TextStyle
-import css.component.validation.issueslist.IssueEntryStyle
-import kotlinx.css.BorderStyle
+import kotlinx.css.*
+import kotlinx.css.properties.borderBottom
 import kotlinx.css.properties.borderLeft
-import kotlinx.css.px
+import kotlinx.css.properties.borderRight
+import kotlinx.css.properties.borderTop
 import model.IssueSeverity
 import model.ValidationMessage
 import react.*
+import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledSpan
@@ -42,7 +44,6 @@ class IssueEntry : RComponent<IssueEntryProps, RState>() {
                 }
                 +"${props.validationMessage.getLevel().display} Line: ${props.validationMessage.getLine()}"
             }
-
             styledSpan {
                 css {
                     +IssueEntryStyle.messageDetails
@@ -54,9 +55,39 @@ class IssueEntry : RComponent<IssueEntryProps, RState>() {
     }
 }
 
+/**
+ * React Component Builder
+ */
 fun RBuilder.issueEntry(handler: IssueEntryProps.() -> Unit): ReactElement {
     return child(IssueEntry::class) {
         this.attrs(handler)
     }
 }
 
+/**
+ * CSS
+ */
+object IssueEntryStyle : StyleSheet("IssueEntryStyle", isStatic = true) {
+    val issueContainer by css {
+        display = Display.inlineFlex
+        flexDirection = FlexDirection.row
+        minHeight = 64.px
+        width = 100.pct
+        backgroundColor = WHITE
+        borderTop(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        borderRight(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        borderBottom(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        padding(16.px)
+        boxSizing = BoxSizing.borderBox
+    }
+    val levelAndLineNumber by css {
+        paddingRight = 16.px
+        minWidth = 20.pct
+        alignSelf = Align.center
+    }
+    val messageDetails by css {
+        flex(flexBasis = 100.pct)
+        alignSelf = Align.center
+        overflowWrap = OverflowWrap.breakWord
+    }
+}

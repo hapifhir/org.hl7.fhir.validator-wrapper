@@ -5,30 +5,26 @@ import kotlinx.css.Align
 import kotlinx.css.Display
 import kotlinx.css.alignItems
 import kotlinx.css.display
-import model.FileInfo
-import model.IssueSeverity
-import model.ValidationMessage
-import model.ValidationOutcome
+import model.*
 import react.*
 import styled.css
 import styled.styledDiv
+import ui.components.FileUploadState
+import ui.components.buttons.optionButton
+import ui.components.validation.issuelist.filteredIssueEntryList
 import ui.components.validation.issuelist.issueEntry
 import ui.components.validation.issuelist.issueEntryList
+import ui.components.validation.issuelist.issueFilterButtonBar
 
-external interface ManualEnterTabProps : RProps {
-
-}
+external interface ManualEnterTabProps : RProps {}
 
 class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
     // TODO delete and map to actual props
     val results = emptyList<ValidationOutcome>()
-    val temp = listOf<ValidationOutcome>(
-        ValidationOutcome()
+    val temp = ValidationOutcome()
             .setFileInfo(FileInfo().setFileName("test_file1.json"))
             .setValidated(true)
             .setValidating(false)
-            .setMessages(listOf(ValidationMessage().setLevel(level = IssueSeverity.FATAL))),
-    )
 
     override fun RBuilder.render() {
         val msg1 = ValidationMessage()
@@ -47,6 +43,8 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
         msg4.setLevel(level = IssueSeverity.INFORMATION).setMessage("This is the information message!")
         msg4.setLine(400)
 
+        temp.setMessages(listOf(msg1, msg2, msg3, msg4))
+
         styledDiv {
             css {
                 // If the tab is currently displayed on screen, we define a layout type, otherwise, we set to none
@@ -55,9 +53,13 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
                 +TabStyle.tabContent
             }
             //resourceEntryField { }
-            issueEntryList {
-                validationOutcome = ValidationOutcome().setMessages(listOf(msg1, msg2, msg3, msg4))
+            filteredIssueEntryList {
+                validationOutcome = temp
             }
+//            issueEntryList {
+//                validationOutcome = ValidationOutcome().setMessages(listOf(msg1, msg2, msg3, msg4))
+//                messageFilter = state.messageFilter
+//            }
         }
     }
 }

@@ -1,13 +1,12 @@
 package ui.components.tabs.uploadtab
 
-import css.component.tabs.TabStyle
-import kotlinx.css.Align
-import kotlinx.css.Display
-import kotlinx.css.alignItems
-import kotlinx.css.display
+import css.animation.FadeIn.fadeIn
+import css.const.WHITE
+import kotlinx.css.*
 import model.FileInfo
 import model.ValidationOutcome
 import react.*
+import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import ui.components.tabs.tabHeading
@@ -25,38 +24,53 @@ class FileUploadTab : RComponent<FileUploadTabProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                // If the tab is currently displayed on screen, we define a layout type, otherwise, we set to none
-                display = Display.flex
-                alignItems = Align.flexStart
                 +TabStyle.tabContent
             }
-
             tabHeading {
                 text = "Uploaded Files (${props.uploadedFiles.size})"
             }
             fileEntryList {
                 validationOutcomes = props.uploadedFiles
                 viewFile = {
-                    println("view file ${it.getFileInfo().fileName}")
+                    // TODO
                 }
                 deleteFile = {
-                    println("delete file ${it.getFileInfo().fileName}")
+                    // TODO
                 }
             }
             fileUploadButtonBar {
                 onUploadRequested = {
-                    println ("Handle Upload")
+                    // TODO
                 }
                 onValidateRequested = {
-                    println ("Handle Validate")
+                    // TODO
                 }
             }
         }
     }
 }
 
+/**
+ * React Component Builder
+ */
 fun RBuilder.fileUploadTab(handler: FileUploadTabProps.() -> Unit): ReactElement {
     return child(FileUploadTab::class) {
         this.attrs(handler)
+    }
+}
+
+/**
+ * CSS
+ */
+object TabStyle : StyleSheet("TabStyle", isStatic = true) {
+    val tabContent by css {
+        backgroundColor = WHITE
+        flexDirection = FlexDirection.column
+        justifyContent = JustifyContent.flexStart
+        alignItems = Align.flexStart
+        display = Display.flex
+        padding(horizontal = 32.px, vertical = 16.px)
+        fadeIn()
+        flex(flexBasis = 100.pct)
     }
 }

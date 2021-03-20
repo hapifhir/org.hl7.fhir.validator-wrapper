@@ -2,10 +2,9 @@ package ui.components.tabs.uploadtab
 
 import css.const.HL7_RED
 import css.const.WHITE
-import css.component.tabs.uploadtab.FileUploadButtonBarStyle
-import kotlinx.css.px
-import kotlinx.css.width
+import kotlinx.css.*
 import react.*
+import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import ui.components.buttons.genericButton
@@ -38,7 +37,7 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
 
             styledDiv {
                 css {
-                    width = 16.px
+                    +FileUploadButtonBarStyle.buttonBarDivider
                 }
             }
 
@@ -55,8 +54,26 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
     }
 }
 
+/**
+ * React Component Builder
+ */
 fun RBuilder.fileUploadButtonBar(handler: FileUploadButtonBarProps.() -> Unit): ReactElement {
     return child(FileUploadButtonBar::class) {
         this.attrs(handler)
+    }
+}
+
+/**
+ * CSS
+ */
+object FileUploadButtonBarStyle : StyleSheet("FileUploadButtonBarStyle", isStatic = true) {
+    val buttonBarContainer by css {
+        display = Display.inlineFlex
+        flexDirection = FlexDirection.row
+        alignItems = Align.center
+        padding(vertical = 16.px)
+    }
+    val buttonBarDivider by css {
+        width = 16.px
     }
 }
