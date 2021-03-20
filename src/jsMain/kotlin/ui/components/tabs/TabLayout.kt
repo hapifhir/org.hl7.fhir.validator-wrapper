@@ -1,13 +1,13 @@
 package ui.components.tabs
 
-import css.tabs.TabBarStyle
+import css.component.tabs.TabBarStyle
 import css.text.TextStyle
 import kotlinx.html.js.onClickFunction
 import react.*
+import reactredux.containers.fileUploadTab
 import styled.css
 import styled.styledDiv
-import ui.components.tabs.uploadtab.fileUploadTab
-import ui.components.manualEnterTab
+import ui.components.tabs.entrytab.manualEnterTab
 import ui.entity.TabState
 
 external interface TabLayoutProps : RProps {
@@ -87,11 +87,10 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                 css {
                     +TabBarStyle.tabBodyContainer
                 }
-                manualEnterTab {
-                    active = state.tabStates[0].active
-                }
-                fileUploadTab {
-                    active = state.tabStates[1].active
+                if (state.tabStates[0].active) {
+                    manualEnterTab {}
+                } else {
+                    fileUploadTab {}
                 }
             }
         }

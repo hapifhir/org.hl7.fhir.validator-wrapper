@@ -2,6 +2,7 @@ package css.const
 
 import kotlinx.css.Color
 
+val WHITE = Color("#FFFFFF")
 val TEXT_BLACK = Color("#383838")
 
 val HL7_RED = Color("#eb2229")
@@ -26,7 +27,6 @@ val TRULY_RED = Color("#eb2229FF")
 val ALMOST_RED = Color("#FF6153FF")
 
 val BLACK = Color("#000000")
-val WHITE = Color("#FFFFFF")
 
 val BARELY_BLUE = Color("#22ebe4")
 val ALMOST_BARELY_BLUE = Color("#d8fafa")

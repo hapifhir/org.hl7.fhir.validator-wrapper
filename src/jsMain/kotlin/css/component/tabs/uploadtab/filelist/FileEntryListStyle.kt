@@ -1,4 +1,4 @@
-package css.tabs.uploadtab.filelist
+package css.component.tabs.uploadtab.filelist
 
 import css.const.BORDER_GRAY
 import kotlinx.css.*

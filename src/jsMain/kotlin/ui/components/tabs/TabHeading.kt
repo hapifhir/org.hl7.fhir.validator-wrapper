@@ -1,6 +1,6 @@
 package ui.components.tabs
 
-import css.tabs.TabStyle
+import css.component.tabs.TabStyle
 import css.text.TextStyle
 import react.*
 import styled.css

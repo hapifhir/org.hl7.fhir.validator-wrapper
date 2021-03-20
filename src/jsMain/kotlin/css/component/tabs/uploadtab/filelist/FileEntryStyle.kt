@@ -1,8 +1,6 @@
-package css.tabs.uploadtab.filelist
+package css.component.tabs.uploadtab.filelist
 
-import css.const.BORDER_GRAY
 import kotlinx.css.*
-import kotlinx.css.properties.borderBottom
 import styled.StyleSheet
 
 object FileEntryStyle : StyleSheet("FileItemStyle") {

@@ -1,4 +1,4 @@
-package css.tabs.uploadtab
+package css.component.tabs.uploadtab
 
 import kotlinx.css.*
 import styled.StyleSheet

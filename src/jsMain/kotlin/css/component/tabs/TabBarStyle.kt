@@ -1,6 +1,5 @@
-package css.tabs
+package css.component.tabs
 
-import css.animation.FadeIn.fadeIn
 import css.const.*
 import kotlinx.css.*
 import kotlinx.css.properties.*

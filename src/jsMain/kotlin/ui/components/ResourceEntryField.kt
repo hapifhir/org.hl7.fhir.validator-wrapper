@@ -3,10 +3,10 @@ package ui.components
 import Polyglot
 import api.sendValidationRequest
 import constants.FhirFormat
-import css.tabs.uploadtab.FileUploadStyle
+import css.component.tabs.uploadtab.FileUploadStyle
 import css.component.ResourceEntryStyle
 import css.widget.FABStyle
-import css.tabs.uploadtab.filelist.FileStatusSpinnerStyle
+import css.component.tabs.uploadtab.filelist.FileStatusSpinnerStyle
 import kotlinx.browser.document
 import kotlinx.coroutines.launch
 import kotlinx.css.Display

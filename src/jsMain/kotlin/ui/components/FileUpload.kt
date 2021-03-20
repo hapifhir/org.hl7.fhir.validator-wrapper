@@ -1,13 +1,12 @@
 package ui.components
 
-import css.tabs.uploadtab.FileUploadStyle
+import css.component.tabs.uploadtab.FileUploadStyle
 import css.widget.FABStyle
 import kotlinx.browser.document
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLInputElement
 import react.*
 import reactredux.containers.uploadFilesButton
-import reactredux.containers.uploadFilesList
 import reactredux.containers.validateFilesButton
 import styled.css
 import styled.styledDiv
@@ -30,7 +29,7 @@ class FileUploadComponent : RComponent<FileUploadProps, FileUploadState>() {
             css {
                 +FileUploadStyle.layout
             }
-            uploadFilesList { }
+//            uploadFilesList { }
             styledDiv {
                 css {
                     +FABStyle.endButtonContainer

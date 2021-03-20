@@ -22,7 +22,7 @@ private interface FileUploadTabDispatchProps : RProps {
     var deleteFile: (FileInfo) -> Unit
 }
 
-val uploadFilesList: RClass<RProps> =
+val fileUploadTab: RClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, FileUploadTabProps, FileUploadTabDispatchProps, FileUploadTabProps>(
         { state, _ ->
             uploadedFiles = state.uploadedResourceSlice.uploadedFiles

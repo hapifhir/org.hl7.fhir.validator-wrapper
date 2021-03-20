@@ -86,6 +86,21 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         color = TEXT_BLACK
     }
 
+    // Validation Issue Entries
+    val issueLineAndType by css {
+        fontFamily = FONT_FAMILY_CODE
+        fontSize = 12.pt
+        fontWeight = FontWeight.w600
+        color = TEXT_BLACK
+    }
+
+    // code
+    val codeTextBase by css {
+        fontFamily = FONT_FAMILY_CODE
+        fontSize = 12.pt
+        fontWeight = FontWeight.w100
+        color = TEXT_BLACK
+    }
 
 
     // Legacy Values TODO DELETE

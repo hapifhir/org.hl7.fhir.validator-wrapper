@@ -1,4 +1,4 @@
-package css.tabs
+package css.component.tabs
 
 import css.animation.FadeIn.fadeIn
 import css.const.WHITE

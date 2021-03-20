@@ -2,8 +2,8 @@ package ui.components
 
 import css.component.FileItemStyle
 import css.text.TextStyle
-import css.tabs.uploadtab.filelist.FileStatusIndicatorStyle
-import css.tabs.uploadtab.filelist.FileStatusSpinnerStyle
+import css.component.tabs.uploadtab.filelist.FileStatusIndicatorStyle
+import css.component.tabs.uploadtab.filelist.FileStatusSpinnerStyle
 import kotlinx.css.Display
 import kotlinx.css.display
 import kotlinx.css.opacity

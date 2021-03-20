@@ -33,7 +33,7 @@ actual class ValidationMessage {
     }
 
     actual fun setLine(theLine: Int) {
-        this.line = line
+        this.line = theLine
     }
 
     actual fun getCol(): Int {
@@ -41,7 +41,7 @@ actual class ValidationMessage {
     }
 
     actual fun setCol(theCol: Int) {
-        this.col = col
+        this.col = theCol
     }
 }
 

@@ -2,7 +2,7 @@ package ui.components.tabs.uploadtab
 
 import css.const.HL7_RED
 import css.const.WHITE
-import css.tabs.uploadtab.FileUploadButtonBarStyle
+import css.component.tabs.uploadtab.FileUploadButtonBarStyle
 import kotlinx.css.px
 import kotlinx.css.width
 import react.*

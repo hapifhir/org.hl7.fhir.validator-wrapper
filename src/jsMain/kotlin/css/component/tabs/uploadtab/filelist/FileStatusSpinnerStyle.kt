@@ -1,4 +1,4 @@
-package css.tabs.uploadtab.filelist
+package css.component.tabs.uploadtab.filelist
 
 import css.component.FileItemStyle
 import css.const.*
