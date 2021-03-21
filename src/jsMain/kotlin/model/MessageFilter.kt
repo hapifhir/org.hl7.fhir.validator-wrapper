@@ -1,7 +1,5 @@
 package model
 
-import css.const.FATAL_PINK
-
 data class MessageFilter(
     var showFatal: Boolean = true,
     var showError: Boolean = true,
@@ -19,13 +17,17 @@ data class MessageFilter(
         }
     }
 
-    fun determineNumberDisplayedIssues(messages: List<ValidationMessage>): Int {
-        return messages.filter {
+    fun filter(messages: List<ValidationMessage>?): List<ValidationMessage> {
+        return messages?.filter {
                     (showFatal && it.getLevel() == IssueSeverity.FATAL) ||
                     (showError && it.getLevel() == IssueSeverity.ERROR) ||
                     (showWarning && it.getLevel() == IssueSeverity.WARNING) ||
                     (showInfo && it.getLevel() == IssueSeverity.INFORMATION)
-        }.size
+        } ?: emptyList()
+    }
+
+    fun determineNumberDisplayedIssues(messages: List<ValidationMessage>): Int {
+        return filter(messages).size
     }
 }
 
