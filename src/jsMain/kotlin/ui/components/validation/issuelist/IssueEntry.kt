@@ -7,6 +7,8 @@ import kotlinx.css.properties.borderBottom
 import kotlinx.css.properties.borderLeft
 import kotlinx.css.properties.borderRight
 import kotlinx.css.properties.borderTop
+import kotlinx.html.js.onMouseOutFunction
+import kotlinx.html.js.onMouseOverFunction
 import model.IssueSeverity
 import model.ValidationMessage
 import react.*
@@ -17,7 +19,9 @@ import styled.styledSpan
 
 external interface IssueEntryProps : RProps {
     var validationMessage: ValidationMessage
-    var onIssueHover: (ValidationMessage) -> Unit
+    var highlighted: Boolean
+
+    var onMouseOver: (Boolean) -> Unit
 }
 
 /**
@@ -28,14 +32,31 @@ class IssueEntry : RComponent<IssueEntryProps, RState>() {
         styledDiv {
             css {
                 +IssueEntryStyle.issueContainer
-                borderLeft(width = 4.px, style = BorderStyle.solid,
-                    color = when (props.validationMessage.getLevel()) {
-                        IssueSeverity.INFORMATION -> INFO_BLUE
-                        IssueSeverity.WARNING -> WARNING_YELLOW
-                        IssueSeverity.ERROR -> ERROR_ORANGE
-                        IssueSeverity.FATAL -> FATAL_PINK
-                        else -> BORDER_GRAY
-                    })
+                val highlightColor = when (props.validationMessage.getLevel()) {
+                    IssueSeverity.INFORMATION -> INFO_BLUE
+                    IssueSeverity.WARNING -> WARNING_YELLOW
+                    IssueSeverity.ERROR -> ERROR_ORANGE
+                    IssueSeverity.FATAL -> FATAL_PINK
+                    else -> BORDER_GRAY
+                }
+                if (props.highlighted) {
+                    background = "repeating-linear-gradient(\n" +
+                            "  45deg,\n" +
+                            "  ${WHITE},\n" +
+                            "  ${WHITE} 10px,\n" +
+                            "  ${highlightColor.changeAlpha(0.2)} 10px,\n" +
+                            "  ${highlightColor.changeAlpha(0.2)} 20px\n" +
+                            ");"
+                }
+                borderLeft(width = 4.px, style = BorderStyle.solid, color = highlightColor)
+            }
+            attrs {
+                onMouseOverFunction = {
+                    props.onMouseOver(true)
+                }
+                onMouseOutFunction = {
+                    props.onMouseOver(false)
+                }
             }
             styledSpan {
                 css {

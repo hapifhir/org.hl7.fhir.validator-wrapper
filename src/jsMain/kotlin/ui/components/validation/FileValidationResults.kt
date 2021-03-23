@@ -2,6 +2,7 @@ package ui.components.validation
 
 import kotlinx.css.*
 import model.MessageFilter
+import model.ValidationMessage
 import model.ValidationOutcome
 import react.*
 import styled.StyleSheet
@@ -15,11 +16,19 @@ external interface FileValidationResultsProps : RProps {
     var messageFilter: MessageFilter
 }
 
+class FileValidationResultsState : RState {
+    var highlightedMessages: List<ValidationMessage> = emptyList()
+}
+
 /**
  * A React component displaying the code with highlighted issues, alongside the list of issues with associated details
  * and line numbers. Layout will change depending on current horizontal space for display.
  */
-class FileValidationResults : RComponent<FileValidationResultsProps, RState>() {
+class FileValidationResults : RComponent<FileValidationResultsProps, FileValidationResultsState>() {
+
+    init {
+        state = FileValidationResultsState()
+    }
 
     override fun RBuilder.render() {
         styledDiv {
@@ -33,6 +42,12 @@ class FileValidationResults : RComponent<FileValidationResultsProps, RState>() {
                 codeIssueDisplay {
                     validationOutcome = props.validationOutcome
                     messageFilter = props.messageFilter
+                    highlightedMessages = state.highlightedMessages
+                    onHighlight = { highlighted, list ->
+                        setState {
+                            highlightedMessages = if (highlighted) list else emptyList()
+                        }
+                    }
                 }
             }
             styledDiv {
@@ -42,6 +57,12 @@ class FileValidationResults : RComponent<FileValidationResultsProps, RState>() {
                 issueEntryList {
                     validationOutcome = props.validationOutcome
                     messageFilter = props.messageFilter
+                    highlightedMessages = state.highlightedMessages
+                    onHighlight = { highlighted, list ->
+                        setState {
+                            highlightedMessages = if (highlighted) list else emptyList()
+                        }
+                    }
                 }
             }
         }

@@ -3,6 +3,7 @@ package ui.components.validation.codeissuedisplay
 import css.text.TextStyle
 import kotlinx.css.*
 import model.MessageFilter
+import model.ValidationMessage
 import model.ValidationOutcome
 import react.*
 import styled.StyleSheet
@@ -13,6 +14,8 @@ import styled.styledSpan
 external interface CodeIssueDisplayProps : RProps {
     var validationOutcome: ValidationOutcome
     var messageFilter: MessageFilter
+    var highlightedMessages: List<ValidationMessage>
+    var onHighlight: (Boolean, List<ValidationMessage>) -> Unit
 }
 
 class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
@@ -28,6 +31,11 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
                     codeIssue {
                         validationMessages = props.messageFilter.filter(lineMap[index + 1])
                         lineOfText = text
+                        highlighted = props.highlightedMessages.intersect(props.messageFilter.filter(lineMap[index + 1])).isNotEmpty()
+                        onMouseOver = { highlighted ->
+                            println("on mouse over $highlighted")
+                            props.onHighlight(highlighted, props.messageFilter.filter(lineMap[index + 1]))
+                        }
                     }
                 } else {
                     styledSpan {

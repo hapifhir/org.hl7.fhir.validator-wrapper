@@ -2,6 +2,7 @@ package ui.components.validation.issuelist
 
 import kotlinx.css.*
 import model.MessageFilter
+import model.ValidationMessage
 import model.ValidationOutcome
 import react.*
 import styled.StyleSheet
@@ -12,6 +13,8 @@ import styled.styledUl
 external interface IssueEntryListProps : RProps {
     var validationOutcome: ValidationOutcome
     var messageFilter: MessageFilter
+    var highlightedMessages: List<ValidationMessage>
+    var onHighlight: (Boolean, List<ValidationMessage>) -> Unit
 }
 
 /**
@@ -33,6 +36,13 @@ class IssueEntryList : RComponent<IssueEntryListProps, RState>() {
                     if (props.messageFilter.showEntry(message)) {
                         issueEntry {
                             validationMessage = message
+                            highlighted = props.highlightedMessages.contains(message)
+                            onMouseOver = { highlighted ->
+                                props.onHighlight(highlighted, listOf(message))
+                            }
+                        }
+                        props.highlightedMessages.forEach {
+                            println(it.getMessage())
                         }
                         if (filesIterator.hasNext()) {
                             styledDiv {
