@@ -20,6 +20,8 @@ val WARNING_YELLOW = Color("#ffc40d")
 val ERROR_ORANGE = Color("#ff9b66")
 val FATAL_PINK = Color("#ff97c6")
 
+// POPUP SHADOW
+val POPUP_SHADOW = Color("#00000022")
 
 // LEGACY COLORS TODO DELETE
 val REALLY_RED = Color("#B00000FF")

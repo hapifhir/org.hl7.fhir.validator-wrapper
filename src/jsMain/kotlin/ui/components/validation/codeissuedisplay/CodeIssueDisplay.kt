@@ -57,10 +57,11 @@ fun RBuilder.codeIssueDisplay(handler: CodeIssueDisplayProps.() -> Unit): ReactE
  */
 object CodeIssueDisplayStyle : StyleSheet("CodeIssueDisplayStyle", isStatic = true) {
     val codeIssueDisplayContainer by css {
-        overflow = Overflow.auto
+        height = 100.pct
+        width = 100.pct
     }
     val lineStyle by css {
         display = Display.flex
-        whiteSpace = WhiteSpace.pre
+        whiteSpace = WhiteSpace.preWrap
     }
 }

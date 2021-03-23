@@ -1,22 +1,18 @@
 package ui.components.tabs.entrytab
 
-import css.component.tabs.TabStyle
-import kotlinx.css.Align
-import kotlinx.css.Display
-import kotlinx.css.alignItems
-import kotlinx.css.display
-import model.*
+import css.animation.FadeIn.fadeIn
+import css.const.WHITE
+import kotlinx.css.*
+import model.FileInfo
+import model.IssueSeverity
+import model.ValidationMessage
+import model.ValidationOutcome
 import react.*
 import styled.css
 import styled.styledDiv
-import ui.components.FileUploadState
-import ui.components.buttons.optionButton
-import ui.components.buttons.toggleButton
-import ui.components.validation.codeissuedisplay.codeIssueDisplay
-import ui.components.validation.issuelist.filteredIssueEntryList
-import ui.components.validation.issuelist.issueEntry
-import ui.components.validation.issuelist.issueEntryList
-import ui.components.validation.issuelist.issueFilterButtonBar
+import ui.components.validation.validationSummary
+import ui.components.validation.validationSummaryHeader
+import ui.components.validation.validationSummaryPopup
 
 external interface ManualEnterTabProps : RProps {}
 
@@ -24,8 +20,8 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
     // TODO delete and map to actual props
     val results = emptyList<ValidationOutcome>()
     val temp = ValidationOutcome()
-            .setFileInfo(FileInfo().setFileName("test_file1.json").setFileContent(
-                    "Unlike flying or astral projection," +
+        .setFileInfo(FileInfo().setFileName("test_file1.json").setFileContent(
+            "Unlike flying or astral projection," +
                     "\n\twalking through walls is a totally earth-related craft," +
                     "\n\t\tbut a lot more interesting than pot making or driftwood lamps." +
                     "\n\t\t\tI got started at a picnic up in Bowstring in the northern part of the state." +
@@ -45,8 +41,8 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
                     "\n\tYou will feel the dry," +
                     "\ncool inner wall with your fingers," +
                     "\nthen there is a moment of total darkness before you step through on the other side."))
-            .setValidated(true)
-            .setValidating(false)
+        .setValidated(true)
+        .setValidating(false)
 
     override fun RBuilder.render() {
         val msg1 = ValidationMessage()
@@ -70,14 +66,28 @@ class ManualEnterTab : RComponent<ManualEnterTabProps, RState>() {
         styledDiv {
             css {
                 // If the tab is currently displayed on screen, we define a layout type, otherwise, we set to none
-                display = Display.flex
-                alignItems = Align.flexStart
-                +TabStyle.tabContent
+                backgroundColor = WHITE
+                flexDirection = FlexDirection.column
+                padding(horizontal = 32.px, vertical = 16.px)
+                fadeIn()
             }
-            codeIssueDisplay {
+//            fileValidationResults {
+//                validationOutcome = temp
+//                messageFilter = MessageFilter(showFatal = false)
+//            }
+            validationSummaryPopup {
                 validationOutcome = temp
-                messageFilter = MessageFilter(showFatal = true)
+                onClose = {
+                    println("onClose called")
+                }
             }
+//            validationSummary {
+//                validationOutcome = temp
+//            }
+//            codeIssueDisplay {
+//                validationOutcome = temp
+//                messageFilter = MessageFilter(showFatal = true)
+//            }
 //            issueEntryList {
 //                validationOutcome = ValidationOutcome().setMessages(listOf(msg1, msg2, msg3, msg4))
 //                messageFilter = state.messageFilter

@@ -63,16 +63,12 @@ fun RBuilder.issueEntryList(handler: IssueEntryListProps.() -> Unit): ReactEleme
 object IssueEntryListStyle : StyleSheet("IssueEntryListStyle", isStatic = true) {
     val entryListContainer by IssueEntryListStyle.css {
         display = Display.flex
-        flex(flexBasis = 100.pct)
-        padding(8.px)
         width = 100.pct
-        height = 100.pct
         backgroundColor = Color.white
     }
     val entryList by IssueEntryListStyle.css {
-        flex(flexBasis = 100.pct)
         padding(0.px)
-        margin(0.px)
+        width = 100.pct
     }
     val listSeparator by IssueEntryListStyle.css {
         marginTop = 12.px

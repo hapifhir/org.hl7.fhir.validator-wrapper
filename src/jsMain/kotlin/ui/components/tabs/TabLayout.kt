@@ -150,7 +150,6 @@ object TabBarStyle : StyleSheet("TabBarStyle", isStatic = true) {
         +tabButton
     }
     val tabBodyContainer by css {
-        flex(flexBasis = 100.pct)
         display = Display.flex
         flexDirection = FlexDirection.column
     }

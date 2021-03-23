@@ -34,9 +34,9 @@ class CodeIssue : RComponent<CodeIssueProps, RState>() {
                 }
                 /**
                  * TODO I am unsure how to get HTML to display a string consisting of only whitespace...
-                 * for now, we use a Zero Width Space Character at the end of the line to force rendering
+                 * for now, we use a non-breaking Space Character at the end of the line to force rendering
                  */
-                +(props.lineOfText.replace(props.lineOfText.trim(), "") + "\u200B")
+                +(props.lineOfText.replace(props.lineOfText.trim(), "") + "\u00A0")
             }
             styledMark {
                 css {
@@ -78,40 +78,41 @@ fun RBuilder.codeIssue(handler: CodeIssueProps.() -> Unit): ReactElement {
 object CodeIssueStyle : StyleSheet("CodeIssueStyle", isStatic = true) {
     val codeIssueContainer by css {
         display = Display.flex
+        width = 100.pct
         flexDirection = FlexDirection.row
     }
     val lineStyle by css {
         display = Display.flex
-        whiteSpace = WhiteSpace.pre
+        whiteSpace = WhiteSpace.preWrap
     }
     val textHighlight by css {
-        +FileErrorDisplayStyle.lineStyle
+        +lineStyle
         borderRadius = 3.px
     }
     val textHighlightFatal by css {
         +textHighlight
-        backgroundColor = FATAL_PINK.changeAlpha(0.5)
+        backgroundColor = FATAL_PINK.changeAlpha(0.25)
         hover {
             backgroundColor = FATAL_PINK
         }
     }
     val textHighlightError by css {
         +textHighlight
-        backgroundColor = ERROR_ORANGE.changeAlpha(0.5)
+        backgroundColor = ERROR_ORANGE.changeAlpha(0.25)
         hover {
             backgroundColor = ERROR_ORANGE
         }
     }
     val textHighlightWarning by css {
         +textHighlight
-        backgroundColor = WARNING_YELLOW.changeAlpha(0.5)
+        backgroundColor = WARNING_YELLOW.changeAlpha(0.25)
         hover {
             backgroundColor = WARNING_YELLOW
         }
     }
     val textHighlightInfo by css {
         +textHighlight
-        backgroundColor = INFO_BLUE.changeAlpha(0.5)
+        backgroundColor = INFO_BLUE.changeAlpha(0.25)
         hover {
             backgroundColor = INFO_BLUE
         }

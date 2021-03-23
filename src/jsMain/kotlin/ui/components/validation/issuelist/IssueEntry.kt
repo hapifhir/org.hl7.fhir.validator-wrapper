@@ -69,7 +69,7 @@ fun RBuilder.issueEntry(handler: IssueEntryProps.() -> Unit): ReactElement {
  */
 object IssueEntryStyle : StyleSheet("IssueEntryStyle", isStatic = true) {
     val issueContainer by css {
-        display = Display.inlineFlex
+        display = Display.flex
         flexDirection = FlexDirection.row
         minHeight = 64.px
         width = 100.pct
@@ -82,7 +82,7 @@ object IssueEntryStyle : StyleSheet("IssueEntryStyle", isStatic = true) {
     }
     val levelAndLineNumber by css {
         paddingRight = 16.px
-        minWidth = 20.pct
+        minWidth = 25.pct
         alignSelf = Align.center
     }
     val messageDetails by css {
