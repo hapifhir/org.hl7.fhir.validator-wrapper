@@ -9,6 +9,7 @@ import kotlinx.html.id
 import kotlinx.html.js.onInputFunction
 import org.w3c.dom.HTMLTextAreaElement
 import react.*
+import react.dom.value
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
@@ -21,6 +22,7 @@ external interface ManualEntryTextAreaProps : RProps {
 
 class ManualEntryTextArea : RComponent<ManualEntryTextAreaProps, RState>() {
     private val textAreaId = "manual_entry_field"
+
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -38,7 +40,7 @@ class ManualEntryTextArea : RComponent<ManualEntryTextAreaProps, RState>() {
                         props.onTextUpdate((document.getElementById(textAreaId) as HTMLTextAreaElement).value)
                     }
                 }
-                if (props.currentText.isNullOrEmpty()) {
+                if (props.currentText.isNotBlank()) {
                     +props.currentText
                 }
             }

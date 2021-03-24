@@ -11,7 +11,9 @@ fun combinedReducers() = combineReducersInferred(
     mapOf(
         AppState::localizationSlice to LocalizationSlice::reducer,
         AppState::validationSessionSlice to ValidationSessionSlice::reducer,
+        //TODO remove
         AppState::manuallyEnteredResourceSlice to ManuallyEnteredResourceSlice::reducer,
+        AppState::manualEntrySlice to ManualEntrySlice::reducer,
         AppState::uploadedResourceSlice to UploadedResourceSlice::reducer,
         AppState::validationContextSlice to ValidationContextSlice::reducer,
         AppState::appScreenSlice to AppScreenSlice::reducer

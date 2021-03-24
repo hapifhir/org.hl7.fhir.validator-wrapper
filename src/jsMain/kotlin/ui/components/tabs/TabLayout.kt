@@ -7,10 +7,10 @@ import kotlinx.css.properties.*
 import kotlinx.html.js.onClickFunction
 import react.*
 import reactredux.containers.fileUploadTab
+import reactredux.containers.manualEntryTab
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
-import ui.components.tabs.entrytab.manualEntryTab
 import ui.entity.TabState
 
 external interface TabLayoutProps : RProps {

@@ -1,5 +1,7 @@
 package ui.components.tabs.entrytab
 
+import css.animation.LoadingSpinner
+import css.animation.LoadingSpinner.scaleIntro
 import css.const.HL7_RED
 import css.const.WHITE
 import kotlinx.css.*
@@ -11,6 +13,7 @@ import ui.components.buttons.imageButton
 
 external interface ManualEntryButtonBarProps : RProps {
     var onValidateRequested: () -> Unit
+    var workInProgress: Boolean
 }
 
 /**
@@ -23,13 +26,21 @@ class ManualEntryButtonBar : RComponent<ManualEntryButtonBarProps, RState>() {
             css {
                 +ManualEntryButtonBarStyle.buttonBarContainer
             }
-            imageButton {
-                backgroundColor = WHITE
-                borderColor = HL7_RED
-                image = "images/validate_red.png"
-                label = "Validate"
-                onSelected = {
-                    props.onValidateRequested()
+            if (props.workInProgress) {
+                styledDiv {
+                    css {
+                        +ManualEntryButtonBarStyle.spinner
+                    }
+                }
+            } else {
+                imageButton {
+                    backgroundColor = WHITE
+                    borderColor = HL7_RED
+                    image = "images/validate_red.png"
+                    label = "Validate"
+                    onSelected = {
+                        props.onValidateRequested()
+                    }
                 }
             }
         }
@@ -54,5 +65,12 @@ object ManualEntryButtonBarStyle : StyleSheet("ManualEntryButtonBarStyle", isSta
         flexDirection = FlexDirection.row
         alignItems = Align.center
         padding(vertical = 16.px)
+    }
+    val spinner by css {
+        height = 32.px
+        width = 32.px
+        margin(horizontal = 32.px, vertical = 8.px)
+        alignSelf = Align.center
+        +LoadingSpinner.loadingIndicator
     }
 }
