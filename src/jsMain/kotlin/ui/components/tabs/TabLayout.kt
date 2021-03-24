@@ -10,7 +10,7 @@ import reactredux.containers.fileUploadTab
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
-import ui.components.tabs.entrytab.manualEnterTab
+import ui.components.tabs.entrytab.manualEntryTab
 import ui.entity.TabState
 
 external interface TabLayoutProps : RProps {
@@ -91,7 +91,7 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                     +TabBarStyle.tabBodyContainer
                 }
                 if (state.tabStates[0].active) {
-                    manualEnterTab {}
+                    manualEntryTab {}
                 } else {
                     fileUploadTab {}
                 }

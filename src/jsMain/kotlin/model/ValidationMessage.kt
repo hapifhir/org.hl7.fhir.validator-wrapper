@@ -36,6 +36,12 @@ actual class ValidationMessage {
         this.line = theLine
     }
 
+    //TODO remove
+    fun setLine(theLine: Int, any: Any): ValidationMessage {
+        this.line = theLine
+        return this
+    }
+
     actual fun getCol(): Int {
         return col
     }
