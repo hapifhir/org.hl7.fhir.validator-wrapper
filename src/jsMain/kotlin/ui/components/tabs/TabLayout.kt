@@ -13,9 +13,7 @@ import styled.css
 import styled.styledDiv
 import ui.entity.TabState
 
-external interface TabLayoutProps : RProps {
-
-}
+external interface TabLayoutProps : RProps
 
 class TabLayoutState : RState {
     var tabStates: ArrayList<TabState> = arrayListOf(

@@ -1,7 +1,7 @@
 package ui.components.generic
 
-import css.widget.CheckboxStyle
 import css.text.TextStyle
+import css.widget.CheckboxStyle
 import kotlinx.css.*
 import kotlinx.html.InputType
 import kotlinx.html.id
@@ -35,7 +35,7 @@ class CheckboxInput : RComponent<CheckboxInputProps, CheckboxInputState>() {
             css {
                 +CheckboxStyle.checkboxTitle
             }
-            styledInput (type = InputType.checkBox) {
+            styledInput(type = InputType.checkBox) {
                 css {
                     alignSelf = Align.center
                 }

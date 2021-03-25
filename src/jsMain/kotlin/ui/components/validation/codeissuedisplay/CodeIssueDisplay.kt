@@ -31,7 +31,9 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
                     codeIssue {
                         validationMessages = props.messageFilter.filter(lineMap[index + 1])
                         lineOfText = text
-                        highlighted = props.highlightedMessages.intersect(props.messageFilter.filter(lineMap[index + 1])).isNotEmpty()
+                        highlighted =
+                            props.highlightedMessages.intersect(props.messageFilter.filter(lineMap[index + 1]))
+                                .isNotEmpty()
                         onMouseOver = { highlighted ->
                             props.onHighlight(highlighted, props.messageFilter.filter(lineMap[index + 1]))
                         }

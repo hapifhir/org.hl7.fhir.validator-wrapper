@@ -1,7 +1,6 @@
 package reactredux.slices
 
 import Polyglot
-import reactredux.store.RThunk
 import redux.RAction
 import utils.Language
 
@@ -17,7 +16,7 @@ object LocalizationSlice {
 
     fun reducer(state: State = State(), action: RAction): State {
         return when (action) {
-            is SetPolyglot ->  {
+            is SetPolyglot -> {
                 println("setting new polyglot instance\nexisting -> ${state.polyglotInstance.t("heading_validate")}")
                 println("setting new polyglot instance\nnew -> ${action.polyglotInstance.t("heading_validate")}")
                 state.copy(polyglotInstance = action.polyglotInstance)

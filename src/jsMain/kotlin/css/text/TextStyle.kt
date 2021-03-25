@@ -114,24 +114,12 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
     val codeTextBase by css {
         fontFamily = FONT_FAMILY_CODE
         fontSize = 12.pt
-        fontWeight = FontWeight.w100
+        fontWeight = FontWeight.lighter
         color = TEXT_BLACK
     }
 
 
     // Legacy Values TODO DELETE
-    val h1 by css {
-        fontFamily = FONT_FAMILY_MAIN
-        fontSize = 40.pt
-        fontWeight = FontWeight.w600
-        color = TRULY_RED
-    }
-    val h2 by css {
-        fontFamily = FONT_FAMILY_MAIN
-        fontSize = 24.pt
-        fontWeight = FontWeight.w500
-        color = TRULY_RED
-    }
     val h3 by css {
         fontFamily = FONT_FAMILY_MAIN
         fontSize = 16.pt
@@ -143,12 +131,6 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         fontSize = 14.pt
         fontWeight = FontWeight.w400
         color = GRAY_600
-    }
-    val titleBody by css {
-        fontFamily = FONT_FAMILY_MAIN
-        fontSize = 16.pt
-        fontWeight = FontWeight.w400
-        color = TRULY_RED
     }
     val code by css {
         fontFamily = FONT_FAMILY_CODE
@@ -178,22 +160,5 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         fontSize = 16.pt
         fontWeight = FontWeight.w400
         color = WHITE
-    }
-
-
-    val toolTipText by css {
-        color = GRAY_800
-        fontFamily = FONT_FAMILY_MAIN
-        fontSize = 10.pt
-        fontWeight = FontWeight.w400
-        textAlign = TextAlign.start
-    }
-
-    val toolTipTextBold by css {
-        color = GRAY_800
-        fontFamily = FONT_FAMILY_MAIN
-        fontSize = 10.pt
-        fontWeight = FontWeight.w700
-        textAlign = TextAlign.start
     }
 }

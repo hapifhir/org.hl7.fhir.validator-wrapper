@@ -1,12 +1,13 @@
 package reactredux.store
 
 import kotlinext.js.js
-import redux.*
+import redux.RAction
+import redux.WrapperAction
 
 interface RThunk : RAction {
     operator fun invoke(
         dispatch: (RAction) -> WrapperAction,
-        getState: () -> AppState
+        getState: () -> AppState,
     ): WrapperAction
 }
 

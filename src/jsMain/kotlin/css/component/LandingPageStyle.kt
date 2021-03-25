@@ -1,8 +1,10 @@
 package css.component
 
-import css.component.header.HeaderStyle
-import kotlinx.css.*
+import kotlinx.css.Display
+import kotlinx.css.display
+import kotlinx.css.paddingTop
 import styled.StyleSheet
+import ui.components.header.HeaderStyle
 
 object LandingPageStyle : StyleSheet("LandingPage", isStatic = true) {
     val mainDiv by css {

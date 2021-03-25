@@ -10,7 +10,6 @@ import mainScope
 import model.CliContext
 import model.FileInfo
 import model.ValidationOutcome
-import model.prettyPrint
 import org.w3c.dom.HTMLInputElement
 import react.*
 import styled.StyleSheet
@@ -45,6 +44,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
     init {
         state = FileUploadTabState()
     }
+
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -89,6 +89,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
             }
         }
     }
+
     private fun validateUploadedFiles() {
         val request = assembleRequest(
             props.cliContext,
@@ -99,7 +100,9 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                     props.toggleValidationInProgress(true, it)
                 }
         )
-        if (props.sessionId.isNotBlank()) { request.setSessionId(props.sessionId) }
+        if (props.sessionId.isNotBlank()) {
+            request.setSessionId(props.sessionId)
+        }
         mainScope.launch {
             val validationResponse = sendValidationRequest(request)
             if (validationResponse.getSessionId().isNotEmpty()) props.setSessionId(validationResponse.getSessionId())

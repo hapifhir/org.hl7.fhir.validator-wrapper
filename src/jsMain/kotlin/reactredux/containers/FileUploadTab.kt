@@ -39,7 +39,10 @@ val fileUploadTab: RClass<RProps> =
             deleteFile = { dispatch(UploadedResourceSlice.RemoveFile(it)) }
             uploadFile = { dispatch(UploadedResourceSlice.UploadFile(it)) }
             setSessionId = { id: String -> dispatch(ValidationSessionSlice.SetSessionId(id)) }
-            toggleValidationInProgress = { b: Boolean, fileInfo: FileInfo -> dispatch(UploadedResourceSlice.ToggleValidationInProgress(b, fileInfo)) }
+            toggleValidationInProgress = { b: Boolean, fileInfo: FileInfo ->
+                dispatch(UploadedResourceSlice.ToggleValidationInProgress(b,
+                    fileInfo))
+            }
             addValidationOutcome = { dispatch(UploadedResourceSlice.AddValidationOutcome(it)) }
         }
     )(FileUploadTab::class.js.unsafeCast<RClass<FileUploadTabProps>>())

@@ -15,7 +15,7 @@ external interface FileEntryProps : RProps {
     var onDelete: (ValidationOutcome) -> Unit
 }
 
-class FileEntryState : RState {}
+class FileEntryState : RState
 
 /**
  * File list entry, detailing the validation status, filename, and giving the user options to either delete or view

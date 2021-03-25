@@ -1,10 +1,12 @@
 package ui.components.header
 
-import css.component.header.HeaderButtonIndicatorStyle
-import css.component.header.HeaderStyle
+import css.const.HL7_RED
 import css.text.TextStyle
+import kotlinx.css.*
+import kotlinx.css.properties.*
 import kotlinx.html.js.onClickFunction
 import react.*
+import styled.StyleSheet
 import styled.css
 import styled.styledSpan
 
@@ -14,7 +16,7 @@ external interface HeaderTabButtonProps : RProps {
     var onSelected: (String) -> Unit
 }
 
-class HeaderTabButtonState : RState {}
+class HeaderTabButtonState : RState
 
 class HeaderTabButton : RComponent<HeaderTabButtonProps, HeaderTabButtonState>() {
 
@@ -43,8 +45,46 @@ class HeaderTabButton : RComponent<HeaderTabButtonProps, HeaderTabButtonState>()
     }
 }
 
+/**
+ * Convenience method for instantiating the component.
+ */
 fun RBuilder.headerTabButton(handler: HeaderTabButtonProps.() -> Unit): ReactElement {
     return child(HeaderTabButton::class) {
         this.attrs(handler)
+    }
+}
+
+/**
+ * CSS
+ */
+object HeaderButtonIndicatorStyle : StyleSheet("HeaderButtonIndicator", isStatic = true) {
+
+    val headerButtonIndicator by css {
+        cursor = Cursor.pointer
+        hover {
+            color = HL7_RED
+            after {
+                transform {
+                    scaleX(1)
+                }
+            }
+        }
+        after {
+            display = Display.block
+            content = QuotedString("")
+            border(width = 1.px, style = BorderStyle.solid, color = HL7_RED)
+            transform {
+                scaleX(0)
+            }
+            transition(duration = 250.ms, timing = Timing.easeInOut, delay = 0.ms)
+        }
+    }
+    val headerButtonIndicatorSelected by css {
+        cursor = Cursor.pointer
+        after {
+            display = Display.block
+            content = QuotedString("")
+            border(width = 1.px, style = BorderStyle.solid, color = HL7_RED)
+        }
     }
 }

@@ -1,7 +1,6 @@
 package ui.components.tabs.entrytab
 
 import css.animation.LoadingSpinner
-import css.animation.LoadingSpinner.scaleIntro
 import css.const.HL7_RED
 import css.const.WHITE
 import kotlinx.css.*

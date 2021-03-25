@@ -1,8 +1,9 @@
 package css.component
 
-import css.const.*
+import css.const.GRAY_100
+import css.const.ICON_SMALL_DIM
+import css.const.SHADOW
 import css.text.TextStyle
-import css.component.tabs.uploadtab.filelist.FileStatusSpinnerStyle
 import kotlinx.css.*
 import kotlinx.css.properties.boxShadow
 import styled.StyleSheet
@@ -29,7 +30,7 @@ object OptionEntryFieldStyle : StyleSheet("OptionEntryFieldStyle", isStatic = tr
         justifyContent = JustifyContent.flexEnd
     }
     val loadingIndicator by css {
-        +FileStatusSpinnerStyle.loadingIndicator
+        //+FileStatusSpinnerStyle.loadingIndicator
         width = ICON_SMALL_DIM
         height = ICON_SMALL_DIM
         alignSelf = Align.center

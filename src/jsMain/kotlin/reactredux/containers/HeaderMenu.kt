@@ -1,19 +1,19 @@
 package reactredux.containers
 
+import Polyglot
 import model.AppScreen
 import react.RClass
 import react.RProps
 import react.invoke
 import react.redux.rConnect
+import reactredux.slices.AppScreenSlice
+import reactredux.slices.LocalizationSlice
 import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
 import ui.components.header.Header
 import ui.components.header.HeaderProps
 import utils.Language
-import Polyglot
-import reactredux.slices.AppScreenSlice
-import reactredux.slices.LocalizationSlice
 
 private interface HeaderStateProps : RProps {
     var appScreen: AppScreen

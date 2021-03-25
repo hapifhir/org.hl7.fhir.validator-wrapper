@@ -1,20 +1,17 @@
 package reactredux.containers
 
+import Polyglot
 import model.CliContext
 import model.ValidationOutcome
 import react.RClass
 import react.RProps
 import react.invoke
 import react.redux.rConnect
+import reactredux.slices.ManualEntrySlice
+import reactredux.slices.ValidationSessionSlice
 import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
-import ui.components.ResourceEntryFieldComponent
-import ui.components.ResourceEntryFieldProps
-import Polyglot
-import reactredux.slices.ManualEntrySlice
-import reactredux.slices.ManuallyEnteredResourceSlice
-import reactredux.slices.ValidationSessionSlice
 import ui.components.tabs.entrytab.ManualEntryTab
 import ui.components.tabs.entrytab.ManualEntryTabProps
 

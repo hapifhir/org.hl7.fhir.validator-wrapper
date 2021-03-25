@@ -1,13 +1,14 @@
 package ui.components.validation
 
 import css.animation.FadeIn.quickFadeIn
-import css.const.*
+import css.const.POPUP_SHADOW
+import css.const.WHITE
 import kotlinx.css.*
-import model.MessageFilter
 import model.ValidationOutcome
 import react.*
-import styled.*
-import ui.components.validation.issuelist.issueFilterButtonBar
+import styled.StyleSheet
+import styled.css
+import styled.styledDiv
 
 external interface ValidationSummaryPopupProps : RProps {
     var validationOutcome: ValidationOutcome

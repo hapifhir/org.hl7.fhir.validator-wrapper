@@ -2,9 +2,12 @@ package ui.components.main
 
 import css.component.page.PageTitleStyle
 import css.text.TextStyle
-import kotlinx.css.*
+import kotlinx.css.paddingBottom
+import kotlinx.css.rem
 import react.*
-import styled.*
+import styled.css
+import styled.styledDiv
+import styled.styledSpan
 
 external interface PageTitleProps : RProps {
     var majorText: String

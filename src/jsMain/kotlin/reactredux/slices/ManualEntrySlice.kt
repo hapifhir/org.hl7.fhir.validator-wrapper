@@ -8,7 +8,7 @@ object ManualEntrySlice {
     data class State(
         var validationOutcome: ValidationOutcome? = null,
         var currentManuallyEnteredText: String = "",
-        var validatingManualEntryInProgress: Boolean = false
+        var validatingManualEntryInProgress: Boolean = false,
     )
 
     data class AddManualEntryOutcome(val validationOutcome: ValidationOutcome?) : RAction

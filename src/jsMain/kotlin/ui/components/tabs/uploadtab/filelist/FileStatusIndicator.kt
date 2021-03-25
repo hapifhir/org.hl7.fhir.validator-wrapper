@@ -13,7 +13,7 @@ external interface FileStatusIndicatorProps : RProps {
     var validationOutcome: ValidationOutcome
 }
 
-class FileStatusIndicatorState : RState {}
+class FileStatusIndicatorState : RState
 
 /**
  * Graphical indicator for outcome of validation process.

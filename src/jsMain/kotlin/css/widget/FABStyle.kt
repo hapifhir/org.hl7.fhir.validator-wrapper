@@ -1,6 +1,9 @@
 package css.widget
 
-import css.const.*
+import css.const.ALMOST_RED
+import css.const.GRAY_400
+import css.const.REALLY_RED
+import css.const.TRULY_RED
 import kotlinx.css.*
 import kotlinx.css.properties.boxShadow
 import styled.StyleSheet

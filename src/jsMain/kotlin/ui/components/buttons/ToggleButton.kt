@@ -2,7 +2,6 @@ package ui.components.buttons
 
 import css.const.BORDER_GRAY
 import css.const.HIGHLIGHT_GRAY
-import css.const.INACTIVE_GRAY
 import css.const.WHITE
 import css.text.TextStyle
 import kotlinx.css.*

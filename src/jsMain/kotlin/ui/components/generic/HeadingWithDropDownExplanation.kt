@@ -26,7 +26,8 @@ class HeadingWithDropDownExplanationState : RState {
  * Sometimes it is necessary to display a brief explanation to the user, regarding a certain section or setting. This
  * need not be displayed at all times, and can be shown/hidden by clicking a drop down arrow.
  */
-class HeadingWithDropDownExplanation : RComponent<HeadingWithDropDownExplanationProps, HeadingWithDropDownExplanationState>() {
+class HeadingWithDropDownExplanation :
+    RComponent<HeadingWithDropDownExplanationProps, HeadingWithDropDownExplanationState>() {
 
     init {
         state = HeadingWithDropDownExplanationState()

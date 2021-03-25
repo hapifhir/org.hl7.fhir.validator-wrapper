@@ -7,7 +7,10 @@ import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLTextAreaElement
 import react.*
 import react.dom.defaultValue
-import styled.*
+import styled.css
+import styled.styledDiv
+import styled.styledImg
+import styled.styledTextArea
 
 external interface OptionEntryFieldProps : RProps {
     /*
@@ -83,7 +86,8 @@ class OptionEntryField : RComponent<OptionEntryFieldProps, OptionEntryFieldState
                                     setState {
                                         validatingChoice = true
                                     }
-                                    val field = document.getElementById("OptionEntryFieldTextArea") as HTMLTextAreaElement
+                                    val field =
+                                        document.getElementById("OptionEntryFieldTextArea") as HTMLTextAreaElement
                                     validateOptionEntry(field.value)
                                     setState {
                                         validatingChoice = false

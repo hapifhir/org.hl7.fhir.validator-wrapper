@@ -10,7 +10,10 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.browser.window
 import kotlinx.serialization.json.Json
-import model.*
+import model.FhirVersionsResponse
+import model.IGResponse
+import model.ValidationRequest
+import model.ValidationResponse
 
 val endpoint = window.location.origin // only needed until https://github.com/ktorio/ktor/issues/1695 is resolved
 
@@ -30,14 +33,6 @@ val jsonClient = HttpClient {
     }
 }
 
-//suspend fun sendValidationRequest(validationRequest: ValidationRequest): List<ValidationOutcome> {
-//    val message = jsonClient.post<ValidationResponse>(urlString = endpoint + VALIDATION_ENDPOINT) {
-//        contentType(ContentType.Application.Json)
-//        body = validationRequest
-//    }
-//    return message.getOutcomes().map { it.setValidated(true) }
-//}
-
 suspend fun sendValidationRequest(validationRequest: ValidationRequest): ValidationResponse {
     return jsonClient.post(urlString = endpoint + VALIDATION_ENDPOINT) {
         contentType(ContentType.Application.Json)
@@ -54,7 +49,8 @@ suspend fun sendVersionsRequest(): FhirVersionsResponse {
 }
 
 suspend fun validateTxServer(url: String): Boolean {
-    var response: String = jsonClient.get(urlString = if (url.endsWith('/')) url + CONFORMANCE_ENDPOINT else "$url/$CONFORMANCE_ENDPOINT")
+    var response: String =
+        jsonClient.get(urlString = if (url.endsWith('/')) url + CONFORMANCE_ENDPOINT else "$url/$CONFORMANCE_ENDPOINT")
     /*
      * We take the returned capability statement as a big string, remove all the whitespace, and search for the
      * matching capability statement we want.

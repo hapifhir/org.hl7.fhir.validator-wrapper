@@ -30,7 +30,7 @@ object FileErrorDisplayStyle : StyleSheet("TabBar", isStatic = true) {
     }
 
     val textHighlightFatal by css {
-       +textHighlight
+        +textHighlight
         backgroundColor = ALMOST_PERFECT_PINK
         hover {
             backgroundColor = PERFECT_PINK

@@ -9,7 +9,7 @@ fun assembleRequest(
     cliContext: CliContext,
     fileName: String,
     fileContent: String,
-    fileType: FhirFormat
+    fileType: FhirFormat,
 ): ValidationRequest {
     return assembleRequest(cliContext, FileInfo(fileName, fileContent, fileType.code))
 }

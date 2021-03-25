@@ -43,7 +43,8 @@ class CodeIssue : RComponent<CodeIssueProps, RState>() {
                     +CodeIssueStyle.textHighlight
                     backgroundColor = when (getHighestIssueSeverity(props.validationMessages)) {
                         IssueSeverity.INFORMATION -> if (props.highlighted) INFO_BLUE else INFO_BLUE.changeAlpha(0.25)
-                        IssueSeverity.WARNING -> if (props.highlighted) WARNING_YELLOW else WARNING_YELLOW.changeAlpha(0.25)
+                        IssueSeverity.WARNING -> if (props.highlighted) WARNING_YELLOW else WARNING_YELLOW.changeAlpha(
+                            0.25)
                         IssueSeverity.ERROR -> if (props.highlighted) ERROR_ORANGE else ERROR_ORANGE.changeAlpha(0.25)
                         IssueSeverity.FATAL -> if (props.highlighted) FATAL_PINK else FATAL_PINK.changeAlpha(0.25)
                         else -> WHITE

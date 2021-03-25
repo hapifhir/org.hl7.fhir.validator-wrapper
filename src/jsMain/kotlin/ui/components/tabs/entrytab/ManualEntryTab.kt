@@ -41,8 +41,7 @@ external interface ManualEntryTabProps : RProps {
     var setSessionId: (String) -> Unit
 }
 
-class ManualEntryTabState : RState {
-}
+class ManualEntryTabState : RState
 
 class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
     init {
@@ -111,6 +110,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             }
         }
     }
+
     private fun generateFileName(fileContent: String): String {
         return when {
             isJson(fileContent) -> "manually_entered_file.json"

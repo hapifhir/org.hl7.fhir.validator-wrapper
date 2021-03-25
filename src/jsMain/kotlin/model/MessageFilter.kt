@@ -19,7 +19,7 @@ data class MessageFilter(
 
     fun filter(messages: List<ValidationMessage>?): List<ValidationMessage> {
         return messages?.filter {
-                    (showFatal && it.getLevel() == IssueSeverity.FATAL) ||
+            (showFatal && it.getLevel() == IssueSeverity.FATAL) ||
                     (showError && it.getLevel() == IssueSeverity.ERROR) ||
                     (showWarning && it.getLevel() == IssueSeverity.WARNING) ||
                     (showInfo && it.getLevel() == IssueSeverity.INFORMATION)

@@ -1,10 +1,9 @@
 package css.component
 
-import css.const.*
+import css.const.GRAY_200
+import css.const.ICON_SMALL_DIM
 import css.text.TextStyle
 import kotlinx.css.*
-import kotlinx.css.properties.border
-import kotlinx.css.properties.boxShadow
 import styled.StyleSheet
 
 object HeadingWithDropDownExplanationStyle : StyleSheet("HeadingWithDropDownExplanationStyle", isStatic = true) {

@@ -30,7 +30,8 @@ class IssueEntryList : RComponent<IssueEntryListProps, RState>() {
                 css {
                     +IssueEntryListStyle.entryList
                 }
-                val filesIterator = props.validationOutcome.getMessages().sortedBy(ValidationMessage::getLine).iterator()
+                val filesIterator =
+                    props.validationOutcome.getMessages().sortedBy(ValidationMessage::getLine).iterator()
                 while (filesIterator.hasNext()) {
                     val message = filesIterator.next()
                     if (props.messageFilter.showEntry(message)) {
