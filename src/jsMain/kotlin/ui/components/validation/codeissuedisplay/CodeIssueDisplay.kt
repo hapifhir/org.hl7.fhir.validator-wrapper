@@ -33,7 +33,6 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
                         lineOfText = text
                         highlighted = props.highlightedMessages.intersect(props.messageFilter.filter(lineMap[index + 1])).isNotEmpty()
                         onMouseOver = { highlighted ->
-                            println("on mouse over $highlighted")
                             props.onHighlight(highlighted, props.messageFilter.filter(lineMap[index + 1]))
                         }
                     }
@@ -69,7 +68,9 @@ object CodeIssueDisplayStyle : StyleSheet("CodeIssueDisplayStyle", isStatic = tr
         width = 100.pct
     }
     val lineStyle by css {
-        display = Display.flex
+        display = Display.flowRoot
         whiteSpace = WhiteSpace.preWrap
+        overflowWrap = OverflowWrap.breakWord
+        wordWrap = WordWrap.breakWord
     }
 }

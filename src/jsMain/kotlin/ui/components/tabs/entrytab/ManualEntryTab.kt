@@ -77,7 +77,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
         }
     }
 
-    fun validateEnteredText(fileContent: String) {
+    private fun validateEnteredText(fileContent: String) {
         props.toggleValidationInProgress(true)
         val request = assembleRequest(
             cliContext = props.cliContext,

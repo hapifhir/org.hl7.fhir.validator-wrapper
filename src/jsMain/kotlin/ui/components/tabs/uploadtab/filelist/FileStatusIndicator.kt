@@ -34,7 +34,7 @@ class FileStatusIndicator : RComponent<FileStatusIndicatorProps, FileStatusIndic
                         IssueSeverity.WARNING -> +FileStatusIndicatorStyle.indicatorWarning
                         IssueSeverity.ERROR -> +FileStatusIndicatorStyle.indicatorError
                         IssueSeverity.FATAL -> +FileStatusIndicatorStyle.indicatorFatal
-                        else -> +FileStatusIndicatorStyle.indicatorNoStatus
+                        else -> +FileStatusIndicatorStyle.indicatorGood
                     }
                 }
             }
@@ -53,7 +53,7 @@ class FileStatusIndicator : RComponent<FileStatusIndicatorProps, FileStatusIndic
                                 IssueSeverity.WARNING -> "images/validation_warning_white.png"
                                 IssueSeverity.ERROR -> "images/validation_error_white.png"
                                 IssueSeverity.FATAL -> "images/validation_fatal_white.png"
-                                else -> ""
+                                else -> "images/validation_success_white.png"
                             }
                         }
                     }

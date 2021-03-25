@@ -78,12 +78,13 @@ fun RBuilder.codeIssue(handler: CodeIssueProps.() -> Unit): ReactElement {
 object CodeIssueStyle : StyleSheet("CodeIssueStyle", isStatic = true) {
     val codeIssueContainer by css {
         display = Display.flex
-        width = 100.pct
         flexDirection = FlexDirection.row
     }
     val lineStyle by css {
-        display = Display.flex
+        display = Display.flowRoot
         whiteSpace = WhiteSpace.preWrap
+        overflowWrap = OverflowWrap.breakWord
+        wordWrap = WordWrap.breakWord
     }
     val textHighlight by css {
         +lineStyle

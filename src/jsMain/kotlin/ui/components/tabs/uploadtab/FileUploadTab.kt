@@ -1,11 +1,16 @@
 package ui.components.tabs.uploadtab
 
+import api.sendValidationRequest
 import css.animation.FadeIn.fadeIn
 import css.const.WHITE
 import kotlinx.browser.document
+import kotlinx.coroutines.launch
 import kotlinx.css.*
+import mainScope
+import model.CliContext
 import model.FileInfo
 import model.ValidationOutcome
+import model.prettyPrint
 import org.w3c.dom.HTMLInputElement
 import react.*
 import styled.StyleSheet
@@ -14,12 +19,18 @@ import styled.styledDiv
 import ui.components.tabs.tabHeading
 import ui.components.tabs.uploadtab.filelist.fileEntryList
 import ui.components.validation.validationSummaryPopup
+import utils.assembleRequest
 
 external interface FileUploadTabProps : RProps {
     var uploadedFiles: List<ValidationOutcome>
+    var cliContext: CliContext
+    var sessionId: String
 
     var deleteFile: (FileInfo) -> Unit
     var uploadFile: (FileInfo) -> Unit
+    var setSessionId: (String) -> Unit
+    var toggleValidationInProgress: (Boolean, FileInfo) -> Unit
+    var addValidationOutcome: (ValidationOutcome) -> Unit
 }
 
 class FileUploadTabState : RState {
@@ -58,7 +69,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                     (document.getElementById(FILE_UPLOAD_ELEMENT_ID) as HTMLInputElement).click()
                 }
                 onValidateRequested = {
-                    // TODO
+                    validateUploadedFiles()
                 }
             }
             uploadFilesComponent {
@@ -75,6 +86,26 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                         }
                     }
                 }
+            }
+        }
+    }
+    private fun validateUploadedFiles() {
+        val request = assembleRequest(
+            props.cliContext,
+            props.uploadedFiles
+                .filterNot(ValidationOutcome::isValidated)
+                .map(ValidationOutcome::getFileInfo)
+                .onEach {
+                    props.toggleValidationInProgress(true, it)
+                }
+        )
+        if (props.sessionId.isNotBlank()) { request.setSessionId(props.sessionId) }
+        mainScope.launch {
+            val validationResponse = sendValidationRequest(request)
+            if (validationResponse.getSessionId().isNotEmpty()) props.setSessionId(validationResponse.getSessionId())
+            validationResponse.getOutcomes().forEach { outcome ->
+                props.addValidationOutcome(outcome)
+                props.toggleValidationInProgress(true, outcome.getFileInfo())
             }
         }
     }
