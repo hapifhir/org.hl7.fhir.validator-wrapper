@@ -73,6 +73,7 @@ object FileEntryListStyle : StyleSheet("FileEntryListStyle", isStatic = true) {
         width = 100.pct
         height = 100.pct
         backgroundColor = Color.white
+        minHeight = 600.px
         border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
     }
     val entryList by FileEntryListStyle.css {

@@ -14,7 +14,7 @@ external interface IssueEntryListProps : RProps {
     var validationOutcome: ValidationOutcome
     var messageFilter: MessageFilter
     var highlightedMessages: List<ValidationMessage>?
-    var onHighlight: (Boolean, List<ValidationMessage>) -> Unit
+    var onHighlight: ((Boolean, List<ValidationMessage>) -> Unit)?
 }
 
 /**
@@ -38,7 +38,7 @@ class IssueEntryList : RComponent<IssueEntryListProps, RState>() {
                             validationMessage = message
                             highlighted = props.highlightedMessages?.contains(message) ?: false
                             onMouseOver = { highlighted ->
-                                props.onHighlight(highlighted, listOf(message))
+                                props.onHighlight?.let { it(highlighted, listOf(message)) }
                             }
                         }
                         if (filesIterator.hasNext()) {

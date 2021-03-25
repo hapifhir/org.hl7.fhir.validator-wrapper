@@ -2,25 +2,38 @@ package ui.components.tabs.uploadtab
 
 import css.animation.FadeIn.fadeIn
 import css.const.WHITE
+import kotlinx.browser.document
 import kotlinx.css.*
 import model.FileInfo
 import model.ValidationOutcome
+import org.w3c.dom.HTMLInputElement
 import react.*
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import ui.components.tabs.tabHeading
 import ui.components.tabs.uploadtab.filelist.fileEntryList
+import ui.components.validation.validationSummaryPopup
 
 external interface FileUploadTabProps : RProps {
     var uploadedFiles: List<ValidationOutcome>
+
     var deleteFile: (FileInfo) -> Unit
+    var uploadFile: (FileInfo) -> Unit
+}
+
+class FileUploadTabState : RState {
+    var currentlyDisplayedValidationOutcome: ValidationOutcome? = null
 }
 
 /**
  * Component displaying the list of uploaded files, in addition to the controls for uploading and starting validation.
  */
-class FileUploadTab : RComponent<FileUploadTabProps, RState>() {
+class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
+
+    init {
+        state = FileUploadTabState()
+    }
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -31,19 +44,36 @@ class FileUploadTab : RComponent<FileUploadTabProps, RState>() {
             }
             fileEntryList {
                 validationOutcomes = props.uploadedFiles
-                viewFile = {
-                    // TODO
+                viewFile = { outcomeToView ->
+                    setState {
+                        currentlyDisplayedValidationOutcome = outcomeToView
+                    }
                 }
                 deleteFile = {
-                    // TODO
+                    props.deleteFile(it.getFileInfo())
                 }
             }
             fileUploadButtonBar {
                 onUploadRequested = {
-                    // TODO
+                    (document.getElementById(FILE_UPLOAD_ELEMENT_ID) as HTMLInputElement).click()
                 }
                 onValidateRequested = {
                     // TODO
+                }
+            }
+            uploadFilesComponent {
+                onFileUpload = {
+                    props.uploadFile(it)
+                }
+            }
+            state.currentlyDisplayedValidationOutcome?.let {
+                validationSummaryPopup {
+                    validationOutcome = state.currentlyDisplayedValidationOutcome!!
+                    onClose = {
+                        setState {
+                            currentlyDisplayedValidationOutcome = null
+                        }
+                    }
                 }
             }
         }

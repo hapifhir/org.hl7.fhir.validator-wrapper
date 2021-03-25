@@ -12,6 +12,8 @@ import redux.WrapperAction
 import ui.components.UploadFilesButton
 import ui.components.UploadFilesButtonProps
 
+//TODO Deleteme
+
 private interface UploadFilesButtonStateProps : RProps {}
 
 private interface UploadFilesButtonDispatchProps : RProps {

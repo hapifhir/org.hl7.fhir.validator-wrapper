@@ -20,6 +20,7 @@ private interface FileUploadTabProps : RProps {
 
 private interface FileUploadTabDispatchProps : RProps {
     var deleteFile: (FileInfo) -> Unit
+    var uploadFile: (FileInfo) -> Unit
 }
 
 val fileUploadTab: RClass<RProps> =
@@ -29,5 +30,6 @@ val fileUploadTab: RClass<RProps> =
         },
         { dispatch, _ ->
             deleteFile = { dispatch(UploadedResourceSlice.RemoveFile(it)) }
+            uploadFile = { dispatch(UploadedResourceSlice.UploadFile(it)) }
         }
     )(FileUploadTab::class.js.unsafeCast<RClass<FileUploadTabProps>>())

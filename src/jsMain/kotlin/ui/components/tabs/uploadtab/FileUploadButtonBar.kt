@@ -1,5 +1,6 @@
 package ui.components.tabs.uploadtab
 
+import css.animation.LoadingSpinner
 import css.const.HL7_RED
 import css.const.WHITE
 import kotlinx.css.*
@@ -8,10 +9,12 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import ui.components.buttons.imageButton
+import ui.components.tabs.entrytab.ManualEntryButtonBarStyle
 
 external interface FileUploadButtonBarProps : RProps {
     var onUploadRequested: () -> Unit
     var onValidateRequested: () -> Unit
+    var workInProgress: Boolean
 }
 
 /**
@@ -41,13 +44,21 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
                 }
             }
 
-            imageButton {
-                backgroundColor = WHITE
-                borderColor = HL7_RED
-                image = "images/validate_red.png"
-                label = "Validate"
-                onSelected = {
-                    props.onValidateRequested()
+            if (props.workInProgress) {
+                styledDiv {
+                    css {
+                        +ManualEntryButtonBarStyle.spinner
+                    }
+                }
+            } else {
+                imageButton {
+                    backgroundColor = WHITE
+                    borderColor = HL7_RED
+                    image = "images/validate_red.png"
+                    label = "Validate"
+                    onSelected = {
+                        props.onValidateRequested()
+                    }
                 }
             }
         }
@@ -75,5 +86,12 @@ object FileUploadButtonBarStyle : StyleSheet("FileUploadButtonBarStyle", isStati
     }
     val buttonBarDivider by css {
         width = 16.px
+    }
+    val spinner by css {
+        height = 32.px
+        width = 32.px
+        margin(horizontal = 32.px, vertical = 8.px)
+        alignSelf = Align.center
+        +LoadingSpinner.loadingIndicator
     }
 }
