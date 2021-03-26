@@ -1,7 +1,5 @@
-import css.component.LandingPageStyle
 import kotlinx.coroutines.MainScope
-import kotlinx.css.FlexDirection
-import kotlinx.css.flexDirection
+import kotlinx.css.*
 import model.AppScreen
 import react.RBuilder
 import react.RComponent
@@ -9,8 +7,10 @@ import react.RProps
 import react.RState
 import reactredux.containers.contextSettings
 import reactredux.containers.header
+import styled.StyleSheet
 import styled.css
 import styled.styledDiv
+import ui.components.header.HeaderStyle
 import ui.components.main.sectionTitle
 import ui.components.tabs.tabLayout
 
@@ -52,4 +52,13 @@ class App : RComponent<AppProps, RState>() {
     }
 }
 
+/**
+ * CSS
+ */
+object LandingPageStyle : StyleSheet("LandingPageStyle", isStatic = true) {
+    val mainDiv by css {
+        paddingTop = HeaderStyle.HEADER_HEIGHT
+        display = Display.flex
+    }
+}
 

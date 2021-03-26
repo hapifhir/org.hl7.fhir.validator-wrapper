@@ -82,6 +82,7 @@ object HeaderButtonIndicatorStyle : StyleSheet("HeaderButtonIndicator", isStatic
         flexDirection = FlexDirection.column
         justifyContent = JustifyContent.center
         flexGrow = 1.0
+        marginTop = 16.px
     }
     val buttonIndicator by css {
         height = 2.px

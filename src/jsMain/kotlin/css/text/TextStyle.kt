@@ -11,7 +11,7 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
 
     val headerButtonLabel by css {
         fontFamily = FONT_FAMILY_MAIN
-        fontSize = 14.pt
+        fontSize = 12.pt
         fontWeight = FontWeight.w400
         color = TEXT_BLACK
     }
@@ -19,16 +19,16 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
     // Section title
     val pageTitle by css {
         fontFamily = FONT_FAMILY_MAIN
-        fontSize = 36.pt
+        fontSize = 28.pt
         fontWeight = FontWeight.w400
-        color = TRULY_RED
+        color = HL7_RED
     }
 
     // Section Details
     val pageDetails by css {
         fontFamily = FONT_FAMILY_MAIN
-        fontSize = 18.pt
-        fontWeight = FontWeight.w400
+        fontSize = 14.pt
+        fontWeight = FontWeight.w200
         color = TEXT_BLACK
     }
 

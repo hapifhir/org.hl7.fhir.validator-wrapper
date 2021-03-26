@@ -1,10 +1,9 @@
 package ui.components.main
 
-import css.component.page.PageTitleStyle
 import css.text.TextStyle
-import kotlinx.css.paddingBottom
-import kotlinx.css.rem
+import kotlinx.css.*
 import react.*
+import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledSpan
@@ -23,7 +22,7 @@ class PageTitle : RComponent<PageTitleProps, RState>() {
             styledSpan {
                 css {
                     +TextStyle.pageTitle
-                    paddingBottom = 1.rem
+                    +PageTitleStyle.titleStyle
                 }
                 +props.majorText
             }
@@ -37,8 +36,27 @@ class PageTitle : RComponent<PageTitleProps, RState>() {
     }
 }
 
+/**
+ * React Component Builder
+ */
 fun RBuilder.sectionTitle(handler: PageTitleProps.() -> Unit): ReactElement {
     return child(PageTitle::class) {
         this.attrs(handler)
+    }
+}
+
+/**
+ * CSS
+ */
+object PageTitleStyle : StyleSheet("PageTitleStyle", isStatic = true) {
+    val sectionTitle by css {
+        textAlign = TextAlign.center
+        margin(vertical = 64.px)
+        justifyContent = JustifyContent.center
+        display = Display.flex
+        flexDirection = FlexDirection.column
+    }
+    val titleStyle by css {
+        paddingBottom = 18.px
     }
 }
