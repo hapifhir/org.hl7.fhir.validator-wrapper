@@ -1,9 +1,12 @@
 package ui.components.header
 
 import Polyglot
+import css.const.HEADER_SHADOW
+import css.const.HIGHLIGHT_GRAY
 import css.const.WHITE
 import kotlinx.browser.document
 import kotlinx.css.*
+import kotlinx.css.properties.borderBottom
 import kotlinx.css.properties.boxShadow
 import model.AppScreen
 import org.w3c.dom.events.Event
@@ -39,72 +42,62 @@ class Header : RComponent<HeaderProps, HeaderState>(), EventListener {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +HeaderStyle.headerBar
+                +HeaderStyle.headerContainer
                 if (state.currentScroll > 0) {
-                    +HeaderStyle.headerBarScrolled
+                    boxShadow(color = HEADER_SHADOW, offsetX = 0.px, offsetY = 10.px, blurRadius = 10.px)
+                }
+            }
+            styledImg(src = "images/fhir-logo.png") {
+                css {
+                    +HeaderStyle.headerImage
                 }
             }
             styledDiv {
                 css {
-                    +HeaderStyle.header
+                    +HeaderStyle.headerButtonsContainer
                 }
-                styledImg(src = "images/fhir-logo.png") {
-                    css {
-                        +HeaderStyle.headerMainImage
-                    }
-                }
-                styledDiv {
-                    css {
-                        +HeaderStyle.headerMenu
-                    }
-                    styledDiv {
-                        css {
-                            +HeaderStyle.menuEntriesContainer
-                        }
-                        AppScreen.values().forEach { screen ->
-                            headerTabButton {
-                                label = screen.display
-                                selected = props.appScreen == screen
-                                onSelected = { buttonLabel ->
-                                    AppScreen.fromDisplay(buttonLabel)?.let { it -> props.setScreen(it) }
-                                }
-                            }
+                AppScreen.values().forEach { screen ->
+                    headerTabButton {
+                        label = screen.display
+                        selected = props.appScreen == screen
+                        onSelected = { buttonLabel ->
+                            AppScreen.fromDisplay(buttonLabel)?.let { it -> props.setScreen(it) }
                         }
                     }
                 }
-                /** TODO LOCALIZATION
-                styledDiv {
-                css {
-                +HeaderStyle.sideOptions
-                }
-                styledSpan {
-                css {
-                +TextStyle.headerMenuItem
-                }
-                +props.polyglot.t("heading_validate") //"Language"
-                attrs {
-                onClickFunction = {
-                //setState {
-                println("ON CLICK BUTTON")
-                props.setLanguage(if (props.language == Language.US_ENGLISH) Language.MEX_SPANISH else Language.US_ENGLISH)
-                var polyglot = Polyglot()
-                when (props.language) {
-                Language.US_ENGLISH -> polyglot.extend(phrases = js("{" +
-                "'heading_validate': 'Validate Resources'," +
-                "'test_string': 'Test String'" +
-                "}"))
-                Language.MEX_SPANISH -> polyglot.extend(phrases = js("{" +
-                "'heading_validate': 'Spanish Resources'," +
-                "'test_string': 'Spanish String'" +
-                "}"))
-                }
-                props.setPolyglot(polyglot)
-                //}
-                }
-                }
-                }
-                 **/
             }
+            /** TODO LOCALIZATION
+            styledDiv {
+            css {
+            +HeaderStyle.sideOptions
+            }
+            styledSpan {
+            css {
+            +TextStyle.headerMenuItem
+            }
+            +props.polyglot.t("heading_validate") //"Language"
+            attrs {
+            onClickFunction = {
+            //setState {
+            println("ON CLICK BUTTON")
+            props.setLanguage(if (props.language == Language.US_ENGLISH) Language.MEX_SPANISH else Language.US_ENGLISH)
+            var polyglot = Polyglot()
+            when (props.language) {
+            Language.US_ENGLISH -> polyglot.extend(phrases = js("{" +
+            "'heading_validate': 'Validate Resources'," +
+            "'test_string': 'Test String'" +
+            "}"))
+            Language.MEX_SPANISH -> polyglot.extend(phrases = js("{" +
+            "'heading_validate': 'Spanish Resources'," +
+            "'test_string': 'Spanish String'" +
+            "}"))
+            }
+            props.setPolyglot(polyglot)
+            //}
+            }
+            }
+            }
+             **/
         }
     }
 
@@ -128,48 +121,27 @@ fun RBuilder.header(handler: HeaderProps.() -> Unit): ReactElement {
  * CSS
  */
 object HeaderStyle : StyleSheet("HeaderStyle", isStatic = true) {
-
-    val HEADER_HEIGHT = 5.rem
-
-    val headerBar by css {
+    val HEADER_HEIGHT = 96.px
+    val headerContainer by css {
         display = Display.flex
+        flexDirection = FlexDirection.row
+        justifyContent = JustifyContent.start
         width = 100.pct
         height = HEADER_HEIGHT
         zIndex = 1
         top = 0.px
         position = Position.fixed
         backgroundColor = WHITE
-        flexDirection = FlexDirection.row
+        borderBottom(width = 2.px, style = BorderStyle.solid, color = HIGHLIGHT_GRAY)
     }
-    val header by css {
-        padding(horizontal = 2.rem)
-        flex(flexBasis = 100.pct)
+    val headerButtonsContainer by css {
         display = Display.flex
         flexDirection = FlexDirection.row
+        height = 100.pct
     }
-    val headerMainImage by css {
-        height = HEADER_HEIGHT * 0.6
+    val headerImage by css {
+        height = 48.px
+        padding(horizontal = 48.px)
         alignSelf = Align.center
-    }
-    val headerMenu by css {
-        width = 100.pct
-        height = HEADER_HEIGHT * 0.8
-        display = Display.flex
-        flexDirection = FlexDirection.row
-        padding(horizontal = 1.rem)
-        alignSelf = Align.center
-    }
-    val headerBarScrolled by css {
-        boxShadow(color = Color("#BBBBBB"), offsetX = 0.px, offsetY = 10.px, blurRadius = 10.px)
-    }
-    val menuEntriesContainer by css {
-        display = Display.flex
-        flex(flexGrow = 1.0)
-        flexDirection = FlexDirection.row
-        justifyContent = JustifyContent.flexStart
-        alignSelf = Align.center
-    }
-    val menuEntries by css {
-        padding(horizontal = 1.rem)
     }
 }

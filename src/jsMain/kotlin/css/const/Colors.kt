@@ -4,10 +4,7 @@ import kotlinx.css.Color
 
 val WHITE = Color("#FFFFFF")
 val TEXT_BLACK = Color("#383838")
-
 val HL7_RED = Color("#eb2229")
-
-val SUCCESS_GREEN = Color("#83cd7d")
 
 // GRAYS
 val INACTIVE_GRAY = Color("#f4f4f4")
@@ -19,9 +16,12 @@ val INFO_BLUE = Color("#76dcdb")
 val WARNING_YELLOW = Color("#ffc40d")
 val ERROR_ORANGE = Color("#ff9b66")
 val FATAL_PINK = Color("#ff97c6")
+val SUCCESS_GREEN = Color("#83cd7d")
 
-// POPUP SHADOW
+// SHADOW
 val POPUP_SHADOW = Color("#00000022")
+val HEADER_SHADOW = Color("#BBBBBB")
+
 
 // LEGACY COLORS TODO DELETE
 val REALLY_RED = Color("#B00000FF")

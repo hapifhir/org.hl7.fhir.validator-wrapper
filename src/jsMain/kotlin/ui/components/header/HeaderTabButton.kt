@@ -8,6 +8,7 @@ import kotlinx.html.js.onClickFunction
 import react.*
 import styled.StyleSheet
 import styled.css
+import styled.styledDiv
 import styled.styledSpan
 
 external interface HeaderTabButtonProps : RProps {
@@ -25,22 +26,34 @@ class HeaderTabButton : RComponent<HeaderTabButtonProps, HeaderTabButtonState>()
     }
 
     override fun RBuilder.render() {
-        styledSpan {
+        styledDiv {
             css {
-                if (props.selected) {
-                    +HeaderButtonIndicatorStyle.headerButtonIndicatorSelected
-                } else {
-                    +HeaderButtonIndicatorStyle.headerButtonIndicator
-                }
-                +HeaderStyle.menuEntries
-                +TextStyle.headerButtonLabel
+                +HeaderButtonIndicatorStyle.headerButtonMainContainer
             }
             attrs {
                 onClickFunction = {
                     props.onSelected(props.label)
                 }
             }
-            +props.label
+            styledDiv {
+                css {
+                    +HeaderButtonIndicatorStyle.headerButtonTextContainer
+                }
+                styledSpan {
+                    css {
+                        +TextStyle.headerButtonLabel
+                    }
+                    +props.label
+                }
+            }
+            styledDiv {
+                css {
+                    +HeaderButtonIndicatorStyle.buttonIndicator
+                    if (!props.selected) {
+                        +HeaderButtonIndicatorStyle.animatedButtonIndicator
+                    }
+                }
+            }
         }
     }
 }
@@ -58,33 +71,31 @@ fun RBuilder.headerTabButton(handler: HeaderTabButtonProps.() -> Unit): ReactEle
  * CSS
  */
 object HeaderButtonIndicatorStyle : StyleSheet("HeaderButtonIndicator", isStatic = true) {
-
-    val headerButtonIndicator by css {
+    val headerButtonMainContainer by css {
+        display = Display.flex
+        flexDirection = FlexDirection.column
         cursor = Cursor.pointer
-        hover {
-            color = HL7_RED
-            after {
-                transform {
-                    scaleX(1)
-                }
-            }
-        }
-        after {
-            display = Display.block
-            content = QuotedString("")
-            border(width = 1.px, style = BorderStyle.solid, color = HL7_RED)
-            transform {
-                scaleX(0)
-            }
-            transition(duration = 250.ms, timing = Timing.easeInOut, delay = 0.ms)
-        }
+        padding(horizontal = 16.px)
     }
-    val headerButtonIndicatorSelected by css {
-        cursor = Cursor.pointer
-        after {
-            display = Display.block
-            content = QuotedString("")
-            border(width = 1.px, style = BorderStyle.solid, color = HL7_RED)
+    val headerButtonTextContainer by css {
+        display = Display.flex
+        flexDirection = FlexDirection.column
+        justifyContent = JustifyContent.center
+        flexGrow = 1.0
+    }
+    val buttonIndicator by css {
+        height = 2.px
+        backgroundColor = HL7_RED
+    }
+    val animatedButtonIndicator by css {
+        transform {
+            scaleX(0)
+        }
+        transition(duration = 250.ms, timing = Timing.easeInOut, delay = 0.ms)
+        ancestorHover(".${HeaderButtonIndicatorStyle.name}-${HeaderButtonIndicatorStyle::headerButtonMainContainer.name}") {
+            transform {
+                scaleX(1)
+            }
         }
     }
 }
