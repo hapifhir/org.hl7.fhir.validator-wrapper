@@ -51,7 +51,8 @@ fun RBuilder.sectionTitle(handler: PageTitleProps.() -> Unit): ReactElement {
 object PageTitleStyle : StyleSheet("PageTitleStyle", isStatic = true) {
     val sectionTitle by css {
         textAlign = TextAlign.center
-        margin(vertical = 64.px)
+        marginTop = 64.px
+        marginBottom = 64.px
         justifyContent = JustifyContent.center
         display = Display.flex
         flexDirection = FlexDirection.column

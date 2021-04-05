@@ -1,7 +1,6 @@
-package ui.components.generic
+package ui.components.options.menu
 
 import css.text.TextStyle
-import css.widget.CheckboxStyle
 import kotlinx.css.*
 import kotlinx.html.InputType
 import kotlinx.html.id
@@ -13,21 +12,22 @@ import styled.*
 
 const val CHECKBOX_CHANGE = "change"
 
-external interface CheckboxInputProps : RProps {
-    var onChange: (Boolean) -> Unit
-    var settingName: String
-    var settingDescription: String
+external interface CheckboxWithDetailsProps : RProps {
+    var name: String
+    var description: String
     var selected: Boolean
+
+    var onChange: (Boolean) -> Unit
 }
 
-class CheckboxInputState : RState {
-    var detailsOpen: Boolean = false
+class CheckboxWithDetailsState : RState {
+    var currentlyExpanded: Boolean = false
 }
 
-class CheckboxInput : RComponent<CheckboxInputProps, CheckboxInputState>() {
+class CheckboxWithDetails : RComponent<CheckboxWithDetailsProps, CheckboxWithDetailsState>() {
 
     init {
-        state = CheckboxInputState()
+        state = CheckboxWithDetailsState()
     }
 
     override fun RBuilder.render() {
@@ -43,8 +43,7 @@ class CheckboxInput : RComponent<CheckboxInputProps, CheckboxInputState>() {
                     defaultChecked = props.selected
                     onChangeFunction = { event ->
                         if (event.type == CHECKBOX_CHANGE) {
-                            var inputElement = event.target as HTMLInputElement
-                            props.onChange(inputElement.checked)
+                            props.onChange((event.target as HTMLInputElement).checked)
                         }
                     }
                 }
@@ -56,16 +55,16 @@ class CheckboxInput : RComponent<CheckboxInputProps, CheckboxInputState>() {
                 attrs {
                     onClickFunction = {
                         setState {
-                            detailsOpen = !detailsOpen
+                            currentlyExpanded = !currentlyExpanded
                         }
                     }
                 }
                 styledSpan {
                     css {
                         alignSelf = Align.center
-                        +TextStyle.settingName
+                        +TextStyle.optionName
                     }
-                    +props.settingName
+                    +props.name
                 }
                 styledDiv {
                     css {
@@ -76,7 +75,7 @@ class CheckboxInput : RComponent<CheckboxInputProps, CheckboxInputState>() {
                             +CheckboxStyle.dropdownButton
                         }
                         attrs {
-                            src = if (state.detailsOpen) {
+                            src = if (state.currentlyExpanded) {
                                 "images/arrow_up.svg"
                             } else {
                                 "images/arrow_down.svg"
@@ -89,7 +88,7 @@ class CheckboxInput : RComponent<CheckboxInputProps, CheckboxInputState>() {
         styledDiv {
             css {
                 +CheckboxStyle.propertiesDetails
-                display = if (state.detailsOpen) {
+                display = if (state.currentlyExpanded) {
                     Display.flex
                 } else {
                     Display.none
@@ -100,17 +99,53 @@ class CheckboxInput : RComponent<CheckboxInputProps, CheckboxInputState>() {
             }
             styledSpan {
                 css {
-                    +TextStyle.codeDark
-                    padding(1.rem)
+                    +TextStyle.optionsDetailText
                 }
-                +props.settingDescription
+                +props.description
             }
         }
     }
 }
 
-fun RBuilder.checkboxInput(handler: CheckboxInputProps.() -> Unit): ReactElement {
-    return child(CheckboxInput::class) {
+/**
+ * React Component Builder
+ */
+fun RBuilder.checkboxWithDetails(handler: CheckboxWithDetailsProps.() -> Unit): ReactElement {
+    return child(CheckboxWithDetails::class) {
         this.attrs(handler)
+    }
+}
+
+/**
+ * CSS
+ */
+object CheckboxStyle : StyleSheet("CheckboxStyle", isStatic = true) {
+    val propertiesDetails by css {
+        overflow = Overflow.hidden
+    }
+    val dropdownButtonContainer by css {
+        display = Display.flex
+        flex(flexGrow = 1.0)
+        flexDirection = FlexDirection.row
+        justifyContent = JustifyContent.flexEnd
+    }
+    val dropdownButton by css {
+        width = 24.px
+        height = 24.px
+        alignSelf = Align.center
+    }
+    val checkboxTitleBar by css {
+        display = Display.flex
+        flex(flexGrow = 1.0)
+        flexDirection = FlexDirection.row
+        alignSelf = Align.center
+        padding(horizontal = 16.px, vertical = 8.px)
+    }
+    val checkboxTitle by css {
+        flexGrow = 1.0
+        width = 100.pct
+        display = Display.flex
+        flexDirection = FlexDirection.row
+        justifyContent = JustifyContent.flexStart
     }
 }

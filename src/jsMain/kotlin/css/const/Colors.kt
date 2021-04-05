@@ -25,25 +25,6 @@ val HEADER_SHADOW = Color("#BBBBBB")
 
 // LEGACY COLORS TODO DELETE
 val REALLY_RED = Color("#B00000FF")
-val TRULY_RED = Color("#eb2229FF")
-val ALMOST_RED = Color("#FF6153FF")
-
-val BLACK = Color("#000000")
-
-val BARELY_BLUE = Color("#22ebe4")
-val ALMOST_BARELY_BLUE = Color("#d8fafa")
-
-val PERFECT_PINK = Color("#eb228d")
-val ALMOST_PERFECT_PINK = Color("#f089be")
-
-val OVERT_ORANGE = Color("#eb8022")
-val ALMOST_OVERT_ORANGE = Color("#f3be38")
-
-val YAPPY_YELLOW = Color("#ebe422")
-val ALMOST_YAPPY_YELLOW = Color("#f0ec6b")
-
-val GARISH_GREEN = Color("#29eb22")
-val ALMOST_GARISH_GREEN = Color("#87f476")
 
 val SHADOW = Color("#00000077")
 

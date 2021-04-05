@@ -11,14 +11,12 @@ import kotlinx.css.*
 import mainScope
 import model.CliContext
 import model.ValidationOutcome
-import react.RBuilder
-import react.RComponent
-import react.RProps
-import react.RState
+import react.*
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
-import ui.components.tabs.tabHeading
+import ui.components.options.menu.dropDownMultiChoice
+import ui.components.tabs.heading
 import ui.components.validation.issuelist.filteredIssueEntryList
 import utils.assembleRequest
 import utils.isJson
@@ -53,7 +51,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             css {
                 +ManualEntryTabStyle.mainContainer
             }
-            tabHeading {
+            heading {
                 text = "Code"
             }
             manualEntryTextArea {

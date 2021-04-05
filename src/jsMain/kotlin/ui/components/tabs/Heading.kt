@@ -8,14 +8,14 @@ import styled.css
 import styled.styledDiv
 import styled.styledSpan
 
-external interface TabHeadingProps : RProps {
+external interface HeadingProps : RProps {
     var text: String
 }
 
 /**
  * Heading field for the manual entry and upload tabs
  */
-class TabHeading : RComponent<TabHeadingProps, RState>() {
+class Heading : RComponent<HeadingProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -34,8 +34,8 @@ class TabHeading : RComponent<TabHeadingProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.tabHeading(handler: TabHeadingProps.() -> Unit): ReactElement {
-    return child(TabHeading::class) {
+fun RBuilder.heading(handler: HeadingProps.() -> Unit): ReactElement {
+    return child(Heading::class) {
         this.attrs(handler)
     }
 }

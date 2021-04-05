@@ -7,7 +7,7 @@ import react.*
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
-import ui.components.tabs.tabHeading
+import ui.components.tabs.heading
 
 external interface FilteredIssueEntryListProps : RProps {
     var validationOutcome: ValidationOutcome
@@ -31,7 +31,7 @@ class FilteredIssueEntryList : RComponent<FilteredIssueEntryListProps, FilteredI
             css {
                 +FilteredIssueEntryListStyle.entryListContainer
             }
-            tabHeading {
+            heading {
                 text =
                     "Results (${state.messageFilter.determineNumberDisplayedIssues(props.validationOutcome.getMessages())})"
             }

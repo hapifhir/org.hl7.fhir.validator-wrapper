@@ -58,7 +58,7 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
     val tabSectionHeading by css {
         fontFamily = FONT_FAMILY_MAIN
         fontWeight = FontWeight.w400
-        fontSize = 16.pt
+        fontSize = 15.pt
         color = TEXT_BLACK
         alignSelf = Align.center
     }
@@ -118,6 +118,26 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         color = TEXT_BLACK
     }
 
+    // options/settings
+    val optionsDetailText by css {
+        fontFamily = FONT_FAMILY_MAIN
+        fontSize = 11.pt
+        fontWeight = FontWeight.w200
+        color = TEXT_BLACK
+    }
+    val optionName by css {
+        fontFamily = FONT_FAMILY_MAIN
+        fontSize = 12.pt
+        fontWeight = FontWeight.w600
+        color = TEXT_BLACK
+    }
+    val dropDownLabel by css {
+        fontFamily = TextStyle.FONT_FAMILY_MAIN
+        fontSize = 12.pt
+        fontWeight = FontWeight.w200
+        color = TEXT_BLACK
+    }
+
 
     // Legacy Values TODO DELETE
     val h3 by css {
@@ -148,12 +168,6 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
     val codeError by css {
         +code
         color = REALLY_RED
-    }
-    val settingName by css {
-        fontFamily = FONT_FAMILY_MAIN
-        fontSize = 16.pt
-        fontWeight = FontWeight.w400
-        color = GRAY_700
     }
     val settingButton by css {
         fontFamily = FONT_FAMILY_MAIN

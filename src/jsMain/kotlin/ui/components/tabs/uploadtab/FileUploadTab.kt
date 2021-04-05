@@ -15,7 +15,7 @@ import react.*
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
-import ui.components.tabs.tabHeading
+import ui.components.tabs.heading
 import ui.components.tabs.uploadtab.filelist.fileEntryList
 import ui.components.validation.validationSummaryPopup
 import utils.assembleRequest
@@ -50,7 +50,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
             css {
                 +TabStyle.tabContent
             }
-            tabHeading {
+            heading {
                 text = "Uploaded Files (${props.uploadedFiles.size})"
             }
             fileEntryList {

@@ -9,19 +9,19 @@ import reactredux.slices.ValidationContextSlice
 import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
-import ui.components.ContextSettingsComponent
-import ui.components.ContextSettingsProps
+import ui.components.options.OptionsPage
+import ui.components.options.OptionsPageProps
 
-private interface ContextSettingsStateProps : RProps {
+private interface OptionsPageStateProps : RProps {
     var cliContext: CliContext
 }
 
-private interface ContextSettingsDispatchProps : RProps {
+private interface OptionsPageDispatchProps : RProps {
     var update: (CliContext) -> Unit
 }
 
 val contextSettings: RClass<RProps> =
-    rConnect<AppState, RAction, WrapperAction, RProps, ContextSettingsStateProps, ContextSettingsDispatchProps, ContextSettingsProps>(
+    rConnect<AppState, RAction, WrapperAction, RProps, OptionsPageStateProps, OptionsPageDispatchProps, OptionsPageProps>(
         { state, _ ->
             cliContext = state.validationContextSlice.cliContext
         },
@@ -30,4 +30,4 @@ val contextSettings: RClass<RProps> =
                 dispatch(ValidationContextSlice.UpdateContext(it))
             }
         }
-    )(ContextSettingsComponent::class.js.unsafeCast<RClass<ContextSettingsProps>>())
+    )(OptionsPage::class.js.unsafeCast<RClass<OptionsPageProps>>())
