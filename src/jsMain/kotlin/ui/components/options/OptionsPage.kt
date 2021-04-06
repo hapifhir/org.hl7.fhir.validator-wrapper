@@ -4,7 +4,8 @@ import api.sendIGsRequest
 import api.sendVersionsRequest
 import api.validateTxServer
 import constants.Snomed
-import css.const.*
+import css.const.BORDER_GRAY
+import css.const.HIGHLIGHT_GRAY
 import kotlinx.coroutines.launch
 import kotlinx.css.*
 import kotlinx.css.properties.border
@@ -187,7 +188,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 dropdownWithExplanation {
                     defaultLabel = "Version"
-                    explanation = "The validator checks the resource against the base specification. By default, this is the current build version of the specification. You probably don't want to validate against that version, so the first thing to do is to specify which version of the spec to use."
+                    explanation =
+                        "The validator checks the resource against the base specification. By default, this is the current build version of the specification. You probably don't want to validate against that version, so the first thing to do is to specify which version of the spec to use."
                     itemList = state.fhirVersionsList
                     heading = "Select FHIR Version"
                     onItemSelected = { version ->
@@ -211,7 +213,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 dropdownWithExplanation {
                     defaultLabel = "Version"
-                    explanation = "You can specify which edition of SNOMED CT for the terminology server to use when doing SNOMED CT Validation."
+                    explanation =
+                        "You can specify which edition of SNOMED CT for the terminology server to use when doing SNOMED CT Validation."
                     itemList = state.snomedVersionList
                     heading = "Select SNOMED Version"
                     onItemSelected = { version ->
@@ -259,7 +262,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
         mainScope.launch {
             response = validateTxServer(txUrl)
         }
-        return Pair(response, if (response) "" else TERMINOLOGY_SERVER_ERROR);
+        return Pair(response, if (response) "" else TERMINOLOGY_SERVER_ERROR)
     }
 }
 
@@ -280,6 +283,7 @@ object OptionsPageStyle : StyleSheet("OptionsPageStyle", isStatic = true) {
         display = Display.flex
         flexDirection = FlexDirection.column
         margin(horizontal = 32.px)
+        marginBottom = 32.px
     }
     val optionsSubSection by css {
         display = Display.flex

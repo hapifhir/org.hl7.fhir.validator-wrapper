@@ -1,6 +1,8 @@
 package css.text
 
-import css.const.*
+import css.const.HL7_RED
+import css.const.SUCCESS_GREEN
+import css.const.TEXT_BLACK
 import kotlinx.css.*
 import styled.StyleSheet
 
@@ -149,42 +151,5 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
     val optionStatusSuccess by css {
         +optionStatusMessage
         color = SUCCESS_GREEN
-    }
-
-    // Legacy Values TODO DELETE
-    val h3 by css {
-        fontFamily = FONT_FAMILY_MAIN
-        fontSize = 16.pt
-        fontWeight = FontWeight.w500
-        color = GRAY_700
-    }
-    val h4 by css {
-        fontFamily = FONT_FAMILY_MAIN
-        fontSize = 14.pt
-        fontWeight = FontWeight.w400
-        color = GRAY_600
-    }
-    val code by css {
-        fontFamily = FONT_FAMILY_CODE
-        fontSize = 1.rem
-        fontWeight = FontWeight.w400
-    }
-    val codeDark by css {
-        +code
-        color = GRAY_900
-    }
-    val codeLight by css {
-        +code
-        color = GRAY_100
-    }
-    val codeError by css {
-        +code
-        color = REALLY_RED
-    }
-    val settingButton by css {
-        fontFamily = FONT_FAMILY_MAIN
-        fontSize = 16.pt
-        fontWeight = FontWeight.w400
-        color = WHITE
     }
 }

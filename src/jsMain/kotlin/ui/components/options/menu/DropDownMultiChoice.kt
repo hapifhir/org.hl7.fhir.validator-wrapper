@@ -63,7 +63,7 @@ class DropDownMultiChoice : RComponent<DropDownMultiChoiceProps, DropDownMultiCh
                         +DropDownMultiChoiceStyle.dropDownLabel
                         +TextStyle.dropDownLabel
                     }
-                    if(!props.multichoice && props.choices.any{ it.second } ) {
+                    if (!props.multichoice && props.choices.any { it.second }) {
                         +props.choices.first { it.second }.first
                     } else {
                         +props.buttonLabel

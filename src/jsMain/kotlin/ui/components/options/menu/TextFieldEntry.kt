@@ -11,9 +11,7 @@ import kotlinx.css.properties.border
 import kotlinx.html.InputType
 import kotlinx.html.id
 import kotlinx.html.js.onChangeFunction
-import kotlinx.html.onChange
 import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.HTMLTextAreaElement
 import react.*
 import react.dom.defaultValue
 import styled.*

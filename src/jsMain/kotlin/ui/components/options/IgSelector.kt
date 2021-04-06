@@ -14,8 +14,7 @@ external interface IgSelectorProps : RProps {
     var igList: MutableList<Pair<String, Boolean>>
 }
 
-class IgSelectorState : RState {
-}
+class IgSelectorState : RState
 
 class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
 

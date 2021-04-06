@@ -28,7 +28,7 @@ class CodeIssue : RComponent<CodeIssueProps, RState>() {
             }
             styledSpan {
                 css {
-                    +TextStyle.codeDark
+                    +TextStyle.codeTextBase
                     +CodeIssueStyle.lineStyle
                 }
                 /**
