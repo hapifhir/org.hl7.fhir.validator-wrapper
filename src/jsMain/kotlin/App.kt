@@ -5,7 +5,7 @@ import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
-import reactredux.containers.contextSettings
+import reactredux.containers.optionsPage
 import reactredux.containers.header
 import styled.StyleSheet
 import styled.css
@@ -45,7 +45,7 @@ class App : RComponent<AppProps, RState>() {
                         majorText = "Validation Options"
                         minorText = "Modify setting for validating resources."
                     }
-                    contextSettings {}
+                    optionsPage {}
                 }
             }
         }

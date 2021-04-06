@@ -137,7 +137,19 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         fontWeight = FontWeight.w200
         color = TEXT_BLACK
     }
-
+    val optionStatusMessage by css {
+        fontFamily = FONT_FAMILY_MAIN
+        fontSize = 10.pt
+        fontWeight = FontWeight.w600
+    }
+    val optionStatusFail by css {
+        +optionStatusMessage
+        color = HL7_RED
+    }
+    val optionStatusSuccess by css {
+        +optionStatusMessage
+        color = SUCCESS_GREEN
+    }
 
     // Legacy Values TODO DELETE
     val h3 by css {

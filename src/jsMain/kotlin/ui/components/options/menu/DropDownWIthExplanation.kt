@@ -12,7 +12,7 @@ external interface DropdownWithExplanationProps : RProps {
     var onItemSelected: (String) -> Unit
     var itemList: MutableList<Pair<String, Boolean>>
     var heading: String
-    var explaination: String
+    var explanation: String
     var defaultLabel: String
 }
 
@@ -33,7 +33,7 @@ class DropdownWithExplanation : RComponent<DropdownWithExplanationProps, RState>
                     +TextStyle.optionsDetailText
                     +DropdownWithExplanationStyle.detailsText
                 }
-                +props.explaination
+                +props.explanation
             }
             dropDownMultiChoice {
                 choices = props.itemList

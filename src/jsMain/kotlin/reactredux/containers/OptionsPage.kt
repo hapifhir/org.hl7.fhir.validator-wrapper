@@ -20,7 +20,7 @@ private interface OptionsPageDispatchProps : RProps {
     var update: (CliContext) -> Unit
 }
 
-val contextSettings: RClass<RProps> =
+val optionsPage: RClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, OptionsPageStateProps, OptionsPageDispatchProps, OptionsPageProps>(
         { state, _ ->
             cliContext = state.validationContextSlice.cliContext

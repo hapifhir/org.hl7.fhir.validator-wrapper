@@ -1,22 +1,22 @@
 package ui.components.options
 
+import api.sendIGsRequest
+import api.sendVersionsRequest
 import api.validateTxServer
+import constants.Snomed
 import css.const.*
-import css.text.TextStyle
 import kotlinx.coroutines.launch
 import kotlinx.css.*
 import kotlinx.css.properties.border
-import kotlinx.css.properties.boxShadow
 import mainScope
 import model.CliContext
 import react.*
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
-import ui.components.generic.headingWithDropDownExplanation
-import ui.components.generic.optionEntryField
 import ui.components.options.menu.checkboxWithDetails
 import ui.components.options.menu.dropdownWithExplanation
+import ui.components.options.menu.textEntryField
 import ui.components.tabs.heading
 
 const val TERMINOLOGY_SERVER_ERROR = "Server capability statement does not indicate it is a valid terminology server."
@@ -30,71 +30,40 @@ class OptionsPageState : RState {
     var igList = mutableListOf<Pair<String, Boolean>>()
     var fhirVersionsList = mutableListOf<Pair<String, Boolean>>()
     var snomedVersionList = mutableListOf<Pair<String, Boolean>>()
-    var implementationGuideDetailsOpen: Boolean = false
 }
 
 class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
 
     init {
         state = OptionsPageState()
-        state.igList = mutableListOf(
-            Pair("aaa.aaa.aaa", false),
-            Pair("bbb.bbb.bbb", false),
-            Pair("ccc.ccc.ccc", false),
-            Pair("ddd.ddd.ddd", false),
-            Pair("eee.eee.eee", false),
-            Pair("fff.fff.fff", false),
-        )
-        state.fhirVersionsList = mutableListOf(
-            Pair("v1", false),
-            Pair("v2", false),
-            Pair("v3", false),
-            Pair("v4", false),
-            Pair("v5", false),
-            Pair("v6", false),
-        )
-        state.snomedVersionList = mutableListOf(
-            Pair("snomed1", false),
-            Pair("snomed2", false),
-            Pair("snomed3", false),
-            Pair("snomed4", false),
-            Pair("snomed5", false),
-            Pair("snomed6", false),
-        )
-//        mainScope.launch {
-//            val igResponse = sendIGsRequest()
-//            val versionsResponse = sendVersionsRequest()
-//            setState {
-//
-////            igList = igResponse.igs
-////                    .map { Pair(it, props.cliContext.getIgs().contains(it)) }
-////                    .toMutableList()
-//                fhirVersionsList = versionsResponse.versions
-//                    .map { ChoiceSelectableItem(value = it, selected = props.cliContext.getTargetVer() == it) }
-//                    .toMutableList()
-//                snomedList = Snomed.values()
-//                    .map {
-//                        ChoiceSelectableItem(value = "${it.name} - ${it.code}",
-//                            selected = props.cliContext.getSnomedCTCode() == it.code)
-//                    }
-//                    .toMutableList()
-//                fhirVersionsList.forEach { println(it) }
-//                props.cliContext.prettyPrint()
-//            }
-//        }
+        mainScope.launch {
+            val igResponse = sendIGsRequest()
+            val versionsResponse = sendVersionsRequest()
+            setState {
+                igList = igResponse.igs
+                    .map { Pair(it, props.cliContext.getIgs().contains(it)) }
+                    .toMutableList()
+                fhirVersionsList = versionsResponse.versions
+                    .map { Pair(it, props.cliContext.getTargetVer() == it) }
+                    .toMutableList()
+                snomedVersionList = Snomed.values()
+                    .map { Pair("${it.name} - ${it.code}", props.cliContext.getSnomedCTCode() == it.code) }
+                    .toMutableList()
+            }
+        }
     }
 
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +ContextSettingsStyle.optionsContainer
+                +OptionsPageStyle.optionsContainer
             }
             heading {
                 text = "Flags"
             }
             styledDiv {
                 css {
-                    +ContextSettingsStyle.optionsSubSection
+                    +OptionsPageStyle.optionsSubSection
                 }
                 checkboxWithDetails {
                     name = "Native Validation (doNative)"
@@ -110,7 +79,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 styledDiv {
                     css {
-                        +ContextSettingsStyle.optionsDivider
+                        +OptionsPageStyle.optionsDivider
                     }
                 }
                 checkboxWithDetails {
@@ -129,7 +98,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 styledDiv {
                     css {
-                        +ContextSettingsStyle.optionsDivider
+                        +OptionsPageStyle.optionsDivider
                     }
                 }
                 checkboxWithDetails {
@@ -153,7 +122,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 styledDiv {
                     css {
-                        +ContextSettingsStyle.optionsDivider
+                        +OptionsPageStyle.optionsDivider
                     }
                 }
                 checkboxWithDetails {
@@ -171,7 +140,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 styledDiv {
                     css {
-                        +ContextSettingsStyle.optionsDivider
+                        +OptionsPageStyle.optionsDivider
                     }
                 }
                 checkboxWithDetails {
@@ -194,7 +163,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
             }
             styledDiv {
                 css {
-                    +ContextSettingsStyle.optionsSubSection
+                    +OptionsPageStyle.optionsSubSection
                 }
                 igSelector {
                     igList = state.igList
@@ -214,11 +183,11 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
             }
             styledDiv {
                 css {
-                    +ContextSettingsStyle.optionsSubSection
+                    +OptionsPageStyle.optionsSubSection
                 }
                 dropdownWithExplanation {
                     defaultLabel = "Version"
-                    explaination = "The validator checks the resource against the base specification. By default, this is the current build version of the specification. You probably don't want to validate against that version, so the first thing to do is to specify which version of the spec to use."
+                    explanation = "The validator checks the resource against the base specification. By default, this is the current build version of the specification. You probably don't want to validate against that version, so the first thing to do is to specify which version of the spec to use."
                     itemList = state.fhirVersionsList
                     heading = "Select FHIR Version"
                     onItemSelected = { version ->
@@ -237,12 +206,12 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 styledDiv {
                     css {
-                        +ContextSettingsStyle.otherSettingsDivider
+                        +OptionsPageStyle.otherSettingsDivider
                     }
                 }
                 dropdownWithExplanation {
                     defaultLabel = "Version"
-                    explaination = "You can specify which edition of SNOMED CT for the terminology server to use when doing SNOMED CT Validation."
+                    explanation = "You can specify which edition of SNOMED CT for the terminology server to use when doing SNOMED CT Validation."
                     itemList = state.snomedVersionList
                     heading = "Select SNOMED Version"
                     onItemSelected = { version ->
@@ -261,32 +230,26 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 styledDiv {
                     css {
-                        +ContextSettingsStyle.otherSettingsDivider
+                        +OptionsPageStyle.otherSettingsDivider
                     }
                 }
-            }
-        }
-        styledDiv {
-
-            styledDiv {
-                headingWithDropDownExplanation {
-                    heading = "Set Terminology Server"
+                textEntryField {
+                    buttonLabel = "Verify"
+                    currentEntry = props.cliContext.getTxServer()
                     explanation =
                         "The validation engine uses a terminology server to validate codes from large external terminologies such as SNOMED CT, LOINC, RxNorm, etc. By default, the terminology server used is tx.fhir.org, which supports most of these terminologies. If you want to use another terminology server, you can specify one here. As a warning, the server will check that the CapabilityStatement of the provided server is set correctly."
-                }
-                optionEntryField {
-                    submitEntry = { url ->
-                        println(url)
-                        checkTxServer(url)
+                    heading = "Set Terminology Server"
+                    onSubmitEntry = { url ->
+                        if (checkTxServer(url).first) {
+                            props.update(props.cliContext.setTxServer(url))
+                            true
+                        } else {
+                            false
+                        }
                     }
-                    defaultValue = props.cliContext.getTxServer()
+                    successMessage = "Terminology server validated successfully!"
+                    errorMessage = "Terminology server could not be validated!"
                 }
-            }
-        }
-
-        styledDiv {
-            css {
-                height = 4.rem
             }
         }
     }
@@ -303,7 +266,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.contextSettings(handler: OptionsPageProps.() -> Unit): ReactElement {
+fun RBuilder.optionsPage(handler: OptionsPageProps.() -> Unit): ReactElement {
     return child(OptionsPage::class) {
         this.attrs(handler)
     }
@@ -312,7 +275,7 @@ fun RBuilder.contextSettings(handler: OptionsPageProps.() -> Unit): ReactElement
 /**
  * CSS
  */
-object ContextSettingsStyle : StyleSheet("ContextSettingsStyle", isStatic = true) {
+object OptionsPageStyle : StyleSheet("OptionsPageStyle", isStatic = true) {
     val optionsContainer by css {
         display = Display.flex
         flexDirection = FlexDirection.column
@@ -335,75 +298,5 @@ object ContextSettingsStyle : StyleSheet("ContextSettingsStyle", isStatic = true
         height = 1.px
         backgroundColor = HIGHLIGHT_GRAY
         margin(vertical = 16.px)
-    }
-    val sectionTitleBar by css {
-        display = Display.flex
-        flexDirection = FlexDirection.row
-    }
-    val dropDownArrowDiv by css {
-        display = Display.flex
-        flex(flexGrow = 1.0)
-        flexDirection = FlexDirection.row
-        justifyContent = JustifyContent.flexEnd
-    }
-    val dropDownArrow by css {
-        width = 24.px
-        height = 24.px
-        alignSelf = Align.center
-    }
-    val dropDownAndSelectedIgDiv by css {
-        display = Display.flex
-        flexDirection = FlexDirection.column
-        paddingTop = 0.5.rem
-    }
-
-    val dropDownButtonAndContentDiv by css {
-        display = Display.flex
-        flexDirection = FlexDirection.column
-    }
-
-    val dropbtn by css {
-        backgroundColor = GRAY_700
-        color = WHITE
-        padding(1.rem)
-        fontSize = 1.rem
-        borderStyle = BorderStyle.none
-        cursor = Cursor.pointer
-        minWidth = 20.pct
-        hover {
-            children("div") {
-                display = Display.block
-            }
-        }
-    }
-
-    val dropdown by css {
-        position = Position.relative
-        display = Display.inlineBlock
-    }
-
-    val dropdownContent by css {
-        display = Display.none
-        position = Position.absolute
-        backgroundColor = GRAY_700
-        overflowY = Overflow.scroll
-        minWidth = 160.px
-        maxHeight = 240.px
-        boxShadow(color = SHADOW, offsetX = 0.px, offsetY = 5.px, blurRadius = 5.px)
-        zIndex = 1
-        children("span") {
-            padding(vertical = 12.px, horizontal = 16.px)
-            +TextStyle.codeLight
-            display = Display.block
-            hover {
-                backgroundColor = GRAY_400
-            }
-        }
-    }
-
-    val selectedIgsDiv by css {
-        display = Display.flex
-        flexDirection = FlexDirection.row
-        flexWrap = FlexWrap.wrap
     }
 }
