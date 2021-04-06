@@ -112,6 +112,9 @@ class DropDownMultiChoice : RComponent<DropDownMultiChoiceProps, DropDownMultiCh
                         attrs {
                             onClickFunction = {
                                 onChoiceSelected(choice)
+                                if (!props.multichoice) {
+                                    setState { dropDownMultiChoiceDisplayed = false }
+                                }
                             }
                         }
                         +choice

@@ -13,12 +13,10 @@ import react.*
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
-import styled.styledHeader
-import ui.components.generic.ChoiceSelectableItem
-import ui.components.generic.dropDownChoice
 import ui.components.generic.headingWithDropDownExplanation
 import ui.components.generic.optionEntryField
 import ui.components.options.menu.checkboxWithDetails
+import ui.components.options.menu.dropdownWithExplanation
 import ui.components.tabs.heading
 
 const val TERMINOLOGY_SERVER_ERROR = "Server capability statement does not indicate it is a valid terminology server."
@@ -30,8 +28,8 @@ external interface OptionsPageProps : RProps {
 
 class OptionsPageState : RState {
     var igList = mutableListOf<Pair<String, Boolean>>()
-    var fhirVersionsList = mutableListOf<ChoiceSelectableItem>()
-    var snomedList = mutableListOf<ChoiceSelectableItem>()
+    var fhirVersionsList = mutableListOf<Pair<String, Boolean>>()
+    var snomedVersionList = mutableListOf<Pair<String, Boolean>>()
     var implementationGuideDetailsOpen: Boolean = false
 }
 
@@ -46,6 +44,22 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
             Pair("ddd.ddd.ddd", false),
             Pair("eee.eee.eee", false),
             Pair("fff.fff.fff", false),
+        )
+        state.fhirVersionsList = mutableListOf(
+            Pair("v1", false),
+            Pair("v2", false),
+            Pair("v3", false),
+            Pair("v4", false),
+            Pair("v5", false),
+            Pair("v6", false),
+        )
+        state.snomedVersionList = mutableListOf(
+            Pair("snomed1", false),
+            Pair("snomed2", false),
+            Pair("snomed3", false),
+            Pair("snomed4", false),
+            Pair("snomed5", false),
+            Pair("snomed6", false),
         )
 //        mainScope.launch {
 //            val igResponse = sendIGsRequest()
@@ -195,53 +209,65 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     }
                 }
             }
+            heading {
+                text = "Other Settings"
+            }
+            styledDiv {
+                css {
+                    +ContextSettingsStyle.optionsSubSection
+                }
+                dropdownWithExplanation {
+                    defaultLabel = "Version"
+                    explaination = "The validator checks the resource against the base specification. By default, this is the current build version of the specification. You probably don't want to validate against that version, so the first thing to do is to specify which version of the spec to use."
+                    itemList = state.fhirVersionsList
+                    heading = "Select FHIR Version"
+                    onItemSelected = { version ->
+                        setState {
+                            props.cliContext.setTargetVer(version)
+                            state.fhirVersionsList.forEach {
+                                fhirVersionsList[fhirVersionsList.indexOf(it)] =
+                                    when (it.first) {
+                                        version -> it.copy(second = true)
+                                        else -> it.copy(second = false)
+                                    }
+
+                            }
+                        }
+                    }
+                }
+                styledDiv {
+                    css {
+                        +ContextSettingsStyle.otherSettingsDivider
+                    }
+                }
+                dropdownWithExplanation {
+                    defaultLabel = "Version"
+                    explaination = "You can specify which edition of SNOMED CT for the terminology server to use when doing SNOMED CT Validation."
+                    itemList = state.snomedVersionList
+                    heading = "Select SNOMED Version"
+                    onItemSelected = { version ->
+                        setState {
+                            props.cliContext.setSnomedCT(version.replace("[^0-9]".toRegex(), ""))
+                            state.snomedVersionList.forEach {
+                                snomedVersionList[snomedVersionList.indexOf(it)] =
+                                    when (it.first) {
+                                        version -> it.copy(second = true)
+                                        else -> it.copy(second = false)
+                                    }
+
+                            }
+                        }
+                    }
+                }
+                styledDiv {
+                    css {
+                        +ContextSettingsStyle.otherSettingsDivider
+                    }
+                }
+            }
         }
         styledDiv {
-            css {
-                +ContextSettingsStyle.optionsSubSection
-            }
-            styledHeader {
-                css {
-                    +TextStyle.h3
-                    paddingBottom = 0.5.rem
-                }
-                +"Other Settings"
-            }
-            styledDiv {
-                headingWithDropDownExplanation {
-                    heading = "Select FHIR Version"
-                    explanation =
-                        "The validator checks the resource against the base specification. By default, this is the current build version of the specification. You probably don't want to validate against that version, so the first thing to do is to specify which version of the spec to use."
-                }
-                dropDownChoice {
-                    onSelected = { selected, list ->
-                        setState {
-                            props.cliContext.setTargetVer(selected)
-                            state.fhirVersionsList = list
-                        }
-                    }
-                    buttonLabel = "FHIR Version"
-                    choices = state.fhirVersionsList
-                }
-            }
-            styledDiv {
-                headingWithDropDownExplanation {
-                    heading = "Select SNOMED Version"
-                    explanation =
-                        "You can specify which edition of SNOMED CT for the terminology server to use when doing SNOMED CT Validation."
-                }
-                dropDownChoice {
-                    onSelected = { selected, list ->
-                        setState {
-                            // Need to just pull out the code from the selected entry
-                            props.cliContext.setSnomedCT(selected.replace("[^0-9]".toRegex(), ""))
-                            state.snomedList = list
-                        }
-                    }
-                    buttonLabel = "SNOMED"
-                    choices = state.snomedList
-                }
-            }
+
             styledDiv {
                 headingWithDropDownExplanation {
                     heading = "Set Terminology Server"
@@ -303,6 +329,12 @@ object ContextSettingsStyle : StyleSheet("ContextSettingsStyle", isStatic = true
         height = 1.px
         backgroundColor = HIGHLIGHT_GRAY
         margin(vertical = 8.px)
+    }
+    val otherSettingsDivider by css {
+        width = 100.pct
+        height = 1.px
+        backgroundColor = HIGHLIGHT_GRAY
+        margin(vertical = 16.px)
     }
     val sectionTitleBar by css {
         display = Display.flex
