@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform") version "1.4.32"
@@ -169,42 +168,6 @@ javafx {
     modules("javafx.controls", "javafx.graphics", "javafx.web")
 }
 
-//application {
-//    mainClassName = "ServerKt"
-//}
-//
-//tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack") {
-//    outputFileName = "output.js"
-//}
-//
-//tasks.getByName<Jar>("jvmJar") {
-//    manifest {
-//        attributes["Main-Class"] = "ServerKt"
-//    }
-//    dependsOn(tasks.getByName("jsBrowserProductionWebpack"))
-//    val jsBrowserProductionWebpack = tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack")
-//    from(File(jsBrowserProductionWebpack.destinationDirectory, jsBrowserProductionWebpack.outputFileName))
-//}
-//
-//tasks.getByName<JavaExec>("run") {
-//    dependsOn(tasks.getByName<Jar>("jvmJar"))
-//    classpath(tasks.getByName<Jar>("jvmJar"))
-//}
-//
-//tasks.withType<Jar> {
-//    manifest {
-//        attributes["Main-Class"] = "ServerKt"
-//    }
-//
-//    // To add all of the dependencies otherwise a "NoClassDefFoundError" error
-//    from(sourceSets.main.get().output)
-//
-//    dependsOn(configurations.runtimeClasspath)
-//    from({
-//        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-//    })
-//}
-
 /**
  * Utility function to retrieve the current version number.
  */
@@ -214,12 +177,22 @@ task("printVersion") {
     }
 }
 
-tasks.named<Test>("jvmTest") {
-    useJUnitPlatform()
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "ServerKt"
+    }
+
+    // To add all of the dependencies otherwise a "NoClassDefFoundError" error
+    from(sourceSets.main.get().output)
+
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
 }
 
-application {
-    mainClassName = "ServerKt"
+tasks.named<Test>("jvmTest") {
+    useJUnitPlatform()
 }
 
 // include JS artifacts in any JAR we generate
