@@ -29,7 +29,10 @@ repositories {
         url = uri("https://dl.bintray.com/kotlin/kotlin-js-wrappers")
     }
     maven {
-        url = uri("https://oss.sonatype.org/content/groups/public/")
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+    }
+    maven {
+        url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
     }
     maven {
         url = uri("https://plugins.gradle.org/m2/")
