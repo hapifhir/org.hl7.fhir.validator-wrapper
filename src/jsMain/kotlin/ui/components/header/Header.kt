@@ -1,18 +1,21 @@
 package ui.components.header
 
 import Polyglot
-import css.component.HeaderStyle
-import css.text.TextStyle
+import css.const.HEADER_SHADOW
+import css.const.HIGHLIGHT_GRAY
+import css.const.WHITE
 import kotlinx.browser.document
-import kotlinx.html.js.onClickFunction
+import kotlinx.css.*
+import kotlinx.css.properties.borderBottom
+import kotlinx.css.properties.boxShadow
 import model.AppScreen
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventListener
 import react.*
+import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledImg
-import styled.styledSpan
 import utils.Language
 
 external interface HeaderProps : RProps {
@@ -39,80 +42,62 @@ class Header : RComponent<HeaderProps, HeaderState>(), EventListener {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +HeaderStyle.headerBar
+                +HeaderStyle.headerContainer
                 if (state.currentScroll > 0) {
-                    +HeaderStyle.headerBarScrolled
+                    boxShadow(color = HEADER_SHADOW, offsetX = 0.px, offsetY = 10.px, blurRadius = 10.px)
+                }
+            }
+            styledImg(src = "images/fhir-logo.png") {
+                css {
+                    +HeaderStyle.headerImage
                 }
             }
             styledDiv {
                 css {
-                    +HeaderStyle.header
+                    +HeaderStyle.headerButtonsContainer
                 }
-                styledImg(src = "images/fhir-logo.png") {
-                    css {
-                        +HeaderStyle.headerMainImage
-                    }
-                }
-                styledDiv {
-                    css {
-                        +HeaderStyle.headerMenu
-                    }
-                    styledDiv {
-                        css {
-                            +HeaderStyle.menuEntriesContainer
+                AppScreen.values().forEach { screen ->
+                    headerTabButton {
+                        label = screen.display
+                        selected = props.appScreen == screen
+                        onSelected = { buttonLabel ->
+                            AppScreen.fromDisplay(buttonLabel)?.let { it -> props.setScreen(it) }
                         }
-                        AppScreen.values().forEach { screen ->
-                            styledSpan {
-                                css {
-                                    if (props.appScreen == screen) {
-                                        +TextStyle.headerMenuItemSelected
-                                    } else {
-                                        +TextStyle.headerMenuItem
-                                    }
-                                    +HeaderStyle.menuEntries
-                                }
-                                attrs {
-                                    onClickFunction = {
-                                        props.setScreen(screen)
-                                    }
-                                }
-                                +screen.display
-                            }
-                        }
-                    }
-                    styledDiv {
-                        css {
-                            +HeaderStyle.sideOptions
-                        }
-//                        styledSpan {
-//                            css {
-//                                +TextStyle.headerMenuItem
-//                            }
-//                            +props.polyglot.t("heading_validate") //"Language"
-//                            attrs {
-//                                onClickFunction = {
-//                                    //setState {
-//                                    println("ON CLICK BUTTON")
-//                                    props.setLanguage(if (props.language == Language.US_ENGLISH) Language.MEX_SPANISH else Language.US_ENGLISH)
-//                                    var polyglot = Polyglot()
-//                                    when (props.language) {
-//                                        Language.US_ENGLISH -> polyglot.extend(phrases = js("{" +
-//                                                "'heading_validate': 'Validate Resources'," +
-//                                                "'test_string': 'Test String'" +
-//                                                "}"))
-//                                        Language.MEX_SPANISH -> polyglot.extend(phrases = js("{" +
-//                                                "'heading_validate': 'Spanish Resources'," +
-//                                                "'test_string': 'Spanish String'" +
-//                                                "}"))
-//                                    }
-//                                    props.setPolyglot(polyglot)
-//                                    //}
-//                                }
-//                            }
-//                        }
                     }
                 }
             }
+            /** TODO LOCALIZATION
+            styledDiv {
+            css {
+            +HeaderStyle.sideOptions
+            }
+            styledSpan {
+            css {
+            +TextStyle.headerMenuItem
+            }
+            +props.polyglot.t("heading_validate") //"Language"
+            attrs {
+            onClickFunction = {
+            //setState {
+            println("ON CLICK BUTTON")
+            props.setLanguage(if (props.language == Language.US_ENGLISH) Language.MEX_SPANISH else Language.US_ENGLISH)
+            var polyglot = Polyglot()
+            when (props.language) {
+            Language.US_ENGLISH -> polyglot.extend(phrases = js("{" +
+            "'heading_validate': 'Validate Resources'," +
+            "'test_string': 'Test String'" +
+            "}"))
+            Language.MEX_SPANISH -> polyglot.extend(phrases = js("{" +
+            "'heading_validate': 'Spanish Resources'," +
+            "'test_string': 'Spanish String'" +
+            "}"))
+            }
+            props.setPolyglot(polyglot)
+            //}
+            }
+            }
+            }
+             **/
         }
     }
 
@@ -123,8 +108,40 @@ class Header : RComponent<HeaderProps, HeaderState>(), EventListener {
     }
 }
 
+/**
+ * Convenience method for instantiating the component.
+ */
 fun RBuilder.header(handler: HeaderProps.() -> Unit): ReactElement {
     return child(Header::class) {
         this.attrs(handler)
+    }
+}
+
+/**
+ * CSS
+ */
+object HeaderStyle : StyleSheet("HeaderStyle", isStatic = true) {
+    val HEADER_HEIGHT = 96.px
+    val headerContainer by css {
+        display = Display.flex
+        flexDirection = FlexDirection.row
+        justifyContent = JustifyContent.start
+        width = 100.pct
+        height = HEADER_HEIGHT
+        zIndex = 1
+        top = 0.px
+        position = Position.fixed
+        backgroundColor = WHITE
+        borderBottom(width = 2.px, style = BorderStyle.solid, color = HIGHLIGHT_GRAY)
+    }
+    val headerButtonsContainer by css {
+        display = Display.flex
+        flexDirection = FlexDirection.row
+        height = 100.pct
+    }
+    val headerImage by css {
+        height = 48.px
+        padding(horizontal = 48.px)
+        alignSelf = Align.center
     }
 }

@@ -16,7 +16,7 @@ fun loadFile(file: File, listener: FileLoadEventListener) {
     val reader = FileReader()
     val fileLoadState = FileLoadState(file = file)
 
-    reader.addEventListener(EVENT_ABORT, callback =  {
+    reader.addEventListener(EVENT_ABORT, callback = {
         listener.onAbort(fileLoadState = fileLoadState)
     })
     reader.addEventListener(type = EVENT_LOAD_START, callback = {

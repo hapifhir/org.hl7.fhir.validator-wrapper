@@ -14,6 +14,7 @@ object FadeIn : StyleSheet("FadeIn", isStatic = true) {
             to { opacity = 1 }
         }
     }
+
     fun CSSBuilder.fadeIn() {
         animation(duration = 1.s) {
             from { opacity = 0 }

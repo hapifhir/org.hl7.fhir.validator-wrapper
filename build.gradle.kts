@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("multiplatform") version "1.4.31"
-    kotlin("plugin.serialization") version "1.4.31"
+    kotlin("multiplatform") version "1.4.32"
+    kotlin("plugin.serialization") version "1.4.32"
     id("org.hidetake.ssh") version "2.10.1"
     id("org.openjfx.javafxplugin") version "0.0.8"
     application
@@ -29,7 +29,10 @@ repositories {
         url = uri("https://dl.bintray.com/kotlin/kotlin-js-wrappers")
     }
     maven {
-        url = uri("https://oss.sonatype.org/content/groups/public/")
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+    }
+    maven {
+        url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
     }
     maven {
         url = uri("https://plugins.gradle.org/m2/")
@@ -100,6 +103,9 @@ kotlin {
                 implementation("io.ktor:ktor-jackson:${property("ktorVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${property("kotlinxVersion")}")
                 implementation("org.koin:koin-ktor:${property("koinVersion")}")
+                //TODO
+                implementation("io.ktor:ktor-client-core:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-client-cio:${property("ktorVersion")}")
 
                 implementation("com.squareup.okhttp3:okhttp:4.9.0")
 

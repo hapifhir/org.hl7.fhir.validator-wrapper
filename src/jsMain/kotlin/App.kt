@@ -1,20 +1,18 @@
-import css.component.LandingPageStyle
 import kotlinx.coroutines.MainScope
-import kotlinx.css.FlexDirection
-import kotlinx.css.flexDirection
+import kotlinx.css.*
 import model.AppScreen
 import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
-import react.dom.span
-import reactredux.containers.contextSettings
+import reactredux.containers.optionsPage
 import reactredux.containers.header
+import styled.StyleSheet
 import styled.css
-import styled.injectGlobal
 import styled.styledDiv
-import ui.components.sectionTitle
-import ui.components.tabLayout
+import ui.components.header.HeaderStyle
+import ui.components.main.sectionTitle
+import ui.components.tabs.tabLayout
 
 external interface AppProps : RProps {
     var appScreen: AppScreen
@@ -31,9 +29,7 @@ class App : RComponent<AppProps, RState>() {
                 +LandingPageStyle.mainDiv
                 flexDirection = FlexDirection.column
             }
-            header {
-
-            }
+            header {}
             when (props.appScreen) {
                 AppScreen.VALIDATOR -> {
                     sectionTitle {
@@ -42,22 +38,27 @@ class App : RComponent<AppProps, RState>() {
                         majorText = "Validate Resources"
                         minorText = "Manually enter, or upload resources for validation."
                     }
-                    tabLayout {
-
-                    }
+                    tabLayout {}
                 }
                 AppScreen.SETTINGS -> {
                     sectionTitle {
                         majorText = "Validation Options"
                         minorText = "Modify setting for validating resources."
                     }
-                    contextSettings {
-
-                    }
+                    optionsPage {}
                 }
             }
         }
     }
 }
 
+/**
+ * CSS
+ */
+object LandingPageStyle : StyleSheet("LandingPageStyle", isStatic = true) {
+    val mainDiv by css {
+        paddingTop = HeaderStyle.HEADER_HEIGHT
+        display = Display.flex
+    }
+}
 

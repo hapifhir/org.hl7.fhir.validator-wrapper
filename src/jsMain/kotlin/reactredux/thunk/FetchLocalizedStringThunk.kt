@@ -1,14 +1,12 @@
 package reactredux.thunk
 
-import kotlinx.browser.window
-import reactredux.slices.LocalizationSlice
 import reactredux.store.AppState
 import reactredux.store.RThunk
 import reactredux.store.nullAction
 import redux.RAction
 import redux.WrapperAction
 
-class FetchLocalizedStringThunk: RThunk {
+class FetchLocalizedStringThunk : RThunk {
     override fun invoke(dispatch: (RAction) -> WrapperAction, getState: () -> AppState): WrapperAction {
         //dispatch(TaskListSlice.SetIsLoading(true))
 //        window.setTimeout({

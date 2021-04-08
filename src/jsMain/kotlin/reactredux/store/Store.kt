@@ -1,6 +1,7 @@
 package reactredux.store
 
-import redux.*
+import redux.RAction
+import redux.rEnhancer
 
 /**
  * And the store is created with the createStore function, note that the last argument of the compose function enables

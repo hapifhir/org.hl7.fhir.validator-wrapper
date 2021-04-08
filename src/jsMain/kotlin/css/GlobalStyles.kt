@@ -15,7 +15,11 @@ object GlobalStyles {
                 padding(0.px)
             }
         }
-
         createGlobalStyle(styles.toString())
     }
 }
+
+// TODO I'm leaving this here, so I remember how to do it later.
+//        ancestorHover(".${ContextSettingsStyle.name}-${ContextSettingsStyle::dropdown.name}") {
+//            display = Display.block
+//        }

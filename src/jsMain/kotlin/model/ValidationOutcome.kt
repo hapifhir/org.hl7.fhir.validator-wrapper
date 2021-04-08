@@ -10,7 +10,12 @@ actual class ValidationOutcome actual constructor() {
     private var validated: Boolean = false
     private var validating: Boolean = false
 
-    constructor(fileInfo: FileInfo, issues: List<ValidationMessage>, validated: Boolean = false, validating: Boolean = false) : this() {
+    constructor(
+        fileInfo: FileInfo,
+        issues: List<ValidationMessage>,
+        validated: Boolean = false,
+        validating: Boolean = false,
+    ) : this() {
         this.fileInfo = fileInfo
         this.issues = issues
         this.validated = validated
