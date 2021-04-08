@@ -6,8 +6,8 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import model.*
-import org.hl7.fhir.validation.cli.model.ValidationResponse
+import model.ValidationRequest
+import model.asString
 import org.koin.ktor.ext.inject
 import utils.badFileEntryExists
 
@@ -28,8 +28,7 @@ fun Route.validationModule() {
         }
 
         when {
-            request.filesToValidate == null || request.filesToValidate.isEmpty() ->
-            {
+            request.filesToValidate == null || request.filesToValidate.isEmpty() -> {
                 call.respond(HttpStatusCode.BadRequest, NO_FILES_PROVIDED_MESSAGE)
             }
             badFileEntryExists(logger, request.filesToValidate) -> {

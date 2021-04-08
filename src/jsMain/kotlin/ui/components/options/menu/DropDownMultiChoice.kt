@@ -101,7 +101,6 @@ class DropDownMultiChoice : RComponent<DropDownMultiChoiceProps, DropDownMultiCh
                 val entryList = props.choices
                     .filterNot { it.second }
                     .map { it.first }
-                    .onEach { println("Displaying :: ${it}") }
                     .iterator()
                 while (entryList.hasNext()) {
                     val choice = entryList.next()

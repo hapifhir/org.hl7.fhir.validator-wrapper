@@ -21,7 +21,7 @@ private const val PREF_HEIGHT = 1000.0
  *
  * To use TornadoFX, our desktop.CliApp must extend the App class in TornadoFx.
  */
-class CliApp: App(ApplicationView::class) {
+class CliApp : App(ApplicationView::class) {
     /**
      * On close, we need to shutdown the Ktor backend server as well. We do this by overriding the stop method, then
      * calling the `stopServer()` we defined.
@@ -35,7 +35,7 @@ class CliApp: App(ApplicationView::class) {
 /**
  * Our main desktop.ApplicationView class creates a webView object and loads the address of the server.
  */
-class ApplicationView: View() {
+class ApplicationView : View() {
     override val root = webview()
 
     init {

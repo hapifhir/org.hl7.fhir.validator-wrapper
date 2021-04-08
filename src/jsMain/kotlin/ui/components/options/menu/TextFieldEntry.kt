@@ -6,6 +6,9 @@ import css.const.HL7_RED
 import css.const.WHITE
 import css.text.TextStyle
 import kotlinx.browser.document
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import kotlinx.html.InputType
@@ -20,7 +23,7 @@ import ui.components.options.IgSelectorStyle
 import ui.components.tabs.entrytab.ManualEntryButtonBarStyle
 
 external interface TextFieldEntryProps : RProps {
-    var onSubmitEntry: (String) -> Boolean
+    var onSubmitEntry: (String) -> Deferred<Boolean>
     var currentEntry: String
     var heading: String
     var explanation: String
@@ -91,16 +94,27 @@ class TextFieldEntry : RComponent<TextFieldEntryProps, TextFieldEntryState>() {
                         onSelected = {
                             setState {
                                 validating = true
-                                if (props.onSubmitEntry((document.getElementById(textInputId) as HTMLInputElement).value)) {
-                                    displayingError = false
-                                    displayingSuccess = true
-                                    validating = false
+                            }
+                            GlobalScope.launch {
+                                val result =
+                                    props.onSubmitEntry((document.getElementById(textInputId) as HTMLInputElement).value)
+                                        .await()
+                                if (result) {
+                                    setState {
+                                        displayingError = false
+                                        displayingSuccess = true
+                                        validating = false
+                                    }
                                 } else {
-                                    displayingError = true
-                                    displayingSuccess = false
-                                    validating = false
+                                    setState {
+                                        displayingError = true
+                                        displayingSuccess = false
+                                        validating = false
+                                    }
                                 }
                             }
+
+
                         }
                     }
                 }

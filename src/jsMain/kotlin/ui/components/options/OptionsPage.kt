@@ -6,6 +6,8 @@ import api.validateTxServer
 import constants.Snomed
 import css.const.BORDER_GRAY
 import css.const.HIGHLIGHT_GRAY
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.css.*
 import kotlinx.css.properties.border
@@ -243,13 +245,17 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         "The validation engine uses a terminology server to validate codes from large external terminologies such as SNOMED CT, LOINC, RxNorm, etc. By default, the terminology server used is tx.fhir.org, which supports most of these terminologies. If you want to use another terminology server, you can specify one here. As a warning, the server will check that the CapabilityStatement of the provided server is set correctly."
                     heading = "Set Terminology Server"
                     onSubmitEntry = { url ->
-                        if (checkTxServer(url).first) {
-                            props.update(props.cliContext.setTxServer(url))
-                            true
-                        } else {
-                            false
+                        GlobalScope.async {
+                            val txServerOutcome = async { checkTxServer(url) }
+                            if (txServerOutcome.await()) {
+                                props.update(props.cliContext.setTxServer(url))
+                                true
+                            } else {
+                                false
+                            }
                         }
                     }
+
                     successMessage = "Terminology server validated successfully!"
                     errorMessage = "Terminology server could not be validated!"
                 }
@@ -257,12 +263,14 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
         }
     }
 
-    private fun checkTxServer(txUrl: String): Pair<Boolean, String> {
-        var response = false
-        mainScope.launch {
-            response = validateTxServer(txUrl)
+    private suspend fun checkTxServer(txUrl: String): Boolean {
+        val response = validateTxServer(txUrl)
+        return if (response.validTxServer) {
+            props.update(props.cliContext.setTxServer(response.url))
+            true
+        } else {
+            false
         }
-        return Pair(response, if (response) "" else TERMINOLOGY_SERVER_ERROR)
     }
 }
 

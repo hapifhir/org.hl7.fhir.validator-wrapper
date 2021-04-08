@@ -2,21 +2,17 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import controller.debug.debugModule
 import controller.ig.igModule
+import controller.terminology.terminologyModule
 import controller.validation.validationModule
 import controller.version.versionModule
 import desktop.launchLocalApp
 import io.ktor.application.*
 import io.ktor.features.*
-import io.ktor.gson.*
-import io.ktor.html.*
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.jackson.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import kotlinx.html.*
-import org.slf4j.Logger
-import org.slf4j.event.Level
 
 /**
  * Entry point of the application.
@@ -67,7 +63,9 @@ fun Application.setup() {
         method(HttpMethod.Get)
         method(HttpMethod.Post)
         method(HttpMethod.Delete)
+//        header()
         anyHost()
+
     }
 
     install(Compression) {
@@ -85,7 +83,13 @@ fun Application.setup() {
         }
     }
 
-    install(Routing) {
+    routing {
+        igModule()
+        versionModule()
+        debugModule()
+        validationModule()
+        terminologyModule()
+
         get("/") {
             call.respondText(
                 this::class.java.classLoader.getResource("index.html")!!.readText(),
@@ -96,10 +100,5 @@ fun Application.setup() {
         static("/") {
             resources("")
         }
-
-        debugModule()
-        igModule()
-        validationModule()
-        versionModule()
     }
 }
