@@ -54,13 +54,14 @@ We realize that for many users, the cli is still the primary way in which valida
 it possible to still execute this jar, as done previously, from the command line. All validator cli functionality 
 remains as detailed [on the confluence wiki][Link-ValidatorConfluence].
 
-#### Version Management
-We manage release versioning using the [semantic version plugin for gradle][Link-SemanticVersionPlugin]. 
-
 **N.B.**
 If you attempt to run this as both a full-stack server and a locally hosted application (by including both the 
 `startServer` and `-gui` commands from the cli, the full-stack server takes priority, and the desktop version will 
 not be booted.
+
+---
+#### Version Management:
+We manage release versioning using the [semantic version plugin for gradle][Link-SemanticVersionPlugin]. 
 
 ### TODO / Known Issues
 1. Localization is not enabled...yet
