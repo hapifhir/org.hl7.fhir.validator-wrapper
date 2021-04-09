@@ -53,7 +53,7 @@ steps:
     repository: 'markiantorno/validator-wrapper'
     command: 'build'
     Dockerfile: '**/Dockerfile'
-    arguments:  --build-arg PROJECT_VERSION=$(VERSION)
+    arguments:  '--build-arg PROJECT_VERSION=$(VERSION)'
     tags: $(VERSION)
 
 - task: Docker@2
