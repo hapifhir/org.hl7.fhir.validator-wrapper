@@ -59,9 +59,12 @@ If you attempt to run this as both a full-stack server and a locally hosted appl
 `startServer` and `-gui` commands from the cli, the full-stack server takes priority, and the desktop version will 
 not be booted.
 
+---
+#### Version Management:
+We manage release versioning using the [semantic version plugin for gradle][Link-SemanticVersionPlugin]. 
+
 ### TODO / Known Issues
-1. Manual entry validation is a little screwy, bad inputs will cause website to hang and results are not displayed in an intuitive way
-2. Localization is not enabled...yet
+1. Localization is not enabled...yet
 
 ##### Have you found an issue not listed above? Do you have a feature request? Great! Submit it [here][Link-GitHubIssues] and we'll try to fix it as soon as possible.
 
@@ -79,6 +82,7 @@ This project is maintained by [Grahame Grieve][Link-grahameGithub] and [Mark Ian
 [Link-GradleInstall]: https://gradle.org/install/
 [Link-GradleWrapper]: https://docs.gradle.org/current/userguide/gradle_wrapper.html
 [Link-ValidatorConfluence]: https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator
+[Link-SemanticVersionPlugin]: https://github.com/ethauvin/semver-gradle
 
 [Badge-BuildPipelineMaster]: https://dev.azure.com/fhir-pipelines/validator-wrapper/_apis/build/status/Master%20Branch%20Pipeline?branchName=master
 [Badge-DockerHub]: https://img.shields.io/docker/v/markiantorno/validator-wrapper
