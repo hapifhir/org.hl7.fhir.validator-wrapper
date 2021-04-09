@@ -2,6 +2,7 @@
 # registry. Alpine Linux benefit is that the image is pretty small. We also select JRE-only image since we don't need
 # to compile code on the image, only run precompiled classes.
 FROM openjdk:8-jre-alpine
+ARG PROJECT_VERSION
 
 ENV APPLICATION_USER ktor
 RUN adduser -D -g '' $APPLICATION_USER
@@ -12,7 +13,7 @@ RUN chown -R $APPLICATION_USER /app
 USER $APPLICATION_USER
 
 # These lines copy the packaged application into the Docker image and sets the working directory to where it was copied.
-COPY ./build/libs/validator-wrapper-jvm-0.0.1.jar /app/validator-wrapper.jar
+COPY ./build/libs/validator-wrapper-jvm-${PROJECT_VERSION}.jar /app/validator-wrapper.jar
 WORKDIR /app
 
 # Environment vars here
