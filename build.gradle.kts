@@ -196,6 +196,10 @@ tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
 }
 
+application {
+    mainClassName = "ServerKt"
+}
+
 // include JS artifacts in any JAR we generate
 tasks.getByName<Jar>("jvmJar") {
     val taskName = if (project.hasProperty("isProduction")) {
