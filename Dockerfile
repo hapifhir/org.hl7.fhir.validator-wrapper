@@ -2,6 +2,8 @@
 # registry. Alpine Linux benefit is that the image is pretty small. We also select JRE-only image since we don't need
 # to compile code on the image, only run precompiled classes.
 FROM openjdk:8-jre-alpine
+ARG PROJECT_VERSION
+RUN echo "Project version set to -> ${PROJECT_VERSION}"
 
 ENV APPLICATION_USER ktor
 RUN adduser -D -g '' $APPLICATION_USER
