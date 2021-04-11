@@ -14,7 +14,7 @@ RUN chown -R $APPLICATION_USER /app
 USER $APPLICATION_USER
 
 # These lines copy the packaged application into the Docker image and sets the working directory to where it was copied.
-COPY ./build/libs/validator-wrapper-jvm-0.0.1.jar /app/validator-wrapper.jar
+COPY ./build/libs/validator-wrapper-jvm-${PROJECT_VERSION}.jar /app/validator-wrapper.jar
 WORKDIR /app
 
 # Environment vars here

@@ -5,10 +5,11 @@ plugins {
     kotlin("plugin.serialization") version "1.4.32"
     id("org.hidetake.ssh") version "2.10.1"
     id("org.openjfx.javafxplugin") version "0.0.8"
+    // https://github.com/ethauvin/semver-gradle
+    id("net.thauvin.erik.gradle.semver") version "1.0.4"
     application
 }
 group = "org.hl7.fhir"
-version = "0.0.1"
 
 repositories {
     google()
@@ -193,6 +194,10 @@ tasks.withType<Jar> {
 
 tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
+}
+
+application {
+    mainClassName = "ServerKt"
 }
 
 // include JS artifacts in any JAR we generate
