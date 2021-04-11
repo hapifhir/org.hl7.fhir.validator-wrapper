@@ -61,4 +61,4 @@ steps:
     containerRegistry: 'dockerhub connection'
     repository: 'markiantorno/validator-wrapper'
     command: 'push'
-    tags: "$(current_version)""
+    tags: "$(current_version)"
