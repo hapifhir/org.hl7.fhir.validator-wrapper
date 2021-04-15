@@ -13,7 +13,7 @@ import utils.badFileEntryExists
 
 const val DEBUG_NUMBER_FILES = "Received %d files to validate."
 const val NO_FILES_PROVIDED_MESSAGE = "No files for validation provided in request."
-const val INVALID_FILE_MESSAGE = "Improperly formatted FileInfo passed in with request."
+const val INVALID_FILE_MESSAGE = "Improperly formatted file content!"
 
 fun Route.validationModule() {
 
