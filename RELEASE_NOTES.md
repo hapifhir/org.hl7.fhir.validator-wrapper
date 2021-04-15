@@ -1,0 +1,1 @@
+* Bad formatting on manual entered JSON/XML data will display an error in the UI now
