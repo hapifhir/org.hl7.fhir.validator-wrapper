@@ -1,0 +1,7 @@
+version: '3'
+services:
+  validator:
+    image: markiantorno/validator-wrapper
+    restart: always
+    ports:
+      - 3500:3500
