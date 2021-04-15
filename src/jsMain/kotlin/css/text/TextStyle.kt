@@ -112,6 +112,13 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         color = TEXT_BLACK
     }
 
+    val manualEntryFailMessage by css {
+        fontFamily = FONT_FAMILY_MAIN
+        fontSize = 12.pt
+        fontWeight = FontWeight.w600
+        color = HL7_RED
+    }
+
     // code
     val codeTextBase by css {
         fontFamily = FONT_FAMILY_CODE

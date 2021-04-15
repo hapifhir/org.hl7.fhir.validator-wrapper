@@ -4,20 +4,18 @@ import Polyglot
 import api.sendValidationRequest
 import constants.FhirFormat
 import css.animation.FadeIn.fadeIn
+import css.const.BORDER_GRAY
+import css.text.TextStyle
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import kotlinx.css.*
+import kotlinx.css.properties.border
 import mainScope
 import model.CliContext
 import model.ValidationOutcome
-import react.RBuilder
-import react.RComponent
-import react.RProps
-import react.RState
-import styled.StyleSheet
-import styled.css
-import styled.styledDiv
+import react.*
+import styled.*
 import ui.components.tabs.heading
 import ui.components.validation.issuelist.filteredIssueEntryList
 import utils.assembleRequest
@@ -25,7 +23,7 @@ import utils.isJson
 import utils.isXml
 
 //TODO make this an intelligent value
-private const val VALIDATION_TIME_LIMIT = 30000L
+private const val VALIDATION_TIME_LIMIT = 45000L
 
 external interface ManualEntryTabProps : RProps {
     var cliContext: CliContext
@@ -41,7 +39,11 @@ external interface ManualEntryTabProps : RProps {
     var setSessionId: (String) -> Unit
 }
 
-class ManualEntryTabState : RState
+class ManualEntryTabState : RState {
+    var displayingError: Boolean = false
+    var errorMessage: String = ""
+    var ohShitYouDidIt = false
+}
 
 class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
     init {
@@ -56,10 +58,21 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             heading {
                 text = "Code"
             }
-            manualEntryTextArea {
-                currentText = props.currentManuallyEnteredText
-                onTextUpdate = { str ->
-                    props.updateCurrentlyEnteredText(str)
+            if (state.ohShitYouDidIt) {
+                styledIframe {
+                    css {
+                        +ManualEntryTabStyle.ken
+                    }
+                    attrs {
+                        src = "https://player.vimeo.com/video/148751763?autoplay=1&loop=1&autopause=0"
+                    }
+                }
+            } else {
+                manualEntryTextArea {
+                    currentText = props.currentManuallyEnteredText
+                    onTextUpdate = { str ->
+                        props.updateCurrentlyEnteredText(str)
+                    }
                 }
             }
             fileEntryButtonBar {
@@ -67,6 +80,14 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     validateEnteredText(props.currentManuallyEnteredText)
                 }
                 workInProgress = props.validatingManualEntryInProgress
+            }
+            if (state.displayingError) {
+                styledSpan {
+                    css {
+                        +TextStyle.manualEntryFailMessage
+                    }
+                    +state.errorMessage
+                }
             }
             props.validationOutcome?.let {
                 filteredIssueEntryList {
@@ -77,6 +98,10 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
     }
 
     private fun validateEnteredText(fileContent: String) {
+        setState {
+            displayingError = false
+            ohShitYouDidIt = false
+        }
         props.toggleValidationInProgress(true)
         val request = assembleRequest(
             cliContext = props.cliContext,
@@ -103,7 +128,17 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 //TODO
                 println("Timeout ${e.message}")
             } catch (e: Exception) {
-                //TODO
+                setState {
+                    if (props.currentManuallyEnteredText.contains("Mark is super dorky")) {
+                        ohShitYouDidIt = true
+                        props.updateCurrentlyEnteredText("Ken is super dorky.")
+                        errorMessage = "Never gonna give you up, never gonna let you down, never gonna run around..."
+                        displayingError = true
+                    } else {
+                        errorMessage = "Cannot parse entered text as valid JSON/XML."
+                        displayingError = true
+                    }
+                }
                 println("Exception ${e.message}")
             } finally {
                 props.toggleValidationInProgress(false)
@@ -131,5 +166,14 @@ object ManualEntryTabStyle : StyleSheet("ManualEntryTabStyle") {
         overflowY = Overflow.auto
         padding(horizontal = 32.px, vertical = 16.px)
         fadeIn()
+    }
+    val ken by css {
+        display = Display.flex
+        flexDirection = FlexDirection.column
+        justifyContent = JustifyContent.stretch
+        alignContent = Align.stretch
+        overflowY = Overflow.auto
+        minHeight = 600.px
+        border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
     }
 }
