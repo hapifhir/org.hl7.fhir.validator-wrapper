@@ -54,15 +54,19 @@ steps:
     command: 'build'
     Dockerfile: '**/Dockerfile'
     arguments:  --build-arg PROJECT_VERSION=$(current_version)
-    tags: |
-      latest
-      '$(current_version)'
+    tags: '$(current_version)'
 
 - task: Docker@2
   inputs:
     containerRegistry: 'dockerhub connection'
     repository: 'markiantorno/validator-wrapper'
     command: 'push'
-    tags: |
-      latest
-      '$(current_version)'
+    tags: '$(current_version)'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'dockerhub connection'
+    repository: 'markiantorno/validator-wrapper'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: 'latest'
