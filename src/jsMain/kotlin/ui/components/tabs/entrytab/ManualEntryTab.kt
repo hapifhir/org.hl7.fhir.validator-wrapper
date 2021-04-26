@@ -72,12 +72,24 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     currentText = props.currentManuallyEnteredText
                     onTextUpdate = { str ->
                         props.updateCurrentlyEnteredText(str)
+                        if (state.displayingError) {
+                            setState {
+                                displayingError = false
+                            }
+                        }
                     }
                 }
             }
             fileEntryButtonBar {
                 onValidateRequested = {
-                    validateEnteredText(props.currentManuallyEnteredText)
+                    if (props.currentManuallyEnteredText.isNotEmpty()) {
+                        validateEnteredText(props.currentManuallyEnteredText)
+                    } else {
+                        setState {
+                            errorMessage = "Please enter something to validate."
+                            displayingError = true
+                        }
+                    }
                 }
                 workInProgress = props.validatingManualEntryInProgress
             }
