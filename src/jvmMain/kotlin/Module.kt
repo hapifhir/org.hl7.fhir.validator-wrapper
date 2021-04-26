@@ -60,12 +60,16 @@ fun Application.setup() {
     }
 
     install(CORS) {
-        method(HttpMethod.Get)
-        method(HttpMethod.Post)
+        method(HttpMethod.Options)
+        method(HttpMethod.Put)
         method(HttpMethod.Delete)
-//        header()
-        anyHost()
-
+        method(HttpMethod.Patch)
+        header(HttpHeaders.Authorization)
+        header(HttpHeaders.AccessControlAllowOrigin)
+        allowNonSimpleContentTypes = true
+        allowCredentials = true
+        allowSameOrigin = true
+        host("*", listOf("http", "https"))
     }
 
     install(Compression) {
