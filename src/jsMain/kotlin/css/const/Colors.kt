@@ -9,6 +9,7 @@ val HL7_RED = Color("#eb2229")
 // GRAYS
 val INACTIVE_GRAY = Color("#f4f4f4")
 val BORDER_GRAY = Color("#bbbbbb")
+val SWITCH_GRAY = Color("#cccccc")
 val HIGHLIGHT_GRAY = Color("#eeeeee")
 
 // VALIDATION OUTCOME STATES
@@ -21,3 +22,4 @@ val SUCCESS_GREEN = Color("#83cd7d")
 // SHADOW
 val POPUP_SHADOW = Color("#00000022")
 val HEADER_SHADOW = Color("#BBBBBB")
+val SWITCH_SHADOW = Color("#2196F3")

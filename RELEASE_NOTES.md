@@ -1,0 +1,1 @@
+* Updated toggle buttons https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/issues/38
