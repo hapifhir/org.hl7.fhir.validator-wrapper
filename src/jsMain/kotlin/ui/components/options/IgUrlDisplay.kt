@@ -1,18 +1,19 @@
 package ui.components.options
 
-import css.const.BORDER_GRAY
-import css.const.HIGHLIGHT_GRAY
-import css.const.INACTIVE_GRAY
-import css.const.WHITE
+import css.const.*
 import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import kotlinx.html.js.onClickFunction
+import kotlinx.html.title
+import model.PackageInfo
 import react.*
+import react.dom.title
 import styled.*
 
 external interface IgUrlDisplayProps : RProps {
-    var igUrl: String
+    var fhirVersion: String
+    var packageInfo: PackageInfo
     var onDelete: () -> Unit
 }
 
@@ -21,13 +22,29 @@ class IgUrlDisplay : RComponent<IgUrlDisplayProps, RState>() {
         styledDiv {
             css {
                 +IgUrlDisplayStyle.mainDiv
+                if (props.packageInfo.fhirVersion != props.fhirVersion) {
+                    background = "repeating-linear-gradient(\n" +
+                            "  45deg,\n" +
+                            "  ${WHITE},\n" +
+                            "  ${WHITE} 10px,\n" +
+                            "  ${FATAL_PINK.changeAlpha(0.2)} 10px,\n" +
+                            "  ${FATAL_PINK.changeAlpha(0.2)} 20px\n" +
+                            ");"
+                }
+            }
+            if (props.packageInfo.fhirVersion != props.fhirVersion) {
+                attrs {
+                    title = "IG not supported for FHIR version ${props.fhirVersion}"
+                }
             }
             styledSpan {
                 css {
                     +TextStyle.dropDownLabel
                     +IgUrlDisplayStyle.igName
                 }
-                +props.igUrl
+                props.packageInfo.url?.let {
+                    +it
+                }
             }
             styledImg {
                 css {

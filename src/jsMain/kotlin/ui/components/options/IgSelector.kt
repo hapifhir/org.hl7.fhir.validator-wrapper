@@ -2,6 +2,7 @@ package ui.components.options
 
 import css.text.TextStyle
 import kotlinx.css.*
+import model.PackageInfo
 import react.*
 import styled.StyleSheet
 import styled.css
@@ -10,8 +11,9 @@ import styled.styledSpan
 import ui.components.options.menu.dropDownMultiChoice
 
 external interface IgSelectorProps : RProps {
-    var onUpdateIg: (String, Boolean) -> Unit
-    var igList: MutableList<Pair<String, Boolean>>
+    var fhirVersion: String
+    var onUpdateIg: (PackageInfo, Boolean) -> Unit
+    var igList: MutableList<Pair<PackageInfo, Boolean>>
 }
 
 class IgSelectorState : RState
@@ -32,9 +34,12 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
             }
             dropDownMultiChoice {
                 choices = props.igList
+                    .filter{it.first.fhirVersion.equals(props.fhirVersion)}
+                    .map{Pair(it.first.url ?: "", it.second)}
+                    .toMutableList()
                 buttonLabel = "Select IGs"
-                onSelected = {
-                    props.onUpdateIg(it, true)
+                onSelected = { url ->
+                    props.onUpdateIg(props.igList.first { it.first.url == url }.first, true)
                 }
                 multichoice = true
                 searchEnabled = true
@@ -49,7 +54,8 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                 }
                 props.igList.filter { it.second }.forEach { igState ->
                     igUrlDisplay {
-                        igUrl = igState.first
+                        fhirVersion = props.fhirVersion
+                        packageInfo = igState.first
                         onDelete = {
                             props.onUpdateIg(igState.first, false)
                         }
