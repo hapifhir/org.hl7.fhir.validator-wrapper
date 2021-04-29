@@ -37,6 +37,8 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     props.onUpdateIg(it, true)
                 }
                 multichoice = true
+                searchEnabled = true
+                searchHint = "Search igs..."
             }
             styledDiv {
                 css {

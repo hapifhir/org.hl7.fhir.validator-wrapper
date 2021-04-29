@@ -2,11 +2,16 @@ package ui.components.options.menu
 
 import css.const.*
 import css.text.TextStyle
+import kotlinx.browser.document
 import kotlinx.css.*
 import kotlinx.css.properties.border
+import kotlinx.css.properties.borderBottom
+import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
+import kotlinx.html.js.onKeyUpFunction
 import kotlinx.html.js.onMouseOutFunction
 import kotlinx.html.js.onMouseOverFunction
+import org.w3c.dom.HTMLInputElement
 import react.*
 import styled.*
 
@@ -25,10 +30,17 @@ external interface DropDownMultiChoiceProps : RProps {
 
     // Indicates if this is a dropdown supporting multiple selections, or a single selection
     var multichoice: Boolean
+
+    // Enable search entry field on this menu
+    var searchEnabled: Boolean
+
+    // Search field hint text (if enabled)
+    var searchHint: String
 }
 
 class DropDownMultiChoiceState : RState {
     var dropDownMultiChoiceDisplayed = false
+    var currentFilterString = ""
 }
 
 /**
@@ -37,6 +49,7 @@ class DropDownMultiChoiceState : RState {
  * on the button. Additionally, the menu will close automatically on mouse out event from the list of options.
  */
 class DropDownMultiChoice : RComponent<DropDownMultiChoiceProps, DropDownMultiChoiceState>() {
+    private val searchAreaId = "search_entry_field"
 
     init {
         state = DropDownMultiChoiceState()
@@ -98,30 +111,66 @@ class DropDownMultiChoice : RComponent<DropDownMultiChoiceProps, DropDownMultiCh
                         setState { dropDownMultiChoiceDisplayed = false }
                     }
                 }
-                val entryList = props.choices
-                    .filterNot { it.second }
-                    .map { it.first }
-                    .iterator()
-                while (entryList.hasNext()) {
-                    val choice = entryList.next()
-                    styledSpan {
+                if (props.searchEnabled) {
+                    styledDiv {
                         css {
-                            +DropDownMultiChoiceStyle.dropdownChoice
+                            +DropDownMultiChoiceStyle.searchFieldDiv
                         }
-                        attrs {
-                            onClickFunction = {
-                                onChoiceSelected(choice)
-                                if (!props.multichoice) {
-                                    setState { dropDownMultiChoiceDisplayed = false }
+                        styledImg {
+                            css {
+                                +DropDownMultiChoiceStyle.searchFieldImage
+                            }
+                            attrs {
+                                src = "images/search_black.png"
+                            }
+                        }
+                        styledInput {
+                            css {
+                                +DropDownMultiChoiceStyle.dropdownSearchField
+                            }
+                            attrs {
+                                id = searchAreaId
+                                placeholder = props.searchHint
+                                onKeyUpFunction = {
+                                    setState {
+                                        currentFilterString =
+                                            (document.getElementById(searchAreaId) as HTMLInputElement).value
+                                    }
                                 }
                             }
                         }
-                        +choice
                     }
-                    if (entryList.hasNext()) {
-                        styledDiv {
+                }
+                styledDiv {
+                    css {
+                        +DropDownMultiChoiceStyle.dropDownListContainer
+                    }
+                    val entryList = props.choices
+                        .filterNot { it.second }
+                        .filter { it.first.indexOf(state.currentFilterString) > -1 }
+                        .map { it.first }
+                        .iterator()
+                    while (entryList.hasNext()) {
+                        val choice = entryList.next()
+                        styledSpan {
                             css {
-                                +DropDownMultiChoiceStyle.dropDownDivider
+                                +DropDownMultiChoiceStyle.dropdownChoice
+                            }
+                            attrs {
+                                onClickFunction = {
+                                    onChoiceSelected(choice)
+                                    if (!props.multichoice) {
+                                        setState { dropDownMultiChoiceDisplayed = false }
+                                    }
+                                }
+                            }
+                            +choice
+                        }
+                        if (entryList.hasNext()) {
+                            styledDiv {
+                                css {
+                                    +DropDownMultiChoiceStyle.dropDownDivider
+                                }
                             }
                         }
                     }
@@ -179,10 +228,17 @@ object DropDownMultiChoiceStyle : StyleSheet("DropDownMultiChoice", isStatic = t
     val dropDownContent by css {
         position = Position.absolute
         backgroundColor = WHITE
-        overflowY = Overflow.scroll
-        overflowX = Overflow.hidden
+//        overflowY = Overflow.scroll
+//        overflowX = Overflow.hidden
         border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
         minWidth = 148.px
+        maxHeight = 400.px
+        zIndex = 1
+    }
+    val dropDownListContainer by css {
+        overflowY = Overflow.scroll
+        overflowX = Overflow.hidden
+        maxHeight = 400.px
         zIndex = 1
     }
     val dropDownActive by css {
@@ -193,6 +249,30 @@ object DropDownMultiChoiceStyle : StyleSheet("DropDownMultiChoice", isStatic = t
     val dropDownHidden by css {
         +dropDownContent
         display = Display.none
+    }
+    val searchFieldDiv by css {
+        display = Display.flex
+        flexDirection = FlexDirection.row
+        alignItems = Align.center
+        backgroundColor = WHITE
+        margin(horizontal = 8.px)
+    }
+    val searchFieldImage by css {
+        height = 24.px
+        width = 24.px
+    }
+    val dropdownSearchField by css {
+        padding(vertical = 12.px, horizontal = 16.px)
+        fontFamily = TextStyle.FONT_FAMILY_MAIN
+        fontSize = 12.pt
+        fontWeight = FontWeight.w200
+        color = TEXT_BLACK
+        display = Display.block
+        width = 100.pct
+        border = "none"
+        resize = Resize.none
+        outline = Outline.none
+        borderBottom(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
     }
     val dropdownChoice by css {
         padding(vertical = 12.px, horizontal = 16.px)
