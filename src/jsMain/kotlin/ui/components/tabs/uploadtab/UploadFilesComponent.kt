@@ -45,6 +45,8 @@ class UploadFilesComponent : RComponent<UploadFilesComponentProps, RState>(), Fi
                     files?.forEach {
                         startLoadingFile(it)
                     }
+                    // clear cache so users can upload the same file over and over
+                    input.value = ""
                 }
             }
         }
@@ -65,10 +67,16 @@ class UploadFilesComponent : RComponent<UploadFilesComponentProps, RState>(), Fi
         // TODO deal with this
     }
 
-    override fun onLoadStart(fileLoadState: FileLoadState) {}
+    override fun onLoadStart(fileLoadState: FileLoadState) {
+        println("Start loading ${fileLoadState.file.name}!")
+    }
     override fun onLoadProgress(fileLoadState: FileLoadState) {}
-    override fun onAbort(fileLoadState: FileLoadState) {}
-    override fun onLoadEnd(event: Event, fileLoadState: FileLoadState) {}
+    override fun onAbort(fileLoadState: FileLoadState) {
+        println("Abort loading ${fileLoadState.file.name}!")
+    }
+    override fun onLoadEnd(event: Event, fileLoadState: FileLoadState) {
+        println("Load End ${fileLoadState.file.name}!")
+    }
 }
 
 /**
