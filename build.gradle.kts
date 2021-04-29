@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 plugins {
     kotlin("multiplatform") version "1.4.32"
     kotlin("plugin.serialization") version "1.4.32"
+
     id("org.hidetake.ssh") version "2.10.1"
     id("org.openjfx.javafxplugin") version "0.0.8"
     // https://github.com/ethauvin/semver-gradle
@@ -101,11 +102,18 @@ kotlin {
                 implementation("io.ktor:ktor-websockets:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-gson:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-jackson:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-serialization:${property("ktorVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${property("kotlinxVersion")}")
                 implementation("org.koin:koin-ktor:${property("koinVersion")}")
                 //TODO
                 implementation("io.ktor:ktor-client-core:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-client-json:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-client-cio:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-client-logging:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-client-serialization:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-client-jackson:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-client-gson:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-client-serialization-jvm:${property("ktorVersion")}")
 
                 implementation("com.squareup.okhttp3:okhttp:4.9.0")
 
