@@ -1,9 +1,12 @@
 package routing.terminology
 
+import api.terminogy.TerminologyApi
 import constants.TERMINOLOGY_ENDPOINT
 import controller.terminology.TerminologyController
 import controller.terminology.terminologyModule
 import instrumentation.TerminologyInstrumentation.givenATerminologyServerUrl
+import instrumentation.TerminologyInstrumentation.givenAValidCapabilityStatement
+import instrumentation.TerminologyInstrumentation.givenAnInvalidCapabilityStatement
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.http.ContentType
@@ -22,11 +25,13 @@ import kotlin.test.assertEquals
 class TerminologyRoutingTest : BaseRoutingTest() {
 
     private val terminologyController: TerminologyController = mockk()
+    private val terminologyApi: TerminologyApi = mockk()
 
     @BeforeAll
     fun setup() {
         koinModules = module {
             single { terminologyController }
+            single(override = true) { terminologyApi }
         }
 
         moduleList = {
@@ -46,6 +51,7 @@ class TerminologyRoutingTest : BaseRoutingTest() {
         withBaseTestApplication {
             val url = givenATerminologyServerUrl()
             val terminologyServerRequest = TerminologyServerRequest(url = url)
+            coEvery { terminologyApi.getCapabilityStatement(any()) } returns givenAValidCapabilityStatement()
             coEvery { terminologyController.isTerminologyServerValid(any()) } returns true
 
             val call = handleRequest(HttpMethod.Post, TERMINOLOGY_ENDPOINT) {
@@ -57,8 +63,7 @@ class TerminologyRoutingTest : BaseRoutingTest() {
                 assertEquals(HttpStatusCode.OK, response.status())
                 val responseBody = response.parseBody(TerminologyServerResponse::class.java)
                 Assertions.assertEquals(url, responseBody.url)
-                // TODO move network code that pull conformance statement to it's own service, then mockk that service for testing
-//            Assertions.assertEquals(true, responseBody.validTxServer)
+                Assertions.assertEquals(true, responseBody.validTxServer)
             }
         }
 
@@ -67,6 +72,7 @@ class TerminologyRoutingTest : BaseRoutingTest() {
         withBaseTestApplication {
             val url = givenATerminologyServerUrl()
             val terminologyServerRequest = TerminologyServerRequest(url = url)
+            coEvery { terminologyApi.getCapabilityStatement(any()) } returns givenAnInvalidCapabilityStatement()
             coEvery { terminologyController.isTerminologyServerValid(any()) } returns false
 
             val call = handleRequest(HttpMethod.Post, TERMINOLOGY_ENDPOINT) {
@@ -78,8 +84,7 @@ class TerminologyRoutingTest : BaseRoutingTest() {
                 assertEquals(HttpStatusCode.OK, response.status())
                 val responseBody = response.parseBody(TerminologyServerResponse::class.java)
                 Assertions.assertEquals(url, responseBody.url)
-                // TODO move network code that pull conformance statement to it's own service, then mockk that service for testing
-//            Assertions.assertEquals(false, responseBody.validTxServer)
+                Assertions.assertEquals(false, responseBody.validTxServer)
             }
         }
 }

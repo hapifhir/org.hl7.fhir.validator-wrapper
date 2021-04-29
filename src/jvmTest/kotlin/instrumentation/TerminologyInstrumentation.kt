@@ -1,5 +1,7 @@
 package instrumentation
 
+import model.CapabilityStatement
+import org.hl7.fhir.r5.model.CanonicalType
 import org.hl7.fhir.utilities.npm.PackageInfo
 
 object TerminologyInstrumentation {
@@ -29,5 +31,21 @@ object TerminologyInstrumentation {
 
     fun givenAnEmptyListOfIgUrls(): MutableList<String> {
         return mutableListOf<String>()
+    }
+
+    fun givenAValidCapabilityStatement(): CapabilityStatement {
+        val capStmt = CapabilityStatement()
+        val canonicalType = CanonicalType()
+        canonicalType.value = "http://hl7.org/fhir/CapabilityStatement/terminology-server"
+        capStmt.instantiates?.add(canonicalType)
+        return capStmt
+    }
+
+    fun givenAnInvalidCapabilityStatement(): CapabilityStatement {
+        val capStmt = CapabilityStatement()
+        val canonicalType = CanonicalType()
+        canonicalType.value = "https://tinyurl.com/3usj3yvc"
+        capStmt.instantiates?.add(canonicalType)
+        return capStmt
     }
 }

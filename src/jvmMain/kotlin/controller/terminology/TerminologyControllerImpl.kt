@@ -5,7 +5,7 @@ import org.koin.core.KoinComponent
 
 class TerminologyControllerImpl : TerminologyController, KoinComponent {
 
-    private val TERMINOLOGY_CAP_STATEMENT = "http://hl7.org/fhir/CapabilityStatement/terminology-server"
+    val TERMINOLOGY_CAP_STATEMENT = "http://hl7.org/fhir/CapabilityStatement/terminology-server"
 
     override suspend fun isTerminologyServerValid(capabilityStatement: CapabilityStatement): Boolean {
         capabilityStatement.instantiates?.forEach { canonicalType ->
