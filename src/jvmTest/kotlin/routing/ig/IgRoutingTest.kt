@@ -56,7 +56,7 @@ class IgRoutingTest : BaseRoutingTest() {
         with(call) {
             assertEquals(HttpStatusCode.OK, response.status())
             val responseBody = response.parseBody(IGResponse::class.java)
-            Assertions.assertIterableEquals(igResponse, responseBody.igs)
+            Assertions.assertIterableEquals(igResponse, responseBody.packageInfo)
         }
     }
 

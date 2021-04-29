@@ -3,6 +3,7 @@ package controller.ig
 import constants.FhirFormat
 import controller.BaseControllerTest
 import instrumentation.IgInstrumentation.givenANullReturnedListOfPackageInfo
+import instrumentation.IgInstrumentation.givenAProcessedListOfValidPackageInfo
 import instrumentation.IgInstrumentation.givenAReturnedListOfValidPackageInfo
 import instrumentation.IgInstrumentation.givenAnEmptyReturnedListOfPackageInfo
 import io.mockk.clearMocks
@@ -15,6 +16,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.koin.dsl.module
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import kotlin.test.fail
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class IgControllerTest : BaseControllerTest() {
@@ -38,11 +41,12 @@ class IgControllerTest : BaseControllerTest() {
     @Test
     fun `test happy path ig controller returns list of valid ig urls`() {
         val igPackageInfoList = givenAReturnedListOfValidPackageInfo()
+        val resultingPackageInfoList = givenAProcessedListOfValidPackageInfo()
         coEvery { igPackageClient.listFromRegistry(any(), any(), any()) } returns igPackageInfoList
 
         runBlocking {
             val response = igController.listIgs()
-            assertEquals(igPackageInfoList.map { it.url }.toMutableList(), response)
+            (resultingPackageInfoList sameContentWith response)?.let { assertTrue(it) } ?: fail("null packageinfo")
         }
     }
 
@@ -67,5 +71,8 @@ class IgControllerTest : BaseControllerTest() {
             assertEquals(mutableListOf(), response)
         }
     }
+
+    infix fun <T> Collection<T>.sameContentWith(collection: Collection<T>?)
+            = collection?.let { this.size == it.size && this.containsAll(it) }
 }
 
