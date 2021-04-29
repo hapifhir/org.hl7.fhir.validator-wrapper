@@ -3,4 +3,4 @@ package model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class IGResponse(var igs: MutableList<String> = mutableListOf())
+data class IGResponse(var packageInfo: MutableList<PackageInfo> = mutableListOf())

@@ -16,13 +16,13 @@ fun Route.igModule() {
 
     get(IG_ENDPOINT) {
         val logger = call.application.environment.log
-        val urls = igController.listIgs()
+        val packageInfo = igController.listIgs()
 
-        if (urls.size == 0) {
+        if (packageInfo.size == 0) {
             logger.debug(NO_IGS_RETURNED)
             call.respond(HttpStatusCode.InternalServerError, NO_IGS_RETURNED)
         } else {
-            val response = IGResponse(igs = urls)
+            val response = IGResponse(packageInfo = packageInfo)
             call.respond(HttpStatusCode.OK, response)
         }
     }

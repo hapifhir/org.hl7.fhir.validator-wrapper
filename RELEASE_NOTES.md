@@ -5,3 +5,4 @@
 * Updated toggle buttons https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/issues/38
 * Added search functionality for IG Dropdown https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/issues/41
 * Target version now set to default 4.0.1 https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/issues/37
+* adding filtering for IGs, such that only IGs applicable to the selected FHIR version are allowed https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/issues/42

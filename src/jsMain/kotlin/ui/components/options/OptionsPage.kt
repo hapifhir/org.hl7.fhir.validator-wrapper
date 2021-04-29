@@ -11,6 +11,7 @@ import kotlinx.css.*
 import kotlinx.css.properties.border
 import mainScope
 import model.CliContext
+import model.PackageInfo
 import react.*
 import styled.StyleSheet
 import styled.css
@@ -29,7 +30,7 @@ external interface OptionsPageProps : RProps {
 }
 
 class OptionsPageState : RState {
-    var igList = mutableListOf<Pair<String, Boolean>>()
+    var igList = mutableListOf<Pair<PackageInfo, Boolean>>()
     var fhirVersionsList = mutableListOf<Pair<String, Boolean>>()
     var snomedVersionList = mutableListOf<Pair<String, Boolean>>()
 }
@@ -42,8 +43,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
             val igResponse = sendIGsRequest()
             val versionsResponse = sendVersionsRequest()
             setState {
-                igList = igResponse.igs
-                    .map { Pair(it, props.cliContext.getIgs().contains(it)) }
+                igList = igResponse.packageInfo
+                    .map { Pair(it, props.cliContext.getIgs().contains(it.url)) }
                     .toMutableList()
                 fhirVersionsList = versionsResponse.versions
                     .map { Pair(it, props.cliContext.getTargetVer() == it) }
@@ -168,15 +169,17 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     +OptionsPageStyle.optionsSubSection
                 }
                 igSelector {
+                    fhirVersion = props.cliContext.getTargetVer()
                     igList = state.igList
-                    onUpdateIg = { igLabel, selected ->
-                        state.igList.find { pair -> pair.first == igLabel }?.let { pair ->
+                    onUpdateIg = { igPackageInfo, selected ->
+                        state.igList.find { pair -> pair.first == igPackageInfo }?.let { pair ->
                             setState {
                                 igList[igList.indexOf(pair)] = pair.copy(second = selected)
                             }
                         }
-                        props.update(if (selected) props.cliContext.addIg(igLabel) else props.cliContext.removeIg(
-                            igLabel))
+                        igPackageInfo.url?.let { url ->
+                            props.update( if (selected) props.cliContext.addIg(url) else props.cliContext.removeIg(url))
+                        }
                     }
                 }
             }
@@ -190,7 +193,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 dropdownWithExplanation {
                     defaultLabel = "Version"
                     explanation =
-                        "The validator checks the resource against the base specification. By default, this is the current build version of the specification. You probably don't want to validate against that version, so the first thing to do is to specify which version of the spec to use."
+                        "The validator checks the resource against the base specification. By default, this is v4.0.1 of the specification."
                     itemList = state.fhirVersionsList
                     heading = "Select FHIR Version"
                     onItemSelected = { version ->
