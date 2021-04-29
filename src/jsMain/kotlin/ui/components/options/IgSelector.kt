@@ -34,7 +34,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
             }
             dropDownMultiChoice {
                 choices = props.igList
-                    .filter{it.first.fhirVersion.equals(props.fhirVersion)}
+                    .filter{ it.first.fhirVersionMatches(props.fhirVersion) }
                     .map{Pair(it.first.url ?: "", it.second)}
                     .toMutableList()
                 buttonLabel = "Select IGs"

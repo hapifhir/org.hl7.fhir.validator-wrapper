@@ -22,7 +22,7 @@ class IgUrlDisplay : RComponent<IgUrlDisplayProps, RState>() {
         styledDiv {
             css {
                 +IgUrlDisplayStyle.mainDiv
-                if (props.packageInfo.fhirVersion != props.fhirVersion) {
+                if (!props.packageInfo.fhirVersionMatches(props.fhirVersion)) {
                     background = "repeating-linear-gradient(\n" +
                             "  45deg,\n" +
                             "  ${WHITE},\n" +
@@ -32,7 +32,7 @@ class IgUrlDisplay : RComponent<IgUrlDisplayProps, RState>() {
                             ");"
                 }
             }
-            if (props.packageInfo.fhirVersion != props.fhirVersion) {
+            if (!props.packageInfo.fhirVersionMatches(props.fhirVersion)) {
                 attrs {
                     title = "IG not supported for FHIR version ${props.fhirVersion}"
                 }
