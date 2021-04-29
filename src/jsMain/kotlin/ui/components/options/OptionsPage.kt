@@ -6,9 +6,7 @@ import api.validateTxServer
 import constants.Snomed
 import css.const.BORDER_GRAY
 import css.const.HIGHLIGHT_GRAY
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import mainScope
@@ -23,6 +21,7 @@ import ui.components.options.menu.textEntryField
 import ui.components.tabs.heading
 
 const val TERMINOLOGY_SERVER_ERROR = "Server capability statement does not indicate it is a valid terminology server."
+private const val TERMINOLOGY_CHECK_TIME_LIMIT = 20000L
 
 external interface OptionsPageProps : RProps {
     var cliContext: CliContext
@@ -264,12 +263,21 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
     }
 
     private suspend fun checkTxServer(txUrl: String): Boolean {
-        val response = validateTxServer(txUrl)
-        return if (response.validTxServer) {
-            props.update(props.cliContext.setTxServer(response.url))
-            true
-        } else {
-            false
+        var validTxServer = false
+        try {
+            withTimeout(TERMINOLOGY_CHECK_TIME_LIMIT) {
+                val response = validateTxServer(txUrl)
+                if (response.validTxServer) {
+                    props.update(props.cliContext.setTxServer(response.url))
+                    validTxServer = true
+                }
+            }
+        } catch (e: TimeoutCancellationException) {
+            println("Connection attempt to $txUrl resulted in timeout!")
+        } catch (e: Exception) {
+            println("Exception ${e.message}")
+        } finally {
+            return validTxServer
         }
     }
 }
