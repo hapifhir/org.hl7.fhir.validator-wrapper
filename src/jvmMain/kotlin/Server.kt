@@ -50,8 +50,7 @@ fun main(args: Array<String>) {
     when {
         runningAsCli(args) -> {
             ValidatorCli.main(args)
-        }
-        else -> {
+        } else -> {
             runningAsDesktopStandalone = runningAsDesktopApp(args)
             startServer(args)
         }

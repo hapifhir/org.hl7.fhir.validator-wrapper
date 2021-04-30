@@ -42,7 +42,7 @@ class ApplicationView : View() {
         with(root) {
             setPrefSize(PREF_WIDTH, PREF_HEIGHT)
             // TODO fix this so it's not hardcoded
-            engine.load("http://localhost:8080/")
+            engine.load("http://localhost:8081/")
         }
     }
 }
