@@ -34,4 +34,7 @@ expect class CliContext() {
 //TODO
 //    fun getQuestionnaires(): List<String>
 //    fun setQuestionnaires(questionnaires: List<String>): CliContext
+
+    fun getSv(): String
+    fun setSv(sv: String): CliContext
 }

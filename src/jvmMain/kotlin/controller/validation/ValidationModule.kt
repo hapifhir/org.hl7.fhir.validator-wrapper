@@ -22,6 +22,8 @@ fun Route.validationModule() {
     post(VALIDATION_ENDPOINT) {
         val logger = call.application.environment.log
         val request = call.receive<ValidationRequest>()
+        println("Target version ${request.cliContext.targetVer}")
+        println("MODE ${request.cliContext.mode}")
         logger.debug(DEBUG_NUMBER_FILES.format(request.filesToValidate.size))
         request.filesToValidate.forEachIndexed { index, file ->
             logger.debug("file [$index] ->\n${file.asString()}")

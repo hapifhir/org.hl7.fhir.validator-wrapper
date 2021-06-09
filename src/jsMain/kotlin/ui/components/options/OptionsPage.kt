@@ -199,6 +199,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     onItemSelected = { version ->
                         setState {
                             props.cliContext.setTargetVer(version)
+                            props.cliContext.setSv(version)
                             state.fhirVersionsList.forEach {
                                 fhirVersionsList[fhirVersionsList.indexOf(it)] =
                                     when (it.first) {
