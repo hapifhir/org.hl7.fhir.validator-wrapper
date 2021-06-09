@@ -16,6 +16,7 @@ actual class CliContext actual constructor() {
     private var txLog: String = ""
     private var snomedCT = Snomed.INTL.code
     private var targetVer: String = "4.0.1"
+    private var sv: String = "4.0.1"
 
     private var igs: List<String> = listOf()
 
@@ -92,6 +93,15 @@ actual class CliContext actual constructor() {
 
     actual fun getTargetVer(): String {
         return targetVer
+    }
+
+    actual fun getSv(): String {
+        return sv
+    }
+
+    actual fun setSv(sv: String): CliContext {
+        this.sv = sv
+        return this
     }
 
     actual fun setTargetVer(targetVer: String): CliContext {
