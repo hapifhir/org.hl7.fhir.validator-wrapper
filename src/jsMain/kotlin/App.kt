@@ -10,6 +10,7 @@ import reactredux.containers.header
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
+import ui.components.footer.footer
 import ui.components.header.HeaderStyle
 import ui.components.main.sectionTitle
 import ui.components.tabs.tabLayout
@@ -27,27 +28,35 @@ class App : RComponent<AppProps, RState>() {
         styledDiv {
             css {
                 +LandingPageStyle.mainDiv
-                flexDirection = FlexDirection.column
             }
             header {}
-            when (props.appScreen) {
-                AppScreen.VALIDATOR -> {
-                    sectionTitle {
-//  TODO once localization is updated
-//  majorText = props.polyglot.t("heading_validate")
-                        majorText = "Validate Resources"
-                        minorText = "Manually enter, or upload resources for validation."
-                    }
-                    tabLayout {}
+            styledDiv {
+                css {
+                    paddingTop = HeaderStyle.HEADER_HEIGHT
+                    display = Display.flex
+                    flexDirection = FlexDirection.column
+                    flex(flexGrow = 1.0, flexShrink = 1.0, flexBasis = FlexBasis.auto)
                 }
-                AppScreen.SETTINGS -> {
-                    sectionTitle {
-                        majorText = "Validation Options"
-                        minorText = "Modify setting for validating resources."
+                when (props.appScreen) {
+                    AppScreen.VALIDATOR -> {
+                        sectionTitle {
+                        //  TODO once localization is updated
+                        //  majorText = props.polyglot.t("heading_validate")
+                            majorText = "Validate Resources"
+                            minorText = "Manually enter, or upload resources for validation."
+                        }
+                        tabLayout {}
                     }
-                    optionsPage {}
+                    AppScreen.SETTINGS -> {
+                        sectionTitle {
+                            majorText = "Validation Options"
+                            minorText = "Modify setting for validating resources."
+                        }
+                        optionsPage {}
+                    }
                 }
             }
+            footer { }
         }
     }
 }
@@ -57,8 +66,9 @@ class App : RComponent<AppProps, RState>() {
  */
 object LandingPageStyle : StyleSheet("LandingPageStyle", isStatic = true) {
     val mainDiv by css {
-        paddingTop = HeaderStyle.HEADER_HEIGHT
         display = Display.flex
+        flexDirection = FlexDirection.column
+        height = 100.vh
     }
 }
 

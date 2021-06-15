@@ -112,7 +112,6 @@ fun RBuilder.tabLayout(handler: TabLayoutProps.() -> Unit): ReactElement {
  */
 object TabBarStyle : StyleSheet("TabBarStyle", isStatic = true) {
     val mainLayout by css {
-        height = 600.px
         display = Display.inlineFlex
         flexDirection = FlexDirection.column
     }
@@ -152,7 +151,8 @@ object TabBarStyle : StyleSheet("TabBarStyle", isStatic = true) {
         flexDirection = FlexDirection.column
     }
     val tabFill by css {
-        height = 100.pct
+        height = 64.px
+        alignSelf = Align.selfEnd
         boxSizing = BoxSizing.borderBox
         borderBottom(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
     }
