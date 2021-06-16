@@ -38,7 +38,7 @@ class UptimeControllerTest : BaseControllerTest() {
 
     @Test
     fun `test happy path, tx server is up`() {
-        coEvery { endpointApi.getFileAtEndpoint(any()) } returns byteArrayOf()
+        coEvery { endpointApi.getFileAtEndpoint(any()) } returns byteArrayOf(1, 2, 3, 4)
 
         runBlocking {
             val response = uptimeController.isTerminologyServerUp()
@@ -48,7 +48,7 @@ class UptimeControllerTest : BaseControllerTest() {
 
     @Test
     fun `test sad path, tx server req throws error`() {
-        coEvery { endpointApi.getFileAtEndpoint(any()) } throws(Exception("bad stuff"))
+        coEvery { endpointApi.getFileAtEndpoint(any()) } throws (Exception("bad stuff"))
 
         runBlocking {
             val response = uptimeController.isTerminologyServerUp()
@@ -58,7 +58,7 @@ class UptimeControllerTest : BaseControllerTest() {
 
     @Test
     fun `test sad path, tx server times out`() {
-        val fncResp = FunctionAnswer{ Thread.sleep(ENDPOINT_API_TIMEOUT + 1000); byteArrayOf() }
+        val fncResp = FunctionAnswer { Thread.sleep(ENDPOINT_API_TIMEOUT + 1000); byteArrayOf() }
         coEvery { endpointApi.getFileAtEndpoint(any()) }.answers(fncResp)
 
         runBlocking {
