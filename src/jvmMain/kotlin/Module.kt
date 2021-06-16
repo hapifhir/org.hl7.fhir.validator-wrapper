@@ -3,6 +3,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import controller.debug.debugModule
 import controller.ig.igModule
 import controller.terminology.terminologyModule
+import controller.uptime.uptimeModule
 import controller.validation.validationModule
 import controller.version.versionModule
 import desktop.launchLocalApp
@@ -61,6 +62,7 @@ fun Application.setup() {
 
     install(CORS) {
         method(HttpMethod.Options)
+        method(HttpMethod.Get)
         method(HttpMethod.Put)
         method(HttpMethod.Delete)
         method(HttpMethod.Patch)
@@ -93,6 +95,7 @@ fun Application.setup() {
         debugModule()
         validationModule()
         terminologyModule()
+        uptimeModule()
 
         get("/") {
             call.respondText(
