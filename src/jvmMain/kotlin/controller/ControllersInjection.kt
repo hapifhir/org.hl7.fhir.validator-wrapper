@@ -4,6 +4,8 @@ import controller.ig.IgController
 import controller.ig.IgControllerImpl
 import controller.terminology.TerminologyController
 import controller.terminology.TerminologyControllerImpl
+import controller.uptime.UptimeController
+import controller.uptime.UptimeControllerImpl
 import controller.validation.ValidationController
 import controller.validation.ValidationControllerImpl
 import controller.version.VersionController
@@ -16,5 +18,6 @@ object ControllersInjection {
         single<VersionController> { VersionControllerImpl() }
         single<IgController> { IgControllerImpl() }
         single<TerminologyController> { TerminologyControllerImpl() }
+        single<UptimeController> { UptimeControllerImpl() }
     }
 }

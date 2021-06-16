@@ -13,20 +13,6 @@ import kotlinx.browser.window
 import kotlinx.serialization.json.Json
 import model.*
 
-
-val endpoint = window.location.origin + "/" // only needed until https://github.com/ktorio/ktor/issues/1695 is resolved
-
-val jsonClient = HttpClient {
-    install(JsonFeature) {
-        serializer = KotlinxSerializer(Json {
-            prettyPrint = true
-            isLenient = true
-            ignoreUnknownKeys = true
-            useArrayPolymorphism = true
-        })
-    }
-}
-
 suspend fun sendValidationRequest(validationRequest: ValidationRequest): ValidationResponse {
     return jsonClient.post(urlString = endpoint + VALIDATION_ENDPOINT) {
         contentType(ContentType.Application.Json)

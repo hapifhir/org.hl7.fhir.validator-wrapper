@@ -1,13 +1,19 @@
 package ui.components.header
 
 import Polyglot
+import api.isPackagesServerUp
+import api.isTerminologyServerUp
 import css.const.HEADER_SHADOW
 import css.const.HIGHLIGHT_GRAY
 import css.const.WHITE
 import kotlinx.browser.document
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.css.*
 import kotlinx.css.properties.borderBottom
 import kotlinx.css.properties.boxShadow
+import mainScope
 import model.AppScreen
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.EventListener
@@ -16,7 +22,10 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledImg
+import ui.components.header.SiteStatus.SiteState
+import ui.components.header.SiteStatus.siteStatus
 import utils.Language
+import kotlin.time.ExperimentalTime
 
 external interface HeaderProps : RProps {
     var appScreen: AppScreen
@@ -30,6 +39,8 @@ external interface HeaderProps : RProps {
 
 class HeaderState : RState {
     var currentScroll: Double = 0.0
+    var terminologyServerState = SiteState.IN_PROGESS
+    var packageServerState = SiteState.IN_PROGESS
 }
 
 class Header : RComponent<HeaderProps, HeaderState>(), EventListener {
@@ -37,8 +48,23 @@ class Header : RComponent<HeaderProps, HeaderState>(), EventListener {
     init {
         state = HeaderState()
         document.addEventListener(type = "scroll", callback = this)
+        mainScope.launch {
+            val terminologyServerUp = isTerminologyServerUp()
+            val packageServerUp = isPackagesServerUp()
+            setState {
+                terminologyServerState = when (terminologyServerUp) {
+                    true -> SiteState.UP
+                    false -> SiteState.DOWN
+                }
+                packageServerState = when (packageServerUp) {
+                    true -> SiteState.UP
+                    false -> SiteState.DOWN
+                }
+            }
+        }
     }
 
+    @ExperimentalTime
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -66,11 +92,26 @@ class Header : RComponent<HeaderProps, HeaderState>(), EventListener {
                     }
                 }
             }
-            /** TODO LOCALIZATION
+
             styledDiv {
-            css {
-            +HeaderStyle.sideOptions
+                css {
+                    +HeaderStyle.sideOptions
+                }
+                styledDiv {
+                    css {
+                        +HeaderStyle.siteStatusDiv
+                    }
+                    siteStatus {
+                        label = "tx.fhir.org"
+                        status = state.terminologyServerState
+                    }
+                    siteStatus {
+                        label = "packages2.fhir.org"
+                        status = state.packageServerState
+                    }
+                }
             }
+            /** TODO LOCALIZATION
             styledSpan {
             css {
             +TextStyle.headerMenuItem
@@ -142,6 +183,18 @@ object HeaderStyle : StyleSheet("HeaderStyle", isStatic = true) {
     val headerImage by css {
         height = 48.px
         padding(horizontal = 48.px)
+        alignSelf = Align.center
+    }
+    val sideOptions by css {
+        display = Display.flex
+        flexDirection = FlexDirection.row
+        justifyContent = JustifyContent.flexEnd
+        padding(horizontal = 48.px)
+        flex(flexGrow = 1.0)
+    }
+    val siteStatusDiv by css {
+        display = Display.inlineFlex
+        flexDirection = FlexDirection.column
         alignSelf = Align.center
     }
 }
