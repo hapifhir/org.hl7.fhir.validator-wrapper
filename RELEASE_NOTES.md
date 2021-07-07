@@ -1,1 +1,0 @@
-* Fixed issue with version not being saved correctly if default version is used
