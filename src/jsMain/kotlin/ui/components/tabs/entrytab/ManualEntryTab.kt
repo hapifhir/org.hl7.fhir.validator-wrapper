@@ -117,6 +117,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             ohShitYouDidIt = false
         }
         props.toggleValidationInProgress(true)
+        println("clicontext :: sv == ${props.cliContext.getSv()}, version == ${props.cliContext.getTargetVer()}")
         val request = assembleRequest(
             cliContext = props.cliContext,
             fileName = generateFileName(fileContent),

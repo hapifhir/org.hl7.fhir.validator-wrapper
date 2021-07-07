@@ -178,7 +178,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             }
                         }
                         igPackageInfo.url?.let { url ->
-                            props.update( if (selected) props.cliContext.addIg(url) else props.cliContext.removeIg(url))
+                            props.update(if (selected) props.cliContext.addIg(url) else props.cliContext.removeIg(url))
                         }
                     }
                 }
@@ -206,7 +206,6 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                         version -> it.copy(second = true)
                                         else -> it.copy(second = false)
                                     }
-
                             }
                         }
                     }
