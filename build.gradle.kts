@@ -6,7 +6,6 @@ plugins {
 
     id("org.hidetake.ssh") version "2.10.1"
     id("org.openjfx.javafxplugin") version "0.0.8"
-    // https://github.com/ethauvin/semver-gradle
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     application
 }
