@@ -20,15 +20,6 @@ repositories {
         url = uri("https://jitpack.io")
     }
     maven {
-        url = uri("https://dl.bintray.com/kotlin/ktor")
-    }
-    maven {
-        url = uri("https://dl.bintray.com/kotlin/kotlinx")
-    }
-    maven {
-        url = uri("https://dl.bintray.com/kotlin/kotlin-js-wrappers")
-    }
-    maven {
         url = uri("https://oss.sonatype.org/content/repositories/snapshots")
     }
     maven {
@@ -37,7 +28,6 @@ repositories {
     maven {
         url = uri("https://plugins.gradle.org/m2/")
     }
-    maven("https://dl.bintray.com/kotlin/kotlin-eap")
 }
 
 kotlin {
