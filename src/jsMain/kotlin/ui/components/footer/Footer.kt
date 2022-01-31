@@ -36,7 +36,7 @@ class Footer : RComponent<FooterProps, RState>() {
                     css {
                         +FooterStyle.footerTitleSmall
                     }
-                    +"running validator v5.6.1"
+                    +"running validator v5.6.27"
                 }
             }
             styledDiv {
