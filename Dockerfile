@@ -1,7 +1,7 @@
 # This line tells Docker to base an image on a pre-built image with Alpine Linux. You can use other images from OpenJDK
 # registry. Alpine Linux benefit is that the image is pretty small. We also select JRE-only image since we don't need
 # to compile code on the image, only run precompiled classes.
-FROM openjdk:8-jre-alpine
+FROM adoptopenjdk/openjdk11:alpine-jre
 ARG PROJECT_VERSION
 RUN echo "Project version set to -> ${PROJECT_VERSION}"
 
@@ -23,4 +23,4 @@ ENV ENVIRONMENT prod
 EXPOSE 3500
 
 # The last line instructs Docker to run java with G10s GC, 4G of memory and the packaged application.
-CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "validator-wrapper.jar", "-startServer"]
+CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "validator-wrapper.jar", "-startServer"]
