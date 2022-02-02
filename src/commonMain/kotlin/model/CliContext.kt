@@ -23,6 +23,9 @@ expect class CliContext() {
     fun getTxLog(): String
     fun setTxLog(txLog: String): CliContext
 
+    fun getTxCache(): String
+    fun setTxCache(txCache: String): CliContext
+
     fun getSnomedCTCode(): String
     fun setSnomedCT(snomedCT: String): CliContext
 

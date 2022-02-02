@@ -14,6 +14,7 @@ actual class CliContext actual constructor() {
 
     private var txServer = "qr4/"
     private var txLog: String = ""
+    private var txCache: String = ""
     private var snomedCT = Snomed.INTL.code
     private var targetVer: String = ""
     private var sv: String = ""
@@ -87,6 +88,15 @@ actual class CliContext actual constructor() {
         return this
     }
 
+    actual fun getTxCache(): String {
+        return txCache
+    }
+
+    actual fun setTxCache(txCache: String): CliContext {
+        this.txCache = txCache
+        return this
+    }
+
     actual fun getSnomedCTCode(): String {
         return snomedCT
     }
@@ -144,6 +154,7 @@ actual class CliContext actual constructor() {
                 "showTimes = ${showTimes}\n" +
                 "txServer = ${txServer}\n" +
                 "txLog = ${txLog}\n" +
+                "txCache = ${txCache}\n" +
                 "snomedCT = ${snomedCT}\n" +
                 "targetVer = ${targetVer}\n" +
                 "igs -> \n" +
