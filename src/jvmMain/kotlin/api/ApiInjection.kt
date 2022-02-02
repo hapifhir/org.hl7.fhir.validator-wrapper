@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 object ApiInjection {
 
-    private const val PACKAGE_CLIENT_ADDRESS = "http://packages.fhir.org"
+    private const val PACKAGE_CLIENT_ADDRESS = "https://packages.fhir.org"
 
     val koinBeans = module {
         single<ValidationService> { ValidationService() }
