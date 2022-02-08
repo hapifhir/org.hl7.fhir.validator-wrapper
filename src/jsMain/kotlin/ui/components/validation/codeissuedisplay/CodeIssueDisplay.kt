@@ -2,6 +2,7 @@ package ui.components.validation.codeissuedisplay
 
 import css.text.TextStyle
 import kotlinx.css.*
+import kotlinx.html.js.onClickFunction
 import model.MessageFilter
 import model.ValidationMessage
 import model.ValidationOutcome
@@ -27,6 +28,14 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
             val fileAsLines = props.validationOutcome.getFileInfo().fileContent.lines()
             val lineMap = props.validationOutcome.getMessages().groupBy({ it.getLine() }, { it })
             fileAsLines.forEachIndexed { index, text ->
+                styledSpan {
+                    css {
+                        +TextStyle.codeTextLineNumber
+                        +CodeIssueDisplayStyle.lineStyle
+                        marginRight = 10.px;
+                    }
+                    +"${index + 1}"
+                }
                 if (lineMap.containsKey(index + 1) && (props.messageFilter.filter(lineMap[index + 1]).isNotEmpty())) {
                     codeIssue {
                         validationMessages = props.messageFilter.filter(lineMap[index + 1])
@@ -39,12 +48,8 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
                         }
                     }
                 } else {
-                    styledSpan {
-                        css {
-                            +TextStyle.codeTextBase
-                            +CodeIssueDisplayStyle.lineStyle
-                        }
-                        +text
+                    codeLine {
+                        lineOfText = text
                     }
                 }
             }
@@ -66,6 +71,8 @@ fun RBuilder.codeIssueDisplay(handler: CodeIssueDisplayProps.() -> Unit): ReactE
  */
 object CodeIssueDisplayStyle : StyleSheet("CodeIssueDisplayStyle", isStatic = true) {
     val codeIssueDisplayContainer by css {
+        display =  Display.grid
+        gridTemplateColumns = GridTemplateColumns("min-content auto")
         height = 100.pct
         width = 100.pct
     }

@@ -1,8 +1,6 @@
 package css.text
 
-import css.const.HL7_RED
-import css.const.SUCCESS_GREEN
-import css.const.TEXT_BLACK
+import css.const.*
 import kotlinx.css.*
 import styled.StyleSheet
 
@@ -125,6 +123,13 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         fontSize = 12.pt
         fontWeight = FontWeight.lighter
         color = TEXT_BLACK
+    }
+
+    // code line number
+    val codeTextLineNumber by css {
+        +codeTextBase
+        color = LINE_NUMBER_GRAY
+        userSelect= UserSelect.none
     }
 
     // options/settings

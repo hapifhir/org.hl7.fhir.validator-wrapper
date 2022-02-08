@@ -8,6 +8,7 @@ val HL7_RED = Color("#eb2229")
 
 // GRAYS
 val INACTIVE_GRAY = Color("#f4f4f4")
+val LINE_NUMBER_GRAY = Color("#c3c3c3")
 val BORDER_GRAY = Color("#bbbbbb")
 val SWITCH_GRAY = Color("#cccccc")
 val HIGHLIGHT_GRAY = Color("#eeeeee")

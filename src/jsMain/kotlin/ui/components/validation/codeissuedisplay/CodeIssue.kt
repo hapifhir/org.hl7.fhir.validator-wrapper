@@ -35,7 +35,7 @@ class CodeIssue : RComponent<CodeIssueProps, RState>() {
                  * TODO I am unsure how to get HTML to display a string consisting of only whitespace...
                  * for now, we use a non-breaking Space Character at the end of the line to force rendering
                  */
-                +(props.lineOfText.replace(props.lineOfText.trim(), "") + "\u00A0")
+                //+(props.lineOfText.replace(props.lineOfText.trim(), "") + "\u00A0")
             }
             styledMark {
                 css {
@@ -58,7 +58,9 @@ class CodeIssue : RComponent<CodeIssueProps, RState>() {
                         props.onMouseOver(false)
                     }
                 }
-                +props.lineOfText.trim()
+                codeLine {
+                    lineOfText = props.lineOfText
+                }
             }
         }
     }
@@ -78,8 +80,7 @@ fun RBuilder.codeIssue(handler: CodeIssueProps.() -> Unit): ReactElement {
  */
 object CodeIssueStyle : StyleSheet("CodeIssueStyle", isStatic = true) {
     val codeIssueContainer by css {
-        display = Display.flex
-        flexDirection = FlexDirection.row
+        display = Display.inlineBlock
     }
     val lineStyle by css {
         display = Display.flowRoot
