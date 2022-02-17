@@ -1,0 +1,1 @@
+data class AceOptions (val useWorker : Boolean)
