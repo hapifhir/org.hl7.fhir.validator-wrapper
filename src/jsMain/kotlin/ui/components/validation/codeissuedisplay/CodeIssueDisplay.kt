@@ -1,18 +1,17 @@
 package ui.components.validation.codeissuedisplay
 
 import ui.components.ace.aceEditor
-import ui.components.ace.AceEditorProps
-import css.text.TextStyle
 import kotlinx.css.*
+import model.IssueSeverity
 
 import model.MessageFilter
 import model.ValidationMessage
 import model.ValidationOutcome
 import react.*
 import styled.StyleSheet
-import styled.css
 import styled.styledDiv
-import styled.styledSpan
+import ui.components.ace.AceAnnotation
+import ui.components.ace.AceOptions
 
 external interface CodeIssueDisplayProps : RProps {
     var validationOutcome: ValidationOutcome
@@ -21,20 +20,42 @@ external interface CodeIssueDisplayProps : RProps {
     var onHighlight: (Boolean, List<ValidationMessage>) -> Unit
 }
 
+fun issueSeverityToAceAnnotation(issueSeverity: IssueSeverity): String {
+    return when (issueSeverity) {
+        IssueSeverity.FATAL -> "error"
+        IssueSeverity.ERROR -> "error"
+        IssueSeverity.WARNING -> "warning"
+        IssueSeverity.INFORMATION -> "info"
+        IssueSeverity.NULL -> "info"
+    }
+}
+
 class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
     override fun RBuilder.render() {
+        val aceAnnotations = props.validationOutcome.getMessages().map { message ->
+            AceAnnotation(
+                message.getLine() - 1,
+                message.getCol(),
+                message.getMessage(),
+                issueSeverityToAceAnnotation(message.getLevel())
+            )
+        }.toTypedArray()
+
         aceEditor {
-                attrs {
-                    //ref = editorRef
-                    mode = "json"
-                    theme = "github"
-                    height = "100%"
-                    width = "100%"
-                    //annotations = arrayOf(AceAnnotation(0, 0, "nyah", "error"))
-                    value = props.validationOutcome.getFileInfo().fileContent
-                    //setOptions = AceOptions(false)
-                    //markers = marker
-                }
+            attrs {
+                //ref = editorRef
+                mode = "json"
+                theme = "github"
+                height = "100%"
+                width = "100%"
+                showPrintMargin = false
+                readOnly = true
+                annotations = aceAnnotations
+                value = props.validationOutcome.getFileInfo().fileContent
+                setOptions = AceOptions(false)
+                //markers = marker
+            }
+
         }
         /*
         styledDiv {
@@ -71,6 +92,7 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
             }
         }
         */
+        
     }
 }
 
@@ -88,7 +110,7 @@ fun RBuilder.codeIssueDisplay(handler: CodeIssueDisplayProps.() -> Unit): ReactE
  */
 object CodeIssueDisplayStyle : StyleSheet("CodeIssueDisplayStyle", isStatic = true) {
     val codeIssueDisplayContainer by css {
-        display =  Display.grid
+        display = Display.grid
         gridTemplateColumns = GridTemplateColumns("min-content auto")
         height = 100.pct
         width = 100.pct

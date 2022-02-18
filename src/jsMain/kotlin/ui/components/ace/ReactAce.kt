@@ -14,7 +14,11 @@ external val aceEditor: RClass<AceEditorProps>
     var theme : String
     var height : String?
     var width : String?
-    var annotations : Array<Annotation>
+
+    var showPrintMargin: Boolean?
+    var readOnly: Boolean?
+
+    var annotations : Array<AceAnnotation>
     var markers : Array<AceMarker>
     var defaultValue : String?
     var value : String?
