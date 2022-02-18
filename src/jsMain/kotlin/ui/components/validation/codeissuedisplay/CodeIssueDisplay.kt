@@ -1,8 +1,10 @@
 package ui.components.validation.codeissuedisplay
 
+import ui.components.ace.aceEditor
+import ui.components.ace.AceEditorProps
 import css.text.TextStyle
 import kotlinx.css.*
-import kotlinx.html.js.onClickFunction
+
 import model.MessageFilter
 import model.ValidationMessage
 import model.ValidationOutcome
@@ -21,6 +23,20 @@ external interface CodeIssueDisplayProps : RProps {
 
 class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
     override fun RBuilder.render() {
+        aceEditor {
+                attrs {
+                    //ref = editorRef
+                    mode = "json"
+                    theme = "github"
+                    height = "100%"
+                    width = "100%"
+                    //annotations = arrayOf(AceAnnotation(0, 0, "nyah", "error"))
+                    value = props.validationOutcome.getFileInfo().fileContent
+                    //setOptions = AceOptions(false)
+                    //markers = marker
+                }
+        }
+        /*
         styledDiv {
             css {
                 +CodeIssueDisplayStyle.codeIssueDisplayContainer
@@ -54,6 +70,7 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
                 }
             }
         }
+        */
     }
 }
 
