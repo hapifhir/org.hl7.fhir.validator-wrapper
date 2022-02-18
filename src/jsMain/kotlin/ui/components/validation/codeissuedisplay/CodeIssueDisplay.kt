@@ -35,6 +35,11 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
 
     var editorRef = createRef<Nothing>()
 
+    /*
+    This is here because the annotations set in the aceEditor props
+    will get blown away when the text content changes. So, with every
+    component mount, we need to reset annotations.
+     */
     override fun componentDidMount() {
         val aceAnnotations = props.validationOutcome.getMessages().map { message ->
             AceAnnotation(
@@ -50,8 +55,6 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
     }
 
     override fun RBuilder.render() {
-
-
 
         aceEditor {
             attrs {
