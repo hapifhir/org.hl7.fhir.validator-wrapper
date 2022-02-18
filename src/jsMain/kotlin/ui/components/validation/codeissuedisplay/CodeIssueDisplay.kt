@@ -1,5 +1,6 @@
 package ui.components.validation.codeissuedisplay
 
+import kotlinext.js.Object
 import ui.components.ace.aceEditor
 import kotlinx.css.*
 import model.IssueSeverity
@@ -31,7 +32,10 @@ fun issueSeverityToAceAnnotation(issueSeverity: IssueSeverity): String {
 }
 
 class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
-    override fun RBuilder.render() {
+
+    var editorRef = createRef<Nothing>()
+
+    override fun componentDidMount() {
         val aceAnnotations = props.validationOutcome.getMessages().map { message ->
             AceAnnotation(
                 message.getLine() - 1,
@@ -41,16 +45,24 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
             )
         }.toTypedArray()
 
+        editorRef.asDynamic().current.editor.getSession().setAnnotations(aceAnnotations)
+        println("I'M THE CAT!!!")
+    }
+
+    override fun RBuilder.render() {
+
+
+
         aceEditor {
             attrs {
-                //ref = editorRef
+                ref = editorRef
                 mode = "json"
                 theme = "github"
                 height = "100%"
                 width = "100%"
                 showPrintMargin = false
                 readOnly = true
-                annotations = aceAnnotations
+               // annotations = aceAnnotations
                 value = props.validationOutcome.getFileInfo().fileContent
                 setOptions = AceOptions(false)
                 //markers = marker
