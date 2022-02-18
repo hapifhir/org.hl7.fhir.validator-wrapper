@@ -12,6 +12,7 @@ import react.*
 import styled.StyleSheet
 import styled.styledDiv
 import ui.components.ace.AceAnnotation
+import ui.components.ace.AceMarker
 import ui.components.ace.AceOptions
 
 external interface CodeIssueDisplayProps : RProps {
@@ -51,10 +52,21 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
         }.toTypedArray()
 
         editorRef.asDynamic().current.editor.getSession().setAnnotations(aceAnnotations)
-        println("I'M THE CAT!!!")
     }
 
     override fun RBuilder.render() {
+
+        val aceMarkers = props.validationOutcome.getMessages().map{
+            message ->
+            AceMarker (
+                message.getLine() - 1,
+                0,
+                message.getLine(),
+                0,
+                "editor-focus-error",
+                "line", true
+            )
+        }.toTypedArray()
 
         aceEditor {
             attrs {
@@ -65,10 +77,10 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
                 width = "100%"
                 showPrintMargin = false
                 readOnly = true
-               // annotations = aceAnnotations
+
                 value = props.validationOutcome.getFileInfo().fileContent
                 setOptions = AceOptions(false)
-                //markers = marker
+                markers = aceMarkers
             }
 
         }

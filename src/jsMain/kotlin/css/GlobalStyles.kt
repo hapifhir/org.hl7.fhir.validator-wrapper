@@ -1,21 +1,25 @@
 package css
 
-import kotlinext.js.invoke
 import kotlinx.css.*
-import styled.createGlobalStyle
+import styled.injectGlobal
 
 /**
  * By default, we want to set the global styles for the entire project to 0 px margin and padding.
  */
 object GlobalStyles {
     fun inject() {
-        val styles = CSSBuilder(allowClasses = false).apply {
+        val styles = CSSBuilder(allowClasses = true).apply {
             body {
                 margin(0.px)
                 padding(0.px)
             }
+            ".editor-focus-error" {
+                backgroundColor = rgba(255, 0, 0, 0.4);
+                position = Position.absolute;
+            }
         }
-        createGlobalStyle(styles.toString())
+
+        injectGlobal(styles.toString())
     }
 }
 
