@@ -27,25 +27,25 @@ object GlobalStyles {
             }
             ".${ACE_EDITOR_HIGHLIGHT}" {
                 opacity = 0.15
-                position = Position.absolute;
+                position = Position.absolute
             }
             ".${ACE_EDITOR_SELECTED}" {
                 opacity = 0.5
             }
             ".${ACE_EDITOR_INFO}" {
-                backgroundColor = INFO_BLUE;
+                backgroundColor = INFO_BLUE
             }
             ".${ACE_EDITOR_WARNING}" {
-                backgroundColor = WARNING_YELLOW;
+                backgroundColor = WARNING_YELLOW
             }
             ".${ACE_EDITOR_ERROR}" {
-                backgroundColor = ERROR_ORANGE;
+                backgroundColor = ERROR_ORANGE
             }
             ".${ACE_EDITOR_FATAL}" {
-                backgroundColor = FATAL_PINK;
+                backgroundColor = FATAL_PINK
             }
             ".${ACE_EDITOR_DEFAULT}" {
-                backgroundColor = BORDER_GRAY;
+                backgroundColor = BORDER_GRAY
             }
             ".${ACE_TOOLTIP}" {
                 maxWidth = 500.px

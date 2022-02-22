@@ -46,8 +46,6 @@ fun issueSeverityToAceCSSClasses(issueSeverity: IssueSeverity, isSelected: Boole
 
 class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
 
-
-
     /*
     This is here because the annotations set in the aceEditor props
     will get blown away when the text content changes. So, with every
@@ -97,42 +95,6 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
             }
 
         }
-        /*
-        styledDiv {
-            css {
-                +CodeIssueDisplayStyle.codeIssueDisplayContainer
-            }
-            val fileAsLines = props.validationOutcome.getFileInfo().fileContent.lines()
-            val lineMap = props.validationOutcome.getMessages().groupBy({ it.getLine() }, { it })
-            fileAsLines.forEachIndexed { index, text ->
-                styledSpan {
-                    css {
-                        +TextStyle.codeTextLineNumber
-                        +CodeIssueDisplayStyle.lineStyle
-                        marginRight = 10.px;
-                    }
-                    +"${index + 1}"
-                }
-                if (lineMap.containsKey(index + 1) && (props.messageFilter.filter(lineMap[index + 1]).isNotEmpty())) {
-                    codeIssue {
-                        validationMessages = props.messageFilter.filter(lineMap[index + 1])
-                        lineOfText = text
-                        highlighted =
-                            props.highlightedMessages.intersect(props.messageFilter.filter(lineMap[index + 1]))
-                                .isNotEmpty()
-                        onMouseOver = { highlighted ->
-                            props.onHighlight(highlighted, props.messageFilter.filter(lineMap[index + 1]))
-                        }
-                    }
-                } else {
-                    codeLine {
-                        lineOfText = text
-                    }
-                }
-            }
-        }
-        */
-        
     }
 }
 
