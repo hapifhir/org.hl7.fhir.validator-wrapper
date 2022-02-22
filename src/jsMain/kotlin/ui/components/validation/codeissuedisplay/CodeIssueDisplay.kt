@@ -14,6 +14,7 @@ import styled.styledDiv
 import ui.components.ace.AceAnnotation
 import ui.components.ace.AceMarker
 import ui.components.ace.AceOptions
+import ui.components.ace.setAnnotations
 
 external interface CodeIssueDisplayProps : RProps {
     var validationOutcome: ValidationOutcome
@@ -52,12 +53,12 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
             )
         }.toTypedArray()
 
-        props.editorRef.asDynamic().current.editor.getSession().setAnnotations(aceAnnotations)
+        setAnnotations(props.editorRef, aceAnnotations)
     }
 
     override fun RBuilder.render() {
 
-        val aceMarkers = props.validationOutcome.getMessages().map{
+        val aceMarkers = props.highlightedMessages.map{
             message ->
             AceMarker (
                 message.getLine() - 1,

@@ -111,6 +111,7 @@ object FileValidationResultsStyle : StyleSheet("FileValidationSummaryStyle", isS
         marginLeft = 0.px
         marginTop = 8.px
         width = 100.pct
+        overflowY = Overflow.auto
         media(query = "(min-width: 1200px) and (orientation:landscape)", block = ruleSet {
             marginTop = 0.px
             marginLeft = 8.px
