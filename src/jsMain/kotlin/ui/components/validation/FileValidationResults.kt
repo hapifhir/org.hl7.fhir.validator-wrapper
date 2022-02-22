@@ -30,6 +30,8 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
         state = FileValidationResultsState()
     }
 
+    var editorRefFV = createRef<Nothing>()
+
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -48,6 +50,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
                             highlightedMessages = if (highlighted) list else emptyList()
                         }
                     }
+                    editorRef = editorRefFV
                 }
             }
             styledDiv {
@@ -63,6 +66,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
                             highlightedMessages = if (highlighted) list else emptyList()
                         }
                     }
+                    editorRef = editorRefFV
                 }
             }
         }

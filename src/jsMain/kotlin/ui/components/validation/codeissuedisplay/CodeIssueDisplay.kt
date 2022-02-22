@@ -20,6 +20,7 @@ external interface CodeIssueDisplayProps : RProps {
     var messageFilter: MessageFilter
     var highlightedMessages: List<ValidationMessage>
     var onHighlight: (Boolean, List<ValidationMessage>) -> Unit
+    var editorRef:RReadableRef<Nothing>
 }
 
 fun issueSeverityToAceAnnotation(issueSeverity: IssueSeverity): String {
@@ -34,7 +35,7 @@ fun issueSeverityToAceAnnotation(issueSeverity: IssueSeverity): String {
 
 class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
 
-    var editorRef = createRef<Nothing>()
+
 
     /*
     This is here because the annotations set in the aceEditor props
@@ -51,7 +52,7 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
             )
         }.toTypedArray()
 
-        editorRef.asDynamic().current.editor.getSession().setAnnotations(aceAnnotations)
+        props.editorRef.asDynamic().current.editor.getSession().setAnnotations(aceAnnotations)
     }
 
     override fun RBuilder.render() {
@@ -70,7 +71,7 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
 
         aceEditor {
             attrs {
-                ref = editorRef
+                ref = props.editorRef
                 mode = "json"
                 theme = "github"
                 height = "100%"

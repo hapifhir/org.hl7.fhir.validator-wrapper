@@ -7,6 +7,7 @@ import kotlinx.css.properties.borderBottom
 import kotlinx.css.properties.borderLeft
 import kotlinx.css.properties.borderRight
 import kotlinx.css.properties.borderTop
+import kotlinx.html.js.onMouseDownFunction
 import kotlinx.html.js.onMouseOutFunction
 import kotlinx.html.js.onMouseOverFunction
 import model.IssueSeverity
@@ -22,6 +23,7 @@ external interface IssueEntryProps : RProps {
     var highlighted: Boolean
 
     var onMouseOver: (Boolean) -> Unit
+    var onMouseDown: () -> Unit
 }
 
 /**
@@ -56,6 +58,9 @@ class IssueEntry : RComponent<IssueEntryProps, RState>() {
                 }
                 onMouseOutFunction = {
                     props.onMouseOver(false)
+                }
+                onMouseDownFunction = {
+                    props.onMouseDown()
                 }
             }
             styledSpan {

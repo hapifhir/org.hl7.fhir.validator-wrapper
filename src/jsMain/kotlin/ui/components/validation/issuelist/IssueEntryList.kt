@@ -9,12 +9,15 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledUl
+import ui.components.ace.scrollToLine
+import ui.components.ace.gotoLine
 
 external interface IssueEntryListProps : RProps {
     var validationOutcome: ValidationOutcome
     var messageFilter: MessageFilter
     var highlightedMessages: List<ValidationMessage>?
     var onHighlight: ((Boolean, List<ValidationMessage>) -> Unit)?
+    var editorRef:RReadableRef<Nothing>
 }
 
 /**
@@ -40,6 +43,10 @@ class IssueEntryList : RComponent<IssueEntryListProps, RState>() {
                             highlighted = props.highlightedMessages?.contains(message) ?: false
                             onMouseOver = { highlighted ->
                                 props.onHighlight?.let { it(highlighted, listOf(message)) }
+                            }
+                            onMouseDown = {
+                                scrollToLine(props.editorRef, message.getLine())
+                                gotoLine(props.editorRef, message.getLine())
                             }
                         }
                         if (filesIterator.hasNext()) {
