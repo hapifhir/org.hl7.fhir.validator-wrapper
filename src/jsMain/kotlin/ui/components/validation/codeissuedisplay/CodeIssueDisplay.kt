@@ -1,8 +1,9 @@
 package ui.components.validation.codeissuedisplay
 
-import kotlinext.js.Object
+import css.*
 import ui.components.ace.aceEditor
 import kotlinx.css.*
+
 import model.IssueSeverity
 
 import model.MessageFilter
@@ -10,7 +11,6 @@ import model.ValidationMessage
 import model.ValidationOutcome
 import react.*
 import styled.StyleSheet
-import styled.styledDiv
 import ui.components.ace.AceAnnotation
 import ui.components.ace.AceMarker
 import ui.components.ace.AceOptions
@@ -31,6 +31,16 @@ fun issueSeverityToAceAnnotation(issueSeverity: IssueSeverity): String {
         IssueSeverity.WARNING -> "warning"
         IssueSeverity.INFORMATION -> "info"
         IssueSeverity.NULL -> "info"
+    }
+}
+
+fun issueSeverityToAceCSSClasses(issueSeverity: IssueSeverity, isSelected: Boolean) : String {
+    return if (isSelected) {"$ACE_EDITOR_SELECTED "} else {""} + "$ACE_EDITOR_HIGHLIGHT " + when (issueSeverity) {
+        IssueSeverity.INFORMATION -> ACE_EDITOR_INFO
+        IssueSeverity.WARNING -> ACE_EDITOR_WARNING
+        IssueSeverity.ERROR -> ACE_EDITOR_ERROR
+        IssueSeverity.FATAL -> ACE_EDITOR_FATAL
+        else -> ACE_EDITOR_DEFAULT
     }
 }
 
@@ -58,14 +68,14 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
 
     override fun RBuilder.render() {
 
-        val aceMarkers = props.highlightedMessages.map{
+        val aceMarkers = props.validationOutcome.getMessages().map{
             message ->
             AceMarker (
                 message.getLine() - 1,
                 0,
                 message.getLine(),
                 0,
-                "editor-focus-error",
+                issueSeverityToAceCSSClasses(message.getLevel(), props.highlightedMessages?.contains(message)),
                 "line", true
             )
         }.toTypedArray()
