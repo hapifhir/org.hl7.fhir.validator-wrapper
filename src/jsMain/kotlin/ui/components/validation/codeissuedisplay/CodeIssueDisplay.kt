@@ -76,7 +76,8 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
                 message.getLine(),
                 0,
                 issueSeverityToAceCSSClasses(message.getLevel(), props.highlightedMessages?.contains(message)),
-                "line", true
+                "line",
+                true
             )
         }.toTypedArray()
 

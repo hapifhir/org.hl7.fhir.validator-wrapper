@@ -26,7 +26,7 @@ object GlobalStyles {
                 padding(0.px)
             }
             ".${ACE_EDITOR_HIGHLIGHT}" {
-                opacity = 0.25
+                opacity = 0.15
                 position = Position.absolute;
             }
             ".${ACE_EDITOR_SELECTED}" {
