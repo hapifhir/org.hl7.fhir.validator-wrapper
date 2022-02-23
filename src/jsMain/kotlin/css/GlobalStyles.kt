@@ -53,8 +53,6 @@ object GlobalStyles {
                 whiteSpace = WhiteSpace.preWrap
             }
         }
-        println("Style")
-        println(styles.toString())
         injectGlobal(styles.toString())
     }
 }
