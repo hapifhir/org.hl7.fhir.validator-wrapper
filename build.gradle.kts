@@ -151,6 +151,9 @@ kotlin {
                 implementation(npm("inline-style-prefixer", "${property("npm_inline_styled_prefixer_version")}"))
 
                 implementation(npm("node-polyglot", "2.4.0"))
+
+                implementation(npm("react-ace", "9.5.0"))
+                implementation(npm("ace-builds","^1.4.13" ))
             }
         }
         val jsTest by getting {

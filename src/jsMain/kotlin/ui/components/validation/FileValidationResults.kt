@@ -30,6 +30,8 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
         state = FileValidationResultsState()
     }
 
+    var editorRefFV = createRef<Nothing>()
+
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -48,6 +50,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
                             highlightedMessages = if (highlighted) list else emptyList()
                         }
                     }
+                    editorRef = editorRefFV
                 }
             }
             styledDiv {
@@ -63,6 +66,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
                             highlightedMessages = if (highlighted) list else emptyList()
                         }
                     }
+                    editorRef = editorRefFV
                 }
             }
         }
@@ -107,6 +111,7 @@ object FileValidationResultsStyle : StyleSheet("FileValidationSummaryStyle", isS
         marginLeft = 0.px
         marginTop = 8.px
         width = 100.pct
+        overflowY = Overflow.auto
         media(query = "(min-width: 1200px) and (orientation:landscape)", block = ruleSet {
             marginTop = 0.px
             marginLeft = 8.px
