@@ -181,8 +181,8 @@ task("printVersion") {
 tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = "ServerKt"
+        exclude("META-INF/*.SF","META-INF/*.DSA", "META-INF/*.RSA")
     }
-
     // To add all of the dependencies otherwise a "NoClassDefFoundError" error
     from(sourceSets.main.get().output)
 
