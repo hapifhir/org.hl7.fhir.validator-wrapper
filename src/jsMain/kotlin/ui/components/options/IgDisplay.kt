@@ -8,16 +8,15 @@ import kotlinx.html.js.onClickFunction
 import kotlinx.html.title
 import model.PackageInfo
 import react.*
-import react.dom.title
 import styled.*
 
-external interface IgUrlDisplayProps : RProps {
+external interface IgDisplayProps : RProps {
     var fhirVersion: String
     var packageInfo: PackageInfo
     var onDelete: () -> Unit
 }
 
-class IgUrlDisplay : RComponent<IgUrlDisplayProps, RState>() {
+class IgDisplay : RComponent<IgDisplayProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -42,7 +41,7 @@ class IgUrlDisplay : RComponent<IgUrlDisplayProps, RState>() {
                     +TextStyle.dropDownLabel
                     +IgUrlDisplayStyle.igName
                 }
-                props.packageInfo.url?.let {
+                props.packageInfo.igLookupString()?.let {
                     +it
                 }
             }
@@ -64,8 +63,8 @@ class IgUrlDisplay : RComponent<IgUrlDisplayProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.igUrlDisplay(handler: IgUrlDisplayProps.() -> Unit): ReactElement {
-    return child(IgUrlDisplay::class) {
+fun RBuilder.igDisplay(handler: IgDisplayProps.() -> Unit): ReactElement {
+    return child(IgDisplay::class) {
         this.attrs(handler)
     }
 }

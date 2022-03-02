@@ -12,8 +12,11 @@ class IgControllerImpl : IgController, KoinComponent {
     override suspend fun listIgs(): MutableList<PackageInfo> {
         // TODO blocking call fix
         val packageList = packageClient.listFromRegistry(null, null, null)
-        return packageList?.map {
+
+        val packageInfoList = packageList?.map {
             PackageInfo(id = it.id, version = it.version, fhirVersion = it.fhirVersion, url = it.url)
         }?.toMutableList() ?: mutableListOf()
+
+      return packageInfoList
     }
 }

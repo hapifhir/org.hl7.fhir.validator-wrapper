@@ -35,11 +35,11 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
             dropDownMultiChoice {
                 choices = props.igList
                     .filter{ it.first.fhirVersionMatches(props.fhirVersion) }
-                    .map{Pair(it.first.url ?: "", it.second)}
+                    .map{Pair(it.first.igLookupString() ?: "", it.second)}
                     .toMutableList()
                 buttonLabel = "Select IGs"
-                onSelected = { url ->
-                    props.onUpdateIg(props.igList.first { it.first.url == url }.first, true)
+                onSelected = { igLookupString ->
+                    props.onUpdateIg(props.igList.first { it.first.igLookupString() == igLookupString }.first, true)
                 }
                 multichoice = true
                 searchEnabled = true
@@ -53,7 +53,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     }
                 }
                 props.igList.filter { it.second }.forEach { igState ->
-                    igUrlDisplay {
+                    igDisplay {
                         fhirVersion = props.fhirVersion
                         packageInfo = igState.first
                         onDelete = {
