@@ -31,6 +31,7 @@ class IgUrlDisplay : RComponent<IgUrlDisplayProps, RState>() {
                             "  ${FATAL_PINK.changeAlpha(0.2)} 20px\n" +
                             ");"
                 }
+                borderColor = HL7_RED
             }
             if (!props.packageInfo.fhirVersionMatches(props.fhirVersion)) {
                 attrs {
@@ -77,7 +78,7 @@ object IgUrlDisplayStyle : StyleSheet("IgUrlDisplayStyle", isStatic = true) {
     val mainDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.row
-        border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        border(width = 1.px, style = BorderStyle.solid, color = HL7_RED)
         margin(right = 16.px, top = 4.px, bottom = 4.px)
         padding(horizontal = 16.px, vertical = 8.px)
         backgroundColor = WHITE

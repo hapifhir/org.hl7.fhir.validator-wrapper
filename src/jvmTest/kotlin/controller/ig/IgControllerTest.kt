@@ -45,7 +45,7 @@ class IgControllerTest : BaseControllerTest() {
         coEvery { igPackageClient.listFromRegistry(any(), any(), any()) } returns igPackageInfoList
 
         runBlocking {
-            val response = igController.listIgs()
+            val response = igController.listIgsFromRegistry()
             (resultingPackageInfoList sameContentWith response)?.let { assertTrue(it) } ?: fail("null packageinfo")
         }
     }
@@ -56,7 +56,7 @@ class IgControllerTest : BaseControllerTest() {
         coEvery { igPackageClient.listFromRegistry(any(), any(), any()) } returns nullIgPackageInfoList
 
         runBlocking {
-            val response = igController.listIgs()
+            val response = igController.listIgsFromRegistry()
             assertEquals(mutableListOf(), response)
         }
     }
@@ -67,7 +67,7 @@ class IgControllerTest : BaseControllerTest() {
         coEvery { igPackageClient.listFromRegistry(any(), any(), any()) } returns emptyIgPackageInfoList
 
         runBlocking {
-            val response = igController.listIgs()
+            val response = igController.listIgsFromRegistry()
             assertEquals(mutableListOf(), response)
         }
     }

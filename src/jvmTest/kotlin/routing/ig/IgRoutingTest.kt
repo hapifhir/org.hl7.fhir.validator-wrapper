@@ -47,7 +47,7 @@ class IgRoutingTest : BaseRoutingTest() {
     @Test
     fun `when requesting requesting list of valid igs, return ig response body`() = withBaseTestApplication {
         val igResponse = givenAListOfValidIgUrls()
-        coEvery { igController.listIgs() } returns igResponse
+        coEvery { igController.listIgsFromRegistry() } returns igResponse
 
         val call = handleRequest(HttpMethod.Get, IG_ENDPOINT) {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
@@ -63,7 +63,7 @@ class IgRoutingTest : BaseRoutingTest() {
     @Test
     fun `when service provides a list containing 0 items, an internal server error code is returned`() = withBaseTestApplication {
         val igResponse = givenAnEmptyListOfIgUrls()
-        coEvery { igController.listIgs() } returns igResponse
+        coEvery { igController.listIgsFromRegistry() } returns igResponse
 
         val call = handleRequest(HttpMethod.Get, IG_ENDPOINT) {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())

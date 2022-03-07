@@ -1,13 +1,20 @@
 package ui.components.options
 
+import css.const.HL7_RED
+import css.const.WHITE
 import css.text.TextStyle
+import kotlinx.browser.document
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.css.*
 import model.PackageInfo
+import org.w3c.dom.HTMLInputElement
 import react.*
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledSpan
+import ui.components.buttons.imageButton
 import ui.components.options.menu.dropDownMultiChoice
 
 external interface IgSelectorProps : RProps {
@@ -30,20 +37,59 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     +TextStyle.optionsDetailText
                     +IgSelectorStyle.title
                 }
-                +"You can validate against one or more published implementation guides. Select from the dropdown menu below."
-            }
-            dropDownMultiChoice {
-                choices = props.igList
-                    .filter{ it.first.fhirVersionMatches(props.fhirVersion) }
-                    .map{Pair(it.first.url ?: "", it.second)}
-                    .toMutableList()
-                buttonLabel = "Select IGs"
-                onSelected = { url ->
-                    props.onUpdateIg(props.igList.first { it.first.url == url }.first, true)
+                +"You can validate against one or more published implementation guides. Select IGs using the dropdown menus below and click the "
+                styledSpan {
+                    css {
+                        fontStyle = FontStyle.italic
+                    }
+                    + "Add"
                 }
-                multichoice = true
-                searchEnabled = true
-                searchHint = "Search igs..."
+                +" button to include them in your validation."
+            }
+            styledSpan {
+
+                dropDownMultiChoice {
+                    choices = props.igList
+                        .filter { it.first.fhirVersionMatches(props.fhirVersion) }
+                        .map { Pair(it.first.url ?: "", it.second) }
+                        .toMutableList()
+                    buttonLabel = "Select IG"
+                    onSelected = { url ->
+                        props.onUpdateIg(props.igList.first { it.first.url == url }.first, true)
+                    }
+                    multichoice = false
+                    searchEnabled = true
+                    searchHint = "Search IGs..."
+                }
+                styledSpan {
+                    css {
+                        margin(left = 8.px)
+                    }
+                    dropDownMultiChoice {
+                        choices = mutableListOf(Pair("1", false), Pair("4.1.0", true), Pair("3", false))
+                        buttonLabel = "Select version"
+                        onSelected = { url ->
+
+                        }
+                        multichoice = false
+                        searchEnabled = false
+                        searchHint = "Select version"
+                    }
+                }
+                styledSpan {
+                    css {
+                        margin(left = 8.px)
+                    }
+                    imageButton {
+                        backgroundColor = WHITE
+                        borderColor = HL7_RED
+                        image = "images/add_circle_black_24dp.svg"
+                        label = "Add"
+                        onSelected = {
+                            println("Button go click")
+                        }
+                    }
+                }
             }
             styledDiv {
                 css {
@@ -56,6 +102,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     igUrlDisplay {
                         fhirVersion = props.fhirVersion
                         packageInfo = igState.first
+
                         onDelete = {
                             props.onUpdateIg(igState.first, false)
                         }
