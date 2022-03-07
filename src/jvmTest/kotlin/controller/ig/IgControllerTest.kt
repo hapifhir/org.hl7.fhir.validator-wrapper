@@ -42,7 +42,10 @@ class IgControllerTest : BaseControllerTest() {
     fun `test happy path ig controller returns list of valid ig urls`() {
         val igPackageInfoList = givenAReturnedListOfValidPackageInfo()
         val resultingPackageInfoList = givenAProcessedListOfValidPackageInfo()
+
         coEvery { igPackageClient.listFromRegistry(any(), any(), any()) } returns igPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), any(), any()) } returns igPackageInfoList
+
 
         runBlocking {
             val response = igController.listIgs()

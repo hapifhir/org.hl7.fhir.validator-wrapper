@@ -177,9 +177,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                 igList[igList.indexOf(pair)] = pair.copy(second = selected)
                             }
                         }
-                        igPackageInfo.url?.let { url ->
-                            props.update(if (selected) props.cliContext.addIg(url) else props.cliContext.removeIg(url))
-                        }
+
+                        props.update(if (selected) props.cliContext.addIg(igPackageInfo.igLookupString()) else props.cliContext.removeIg(igPackageInfo.igLookupString()))
                     }
                 }
             }

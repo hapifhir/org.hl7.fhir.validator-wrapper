@@ -29,4 +29,8 @@ data class PackageInfo(
             fhirVersion
         }
     }
+
+    fun igLookupString() : String {
+        return "${this.id}#${this.version}"
+    }
 }
