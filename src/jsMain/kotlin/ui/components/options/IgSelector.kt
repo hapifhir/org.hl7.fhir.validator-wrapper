@@ -47,20 +47,20 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                 +" button to include them in your validation."
             }
             styledSpan {
-
                 dropDownMultiChoice {
                     choices = props.igList
                         .filter { it.first.fhirVersionMatches(props.fhirVersion) }
-                        .map { Pair(it.first.url ?: "", it.second) }
+                        .map { Pair(it.first.igLookupString() ?: "", it.second) }
                         .toMutableList()
-                    buttonLabel = "Select IG"
-                    onSelected = { url ->
-                        props.onUpdateIg(props.igList.first { it.first.url == url }.first, true)
+                    buttonLabel = "Select IGs"
+                    onSelected = { igLookupString ->
+                        props.onUpdateIg(props.igList.first { it.first.igLookupString() == igLookupString }.first, true)
+                        multichoice = false
+                        searchEnabled = true
+                        searchHint = "Search IGs..."
                     }
-                    multichoice = false
-                    searchEnabled = true
-                    searchHint = "Search IGs..."
                 }
+
                 styledSpan {
                     css {
                         margin(left = 8.px)
@@ -99,7 +99,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     }
                 }
                 props.igList.filter { it.second }.forEach { igState ->
-                    igUrlDisplay {
+                    igDisplay {
                         fhirVersion = props.fhirVersion
                         packageInfo = igState.first
 
