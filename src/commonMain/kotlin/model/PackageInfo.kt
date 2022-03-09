@@ -22,6 +22,11 @@ data class PackageInfo(
     }
 
     fun extractMajorMinor(fhirVersion: String): String {
+        when (fhirVersion) {
+            "DSTU2" -> return "1.0"
+            "STU3" -> return "3.0"
+            "R4" ->return "4.0"
+        }
         val versions = fhirVersion.split('.')
         return if (versions.size >= 2) {
             "${versions[0]}.${versions[1]}"

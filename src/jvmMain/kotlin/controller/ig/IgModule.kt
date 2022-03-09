@@ -1,6 +1,7 @@
 package controller.ig
 
 import constants.IG_ENDPOINT
+import constants.IG_VERSIONS_ENDPOINT
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
@@ -25,16 +26,26 @@ fun Route.igModule() {
 
         val (igsFromRegistry, registryTime )= executeAndMeasureTimeMillis { igController.listIgsFromRegistry() }
 
-        println("${registryTime} ms for package registry")
-
         val (igsFromSimplifier, simplifierTime) = executeAndMeasureTimeMillis { igController.listIgsFromSimplifier() }
-
-        println("${simplifierTime} ms for simplifier")
 
         val packageInfo  = (igsFromRegistry + igsFromSimplifier).toMutableList()
 
         println("Registry IGs: ${igsFromRegistry.size} Simplifier IGs: ${igsFromSimplifier.size} Total:${packageInfo.size}")
 
+        if (packageInfo.size == 0) {
+            logger.debug(NO_IGS_RETURNED)
+            call.respond(HttpStatusCode.InternalServerError, NO_IGS_RETURNED)
+        } else {
+            val response = IGResponse(packageInfo = packageInfo)
+            call.respond(HttpStatusCode.OK, response)
+        }
+    }
+
+    get("${IG_VERSIONS_ENDPOINT}/{igPackageName}") {
+        val logger = call.application.environment.log
+
+        val igPackageName = call.parameters["igPackageName"]
+        val packageInfo = igController.listIgVersionsFromSimplifier(igPackageName)
         if (packageInfo.size == 0) {
             logger.debug(NO_IGS_RETURNED)
             call.respond(HttpStatusCode.InternalServerError, NO_IGS_RETURNED)

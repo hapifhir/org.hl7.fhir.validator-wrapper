@@ -42,7 +42,7 @@ class IgDisplay : RComponent<IgDisplayProps, RState>() {
                     +TextStyle.dropDownLabel
                     +IgUrlDisplayStyle.igName
                 }
-                PackageInfo.igLookupString(props.packageInfo)
+                +PackageInfo.igLookupString(props.packageInfo)
             }
             styledImg {
                 css {

@@ -31,7 +31,8 @@ external interface OptionsPageProps : RProps {
 
 class OptionsPageState : RState {
     var igList = mutableListOf<PackageInfo>()
-    var selectedIgList = mutableListOf<PackageInfo>()
+    var igPackageNameList = mutableListOf<Pair<String, Boolean>>()
+    var selectedIgSet = mutableSetOf<PackageInfo>()
     var fhirVersionsList = mutableListOf<Pair<String, Boolean>>()
     var snomedVersionList = mutableListOf<Pair<String, Boolean>>()
 }
@@ -45,6 +46,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
             val versionsResponse = sendVersionsRequest()
             setState {
                 igList = igResponse.packageInfo
+                igPackageNameList = igResponse.packageInfo.map { Pair(it.id!!, false)}.toMutableList()
                 fhirVersionsList = versionsResponse.versions
                     .map { Pair(it, props.cliContext.getTargetVer() == it) }
                     .toMutableList()
@@ -170,19 +172,24 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 igSelector {
                     fhirVersion = props.cliContext.getTargetVer()
                     igList = state.igList
+                    igPackageNameList = state.igPackageNameList
+                    onUpdatePackageName = {igPackageName, selected ->
+                        setState {
+                            igPackageNameList = state.igPackageNameList.map{ Pair(it.first, it.first == igPackageName)}.toMutableList()
+                        }
+                    }
+                    selectedIgSet = state.selectedIgSet
                     onUpdateIg = { igPackageInfo, selected ->
                         if (selected) {
                             setState {
-                                selectedIgList = selectedIgList.plus(igPackageInfo).toMutableList()
+                                selectedIgSet = selectedIgSet.plus(igPackageInfo).toMutableSet()
                             }
                         } else {
                             setState {
-                                selectedIgList = selectedIgList.minus(igPackageInfo).toMutableList()
+                                selectedIgSet = selectedIgSet.minus(igPackageInfo).toMutableSet()
                             }
                         }
-
                         props.update(if (selected) props.cliContext.addIg(PackageInfo.igLookupString(igPackageInfo)) else props.cliContext.removeIg(PackageInfo.igLookupString(igPackageInfo)))
-
                     }
                 }
             }

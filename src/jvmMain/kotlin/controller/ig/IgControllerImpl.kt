@@ -35,9 +35,16 @@ class IgControllerImpl : IgController, KoinComponent {
                 PackageInfo(id = it.id, version = null, fhirVersion = null, url = null)
             }?.toMutableList()?.forEach({
                packageInfoList += it
-                println("${it.id}")
             })
         })
+        return packageInfoList
+    }
+
+    override suspend fun listIgVersionsFromSimplifier(igPackageName : String?) : MutableList<PackageInfo> {
+        val packageList = packageClient.getVersions(igPackageName)
+        val packageInfoList = packageList?.map {
+            PackageInfo(id = it.id, version = it.version, fhirVersion = it.fhirVersion, url = it.url)
+        }?.toMutableList() ?: mutableListOf()
         return packageInfoList
     }
 }
