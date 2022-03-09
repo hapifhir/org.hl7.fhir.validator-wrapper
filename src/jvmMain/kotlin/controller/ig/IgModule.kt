@@ -30,8 +30,6 @@ fun Route.igModule() {
 
         val packageInfo  = (igsFromRegistry + igsFromSimplifier).toMutableList()
 
-        println("Registry IGs: ${igsFromRegistry.size} Simplifier IGs: ${igsFromSimplifier.size} Total:${packageInfo.size}")
-
         if (packageInfo.size == 0) {
             logger.debug(NO_IGS_RETURNED)
             call.respond(HttpStatusCode.InternalServerError, NO_IGS_RETURNED)

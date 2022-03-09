@@ -2,6 +2,7 @@ package ui.components.options
 
 import css.const.HL7_RED
 import css.const.WHITE
+import css.const.SWITCH_GRAY
 import css.text.TextStyle
 
 import kotlinx.css.*
@@ -38,10 +39,6 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
 
     init {
         state = IgSelectorState()
-    }
-
-    private fun getIGVersionsFromIgList(igPackageName: String) {
-
     }
 
     private fun setIGVersions(igPackageName : String) {
@@ -95,16 +92,17 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     searchEnabled = true
                     searchHint = "Search IGs..."
                 }
-
+                val versions = state.packageVersions.filter { it.first.fhirVersionMatches(props.fhirVersion)}
+                    .map{Pair(it.first.version ?: "", it.second)}
+                    .toMutableList()
+                val versionSelected = versions.filter { it.second }.isNotEmpty()
                 styledSpan {
                     css {
                         margin(left = 8.px)
                     }
                     dropDownMultiChoice {
-                        choices = state.packageVersions.filter { it.first.fhirVersionMatches(props.fhirVersion)}
-                            .map{Pair(it.first.version ?: "", it.second)}
-                            .toMutableList()
-                        buttonLabel = "Select version"
+                        choices = versions
+                        buttonLabel = if (versions.size > 0) "Select IG version" else "No compatible versions"
                         onSelected = { igVersion ->
                             setState {
                                 packageVersions = state.packageVersions.map{Pair(it.first, it.first.version == igVersion)}.toMutableList()
@@ -112,7 +110,6 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                         }
                         multichoice = false
                         searchEnabled = false
-                        searchHint = "Select version"
                     }
                 }
                 styledSpan {
@@ -121,10 +118,11 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     }
                     imageButton {
                         backgroundColor = WHITE
-                        borderColor = HL7_RED
+                        borderColor = if (versionSelected) {HL7_RED} else { SWITCH_GRAY }
                         image = "images/add_circle_black_24dp.svg"
                         label = "Add"
                         onSelected = {
+                            if (versionSelected)
                             props.onUpdateIg(state.packageVersions.first{it.second}.first, true)
                         }
                     }
