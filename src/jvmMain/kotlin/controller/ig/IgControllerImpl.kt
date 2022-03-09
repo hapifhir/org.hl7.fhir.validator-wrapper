@@ -32,20 +32,10 @@ class IgControllerImpl : IgController, KoinComponent {
         SIMPLIFIER_VERSIONS.forEach({
             val packageList = packageClient.search(null, null, it, false)
             packageList?.map {
-                PackageInfo(id = it.id, version = it.version, fhirVersion = it.fhirVersion, url = it.url)
+                PackageInfo(id = it.id, version = null, fhirVersion = null, url = null)
             }?.toMutableList()?.forEach({
-                //println("Package: ${it.id} FhirVersion: ${it.fhirVersion}")
-                val packageList3 = packageClient.getVersions(it.id)
-                packageList3?.map {
-                    PackageInfo(id = it.id, version = it.version, fhirVersion = it.fhirVersion, url = it.url)
-                }?.toMutableList()?.forEach({
-                    if (it.url != null) {    //
-                        // println("  Version:${it.version} Url: ${it.url}")
-                        val semVersion = "4.0.1"//FhirVersion.fromCode(it.fhirVersion)
-                        //println("${it.id} version code:${it.fhirVersion} version semVer:${semVersion}")
-                        packageInfoList += PackageInfo(it.id, it.version, semVersion, it.url)
-                    }
-                })
+               packageInfoList += it
+                println("${it.id}")
             })
         })
         return packageInfoList

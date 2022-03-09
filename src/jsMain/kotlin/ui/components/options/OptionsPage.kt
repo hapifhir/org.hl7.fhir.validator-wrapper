@@ -30,7 +30,8 @@ external interface OptionsPageProps : RProps {
 }
 
 class OptionsPageState : RState {
-    var igList = mutableListOf<Pair<PackageInfo, Boolean>>()
+    var igList = mutableListOf<PackageInfo>()
+    var selectedIgList = mutableListOf<PackageInfo>()
     var fhirVersionsList = mutableListOf<Pair<String, Boolean>>()
     var snomedVersionList = mutableListOf<Pair<String, Boolean>>()
 }
@@ -44,8 +45,6 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
             val versionsResponse = sendVersionsRequest()
             setState {
                 igList = igResponse.packageInfo
-                    .map { Pair(it, props.cliContext.getIgs().contains(it.url)) }
-                    .toMutableList()
                 fhirVersionsList = versionsResponse.versions
                     .map { Pair(it, props.cliContext.getTargetVer() == it) }
                     .toMutableList()
@@ -172,13 +171,18 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     fhirVersion = props.cliContext.getTargetVer()
                     igList = state.igList
                     onUpdateIg = { igPackageInfo, selected ->
-                        state.igList.find { pair -> pair.first == igPackageInfo }?.let { pair ->
+                        if (selected) {
                             setState {
-                                igList[igList.indexOf(pair)] = pair.copy(second = selected)
+                                selectedIgList = selectedIgList.plus(igPackageInfo).toMutableList()
+                            }
+                        } else {
+                            setState {
+                                selectedIgList = selectedIgList.minus(igPackageInfo).toMutableList()
                             }
                         }
 
-                        props.update(if (selected) props.cliContext.addIg(igPackageInfo.igLookupString()) else props.cliContext.removeIg(igPackageInfo.igLookupString()))
+                        props.update(if (selected) props.cliContext.addIg(PackageInfo.igLookupString(igPackageInfo)) else props.cliContext.removeIg(PackageInfo.igLookupString(igPackageInfo)))
+
                     }
                 }
             }

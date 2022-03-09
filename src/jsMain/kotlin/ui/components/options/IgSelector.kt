@@ -1,5 +1,7 @@
 package ui.components.options
 
+import api.sendIGsRequest
+import api.sendVersionsRequest
 import css.const.HL7_RED
 import css.const.WHITE
 import css.text.TextStyle
@@ -17,17 +19,45 @@ import styled.styledSpan
 import ui.components.buttons.imageButton
 import ui.components.options.menu.dropDownMultiChoice
 
+import mainScope
+
 external interface IgSelectorProps : RProps {
     var fhirVersion: String
     var onUpdateIg: (PackageInfo, Boolean) -> Unit
-    var igList: MutableList<Pair<PackageInfo, Boolean>>
+    var igList: MutableList<PackageInfo>
 }
 
-class IgSelectorState : RState
+class IgSelectorState : RState {
+    var packageNames = mutableListOf<Pair<String, Boolean>>()
+    var packageVersions = mutableListOf<Pair<String, Boolean>>()
+}
 
-class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
+class IgSelector (props: IgSelectorProps ): RComponent<IgSelectorProps, IgSelectorState>() {
+
+    /*
+    companion object : RStatics<IgSelectorProps, IgSelectorState, IgSelector, Nothing>(IgSelector::class) {
+        init {
+            getDerivedStateFromProps = { props, state ->
+                state
+            }
+        }
+    }
+*/
+   init {
+       state = IgSelectorState()
+   }
+
+    override fun componentWillReceiveProps (nextProps: IgSelectorProps) {
+        println("componentWillReceiveProps ${nextProps.igList.size}")
+            setState {
+                packageNames = nextProps.igList.map {  Pair(it.id!!, false) }.toMutableList()
+                //packageNames = mutableListOf<Pair<String, Boolean>>(Pair("nah", false))
+                packageVersions = mutableListOf<Pair<String, Boolean>>()
+            }
+    }
 
     override fun RBuilder.render() {
+        println("render ${props.igList.size}")
         styledDiv {
             css {
                 +IgSelectorStyle.mainDiv
@@ -48,17 +78,14 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
             }
             styledSpan {
                 dropDownMultiChoice {
-                    choices = props.igList
-                        .filter { it.first.fhirVersionMatches(props.fhirVersion) }
-                        .map { Pair(it.first.igLookupString() ?: "", it.second) }
-                        .toMutableList()
+                    choices = state.packageNames
                     buttonLabel = "Select IGs"
                     onSelected = { igLookupString ->
-                        props.onUpdateIg(props.igList.first { it.first.igLookupString() == igLookupString }.first, true)
-                        multichoice = false
-                        searchEnabled = true
-                        searchHint = "Search IGs..."
+
                     }
+                    multichoice = false
+                    searchEnabled = true
+                    searchHint = "Search IGs..."
                 }
 
                 styledSpan {
@@ -86,7 +113,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                         image = "images/add_circle_black_24dp.svg"
                         label = "Add"
                         onSelected = {
-                            println("Button go click")
+                            props.onUpdateIg(PackageInfo("dummy.ig", "1.2.3", "4.0.1", "https://dummy.url"), true)
                         }
                     }
                 }
@@ -94,24 +121,26 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
             styledDiv {
                 css {
                     +IgSelectorStyle.selectedIgsDiv
-                    if (props.igList.any { it.second }) {
+                    if (state.packageNames.any { it.second }) {
                         padding(top = 8.px)
                     }
                 }
-                props.igList.filter { it.second }.forEach { igState ->
+                state.packageNames.filter { it.second }.forEach { igState ->
                     igDisplay {
                         fhirVersion = props.fhirVersion
-                        packageInfo = igState.first
+                        packageInfo = PackageInfo(igState.first, null, null, null)
 
                         onDelete = {
-                            props.onUpdateIg(igState.first, false)
+                            props.onUpdateIg(PackageInfo(igState.first, null, null, null), false)
                         }
                     }
                 }
             }
         }
     }
+
 }
+
 
 /**
  * React Component Builder

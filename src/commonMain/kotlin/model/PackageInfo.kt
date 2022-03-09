@@ -30,7 +30,13 @@ data class PackageInfo(
         }
     }
 
-    fun igLookupString() : String {
-        return "${this.id}#${this.version}"
+    companion object {
+        fun igLookupString( packageName : String, packageVersion: String) : String {
+            return "${packageName}#${packageVersion}"
+        }
+
+        fun igLookupString(packageInfo: PackageInfo) : String {
+            return igLookupString(packageInfo.id!!, packageInfo.version!!)
+        }
     }
 }
