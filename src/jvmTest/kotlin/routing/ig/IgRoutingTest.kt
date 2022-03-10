@@ -1,6 +1,7 @@
 package routing.ig
 
 import constants.IG_ENDPOINT
+import constants.IG_VERSIONS_ENDPOINT
 import constants.VALIDATION_ENDPOINT
 import controller.ig.IgController
 import controller.ig.NO_IGS_RETURNED
@@ -72,6 +73,39 @@ class IgRoutingTest : BaseRoutingTest() {
         coEvery { igController.listIgsFromSimplifier() } returns igResponseB
 
         val call = handleRequest(HttpMethod.Get, IG_ENDPOINT) {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+        }
+
+        with(call) {
+            assertEquals(HttpStatusCode.InternalServerError, response.status())
+            assertEquals(NO_IGS_RETURNED, response.content)
+        }
+    }
+
+    @Test
+    fun `when requesting requesting list of valid igs for ig versions, return ig response body`() = withBaseTestApplication {
+        val igResponseA = givenAListOfValidIgUrlsA()
+
+        coEvery { igController.listIgVersionsFromSimplifier(eq("dummy.package")) } returns igResponseA
+
+        val call = handleRequest(HttpMethod.Get, "${IG_VERSIONS_ENDPOINT}/dummy.package") {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+        }
+
+        with(call) {
+            assertEquals(HttpStatusCode.OK, response.status())
+            val responseBody = response.parseBody(IGResponse::class.java)
+            Assertions.assertIterableEquals(igResponseA, responseBody.packageInfo)
+        }
+    }
+
+    @Test
+    fun `when service provides a list containing 0 items for ig versions, an internal server error code is returned`() = withBaseTestApplication {
+        val igResponseA = givenAnEmptyListOfIgUrls()
+
+        coEvery { igController.listIgVersionsFromSimplifier(eq("dummy.package")) } returns igResponseA
+
+        val call = handleRequest(HttpMethod.Get, "${IG_VERSIONS_ENDPOINT}/dummy.package") {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
         }
 

@@ -128,6 +128,43 @@ class IgControllerTest : BaseControllerTest() {
         }
     }
 
+    @Test
+    fun `test happy path ig controller returns list of valid ig versions from simplifier`() {
+        val igPackageInfoList = givenAReturnedListOfValidPackageInfoA()
+        val resultingPackageInfoList = givenAProcessedListOfValidPackageInfoA()
+
+        coEvery { igPackageClient.getVersions(eq("dummy.package")) } returns igPackageInfoList
+
+        runBlocking {
+            val response = igController.listIgVersionsFromSimplifier("dummy.package")
+            (resultingPackageInfoList sameContentWith response)?.let { assertTrue(it) } ?: fail("null packageinfo")
+        }
+    }
+
+    @Test
+    fun `test ig controller returns empty version list on null return from simplifier`() {
+        val nullIgPackageInfoList = givenANullReturnedListOfPackageInfo()
+
+        coEvery { igPackageClient.getVersions(eq("dummy.package")) } returns nullIgPackageInfoList
+
+        runBlocking {
+            val response = igController.listIgVersionsFromSimplifier("dummy.package")
+            assertEquals(mutableListOf(), response)
+        }
+    }
+
+    @Test
+    fun `test ig controller returns empty version list on empty list return from simplifier`() {
+        val emptyIgPackageInfoList = givenAnEmptyReturnedListOfPackageInfo()
+
+        coEvery { igPackageClient.getVersions(eq("dummy.package")) } returns emptyIgPackageInfoList
+
+        runBlocking {
+            val response = igController.listIgVersionsFromSimplifier("dummy.package")
+            assertEquals(mutableListOf(), response)
+        }
+    }
+
     infix fun <T> Collection<T>.sameContentWith(collection: Collection<T>?)
             = collection?.let { this.size == it.size && this.containsAll(it) }
 }
