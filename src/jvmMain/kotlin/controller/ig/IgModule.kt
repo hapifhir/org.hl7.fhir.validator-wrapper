@@ -11,11 +11,8 @@ import org.koin.ktor.ext.inject
 
 const val NO_IGS_RETURNED = "No IGs returned from igController. List size '0'."
 
-inline fun <R> executeAndMeasureTimeMillis(block: () -> R): Pair<R, Long> {
-    val start = System.currentTimeMillis()
-    val result = block()
-    return result to (System.currentTimeMillis() - start)
-}
+
+
 
 fun Route.igModule() {
 
@@ -24,9 +21,9 @@ fun Route.igModule() {
     get(IG_ENDPOINT) {
         val logger = call.application.environment.log
 
-        val (igsFromRegistry, registryTime )= executeAndMeasureTimeMillis { igController.listIgsFromRegistry() }
+        val igsFromRegistry =  igController.listIgsFromRegistry()
 
-        val (igsFromSimplifier, simplifierTime) = executeAndMeasureTimeMillis { igController.listIgsFromSimplifier() }
+        val igsFromSimplifier = igController.listIgsFromSimplifier()
 
         val packageInfo  = (igsFromRegistry + igsFromSimplifier).toMutableList()
 

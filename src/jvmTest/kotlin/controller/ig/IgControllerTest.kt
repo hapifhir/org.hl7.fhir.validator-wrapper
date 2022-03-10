@@ -46,7 +46,6 @@ class IgControllerTest : BaseControllerTest() {
         coEvery { igPackageClient.listFromRegistry(any(), any(), any()) } returns igPackageInfoList
         coEvery { igPackageClient.search(any(), any(), any(), any()) } returns igPackageInfoList
 
-
         runBlocking {
             val response = igController.listIgsFromRegistry()
             (resultingPackageInfoList sameContentWith response)?.let { assertTrue(it) } ?: fail("null packageinfo")
