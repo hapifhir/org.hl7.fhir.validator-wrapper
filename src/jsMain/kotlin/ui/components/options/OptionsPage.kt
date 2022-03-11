@@ -164,6 +164,33 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
             }
             heading {
+                text = "FHIR version"
+            }
+            styledDiv {
+                css {
+                    +OptionsPageStyle.optionsSubSection
+                }
+                dropdownWithExplanation {
+                    defaultLabel = "Version"
+                    explanation =
+                        "The validator checks the resource against the base specification. By default, this is specification version 4.0.1."
+                    itemList = state.fhirVersionsList
+                    onItemSelected = { version ->
+                        setState {
+                            props.cliContext.setTargetVer(version)
+                            props.cliContext.setSv(version)
+                            state.fhirVersionsList.forEach {
+                                fhirVersionsList[fhirVersionsList.indexOf(it)] =
+                                    when (it.first) {
+                                        version -> it.copy(second = true)
+                                        else -> it.copy(second = false)
+                                    }
+                            }
+                        }
+                    }
+                }
+            }
+            heading {
                 text = "Implementation Guides"
             }
             styledDiv {
@@ -198,31 +225,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 css {
                     +OptionsPageStyle.optionsSubSection
                 }
-                dropdownWithExplanation {
-                    defaultLabel = "Version"
-                    explanation =
-                        "The validator checks the resource against the base specification. By default, this is v4.0.1 of the specification."
-                    itemList = state.fhirVersionsList
-                    heading = "Select FHIR Version"
-                    onItemSelected = { version ->
-                        setState {
-                            props.cliContext.setTargetVer(version)
-                            props.cliContext.setSv(version)
-                            state.fhirVersionsList.forEach {
-                                fhirVersionsList[fhirVersionsList.indexOf(it)] =
-                                    when (it.first) {
-                                        version -> it.copy(second = true)
-                                        else -> it.copy(second = false)
-                                    }
-                            }
-                        }
-                    }
-                }
-                styledDiv {
-                    css {
-                        +OptionsPageStyle.otherSettingsDivider
-                    }
-                }
+
                 dropdownWithExplanation {
                     defaultLabel = "Version"
                     explanation =
