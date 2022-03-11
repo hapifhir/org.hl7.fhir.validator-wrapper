@@ -26,13 +26,14 @@ private const val TERMINOLOGY_CHECK_TIME_LIMIT = 20000L
 
 external interface OptionsPageProps : RProps {
     var cliContext: CliContext
-    var update: (CliContext) -> Unit
+    var selectedIgPackageInfo: Set<PackageInfo>
+    var updateCliContext: (CliContext) -> Unit
+    var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
 }
 
 class OptionsPageState : RState {
     var igList = mutableListOf<PackageInfo>()
     var igPackageNameList = mutableListOf<Pair<String, Boolean>>()
-    var selectedIgSet = mutableSetOf<PackageInfo>()
     var fhirVersionsList = mutableListOf<Pair<String, Boolean>>()
     var snomedVersionList = mutableListOf<Pair<String, Boolean>>()
 }
@@ -78,7 +79,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             "this is to see the kind of errors that would be reported from these schemas by other software."
                     selected = props.cliContext.isDoNative()
                     onChange = {
-                        props.update(props.cliContext.setDoNative(it))
+                        props.updateCliContext(props.cliContext.setDoNative(it))
                     }
                 }
                 styledDiv {
@@ -97,7 +98,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                 "cases, the presence of the element can be fine and the information message ignored."
                     selected = props.cliContext.isHintAboutNonMustSupport()
                     onChange = {
-                        props.update(props.cliContext.setHintAboutNonMustSupport(it))
+                        props.updateCliContext(props.cliContext.setHintAboutNonMustSupport(it))
                     }
                 }
                 styledDiv {
@@ -121,7 +122,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                 "look like valid RESTful URLs when validating the type of the reference."
                     selected = props.cliContext.isAssumeValidRestReferences()
                     onChange = {
-                        props.update(props.cliContext.setAssumeValidRestReferences(it))
+                        props.updateCliContext(props.cliContext.setAssumeValidRestReferences(it))
                     }
                 }
                 styledDiv {
@@ -139,7 +140,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                 "operational uses of the validator, it is appropriate to turn these warnings off"
                     selected = props.cliContext.isNoExtensibleBindingMessages()
                     onChange = {
-                        props.update(props.cliContext.setNoExtensibleBindingMessages(it))
+                        props.updateCliContext(props.cliContext.setNoExtensibleBindingMessages(it))
                     }
                 }
                 styledDiv {
@@ -158,7 +159,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     selected = props.cliContext.isShowTimes()
                     onChange = {
                         props.cliContext.setShowTimes(it)
-                        props.update(props.cliContext)
+                        props.updateCliContext(props.cliContext)
                     }
                 }
             }
@@ -178,18 +179,15 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             igPackageNameList = state.igPackageNameList.map{ Pair(it.first, it.first == igPackageName)}.toMutableList()
                         }
                     }
-                    selectedIgSet = state.selectedIgSet
+                    selectedIgSet = props.selectedIgPackageInfo.toMutableSet()
                     onUpdateIg = { igPackageInfo, selected ->
-                        if (selected) {
-                            setState {
-                                selectedIgSet = selectedIgSet.plus(igPackageInfo).toMutableSet()
-                            }
+                        val newSelectedIgSet = if (selected) {
+                            selectedIgSet.plus(igPackageInfo).toMutableSet()
                         } else {
-                            setState {
-                                selectedIgSet = selectedIgSet.minus(igPackageInfo).toMutableSet()
-                            }
+                            selectedIgSet.minus(igPackageInfo).toMutableSet()
                         }
-                        props.update(if (selected) props.cliContext.addIg(PackageInfo.igLookupString(igPackageInfo)) else props.cliContext.removeIg(PackageInfo.igLookupString(igPackageInfo)))
+
+                        props.updateSelectedIgPackageInfo(newSelectedIgSet)
                     }
                 }
             }
@@ -260,7 +258,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         GlobalScope.async {
                             val txServerOutcome = async { checkTxServer(url) }
                             if (txServerOutcome.await()) {
-                                props.update(props.cliContext.setTxServer(url))
+                                props.updateCliContext(props.cliContext.setTxServer(url))
                                 true
                             } else {
                                 false
@@ -281,7 +279,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
             withTimeout(TERMINOLOGY_CHECK_TIME_LIMIT) {
                 val response = validateTxServer(txUrl)
                 if (response.validTxServer) {
-                    props.update(props.cliContext.setTxServer(response.url))
+                    props.updateCliContext(props.cliContext.setTxServer(response.url))
                     validTxServer = true
                 }
             }
