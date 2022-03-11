@@ -83,7 +83,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
             styledSpan {
                 dropDownMultiChoice {
                     choices = props.igPackageNameList
-                    buttonLabel = "Select IGs"
+                    buttonLabel = "Select IG"
                     onSelected = { igPackageName ->
                         props.onUpdatePackageName(igPackageName, true)
                         setIGVersions(igPackageName)
@@ -130,9 +130,16 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
             }
             styledDiv {
                 css {
+                    padding(top = 24.px)
+                    + if (props.selectedIgSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
+                }
+                + ("Selected IGs (${props.selectedIgSet.size})" + if (props.selectedIgSet.isEmpty()) { "" } else { ":"})
+            }
+            styledDiv {
+                css {
                     +IgSelectorStyle.selectedIgsDiv
-                    if (props.igPackageNameList.any { it.second }) {
-                        padding(top = 8.px)
+                    if (!props.selectedIgSet.isEmpty()) {
+                        padding(top = 16.px)
                     }
                 }
                 props.selectedIgSet.forEach { _packageInfo ->
