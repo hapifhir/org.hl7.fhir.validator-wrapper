@@ -1,24 +1,65 @@
 package ui.components.options
 
+import css.const.HL7_RED
+import css.const.WHITE
+import css.const.SWITCH_GRAY
 import css.text.TextStyle
+
 import kotlinx.css.*
 import model.PackageInfo
+
 import react.*
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledSpan
+import ui.components.buttons.imageButton
 import ui.components.options.menu.dropDownMultiChoice
+
+import api.sendIGVersionsRequest
+
+import kotlinx.coroutines.launch
+
+import mainScope
 
 external interface IgSelectorProps : RProps {
     var fhirVersion: String
     var onUpdateIg: (PackageInfo, Boolean) -> Unit
-    var igList: MutableList<Pair<PackageInfo, Boolean>>
+    var igList: MutableList<PackageInfo>
+    var igPackageNameList :MutableList<Pair<String, Boolean>>
+    var onUpdatePackageName: (String, Boolean) -> Unit
+    var selectedIgSet : MutableSet<PackageInfo>
 }
 
-class IgSelectorState : RState
+class IgSelectorState : RState {
+    var packageVersions = mutableListOf<Pair<PackageInfo, Boolean>>()
+}
 
 class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
+
+    init {
+        state = IgSelectorState()
+    }
+
+    private fun setIGVersions(igPackageName : String) {
+        mainScope.launch {
+            val simplifierPackages : MutableList<PackageInfo> =
+            try {
+                val igResponse = sendIGVersionsRequest(igPackageName)
+                igResponse.packageInfo
+            } catch (e : Exception) {
+               mutableListOf()
+            }
+
+            val registryPackages : MutableList<PackageInfo> = props.igList.filter{ it.id == igPackageName }.toMutableList();
+            val allPackages = (registryPackages + simplifierPackages).distinctBy{it.version}
+                .sortedBy{it.version}.reversed().toMutableList()
+
+            setState {
+                packageVersions = allPackages.map { Pair(it, false) }.toMutableList()
+            }
+        }
+    }
 
     override fun RBuilder.render() {
         styledDiv {
@@ -30,41 +71,86 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     +TextStyle.optionsDetailText
                     +IgSelectorStyle.title
                 }
-                +"You can validate against one or more published implementation guides. Select from the dropdown menu below."
-            }
-            dropDownMultiChoice {
-                choices = props.igList
-                    .filter{ it.first.fhirVersionMatches(props.fhirVersion) }
-                    .map{Pair(it.first.igLookupString() ?: "", it.second)}
-                    .toMutableList()
-                buttonLabel = "Select IGs"
-                onSelected = { igLookupString ->
-                    props.onUpdateIg(props.igList.first { it.first.igLookupString() == igLookupString }.first, true)
+                +"You can validate against one or more published implementation guides. Select IGs using the dropdown menus below and click the "
+                styledSpan {
+                    css {
+                        fontStyle = FontStyle.italic
+                    }
+                    + "Add"
                 }
-                multichoice = true
-                searchEnabled = true
-                searchHint = "Search igs..."
+                +" button to include them in your validation."
+            }
+            styledSpan {
+                dropDownMultiChoice {
+                    choices = props.igPackageNameList
+                    buttonLabel = "Select IGs"
+                    onSelected = { igPackageName ->
+                        props.onUpdatePackageName(igPackageName, true)
+                        setIGVersions(igPackageName)
+                    }
+                    multichoice = false
+                    searchEnabled = true
+                    searchHint = "Search IGs..."
+                }
+                val versions = state.packageVersions.filter { it.first.fhirVersionMatches(props.fhirVersion)}
+                    .map{Pair(it.first.version ?: "", it.second)}
+                    .toMutableList()
+                val versionSelected = versions.filter { it.second }.isNotEmpty()
+                styledSpan {
+                    css {
+                        margin(left = 8.px)
+                    }
+                    dropDownMultiChoice {
+                        choices = versions
+                        buttonLabel = if (versions.size > 0) "Select IG version" else "No compatible versions"
+                        onSelected = { igVersion ->
+                            setState {
+                                packageVersions = state.packageVersions.map{Pair(it.first, it.first.version == igVersion)}.toMutableList()
+                            }
+                        }
+                        multichoice = false
+                        searchEnabled = false
+                    }
+                }
+                styledSpan {
+                    css {
+                        margin(left = 8.px)
+                    }
+                    imageButton {
+                        backgroundColor = WHITE
+                        borderColor = if (versionSelected) {HL7_RED} else { SWITCH_GRAY }
+                        image = "images/add_circle_black_24dp.svg"
+                        label = "Add"
+                        onSelected = {
+                            if (versionSelected)
+                            props.onUpdateIg(state.packageVersions.first{it.second}.first, true)
+                        }
+                    }
+                }
             }
             styledDiv {
                 css {
                     +IgSelectorStyle.selectedIgsDiv
-                    if (props.igList.any { it.second }) {
+                    if (props.igPackageNameList.any { it.second }) {
                         padding(top = 8.px)
                     }
                 }
-                props.igList.filter { it.second }.forEach { igState ->
+                props.selectedIgSet.forEach { _packageInfo ->
                     igDisplay {
                         fhirVersion = props.fhirVersion
-                        packageInfo = igState.first
+                        packageInfo = _packageInfo
+
                         onDelete = {
-                            props.onUpdateIg(igState.first, false)
+                            props.onUpdateIg(_packageInfo, false)
                         }
                     }
                 }
             }
         }
     }
+
 }
+
 
 /**
  * React Component Builder

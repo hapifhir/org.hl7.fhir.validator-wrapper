@@ -37,8 +37,7 @@ class ImageButton : RComponent<ImageButtonProps, RState>() {
             }
             attrs {
                 onClickFunction = {
-                    // on click, we call the function passed in to the props
-                    props.onSelected()
+                     props.onSelected()
                 }
             }
             // button label

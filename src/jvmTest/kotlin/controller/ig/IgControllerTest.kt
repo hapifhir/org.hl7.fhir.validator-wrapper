@@ -3,9 +3,15 @@ package controller.ig
 import constants.FhirFormat
 import controller.BaseControllerTest
 import instrumentation.IgInstrumentation.givenANullReturnedListOfPackageInfo
-import instrumentation.IgInstrumentation.givenAProcessedListOfValidPackageInfo
-import instrumentation.IgInstrumentation.givenAReturnedListOfValidPackageInfo
 import instrumentation.IgInstrumentation.givenAnEmptyReturnedListOfPackageInfo
+import instrumentation.IgInstrumentation.givenAProcessedListOfValidPackageInfoA
+import instrumentation.IgInstrumentation.givenAReturnedListOfValidPackageInfoA
+import instrumentation.IgInstrumentation.givenAProcessedListOfValidPackageInfoDSTU2
+import instrumentation.IgInstrumentation.givenAReturnedListOfValidPackageInfoDSTU2
+import instrumentation.IgInstrumentation.givenAProcessedListOfValidPackageInfoSTU3
+import instrumentation.IgInstrumentation.givenAReturnedListOfValidPackageInfoSTU3
+import instrumentation.IgInstrumentation.givenAProcessedListOfValidPackageInfoR4
+import instrumentation.IgInstrumentation.givenAReturnedListOfValidPackageInfoR4
 import io.mockk.clearMocks
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -39,38 +45,122 @@ class IgControllerTest : BaseControllerTest() {
     }
 
     @Test
-    fun `test happy path ig controller returns list of valid ig urls`() {
-        val igPackageInfoList = givenAReturnedListOfValidPackageInfo()
-        val resultingPackageInfoList = givenAProcessedListOfValidPackageInfo()
+    fun `test happy path ig controller returns list of valid ig urls from registry`() {
+        val igPackageInfoList = givenAReturnedListOfValidPackageInfoA()
+        val resultingPackageInfoList = givenAProcessedListOfValidPackageInfoA()
 
         coEvery { igPackageClient.listFromRegistry(any(), any(), any()) } returns igPackageInfoList
-        coEvery { igPackageClient.search(any(), any(), any(), any()) } returns igPackageInfoList
-
 
         runBlocking {
-            val response = igController.listIgs()
+            val response = igController.listIgsFromRegistry()
             (resultingPackageInfoList sameContentWith response)?.let { assertTrue(it) } ?: fail("null packageinfo")
         }
     }
 
     @Test
-    fun `test ig controller returns empty list on null return from service`() {
+    fun `test ig controller returns empty list on null return from registry`() {
         val nullIgPackageInfoList = givenANullReturnedListOfPackageInfo()
         coEvery { igPackageClient.listFromRegistry(any(), any(), any()) } returns nullIgPackageInfoList
 
         runBlocking {
-            val response = igController.listIgs()
+            val response = igController.listIgsFromRegistry()
             assertEquals(mutableListOf(), response)
         }
     }
 
     @Test
-    fun `test ig controller returns empty list on empty list return from service`() {
+    fun `test ig controller returns empty list on empty list return from registry`() {
         val emptyIgPackageInfoList = givenAnEmptyReturnedListOfPackageInfo()
         coEvery { igPackageClient.listFromRegistry(any(), any(), any()) } returns emptyIgPackageInfoList
 
         runBlocking {
-            val response = igController.listIgs()
+            val response = igController.listIgsFromRegistry()
+            assertEquals(mutableListOf(), response)
+        }
+    }
+
+    @Test
+    fun `test happy path ig controller returns list of valid ig urls from simplifier`() {
+        val igPackageInfoListDSTU2 = givenAReturnedListOfValidPackageInfoDSTU2()
+        val resultingPackageInfoListDSTU2 = givenAProcessedListOfValidPackageInfoDSTU2()
+        val igPackageInfoListSTU3 = givenAReturnedListOfValidPackageInfoSTU3()
+        val resultingPackageInfoListSTU3 = givenAProcessedListOfValidPackageInfoSTU3()
+        val igPackageInfoListR4 = givenAReturnedListOfValidPackageInfoR4()
+        val resultingPackageInfoListR4 = givenAProcessedListOfValidPackageInfoR4()
+
+
+        coEvery { igPackageClient.search(any(), any(), eq("DSTU2"), any()) } returns igPackageInfoListDSTU2
+        coEvery { igPackageClient.search(any(), any(), eq("STU3"), any()) } returns igPackageInfoListSTU3
+        coEvery { igPackageClient.search(any(), any(), eq("R4"), any()) } returns igPackageInfoListR4
+
+        runBlocking {
+            val response = igController.listIgsFromSimplifier()
+            println(response)
+            ((resultingPackageInfoListDSTU2 + resultingPackageInfoListSTU3 + resultingPackageInfoListR4) sameContentWith response)?.let { assertTrue(it) } ?: fail("null packageinfo")
+        }
+    }
+
+    @Test
+    fun `test ig controller returns empty list on null return from simplifier`() {
+        val nullIgPackageInfoList = givenANullReturnedListOfPackageInfo()
+
+        coEvery { igPackageClient.search(any(), any(), eq("DSTU2"), any()) } returns nullIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("STU3"), any()) } returns nullIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("R4"), any()) } returns nullIgPackageInfoList
+
+        runBlocking {
+            val response = igController.listIgsFromSimplifier()
+            assertEquals(mutableListOf(), response)
+        }
+    }
+
+    @Test
+    fun `test ig controller returns empty list on empty list return from simplifier`() {
+        val emptyIgPackageInfoList = givenAnEmptyReturnedListOfPackageInfo()
+
+        coEvery { igPackageClient.search(any(), any(), eq("DSTU2"), any()) } returns emptyIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("STU3"), any()) } returns emptyIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("R4"), any()) } returns emptyIgPackageInfoList
+
+        runBlocking {
+            val response = igController.listIgsFromSimplifier()
+            assertEquals(mutableListOf(), response)
+        }
+    }
+
+    @Test
+    fun `test happy path ig controller returns list of valid ig versions from simplifier`() {
+        val igPackageInfoList = givenAReturnedListOfValidPackageInfoA()
+        val resultingPackageInfoList = givenAProcessedListOfValidPackageInfoA()
+
+        coEvery { igPackageClient.getVersions(eq("dummy.package")) } returns igPackageInfoList
+
+        runBlocking {
+            val response = igController.listIgVersionsFromSimplifier("dummy.package")
+            (resultingPackageInfoList sameContentWith response)?.let { assertTrue(it) } ?: fail("null packageinfo")
+        }
+    }
+
+    @Test
+    fun `test ig controller returns empty version list on null return from simplifier`() {
+        val nullIgPackageInfoList = givenANullReturnedListOfPackageInfo()
+
+        coEvery { igPackageClient.getVersions(eq("dummy.package")) } returns nullIgPackageInfoList
+
+        runBlocking {
+            val response = igController.listIgVersionsFromSimplifier("dummy.package")
+            assertEquals(mutableListOf(), response)
+        }
+    }
+
+    @Test
+    fun `test ig controller returns empty version list on empty list return from simplifier`() {
+        val emptyIgPackageInfoList = givenAnEmptyReturnedListOfPackageInfo()
+
+        coEvery { igPackageClient.getVersions(eq("dummy.package")) } returns emptyIgPackageInfoList
+
+        runBlocking {
+            val response = igController.listIgVersionsFromSimplifier("dummy.package")
             assertEquals(mutableListOf(), response)
         }
     }
