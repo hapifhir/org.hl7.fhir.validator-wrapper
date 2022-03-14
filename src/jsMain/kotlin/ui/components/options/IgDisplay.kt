@@ -20,7 +20,7 @@ class IgDisplay : RComponent<IgDisplayProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +IgUrlDisplayStyle.mainDiv
+                +IgDisplayStyle.mainDiv
                 if (!props.packageInfo.fhirVersionMatches(props.fhirVersion)) {
                     background = "repeating-linear-gradient(\n" +
                             "  45deg,\n" +
@@ -30,7 +30,6 @@ class IgDisplay : RComponent<IgDisplayProps, RState>() {
                             "  ${FATAL_PINK.changeAlpha(0.2)} 20px\n" +
                             ");"
                 }
-                borderColor = HL7_RED
             }
             if (!props.packageInfo.fhirVersionMatches(props.fhirVersion)) {
                 attrs {
@@ -40,13 +39,13 @@ class IgDisplay : RComponent<IgDisplayProps, RState>() {
             styledSpan {
                 css {
                     +TextStyle.dropDownLabel
-                    +IgUrlDisplayStyle.igName
+                    +IgDisplayStyle.igName
                 }
                 +PackageInfo.igLookupString(props.packageInfo)
             }
             styledImg {
                 css {
-                    +IgUrlDisplayStyle.closeButton
+                    +IgDisplayStyle.closeButton
                 }
                 attrs {
                     src = "images/close_black.png"
@@ -71,7 +70,7 @@ fun RBuilder.igDisplay(handler: IgDisplayProps.() -> Unit): ReactElement {
 /**
  * CSS
  */
-object IgUrlDisplayStyle : StyleSheet("IgUrlDisplayStyle", isStatic = true) {
+object IgDisplayStyle : StyleSheet("IgDisplayStyle", isStatic = true) {
     val mainDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.row
