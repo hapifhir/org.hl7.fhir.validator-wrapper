@@ -75,7 +75,7 @@ object IgUrlDisplayStyle : StyleSheet("IgUrlDisplayStyle", isStatic = true) {
     val mainDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.row
-        border(width = 1.px, style = BorderStyle.solid, color = HL7_RED)
+        border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
         margin(right = 16.px, top = 4.px, bottom = 4.px)
         padding(horizontal = 16.px, vertical = 8.px)
         backgroundColor = WHITE
