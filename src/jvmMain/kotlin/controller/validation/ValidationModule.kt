@@ -1,11 +1,13 @@
 package controller.validation
 
 import constants.VALIDATION_ENDPOINT
+import constants.VALIDATOR_VERSION_ENDPOINT
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import model.FhirVersionsResponse
 import model.ValidationRequest
 import model.asString
 import org.koin.ktor.ext.inject
@@ -43,5 +45,9 @@ fun Route.validationModule() {
                 }
             }
         }
+    }
+
+    get(VALIDATOR_VERSION_ENDPOINT) {
+        call.respond(HttpStatusCode.OK, validationController.getValidatorVersion())
     }
 }

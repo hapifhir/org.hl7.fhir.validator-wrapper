@@ -5,6 +5,7 @@ import constants.IG_VERSIONS_ENDPOINT
 import constants.TERMINOLOGY_ENDPOINT
 import constants.VALIDATION_ENDPOINT
 import constants.VERSIONS_ENDPOINT
+import constants.VALIDATOR_VERSION_ENDPOINT
 
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -17,6 +18,13 @@ suspend fun sendValidationRequest(validationRequest: ValidationRequest): Validat
         body = validationRequest
     }
 }
+
+suspend fun sendValidatorVersionRequest() : String {
+    return jsonClient.get(urlString = endpoint + VALIDATOR_VERSION_ENDPOINT) {
+        contentType(ContentType.Application.Json)
+    }
+}
+
 
 suspend fun sendIGsRequest(): IGResponse {
     return jsonClient.get(urlString = endpoint + IG_ENDPOINT)

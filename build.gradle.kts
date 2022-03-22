@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
+import java.io.FileOutputStream
+import java.util.Properties
 
 plugins {
     kotlin("multiplatform") version "1.4.32"
@@ -38,6 +40,7 @@ kotlin {
             }
         }
         withJava()
+
         tasks.test { useJUnit() }
         testRuns["test"].executionTask.configure {
             useJUnit()
@@ -178,6 +181,15 @@ task("printVersion") {
     }
 }
 
+task ("writeAppProperties") {
+    doFirst {
+        val os = FileOutputStream("src/jvmMain/resources/app.properties")
+        val prop = Properties()
+        prop.setProperty("fhirCoreVersion","${project.property("fhirCoreVersion")}")
+        prop.store(os, null)
+    }
+}
+
 tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = "ServerKt"
@@ -207,6 +219,7 @@ tasks.getByName<Jar>("jvmJar") {
     } else {
         "jsBrowserDevelopmentWebpack"
     }
+    dependsOn(tasks.getByName("writeAppProperties"))
     val webpackTask = tasks.getByName<KotlinWebpack>(taskName)
     dependsOn(webpackTask) // make sure JS gets compiled first
     from(File(webpackTask.destinationDirectory, webpackTask.outputFileName)) // bring output file along into the JAR
@@ -218,6 +231,7 @@ tasks {
             jvmTarget = "1.8"
         }
     }
+
 }
 
 distributions {

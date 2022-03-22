@@ -1,13 +1,17 @@
 package ui.components.footer
 
 import Polyglot
+import api.sendValidatorVersionRequest
 import css.const.BORDER_GRAY
 import css.const.WHITE
 import css.text.TextStyle
+import kotlinx.coroutines.launch
 import kotlinx.css.*
-import model.AppScreen
+import mainScope
+
 import react.*
 import styled.*
+
 import utils.Language
 
 external interface FooterProps : RProps {
@@ -15,7 +19,21 @@ external interface FooterProps : RProps {
     var polyglot: Polyglot //TODO
 }
 
-class Footer : RComponent<FooterProps, RState>() {
+class FooterState : RState {
+    var validatorVersion = "Unknown"
+}
+
+class Footer : RComponent<FooterProps, FooterState>() {
+
+    init {
+        state = FooterState()
+        mainScope.launch {
+            val validatorVersionResponse = sendValidatorVersionRequest()
+            setState {
+                validatorVersion = validatorVersionResponse
+            }
+        }
+    }
 
     override fun RBuilder.render() {
         styledFooter {
@@ -36,7 +54,7 @@ class Footer : RComponent<FooterProps, RState>() {
                     css {
                         +FooterStyle.footerTitleSmall
                     }
-                    +"running validator v5.6.27"
+                    +"running validator v${state.validatorVersion}"
                 }
             }
             styledDiv {
