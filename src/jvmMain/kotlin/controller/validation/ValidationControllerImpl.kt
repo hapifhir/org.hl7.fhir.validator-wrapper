@@ -1,6 +1,7 @@
 package controller.validation
 
 import model.ValidationResponse
+import org.hl7.fhir.validation.cli.utils.VersionUtil
 import org.hl7.fhir.validation.cli.model.ValidationRequest
 import org.hl7.fhir.validation.cli.services.ValidationService
 import org.koin.core.KoinComponent
@@ -18,9 +19,6 @@ class ValidationControllerImpl : ValidationController, KoinComponent {
     }
 
     override suspend fun getValidatorVersion():String {
-        val prop = Properties().apply {
-            load(FileInputStream(ValidationControllerImpl::class.java.classLoader.getResource("app.properties").file))
-        }
-        return prop.get("fhirCoreVersion").toString()
+        return VersionUtil.getVersion()
     }
 }
