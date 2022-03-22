@@ -1,6 +1,7 @@
 package routing.validation
 
 import constants.VALIDATION_ENDPOINT
+import constants.VALIDATOR_VERSION_ENDPOINT
 import controller.validation.INVALID_FILE_MESSAGE
 import controller.validation.NO_FILES_PROVIDED_MESSAGE
 import controller.validation.ValidationController
@@ -150,6 +151,20 @@ class ValidationRoutingTest : BaseRoutingTest() {
         with(call) {
             assertEquals(HttpStatusCode.BadRequest, response.status())
             assertEquals(INVALID_FILE_MESSAGE, response.content)
+        }
+    }
+
+    @Test
+    fun `test sending a request for validator version`() = withBaseTestApplication {
+        coEvery { validationController.getValidatorVersion() } returns "dummy.version"
+
+        val call = handleRequest(HttpMethod.Get, VALIDATOR_VERSION_ENDPOINT) {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+        }
+
+        with(call) {
+            assertEquals(HttpStatusCode.OK, response.status())
+            assertEquals("dummy.version", response.content)
         }
     }
 }

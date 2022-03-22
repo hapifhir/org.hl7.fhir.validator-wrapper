@@ -15,6 +15,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.koin.dsl.module
+import java.io.File
+import java.io.FileInputStream
+import java.util.*
+import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ValidationControllerTest : BaseControllerTest() {
@@ -65,5 +69,18 @@ class ValidationControllerTest : BaseControllerTest() {
             runBlocking { validationController.validateRequest(givenAValidationRequest()) }
         }
         Assertions.assertEquals(internalError.localizedMessage, exception.localizedMessage)
+    }
+
+    @Test
+    fun `test happy path, validator version ValidationService`() {
+        val prop = Properties().apply {
+            load(FileInputStream(File("src/jvmMain/resources","app.properties")))
+        }
+        val version = prop.get("fhirCoreVersion")
+
+        runBlocking {
+            val response = validationController.getValidatorVersion()
+            assertEquals(expected = version, actual = response)
+        }
     }
 }
