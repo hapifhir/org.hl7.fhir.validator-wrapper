@@ -74,7 +74,7 @@ class ValidationControllerTest : BaseControllerTest() {
     @Test
     fun `test happy path, validator version ValidationService`() {
         val prop = Properties().apply {
-            load(FileInputStream(File("src/jvmMain/resources","app.properties")))
+            load(FileInputStream(File("src/commonMain/resources","app.properties")))
         }
         val version = prop.get("fhirCoreVersion")
 
