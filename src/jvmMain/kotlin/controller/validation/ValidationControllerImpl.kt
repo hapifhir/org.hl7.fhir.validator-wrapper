@@ -19,7 +19,7 @@ class ValidationControllerImpl : ValidationController, KoinComponent {
 
     override suspend fun getValidatorVersion():String {
         val prop = Properties().apply {
-            load(FileInputStream(File("src/jvmMain/resources","app.properties")))
+            load(FileInputStream(ValidationControllerImpl::class.java.classLoader.getResource("app.properties").file))
         }
         return prop.get("fhirCoreVersion").toString()
     }
