@@ -183,7 +183,7 @@ task("printVersion") {
 
 task ("writeAppProperties") {
     doFirst {
-        val os = FileOutputStream("src/jvmMain/resources/app.properties")
+        val os = FileOutputStream("src/commonMain/resources/app.properties")
         val prop = Properties()
         prop.setProperty("fhirCoreVersion","${project.property("fhirCoreVersion")}")
         prop.store(os, null)
