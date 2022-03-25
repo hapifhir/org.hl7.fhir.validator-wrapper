@@ -49,7 +49,7 @@ class ManualEntryButtonBar : RComponent<ManualEntryButtonBarProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.fileEntryButtonBar(handler: ManualEntryButtonBarProps.() -> Unit): ReactElement {
+fun RBuilder.manualEntryButtonBar(handler: ManualEntryButtonBarProps.() -> Unit): ReactElement {
     return child(ManualEntryButtonBar::class) {
         this.attrs(handler)
     }
