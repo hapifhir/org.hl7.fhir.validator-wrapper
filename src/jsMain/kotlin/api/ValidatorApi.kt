@@ -17,8 +17,7 @@ import kotlinx.browser.window
 
 suspend fun sendValidationRequest(validationRequest: ValidationRequest): ValidationResponse {
     val myMap = js("{" +
-            "\"foo\":\"bar\"," +
-            "\"flip\":\"flop\"" +
+            "\"txServer\":\"dummyServer\"" +
             "}")
     println(myMap)
     kotlinx.browser.window.asDynamic().gtag("event", "validationEvent", myMap)
