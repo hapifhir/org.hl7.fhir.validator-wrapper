@@ -16,8 +16,6 @@ import model.CliContext
 import model.ValidationOutcome
 import react.*
 import styled.*
-import ui.components.buttons.labelledSwitch
-import ui.components.buttons.toggleSwitch
 import ui.components.tabs.heading
 import ui.components.validation.issuelist.filteredIssueEntryList
 import utils.assembleRequest
@@ -82,7 +80,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     }
                 }
             }
-            fileEntryButtonBar {
+            manualEntryButtonBar {
                 onValidateRequested = {
                     if (props.currentManuallyEnteredText.isNotEmpty()) {
                         validateEnteredText(props.currentManuallyEnteredText)

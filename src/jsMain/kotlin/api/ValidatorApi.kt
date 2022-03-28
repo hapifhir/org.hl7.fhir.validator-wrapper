@@ -9,10 +9,18 @@ import constants.VALIDATOR_VERSION_ENDPOINT
 
 import io.ktor.client.request.*
 import io.ktor.http.*
+import kotlinext.js.asJsObject
 
 import model.*
 
+import kotlinx.browser.window
+
 suspend fun sendValidationRequest(validationRequest: ValidationRequest): ValidationResponse {
+    val myMap = js("{" +
+            "\"txServer\":\"dummyServer\"" +
+            "}")
+    println(myMap)
+    kotlinx.browser.window.asDynamic().gtag("event", "validationEvent", myMap)
     return jsonClient.post(urlString = endpoint + VALIDATION_ENDPOINT) {
         contentType(ContentType.Application.Json)
         body = validationRequest
