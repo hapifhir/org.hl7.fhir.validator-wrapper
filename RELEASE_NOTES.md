@@ -1,1 +1,0 @@
-* Log validation request params
