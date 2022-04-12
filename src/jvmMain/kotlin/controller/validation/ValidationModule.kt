@@ -24,6 +24,7 @@ fun Route.validationModule() {
     post(VALIDATION_ENDPOINT) {
         val logger = call.application.environment.log
         val request = call.receive<ValidationRequest>()
+        logger.info("Received Validation Request. FHIR Version: ${request.cliContext.sv} IGs: ${request.cliContext.igs} Memory : ${java.lang.Runtime.getRuntime().freeMemory()}/${java.lang.Runtime.getRuntime().maxMemory()}")
         logger.debug(DEBUG_NUMBER_FILES.format(request.filesToValidate.size))
         request.filesToValidate.forEachIndexed { index, file ->
             logger.debug("file [$index] ->\n${file.asString()}")
