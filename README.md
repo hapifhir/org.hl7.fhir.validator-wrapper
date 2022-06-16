@@ -14,11 +14,13 @@ This project uses the [gradle build tool][Link-GradleWebpage] to build, and incl
 
 ### To build:
 
+On Mac or Linux:
+
 ```
 gradlew build
 ```
 
-or 
+On Windows:
 
 ```
 gradlew.bat build
@@ -26,11 +28,13 @@ gradlew.bat build
 
 ### To run a self-hosted version of the web UI:
 
+On Mac or Linux:
+
 ```
 gradlew run
 ```
 
-or
+On Windows:
 
 ```
 gradlew.bat run
