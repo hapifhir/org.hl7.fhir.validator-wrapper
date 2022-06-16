@@ -1,3 +1,28 @@
+<!---
+ ____________________
+|                    |
+|  N  O  T  I  C  E  |
+|____________________|
+         !  !
+         !_ !
+        / _)!
+       / /__!
+ _____/ (____)
+        (____)
+ _____  (____)
+      \_(____)
+         !  !
+         \__/
+
+Please maintain this README.md as a linkable document, as other documentation may link back to it. The following sections should appear consistently in all updates to this document to maintain linkability:
+
+## Building this Project
+## Releases
+## CI/CD
+## Maintenance
+
+--->
+
 # validator-wrapper
 
 
