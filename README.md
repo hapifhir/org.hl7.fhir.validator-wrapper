@@ -56,7 +56,7 @@ This project has pipelines hosted on [Azure Pipelines][Link-AzureProject].
 
 * **Pull Request Pipeline** is automatically run for every Pull Request to ensure that the project can be built via gradle. [[Azure Pipeline]][Link-AzurePullRequestPipeline] [[source]](pull-request-pipeline.yml)
 * **Master Branch Pipeline** is automatically run whenever code is merged to the master branch and builds the SNAPSHOT binaries. [[Azure Pipeline]][Link-AzureMasterPipeline][[source]](master-branch-pipeline.yml)
-* **Release Branch Pipeline** is run manually whenever a release is ready to be made. It builds the [release binaries](#releases), updates the [validator web app][Link-ValidatorWebsite] and sends release notifications. [[Azure Pipeline]][Link-AzureReleasePipeline][[source]](release-branch-pipeline.yml)
+* **Release Branch Pipeline** is run manually whenever a release is ready to be made. It builds the [release binaries](#releases), uploads the docker image to [DockerHub][Link-DockerHub], updates the [validator web app][Link-ValidatorWebsite] and sends release notifications. [[Azure Pipeline]][Link-AzureReleasePipeline][[source]](release-branch-pipeline.yml)
 
 
 ## Maintenance
