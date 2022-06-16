@@ -64,10 +64,10 @@ This project has pipelines hosted on [Azure Pipelines][Link-AzureProject].
 
 
 ## Maintenance
+
+Have you found an issue? Do you have a feature request? Great! Submit it [here][Link-GithubIssues] and we'll try to fix it as soon as possible.
+
 This project is maintained by [David Otasek][Link-davidGithub], [Grahame Grieve][Link-grahameGithub], and [Mark Iantorno][Link-markGithub] on behalf of the FHIR community.
-
-#### Have you found an issue not listed above? Do you have a feature request? Great! Submit it [here][Link-GithubIssues] and we'll try to fix it as soon as possible.
-
 
 [Link-DockerHub]: https://hub.docker.com/repository/docker/markiantorno/validator-wrapper/general
 
