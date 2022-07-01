@@ -98,7 +98,7 @@ Sample Response:
 - **Route:** 
 `GET /igVersions/{igPackageName}` 
 - **Path Params:** 
-`igPackageName [comma separated list e.g., DSTU2, STU3, R4]`
+`igPackageName`
 - **Response:** 
 a JSON ARRAY [IGResponse](https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/blob/master/src/commonMain/kotlin/model/IGResponse.kt)
 
