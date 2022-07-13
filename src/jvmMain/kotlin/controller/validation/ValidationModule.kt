@@ -9,9 +9,11 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import model.FhirVersionsResponse
 import model.ValidationRequest
+import model.CliContext
 import model.asString
 import org.koin.ktor.ext.inject
 import utils.badFileEntryExists
+import utils.buildRequest
 
 const val DEBUG_NUMBER_FILES = "Received %d files to validate."
 const val NO_FILES_PROVIDED_MESSAGE = "No files for validation provided in request."
@@ -23,8 +25,18 @@ fun Route.validationModule() {
 
     post(VALIDATION_ENDPOINT) {
         val logger = call.application.environment.log
-        val request = call.receive<ValidationRequest>()
-        logger.info("Received Validation Request. FHIR Version: ${request.cliContext.sv} IGs: ${request.cliContext.igs} Memory (free/max): ${java.lang.Runtime.getRuntime().freeMemory()}/${java.lang.Runtime.getRuntime().maxMemory()}")
+        val request = buildRequest(call.receiveText())
+        val profileParam = call.request.queryParameters["profile"]
+        val igParam = call.request.queryParameters["ig"]
+        val profile: List<String?>  = listOf(profileParam)
+        val ig: List<String?>  = listOf(igParam)
+        if (profile.get(0) != null) {
+            request.getCliContext().setProfiles(profile)
+        }
+        if (ig.get(0) != null) {
+            request.getCliContext().setIgs(ig)
+        }
+        logger.info("Received Validation Request. FHIR Version: ${request.cliContext.sv} IGs: ${request.cliContext.igs} Profiles: ${request.cliContext.profiles} Memory (free/max): ${java.lang.Runtime.getRuntime().freeMemory()}/${java.lang.Runtime.getRuntime().maxMemory()}")
         logger.debug(DEBUG_NUMBER_FILES.format(request.filesToValidate.size))
         request.filesToValidate.forEachIndexed { index, file ->
             logger.debug("file [$index] ->\n${file.asString()}")
@@ -41,6 +53,9 @@ fun Route.validationModule() {
                 try {
                     call.respond(HttpStatusCode.OK, validationController.validateRequest(request))
                 } catch (e: Exception) {
+                    logger.error(e.localizedMessage)
+                    call.respond(HttpStatusCode.InternalServerError, e.localizedMessage)
+                } catch (e: Error){
                     logger.error(e.localizedMessage)
                     call.respond(HttpStatusCode.InternalServerError, e.localizedMessage)
                 }
