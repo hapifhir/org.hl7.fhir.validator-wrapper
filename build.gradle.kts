@@ -15,7 +15,6 @@ group = "org.hl7.fhir"
 
 repositories {
     google()
-    jcenter()
     mavenLocal()
     mavenCentral()
     maven {
@@ -200,7 +199,7 @@ tasks.named<Test>("jvmTest") {
 }
 
 application {
-    mainClassName = "ServerKt"
+    mainClass.set("ServerKt")
 }
 
 // include JS artifacts in any JAR we generate
