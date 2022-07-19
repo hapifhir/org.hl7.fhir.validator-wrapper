@@ -3,8 +3,8 @@ import java.io.FileOutputStream
 import java.util.Properties
 
 plugins {
-    kotlin("multiplatform") version "1.4.32"
-    kotlin("plugin.serialization") version "1.4.32"
+    kotlin("multiplatform") version "1.5.0"
+    kotlin("plugin.serialization") version "1.5.0"
 
     id("org.hidetake.ssh") version "2.10.1"
     id("org.openjfx.javafxplugin") version "0.0.8"
@@ -68,6 +68,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
+                implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
                 implementation("com.fasterxml.jackson.core:jackson-databind:${property("jacksonVersion")}")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${property("serializationVersion")}")
