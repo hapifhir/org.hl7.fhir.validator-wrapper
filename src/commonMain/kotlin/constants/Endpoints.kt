@@ -1,6 +1,9 @@
 package constants
 
 const val VALIDATION_ENDPOINT = "validate"
+const val HL7_VALIDATION_ENDPOINT = "%24validate"
+const val RESOURCE_VALIDATION_ENDPOINT = "*/%24validate"
+const val ID_VALIDATION_ENDPOINT = "*/*/%24validate"
 const val VALIDATOR_VERSION_ENDPOINT = "validator/version"
 const val CONTEXT_ENDPOINT = "context"
 const val IG_ENDPOINT = "ig"

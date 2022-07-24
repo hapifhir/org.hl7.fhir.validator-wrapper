@@ -1,6 +1,9 @@
 package controller.validation
 
 import constants.VALIDATION_ENDPOINT
+import constants.HL7_VALIDATION_ENDPOINT
+import constants.RESOURCE_VALIDATION_ENDPOINT
+import constants.ID_VALIDATION_ENDPOINT
 import constants.VALIDATOR_VERSION_ENDPOINT
 import io.ktor.application.*
 import io.ktor.http.*
@@ -22,8 +25,9 @@ const val INVALID_FILE_MESSAGE = "Improperly formatted file content!"
 fun Route.validationModule() {
 
     val validationController by inject<ValidationController>()
+    val validationPaths = arrayOf(VALIDATION_ENDPOINT, HL7_VALIDATION_ENDPOINT, RESOURCE_VALIDATION_ENDPOINT, ID_VALIDATION_ENDPOINT)
 
-    post(VALIDATION_ENDPOINT) {
+    validationPaths.forEach { path -> post(path) {
         val logger = call.application.environment.log
         val request = buildRequest(call.receiveText())
         val profileParam = call.request.queryParameters["profile"]
@@ -61,7 +65,9 @@ fun Route.validationModule() {
                 }
             }
         }
-    }
+    } }
+    
+
 
     get(VALIDATOR_VERSION_ENDPOINT) {
         call.respond(HttpStatusCode.OK, validationController.getValidatorVersion())
