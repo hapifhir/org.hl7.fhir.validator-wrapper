@@ -6,16 +6,13 @@ import org.hl7.fhir.validation.cli.model.ValidationRequest
 import org.hl7.fhir.validation.cli.services.ValidationService
 import org.koin.core.KoinComponent
 import org.koin.core.inject
-import java.io.File
-import java.io.FileInputStream
-import java.util.*
 
 class ValidationControllerImpl : ValidationController, KoinComponent {
 
-    private val validationService by inject<ValidationService>()
+    private val validationServiceFactory by inject<ValidationServiceFactory>()
 
     override suspend fun validateRequest(validationRequest: ValidationRequest): ValidationResponse {
-        return validationService.validateSources(validationRequest)
+        return validationServiceFactory.getValidationService().validateSources(validationRequest)
     }
 
     override suspend fun getValidatorVersion():String {
