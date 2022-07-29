@@ -19,6 +19,7 @@ fun buildRequest(body: String): ValidationRequest {
         val context = CliContext()
         context.setTargetVer("4.0.1")
         context.setSv("4.0.1")
+        // can hard code a default IG
         //context.addIg("hl7.fhir.us.core#4.0.0")
         return ValidationRequest().setCliContext(context).setFilesToValidate(filesToValidate)
     }

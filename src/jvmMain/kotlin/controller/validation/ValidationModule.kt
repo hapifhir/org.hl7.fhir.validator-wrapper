@@ -49,7 +49,9 @@ fun Route.validationModule() {
                 val sessionId = validationController.getSessionId("hl7.fhir.uv.ips#${CURRENT_IPS_VERSION}")
                 request.setSessionId(sessionId)
                 logger.info("Getting preloaded session: ${sessionId}")
-            }
+            } 
+        } else {
+                logger.info("WARNING: No IG provided in request")
         }
         logger.info("Received Validation Request. FHIR Version: ${request.cliContext.sv} IGs: ${request.cliContext.igs} Profiles: ${request.cliContext.profiles} Memory (free/max): ${java.lang.Runtime.getRuntime().freeMemory()}/${java.lang.Runtime.getRuntime().maxMemory()}")
         logger.debug(DEBUG_NUMBER_FILES.format(request.filesToValidate.size))

@@ -21,7 +21,7 @@ class ValidationControllerImpl : ValidationController, KoinComponent {
         val context = CliContext()
         context.setTargetVer("4.0.1")
         context.setSv("4.0.1")
-        context.addIg("hl7.terminology#3.1.0")
+        //context.addIg("hl7.terminology#3.1.0")
         context.addIg("us.nlm.vsac#0.3.0")
         context.addIg(ig)
         val sessionId = validationService.initializeValidator(context, ig, TimeTracker(), null)
