@@ -5,6 +5,8 @@ import constants.HL7_VALIDATION_ENDPOINT
 import constants.RESOURCE_VALIDATION_ENDPOINT
 import constants.ID_VALIDATION_ENDPOINT
 import constants.VALIDATOR_VERSION_ENDPOINT
+import constants.CURRENT_US_CORE_VERSION
+import constants.CURRENT_IPS_VERSION
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
@@ -26,7 +28,7 @@ fun Route.validationModule() {
 
     val validationController by inject<ValidationController>()
     val validationPaths = arrayOf(VALIDATION_ENDPOINT, HL7_VALIDATION_ENDPOINT, RESOURCE_VALIDATION_ENDPOINT, ID_VALIDATION_ENDPOINT)
-
+    
     validationPaths.forEach { path -> post(path) {
         val logger = call.application.environment.log
         val request = buildRequest(call.receiveText())
@@ -39,6 +41,15 @@ fun Route.validationModule() {
         }
         if (ig.get(0) != null) {
             request.getCliContext().setIgs(ig)
+            if (ig.get(0) == "hl7.fhir.us.core#${CURRENT_US_CORE_VERSION}") {
+                val sessionId = validationController.getSessionId("hl7.fhir.us.core#${CURRENT_US_CORE_VERSION}")
+                request.setSessionId(sessionId)
+                logger.info("Getting preloaded session: ${sessionId}")
+            } else if (ig.get(0) == "hl7.fhir.uv.ips#${CURRENT_IPS_VERSION}") {
+                val sessionId = validationController.getSessionId("hl7.fhir.uv.ips#${CURRENT_IPS_VERSION}")
+                request.setSessionId(sessionId)
+                logger.info("Getting preloaded session: ${sessionId}")
+            }
         }
         logger.info("Received Validation Request. FHIR Version: ${request.cliContext.sv} IGs: ${request.cliContext.igs} Profiles: ${request.cliContext.profiles} Memory (free/max): ${java.lang.Runtime.getRuntime().freeMemory()}/${java.lang.Runtime.getRuntime().maxMemory()}")
         logger.debug(DEBUG_NUMBER_FILES.format(request.filesToValidate.size))
