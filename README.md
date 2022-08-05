@@ -23,6 +23,10 @@ Please maintain this README.md as a linkable document, as other documentation ma
 
 This project contains the CLI, Desktop GUI, and Standalone Validation Server for the FHIR Validator
 
+## REST API
+
+**[See here](rest-api.md) for the REST API documentation.**
+
 ## Building this Project
 
 This project uses the [gradle build tool][Link-GradleWebpage] to build, and includes pre-build gradlew wrappers for common build tasks. 
