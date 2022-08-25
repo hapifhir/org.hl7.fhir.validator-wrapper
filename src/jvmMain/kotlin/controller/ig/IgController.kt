@@ -7,5 +7,7 @@ interface IgController {
 
     suspend fun listIgsFromSimplifier(): MutableList<PackageInfo>
 
+    suspend fun listIgsFromSimplifier(igPackageName : String?): MutableList<PackageInfo>
+
     suspend fun listIgVersionsFromSimplifier(igPackageName : String?): MutableList<PackageInfo>
 }
