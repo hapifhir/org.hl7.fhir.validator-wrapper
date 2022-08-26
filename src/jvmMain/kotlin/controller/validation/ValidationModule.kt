@@ -32,9 +32,7 @@ fun Route.validationModule() {
         val logger = call.application.environment.log
         val request = buildRequest(call.receiveText())
         val profileParam = call.request.queryParameters["profile"]
-        val igParam = call.request.queryParameters["ig"]
         val profile: List<String?>  = listOf(profileParam)
-        val ig: List<String?>  = listOf(igParam)
         if (profile.get(0) != null) {
             request.getCliContext().setProfiles(profile)
         }
@@ -66,8 +64,7 @@ fun Route.validationModule() {
     } }
     
     post(DEFAULT_SESSION_ENDPOINT){
-        val igs: Set<String?> = call.receiveText().toSet()
-        val sessionId = validationController.initSession(igs)
+        val sessionId = validationController.initSession(call.receiveText())
         if (sessionId != null) {
             call.respond(HttpStatusCode.OK, listOf<String>(sessionId))
         } else {
