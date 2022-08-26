@@ -16,8 +16,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import controller.validation.ValidationController
 import org.koin.ktor.ext.inject
-import constants.CURRENT_US_CORE_VERSION
-import constants.CURRENT_IPS_VERSION
+
 
 /**
  * Entry point of the application.
@@ -58,12 +57,6 @@ fun Application.module() {
  * Application extension function where we configure Ktor application with features, interceptors and routing.
  */
 fun Application.setup() {
-    val validationController: ValidationController by inject()
-    val coreId = validationController.initSession("hl7.fhir.us.core#${CURRENT_US_CORE_VERSION}")
-    println("Preloading US Core with session: ${coreId}")
-    val ipsId = validationController.initSession("hl7.fhir.uv.ips#${CURRENT_IPS_VERSION}")
-    println("Preloading IPS with session: ${ipsId}")
-
     install(CallLogging)
     {
 

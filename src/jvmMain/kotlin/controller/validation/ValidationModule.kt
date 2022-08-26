@@ -4,9 +4,8 @@ import constants.VALIDATION_ENDPOINT
 import constants.HL7_VALIDATION_ENDPOINT
 import constants.RESOURCE_VALIDATION_ENDPOINT
 import constants.ID_VALIDATION_ENDPOINT
+import constants.DEFAULT_SESSION_ENDPOINT
 import constants.VALIDATOR_VERSION_ENDPOINT
-import constants.CURRENT_US_CORE_VERSION
-import constants.CURRENT_IPS_VERSION
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
@@ -39,21 +38,7 @@ fun Route.validationModule() {
         if (profile.get(0) != null) {
             request.getCliContext().setProfiles(profile)
         }
-        if (ig.get(0) != null) {
-            request.getCliContext().setIgs(ig)
-            if (ig.get(0) == "hl7.fhir.us.core#${CURRENT_US_CORE_VERSION}") {
-                val sessionId = validationController.getSessionId("hl7.fhir.us.core#${CURRENT_US_CORE_VERSION}")
-                request.setSessionId(sessionId)
-                logger.info("Getting preloaded session: ${sessionId}")
-            } else if (ig.get(0) == "hl7.fhir.uv.ips#${CURRENT_IPS_VERSION}") {
-                val sessionId = validationController.getSessionId("hl7.fhir.uv.ips#${CURRENT_IPS_VERSION}")
-                request.setSessionId(sessionId)
-                logger.info("Getting preloaded session: ${sessionId}")
-            } 
-        } else {
-                logger.info("WARNING: No IG provided in request")
-        }
-        logger.info("Received Validation Request. FHIR Version: ${request.cliContext.sv} IGs: ${request.cliContext.igs} Profiles: ${request.cliContext.profiles} Memory (free/max): ${java.lang.Runtime.getRuntime().freeMemory()}/${java.lang.Runtime.getRuntime().maxMemory()}")
+        logger.info("Received Validation Request. FHIR Version: ${request.cliContext.sv} IGs: ${request.cliContext.igs} Profiles: ${request.cliContext.profiles} Session: ${request.sessionId} Memory (free/max): ${java.lang.Runtime.getRuntime().freeMemory()}/${java.lang.Runtime.getRuntime().maxMemory()}")
         logger.debug(DEBUG_NUMBER_FILES.format(request.filesToValidate.size))
         request.filesToValidate.forEachIndexed { index, file ->
             logger.debug("file [$index] ->\n${file.asString()}")
@@ -80,7 +65,16 @@ fun Route.validationModule() {
         }
     } }
     
-
+    post(DEFAULT_SESSION_ENDPOINT){
+        val igs: Set<String?> = call.receiveText().toSet()
+        val sessionId = validationController.initSession(igs)
+        if (sessionId != null) {
+            call.respond(HttpStatusCode.OK, listOf<String>(sessionId))
+        } else {
+            call.respond(HttpStatusCode.OK, "No Session")
+        }
+ 
+    }
 
     get(VALIDATOR_VERSION_ENDPOINT) {
         call.respond(HttpStatusCode.OK, validationController.getValidatorVersion())
