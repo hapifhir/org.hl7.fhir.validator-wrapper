@@ -47,7 +47,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
             val versionsResponse = sendVersionsRequest()
             setState {
                 igList = igResponse.packageInfo
-                igPackageNameList = igResponse.packageInfo.map { Pair(it.id!!, false)}.toMutableList()
+                igPackageNameList = getPackageNames(igResponse.packageInfo)
                 fhirVersionsList = versionsResponse.versions
                     .map { Pair(it, props.cliContext.getTargetVer() == it) }
                     .toMutableList()
@@ -216,6 +216,15 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
 
                         props.updateSelectedIgPackageInfo(newSelectedIgSet)
                     }
+                    onFilterStringChange = { partialIgName ->
+                        mainScope.launch {
+                            val igResponse = sendIGsRequest(partialIgName)
+                            setState {
+                                igList = igResponse.packageInfo
+                                igPackageNameList = getPackageNames(igResponse.packageInfo)
+                            }
+                        }
+                    }
                 }
             }
             heading {
@@ -274,6 +283,10 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
             }
         }
+    }
+
+    private fun getPackageNames(packageInfo : List<PackageInfo>) : MutableList<Pair<String, Boolean>> {
+        return packageInfo.map { Pair(it.id!!, false)}.toMutableList()
     }
 
     private suspend fun checkTxServer(txUrl: String): Boolean {

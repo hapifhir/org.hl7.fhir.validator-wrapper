@@ -29,6 +29,7 @@ external interface IgSelectorProps : RProps {
     var igPackageNameList :MutableList<Pair<String, Boolean>>
     var onUpdatePackageName: (String, Boolean) -> Unit
     var selectedIgSet : MutableSet<PackageInfo>
+    var onFilterStringChange: (String) -> Unit
 }
 
 class IgSelectorState : RState {
@@ -90,6 +91,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     }
                     multichoice = false
                     searchEnabled = true
+                    onFilterStringChange = props.onFilterStringChange
                     searchHint = "Search IGs..."
                 }
                 val versions = state.packageVersions.filter { it.first.fhirVersionMatches(props.fhirVersion)}
