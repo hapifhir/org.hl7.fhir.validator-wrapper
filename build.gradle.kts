@@ -1,10 +1,8 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
-import java.io.FileOutputStream
-import java.util.Properties
 
 plugins {
-    kotlin("multiplatform") version "1.5.0"
-    kotlin("plugin.serialization") version "1.5.0"
+    kotlin("multiplatform") version "1.5.20"
+    kotlin("plugin.serialization") version "1.5.20"
 
     id("org.hidetake.ssh") version "2.10.1"
     id("org.openjfx.javafxplugin") version "0.0.8"
@@ -35,7 +33,7 @@ kotlin {
     jvm {
         compilations {
             all {
-                kotlinOptions.jvmTarget = "1.8"
+                kotlinOptions.jvmTarget = "11"
             }
         }
         withJava()
@@ -45,7 +43,7 @@ kotlin {
             useJUnit()
         }
     }
-    js() {
+    js {
         useCommonJs()
         binaries.executable()
         browser {
@@ -70,7 +68,7 @@ kotlin {
                 implementation(kotlin("stdlib-common"))
                 implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
                 implementation("com.fasterxml.jackson.core:jackson-databind:${property("jacksonVersion")}")
-
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${property("serializationVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${property("serializationVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:${property("serializationVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
