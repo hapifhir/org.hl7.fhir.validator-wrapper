@@ -9,7 +9,7 @@ import io.ktor.util.*
 import org.hl7.fhir.validation.ValidatorCli
 import org.hl7.fhir.validation.cli.utils.Params
 import org.koin.dsl.module
-import org.koin.ktor.ext.Koin
+import org.koin.ktor.plugin.Koin
 import java.util.concurrent.TimeUnit
 
 private const val DEFAULT_ENVIRONMENT: String = "dev"
