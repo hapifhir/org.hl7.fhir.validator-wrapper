@@ -86,12 +86,16 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-server-netty:${property("ktorVersion")}")
-                implementation("io.ktor:ktor-html-builder:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-server-html-builder:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-server-jetty:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-server-core:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-server-call-logging:${property("ktorVersion")}")
+
                 implementation("io.ktor:ktor-websockets:${property("ktorVersion")}")
-                implementation("io.ktor:ktor-gson:${property("ktorVersion")}")
-                implementation("io.ktor:ktor-jackson:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-server-content-negotiation:${property("ktorVersion")}")
+
+                implementation("io.ktor:ktor-serialization-gson:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-serialization-jackson:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-serialization:${property("ktorVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${property("kotlinxVersion")}")
                 implementation("org.koin:koin-ktor:${property("koinVersion")}")
@@ -108,7 +112,7 @@ kotlin {
                 implementation("com.squareup.okhttp3:okhttp:4.9.0")
 
                 implementation("ch.qos.logback:logback-classic:${property("logbackVersion")}")
-                implementation("org.litote.kmongo:kmongo-coroutine-serialization:3.12.2")
+                implementation("org.litote.kmongo:kmongo-coroutine-serialization:${property("kmongoVersion")}")
                 implementation("no.tornado:tornadofx:${property("tornadoFXVersion")}")
             }
         }

@@ -7,11 +7,11 @@ import controller.uptime.uptimeModule
 import controller.validation.validationModule
 import controller.version.versionModule
 import desktop.launchLocalApp
-import io.ktor.application.*
-import io.ktor.features.*
+import io.ktor.server.application.*
+import io.ktor.server.plugins.callloging.*
 import io.ktor.http.*
 import io.ktor.http.content.*
-import io.ktor.jackson.*
+import io.ktor.serialization.jackson.*
 import io.ktor.response.*
 import io.ktor.routing.*
 
