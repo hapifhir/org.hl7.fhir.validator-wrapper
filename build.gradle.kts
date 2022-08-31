@@ -89,6 +89,10 @@ kotlin {
                 implementation("io.ktor:ktor-server-html-builder:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-server-jetty:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-server-core:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-server-cors:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-server-compression:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-server-content-negotiation:${property("ktorVersion")}")
+
                 implementation("io.ktor:ktor-server-call-logging:${property("ktorVersion")}")
 
                 implementation("io.ktor:ktor-websockets:${property("ktorVersion")}")
@@ -98,7 +102,7 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-jackson:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-serialization:${property("ktorVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${property("kotlinxVersion")}")
-                implementation("org.koin:koin-ktor:${property("koinVersion")}")
+                implementation("io.insert-koin:koin-ktor:${property("koinVersion")}")
                 //TODO
                 implementation("io.ktor:ktor-client-core:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-client-json:${property("ktorVersion")}")
