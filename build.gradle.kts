@@ -97,6 +97,7 @@ kotlin {
 
                 implementation("io.ktor:ktor-websockets:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-server-content-negotiation:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:${property("ktorVersion")}")
 
                 implementation("io.ktor:ktor-serialization-gson:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-serialization-jackson:${property("ktorVersion")}")
@@ -112,7 +113,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-jackson:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-client-gson:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-client-serialization-jvm:${property("ktorVersion")}")
-
+                implementation("io.ktor:ktor-client-content-negotiation:${property("ktorVersion")}")
                 implementation("com.squareup.okhttp3:okhttp:4.9.0")
 
                 implementation("ch.qos.logback:logback-classic:${property("logbackVersion")}")
