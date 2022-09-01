@@ -2,9 +2,9 @@ package api.terminogy
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
-import io.ktor.serialization.kotlinx.json.*
-import io.ktor.client.plugins.*
+
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -47,6 +47,6 @@ class TerminologyApiImpl : TerminologyApi {
         } else {
             "${serverUrl}/$CONFORMANCE_ENDPOINT"
         }
-        return client.get(metadataEndpoint)
+        return client.get(metadataEndpoint).body()
     }
 }
