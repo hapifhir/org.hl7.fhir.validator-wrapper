@@ -94,7 +94,7 @@ private fun runningAsDesktopApp(args: Array<String>): Boolean {
 
 data class Config(val host: String, val port: Int)
 
-@KtorExperimentalAPI
+
 fun extractConfig(environment: String, hoconConfig: HoconApplicationConfig): Config {
     val hoconEnvironment = hoconConfig.config("ktor.deployment.$environment")
     return Config(

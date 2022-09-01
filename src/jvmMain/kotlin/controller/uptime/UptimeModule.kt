@@ -7,12 +7,13 @@ import constants.PACKAGES_SERVER_STATUS_ENDPOINT
 import constants.TERMINOLOGY_ENDPOINT
 import constants.TX_SERVER_STATUS_ENDPOINT
 import controller.ig.NO_IGS_RETURNED
-import io.ktor.application.*
-import io.ktor.client.features.*
+
+import io.ktor.client.plugins.*
 import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import model.IGResponse
 import model.TerminologyServerRequest
 import model.TerminologyServerResponse

@@ -4,8 +4,8 @@ import model.ValidationResponse
 import org.hl7.fhir.validation.cli.utils.VersionUtil
 import org.hl7.fhir.validation.cli.model.ValidationRequest
 import org.hl7.fhir.validation.cli.services.ValidationService
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.io.File
 import java.io.FileInputStream
 import java.util.*

@@ -189,6 +189,7 @@ task("printVersion") {
 }
 
 tasks.withType<Jar> {
+
     manifest {
         attributes["Main-Class"] = "ServerKt"
         exclude("META-INF/*.SF","META-INF/*.DSA", "META-INF/*.RSA")
@@ -202,6 +203,10 @@ tasks.withType<Jar> {
     })
 }
 
+tasks.named<Copy>("jvmProcessResources") {
+    duplicatesStrategy = DuplicatesStrategy.WARN
+}
+
 tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
 }
@@ -212,6 +217,7 @@ application {
 
 // include JS artifacts in any JAR we generate
 tasks.getByName<Jar>("jvmJar") {
+
     val taskName = if (project.hasProperty("isProduction")) {
         "jsBrowserProductionWebpack"
     } else {
@@ -225,7 +231,7 @@ tasks.getByName<Jar>("jvmJar") {
 tasks {
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
         }
     }
 

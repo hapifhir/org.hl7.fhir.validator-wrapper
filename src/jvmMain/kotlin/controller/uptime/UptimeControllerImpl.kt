@@ -1,9 +1,9 @@
 package controller.uptime
 
 import api.uptime.EndpointApi
-import io.ktor.client.features.*
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import io.ktor.client.plugins.*
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 const val TERM_URL: String = "http://tx.fhir.org"
 const val PACK_URL: String = "http://packages2.fhir.org"
