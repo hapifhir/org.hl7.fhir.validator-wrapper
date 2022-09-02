@@ -13,6 +13,7 @@ import kotlinx.html.js.onMouseOutFunction
 import kotlinx.html.js.onMouseOverFunction
 import org.w3c.dom.HTMLInputElement
 import react.*
+import react.dom.attrs
 import styled.*
 
 external interface DropDownMultiChoiceProps : RProps {

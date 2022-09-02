@@ -10,6 +10,7 @@ import kotlinx.html.InputType
 import kotlinx.html.js.onChangeFunction
 import org.w3c.dom.HTMLInputElement
 import react.*
+import react.dom.attrs
 import styled.*
 import ui.components.options.menu.CHECKBOX_CHANGE
 

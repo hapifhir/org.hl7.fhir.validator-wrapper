@@ -13,6 +13,7 @@ import org.w3c.dom.asList
 import org.w3c.dom.events.Event
 import org.w3c.files.File
 import react.*
+import react.dom.attrs
 import styled.css
 import styled.styledInput
 import utils.fileutils.FileLoadEventListener

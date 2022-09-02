@@ -8,6 +8,7 @@ import kotlinx.html.js.onChangeFunction
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLInputElement
 import react.*
+import react.dom.attrs
 import styled.*
 
 const val CHECKBOX_CHANGE = "change"

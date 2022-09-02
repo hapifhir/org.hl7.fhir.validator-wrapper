@@ -8,6 +8,7 @@ import kotlinx.html.js.onClickFunction
 import kotlinx.html.title
 import model.PackageInfo
 import react.*
+import react.dom.attrs
 import styled.*
 
 external interface IgDisplayProps : RProps {

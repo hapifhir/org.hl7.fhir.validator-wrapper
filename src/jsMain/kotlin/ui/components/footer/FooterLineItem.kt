@@ -6,6 +6,7 @@ import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.css.properties.TextDecoration
 import react.*
+import react.dom.attrs
 import styled.*
 
 external interface FooterLineItemProps : RProps {

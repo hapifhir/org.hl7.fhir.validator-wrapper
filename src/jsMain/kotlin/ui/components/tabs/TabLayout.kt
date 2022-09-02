@@ -6,6 +6,7 @@ import kotlinx.css.*
 import kotlinx.css.properties.*
 import kotlinx.html.js.onClickFunction
 import react.*
+import react.dom.attrs
 import reactredux.containers.fileUploadTab
 import reactredux.containers.manualEntryTab
 import styled.StyleSheet

@@ -9,6 +9,7 @@ import kotlinx.html.id
 import kotlinx.html.js.onInputFunction
 import org.w3c.dom.HTMLTextAreaElement
 import react.*
+import react.dom.attrs
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv

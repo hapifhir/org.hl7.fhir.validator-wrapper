@@ -20,7 +20,7 @@ const val ACE_TOOLTIP = "ace_tooltip"
  */
 object GlobalStyles {
     fun inject() {
-        val styles = CSSBuilder(allowClasses = true).apply {
+        val styles = CssBuilder(allowClasses = true).apply {
             body {
                 margin(0.px)
                 padding(0.px)

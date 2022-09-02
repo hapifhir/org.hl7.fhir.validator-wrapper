@@ -16,6 +16,7 @@ import kotlinx.html.id
 import kotlinx.html.js.onChangeFunction
 import org.w3c.dom.HTMLInputElement
 import react.*
+import react.dom.attrs
 import react.dom.defaultValue
 import styled.*
 import ui.components.buttons.imageButton

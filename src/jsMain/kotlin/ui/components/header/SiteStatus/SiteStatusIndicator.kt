@@ -94,7 +94,7 @@ object SiteStatusIndicatorStyle : StyleSheet("SiteStatusIndicator", isStatic = t
         spinner()
     }
 
-    fun CSSBuilder.spinner() {
+    fun CssBuilder.spinner() {
         animation(
             duration = 2.s,
             timing = Timing.linear,
@@ -113,7 +113,7 @@ object SiteStatusIndicatorStyle : StyleSheet("SiteStatusIndicator", isStatic = t
         }
     }
 
-    fun CSSBuilder.scaleOutro() {
+    fun CssBuilder.scaleOutro() {
         animation(
             duration = (0.25).s,
             timing = Timing.materialAcceleration,
@@ -131,7 +131,7 @@ object SiteStatusIndicatorStyle : StyleSheet("SiteStatusIndicator", isStatic = t
         }
     }
 
-    fun CSSBuilder.scaleIntro() {
+    fun CssBuilder.scaleIntro() {
         animation(
             duration = (0.5).s,
             // elastic animation

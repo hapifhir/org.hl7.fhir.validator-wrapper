@@ -5,6 +5,7 @@ import kotlinx.css.*
 import kotlinx.css.properties.border
 import kotlinx.html.js.onClickFunction
 import react.*
+import react.dom.attrs
 import styled.*
 
 external interface ImageButtonProps : RProps {

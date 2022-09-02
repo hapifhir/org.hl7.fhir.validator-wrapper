@@ -13,6 +13,7 @@ import kotlinx.html.js.onMouseOverFunction
 import model.IssueSeverity
 import model.ValidationMessage
 import react.*
+import react.dom.attrs
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv

@@ -15,6 +15,7 @@ import mainScope
 import model.CliContext
 import model.ValidationOutcome
 import react.*
+import react.dom.attrs
 import styled.*
 import ui.components.tabs.heading
 import ui.components.validation.issuelist.filteredIssueEntryList

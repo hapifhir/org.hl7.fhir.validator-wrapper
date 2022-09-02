@@ -146,10 +146,9 @@ kotlin {
                 implementation("io.ktor:ktor-client-serialization-js:${property("ktorVersion")}")
 
 
-                implementation("org.jetbrains:kotlin-react:${property("kotlinReactVersion")}")
-                implementation("org.jetbrains:kotlin-react-dom:${property("kotlinReactVersion")}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react:${property("kotlinReactVersion")}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:${property("kotlinReactVersion")}")
                 implementation("org.jetbrains:kotlin-react-router-dom:${property("kotlinReactRouterVersion")}")
-                implementation("org.jetbrains:kotlin-styled:${property("kotlinStyledVersion")}")
                 implementation("org.jetbrains:kotlin-react-redux:${property("kotlinReactReduxVersion")}")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxVersion")}")
@@ -163,9 +162,15 @@ kotlin {
                 implementation(npm("redux", "${property("npm_redux_version")}"))
                 implementation(npm("react-redux", "${property("npm_react_redux_version")}"))
                 implementation(npm("react-router-dom", "${property("npm_react_router_dom_version")}"))
+
+                //Styled Components
+               /*implementation("org.jetbrains:kotlin-styled:${property("kotlinStyledVersion")}")
                 implementation(npm("styled-components", "${property("npm_styled_components_version")}"))
                 implementation(npm("inline-style-prefixer", "${property("npm_inline_styled_prefixer_version")}"))
-
+                */
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-css:17.0.2-pre.298-kotlin-1.6.10")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.325-kotlin-1.6.10")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-styled:5.3.3-pre.290-kotlin-1.6.10")
                 implementation(npm("node-polyglot", "2.4.0"))
 
                 implementation(npm("react-ace", "9.5.0"))
