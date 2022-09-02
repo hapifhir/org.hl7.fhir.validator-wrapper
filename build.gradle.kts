@@ -132,15 +132,19 @@ kotlin {
                 implementation("io.ktor:ktor-server-test-host:${property("ktorVersion")}")
                 implementation("io.mockk:mockk:${property("mockk_version")}")
                 implementation("io.ktor:ktor-client-mock:${property("ktorVersion")}")
-                implementation("org.koin:koin-test:${property("koinVersion")}")
+                implementation("io.insert-koin:koin-test:${property("koinVersion")}")
             }
 
         }
         val jsMain by getting {
             dependencies {
+                implementation("io.ktor:ktor-client-core:${property("ktorVersion")}")
+
                 implementation("io.ktor:ktor-client-js:${property("ktorVersion")}") //include http&websockets
                 implementation("io.ktor:ktor-client-json-js:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-client-content-negotiation:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-client-serialization-js:${property("ktorVersion")}")
+
 
                 implementation("org.jetbrains:kotlin-react:${property("kotlinReactVersion")}")
                 implementation("org.jetbrains:kotlin-react-dom:${property("kotlinReactVersion")}")
@@ -150,6 +154,8 @@ kotlin {
 
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${property("kotlinxCoroutinesVersion")}")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:${property("ktorVersion")}")
+
 
                 implementation(npm("core-js", "${property("npm_core_js_version")}"))
                 implementation(npm("react", "${property("npm_react_version")}"))
