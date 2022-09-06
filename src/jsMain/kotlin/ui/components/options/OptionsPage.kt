@@ -162,6 +162,23 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         props.updateCliContext(props.cliContext)
                     }
                 }
+                styledDiv {
+                    css {
+                        +OptionsPageStyle.optionsDivider
+                    }
+                }
+                checkboxWithDetails {
+                    name = "Allow Example URLs (allow-example-urls)"
+                    description =
+                        "Some of the examples in the FHIR specification have URLs in them that refer to example.org. " +
+                                "By default, the validator will always mark any such references as an error, but this " +
+                                "can be overridden with this parameter."
+                    selected = props.cliContext.isAllowExampleUrls()
+                    onChange = {
+                        props.cliContext.setAllowExampleUrls(it)
+                        props.updateCliContext(props.cliContext)
+                    }
+                }
             }
             heading {
                 text = "FHIR version"
