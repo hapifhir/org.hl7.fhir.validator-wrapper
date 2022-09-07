@@ -11,6 +11,7 @@ actual class CliContext actual constructor() {
     private var assumeValidRestReferences = false
     private var noExtensibleBindingMessages = false
     private var showTimes = false
+    private var allowExampleUrls = false
 
     private var txServer = "qr4/"
     private var txLog: String = ""
@@ -68,6 +69,14 @@ actual class CliContext actual constructor() {
 
     actual fun setShowTimes(showTimes: Boolean) {
         this.showTimes = showTimes
+    }
+
+    actual fun isAllowExampleUrls(): Boolean {
+        return allowExampleUrls
+    }
+
+    actual fun setAllowExampleUrls(allowExampleUrls : Boolean) {
+        this.allowExampleUrls = allowExampleUrls
     }
 
     actual fun getTxServer(): String {

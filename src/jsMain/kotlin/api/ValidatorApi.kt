@@ -38,6 +38,10 @@ suspend fun sendIGsRequest(): IGResponse {
     return jsonClient.get(urlString = endpoint + IG_ENDPOINT).body()
 }
 
+suspend fun sendIGsRequest(partialPackageName : String): IGResponse {
+    return jsonClient.get(urlString = "$endpoint$IG_ENDPOINT?name=${partialPackageName}").body()
+}
+
 suspend fun sendIGVersionsRequest(igPackageName : String) : IGResponse {
     return jsonClient.get(urlString = "$endpoint$IG_VERSIONS_ENDPOINT/${igPackageName}").body()
 }

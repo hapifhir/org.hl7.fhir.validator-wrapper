@@ -37,11 +37,15 @@ external interface DropDownMultiChoiceProps : RProps {
 
     // Search field hint text (if enabled)
     var searchHint: String
+
+    // Update function to run when the currentFilterString is changed
+    var onFilterStringChange: (String) -> Unit
 }
 
 class DropDownMultiChoiceState : RState {
     var dropDownMultiChoiceDisplayed = false
     var currentFilterString = ""
+
 }
 
 /**
@@ -133,10 +137,12 @@ class DropDownMultiChoice : RComponent<DropDownMultiChoiceProps, DropDownMultiCh
                                 id = searchAreaId
                                 placeholder = props.searchHint
                                 onKeyUpFunction = {
+                                    val filterString =  (document.getElementById(searchAreaId) as HTMLInputElement).value
                                     setState {
-                                        currentFilterString =
-                                            (document.getElementById(searchAreaId) as HTMLInputElement).value
+                                        currentFilterString = filterString
+
                                     }
+                                    props.onFilterStringChange(filterString)
                                 }
                             }
                         }

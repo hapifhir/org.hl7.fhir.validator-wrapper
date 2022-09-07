@@ -12,10 +12,10 @@ import java.util.*
 
 class ValidationControllerImpl : ValidationController, KoinComponent {
 
-    private val validationService by inject<ValidationService>()
+    private val validationServiceFactory by inject<ValidationServiceFactory>()
 
     override suspend fun validateRequest(validationRequest: ValidationRequest): ValidationResponse {
-        return validationService.validateSources(validationRequest)
+        return validationServiceFactory.getValidationService().validateSources(validationRequest)
     }
 
     override suspend fun getValidatorVersion():String {

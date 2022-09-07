@@ -9,6 +9,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 import model.IGResponse
+import model.PackageInfo
 import org.koin.ktor.ext.inject
 
 const val NO_IGS_RETURNED = "No IGs returned from igController. List size '0'."
@@ -25,7 +26,10 @@ fun Route.igModule() {
 
         val igsFromRegistry =  igController.listIgsFromRegistry()
 
-        val igsFromSimplifier = igController.listIgsFromSimplifier()
+        val name = call.parameters["name"]
+
+
+        val igsFromSimplifier = if (name == null) {igController.listIgsFromSimplifier() } else { igController.listIgsFromSimplifier(name) }
 
         val packageInfo  = (igsFromRegistry + igsFromSimplifier).toMutableList()
 

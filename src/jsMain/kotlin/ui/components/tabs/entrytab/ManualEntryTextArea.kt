@@ -13,7 +13,7 @@ import react.dom.attrs
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
-import styled.styledTextArea
+import styled.styledTextarea
 
 external interface ManualEntryTextAreaProps : RProps {
     var currentText: String
@@ -28,7 +28,7 @@ class ManualEntryTextArea : RComponent<ManualEntryTextAreaProps, RState>() {
             css {
                 +ManualEntryTextAreaStyle.mainContainer
             }
-            styledTextArea {
+            styledTextarea {
                 css {
                     +TextStyle.codeTextBase
                     +ManualEntryTextAreaStyle.textArea
