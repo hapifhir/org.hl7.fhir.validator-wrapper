@@ -97,6 +97,8 @@ kotlin {
 
                 implementation("io.ktor:ktor-websockets:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-server-content-negotiation:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-events:${property("ktorVersion")}")
+
                 implementation("io.ktor:ktor-serialization-kotlinx-json:${property("ktorVersion")}")
 
                 implementation("io.ktor:ktor-serialization-gson:${property("ktorVersion")}")
@@ -148,8 +150,8 @@ kotlin {
 
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react:${property("kotlinReactVersion")}")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:${property("kotlinReactVersion")}")
-                implementation("org.jetbrains:kotlin-react-router-dom:${property("kotlinReactRouterVersion")}")
-                implementation("org.jetbrains:kotlin-react-redux:${property("kotlinReactReduxVersion")}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-router-dom:${property("kotlinReactRouterVersion")}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-redux:${property("kotlinReactReduxVersion")}")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${property("kotlinxCoroutinesVersion")}")
@@ -200,6 +202,7 @@ task("printVersion") {
 }
 
 tasks.withType<Jar> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     manifest {
         attributes["Main-Class"] = "ServerKt"

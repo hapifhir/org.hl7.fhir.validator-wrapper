@@ -1,13 +1,14 @@
 package routing
 
 import com.google.gson.Gson
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.gson.*
+import io.ktor.server.application.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.serialization.gson.*
 import io.ktor.server.testing.*
 import org.koin.core.context.stopKoin
 import org.koin.core.module.Module
-import org.koin.ktor.ext.Koin
+import org.koin.ktor.plugin.Koin
+import org.koin.ktor.ext.inject
 
 abstract class BaseRoutingTest {
 
@@ -34,6 +35,8 @@ abstract class BaseRoutingTest {
     }
 
     fun toJsonBody(obj: Any): String = gson.toJson(obj)
+
+    fun quoteWrap(string : String) : String = "\"$string\""
 
     fun <R> TestApplicationResponse.parseBody(clazz: Class<R>): R {
         return gson.fromJson(content, clazz)

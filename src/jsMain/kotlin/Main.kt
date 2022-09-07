@@ -13,9 +13,11 @@ fun main() {
      * In our main index.html file within the commonMain module, we define a main div with the id "root".
      * This is where we dynamically add all generated ui elements.
      */
-    render(document.getElementById("root")) {
+    document.getElementById("root")?.let {
+        render(it) {
         provider(myStore) {
             app { }
         }
+    }
     }
 }

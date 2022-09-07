@@ -14,10 +14,10 @@ import instrumentation.ValidationInstrumentation.givenAValidationRequestWithABad
 import instrumentation.ValidationInstrumentation.givenAValidationRequestWithNoFiles
 import instrumentation.ValidationInstrumentation.givenAValidationRequestWithNullListOfFiles
 import instrumentation.ValidationInstrumentation.givenAValidationResult
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.http.*
 import io.ktor.http.ContentType
-import io.ktor.routing.*
+import io.ktor.server.routing.*
 import io.ktor.server.testing.*
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -82,7 +82,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.InternalServerError, response.status())
-            assertEquals(internalError.localizedMessage, response.content)
+            assertEquals(quoteWrap(internalError.localizedMessage), response.content)
         }
     }
 
@@ -99,7 +99,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.BadRequest, response.status())
-            assertEquals(NO_FILES_PROVIDED_MESSAGE, response.content)
+            assertEquals(quoteWrap(NO_FILES_PROVIDED_MESSAGE), response.content)
         }
     }
 
@@ -116,7 +116,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.BadRequest, response.status())
-            assertEquals(NO_FILES_PROVIDED_MESSAGE, response.content)
+            assertEquals(quoteWrap(NO_FILES_PROVIDED_MESSAGE), response.content)
         }
     }
 
@@ -133,7 +133,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.BadRequest, response.status())
-            assertEquals(INVALID_FILE_MESSAGE, response.content)
+            assertEquals(quoteWrap(INVALID_FILE_MESSAGE), response.content)
         }
     }
 
@@ -150,7 +150,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.BadRequest, response.status())
-            assertEquals(INVALID_FILE_MESSAGE, response.content)
+            assertEquals(quoteWrap(INVALID_FILE_MESSAGE), response.content)
         }
     }
 
@@ -164,7 +164,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.OK, response.status())
-            assertEquals("dummy.version", response.content)
+            assertEquals(quoteWrap("dummy.version"), response.content)
         }
     }
 }

@@ -6,10 +6,10 @@ import controller.version.VersionController
 import controller.version.versionModule
 import instrumentation.VersionsInstrumentation.givenAListOfSupportedVersions
 import instrumentation.VersionsInstrumentation.givenAnEmptyListOfSupportedVersions
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.http.*
 import io.ktor.http.ContentType
-import io.ktor.routing.*
+import io.ktor.server.routing.*
 import io.ktor.server.testing.*
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -69,7 +69,7 @@ class VersionRoutingTest : BaseRoutingTest() {
 
             with(call) {
                 assertEquals(HttpStatusCode.InternalServerError, response.status())
-                assertEquals(NO_SUPPORTED_VERSIONS_RETURNED, response.content)
+                assertEquals(quoteWrap(NO_SUPPORTED_VERSIONS_RETURNED), response.content)
             }
         }
 }

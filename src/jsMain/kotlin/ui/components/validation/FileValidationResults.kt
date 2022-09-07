@@ -4,6 +4,7 @@ import kotlinx.css.*
 import model.MessageFilter
 import model.ValidationMessage
 import model.ValidationOutcome
+import react.RReadableRef
 import react.*
 import styled.StyleSheet
 import styled.css
@@ -30,7 +31,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
         state = FileValidationResultsState()
     }
 
-    var editorRefFV = createRef<Nothing>()
+    //var editorRefFV : RReadableRef<Nothing> = createRef<Nothing>()
 
     override fun RBuilder.render() {
         styledDiv {
@@ -50,7 +51,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
                             highlightedMessages = if (highlighted) list else emptyList()
                         }
                     }
-                    editorRef = editorRefFV
+                    //editorRef = editorRefFV
                 }
             }
             styledDiv {
@@ -66,7 +67,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
                             highlightedMessages = if (highlighted) list else emptyList()
                         }
                     }
-                    editorRef = editorRefFV
+                   // editorRef = editorRefFV
                 }
             }
         }

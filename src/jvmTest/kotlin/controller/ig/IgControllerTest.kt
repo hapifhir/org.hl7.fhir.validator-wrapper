@@ -33,7 +33,7 @@ class IgControllerTest : BaseControllerTest() {
     init {
         startInjection(
             module {
-                single(override = true) { igPackageClient }
+                single() { igPackageClient }
             }
         )
     }

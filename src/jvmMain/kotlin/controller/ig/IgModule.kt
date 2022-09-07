@@ -12,7 +12,7 @@ import model.IGResponse
 import model.PackageInfo
 import org.koin.ktor.ext.inject
 
-const val NO_IGS_RETURNED = "No IGs returned from igController. List size '0'."
+const val NO_IGS_RETURNED = "No IGs returned from igController. List size is 0."
 
 
 
