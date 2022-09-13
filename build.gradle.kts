@@ -160,12 +160,12 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-kotlinx-json:${property("ktorVersion")}")
 
 
-                implementation(npm("core-js", "${property("npm_core_js_version")}"))
-                implementation(npm("react", "${property("npm_react_version")}"))
-                implementation(npm("react-dom", "${property("npm_react_version")}"))
-                implementation(npm("redux", "${property("npm_redux_version")}"))
-                implementation(npm("react-redux", "${property("npm_react_redux_version")}"))
-                implementation(npm("react-router-dom", "${property("npm_react_router_dom_version")}"))
+                //implementation(npm("core-js", "${property("npm_core_js_version")}"))
+                //implementation(npm("react", "${property("npm_react_version")}"))
+                //implementation(npm("react-dom", "${property("npm_react_version")}"))
+                //implementation(npm("redux", "${property("npm_redux_version")}"))
+                //implementation(npm("react-redux", "${property("npm_react_redux_version")}"))
+                //implementation(npm("react-router-dom", "${property("npm_react_router_dom_version")}"))
 
                 //Styled Components
                /*implementation("org.jetbrains:kotlin-styled:${property("kotlinStyledVersion")}")
