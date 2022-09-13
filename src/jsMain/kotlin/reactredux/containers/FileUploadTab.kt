@@ -3,7 +3,7 @@ package reactredux.containers
 import model.CliContext
 import model.FileInfo
 import model.ValidationOutcome
-import react.RClass
+import react.ComponentClass
 import react.RProps
 import react.invoke
 import react.redux.rConnect
@@ -28,7 +28,7 @@ private interface FileUploadTabDispatchProps : RProps {
     var addValidationOutcome: (ValidationOutcome) -> Unit
 }
 
-val fileUploadTab: RClass<RProps> =
+val fileUploadTab: ComponentClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, FileUploadTabProps, FileUploadTabDispatchProps, FileUploadTabProps>(
         { state, _ ->
             uploadedFiles = state.uploadedResourceSlice.uploadedFiles
@@ -45,4 +45,4 @@ val fileUploadTab: RClass<RProps> =
             }
             addValidationOutcome = { dispatch(UploadedResourceSlice.AddValidationOutcome(it)) }
         }
-    )(FileUploadTab::class.js.unsafeCast<RClass<FileUploadTabProps>>())
+    )(FileUploadTab::class.js.unsafeCast<ComponentClass<FileUploadTabProps>>())

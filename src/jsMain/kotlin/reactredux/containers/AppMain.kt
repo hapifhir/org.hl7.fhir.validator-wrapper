@@ -17,7 +17,7 @@ private interface AppStateProps : RProps {
 
 private interface AppDispatchProps : RProps
 
-val app: RClass<RProps> =
+val app: ComponentClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, AppStateProps, AppDispatchProps, AppProps>(
         mapStateToProps = { state, _ ->
             appScreen = state.appScreenSlice.appScreen
@@ -25,4 +25,4 @@ val app: RClass<RProps> =
         },
         { _, _ ->
         }
-    )(App::class.js.unsafeCast<RClass<AppProps>>())
+    )(App::class.js.unsafeCast<ComponentClass<AppProps>>())

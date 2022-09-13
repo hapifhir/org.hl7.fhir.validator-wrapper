@@ -2,7 +2,7 @@ package reactredux.containers
 
 import Polyglot
 import model.AppScreen
-import react.RClass
+import react.ComponentClass
 import react.RProps
 import react.invoke
 import react.redux.rConnect
@@ -27,7 +27,7 @@ private interface HeaderDispatchProps : RProps {
     var setLanguage: (Language) -> Unit
 }
 
-val header: RClass<RProps> =
+val header: ComponentClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, HeaderStateProps, HeaderDispatchProps, HeaderProps>(
         { state, _ ->
             appScreen = state.appScreenSlice.appScreen
@@ -39,4 +39,4 @@ val header: RClass<RProps> =
             setPolyglot = { dispatch(LocalizationSlice.SetPolyglot(it)) }
             setLanguage = { dispatch(LocalizationSlice.SetLanguage(it)) }
         }
-    )(Header::class.js.unsafeCast<RClass<HeaderProps>>())
+    )(Header::class.js.unsafeCast<ComponentClass<HeaderProps>>())

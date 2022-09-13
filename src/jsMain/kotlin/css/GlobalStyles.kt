@@ -2,6 +2,7 @@ package css
 
 import css.const.*
 import kotlinx.css.*
+import styled.StyleSheet
 import styled.injectGlobal
 
 const val ACE_EDITOR_INFO = "ace-editor-info"
@@ -18,9 +19,9 @@ const val ACE_TOOLTIP = "ace_tooltip"
 /**
  * By default, we want to set the global styles for the entire project to 0 px margin and padding.
  */
-object GlobalStyles {
-    fun inject() {
-        val styles = CssBuilder(allowClasses = true).apply {
+object GlobalStyles : StyleSheet("GlobalStyles"){
+
+        val styles = CSSBuilder(allowClasses = true).apply {
             body {
                 margin(0.px)
                 padding(0.px)
@@ -53,8 +54,10 @@ object GlobalStyles {
                 whiteSpace = WhiteSpace.preWrap
             }
         }
-        injectGlobal(styles.toString())
+    fun applyGlobalStyle() {
+        styled.injectGlobal(styles.toString())
     }
+
 }
 
 // TODO I'm leaving this here, so I remember how to do it later.

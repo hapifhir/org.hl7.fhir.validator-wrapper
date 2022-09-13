@@ -147,7 +147,7 @@ object FileStatusIndicatorStyle : StyleSheet("FileStatusIndicator", isStatic = t
         spinner()
     }
 
-    fun CssBuilder.spinner() {
+    fun CSSBuilder.spinner() {
         animation(
             duration = 2.s,
             timing = Timing.linear,
@@ -166,7 +166,7 @@ object FileStatusIndicatorStyle : StyleSheet("FileStatusIndicator", isStatic = t
         }
     }
 
-    fun CssBuilder.scaleOutro() {
+    fun CSSBuilder.scaleOutro() {
         animation(
             duration = (0.25).s,
             timing = Timing.materialAcceleration,
@@ -184,7 +184,7 @@ object FileStatusIndicatorStyle : StyleSheet("FileStatusIndicator", isStatic = t
         }
     }
 
-    fun CssBuilder.scaleIntro() {
+    fun CSSBuilder.scaleIntro() {
         animation(
             duration = (0.5).s,
             // elastic animation

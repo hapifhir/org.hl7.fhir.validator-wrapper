@@ -18,7 +18,7 @@ object LoadingSpinner : StyleSheet("LoadingSpinner", isStatic = true) {
         spinner()
     }
 
-    fun CssBuilder.spinner() {
+    fun CSSBuilder.spinner() {
         animation(
             duration = 2.s,
             timing = Timing.linear,
@@ -37,7 +37,7 @@ object LoadingSpinner : StyleSheet("LoadingSpinner", isStatic = true) {
         }
     }
 
-    fun CssBuilder.scaleOutro() {
+    fun CSSBuilder.scaleOutro() {
         animation(
             duration = (0.5).s,
             timing = Timing.materialAcceleration,
@@ -55,7 +55,7 @@ object LoadingSpinner : StyleSheet("LoadingSpinner", isStatic = true) {
         }
     }
 
-    fun CssBuilder.scaleIntro() {
+    fun CSSBuilder.scaleIntro() {
         animation(
             duration = (0.5).s,
             // elastic animation

@@ -3,7 +3,7 @@ package reactredux.containers
 import Polyglot
 import model.CliContext
 import model.ValidationOutcome
-import react.RClass
+import react.ComponentClass
 import react.RProps
 import react.invoke
 import react.redux.rConnect
@@ -31,7 +31,7 @@ private interface ManualEntryTabDispatchProps : RProps {
     var setSessionId: (String) -> Unit
 }
 
-val manualEntryTab: RClass<RProps> =
+val manualEntryTab: ComponentClass<RProps> =
     rConnect<AppState, RAction, WrapperAction, RProps, ManualEntryTabStateProps, ManualEntryTabDispatchProps, ManualEntryTabProps>(
         { state, _ ->
             cliContext = state.validationContextSlice.cliContext
@@ -47,4 +47,4 @@ val manualEntryTab: RClass<RProps> =
             updateCurrentlyEnteredText = { dispatch(ManualEntrySlice.UpdateCurrentlyEnteredText(it)) }
             setSessionId = { id: String -> dispatch(ValidationSessionSlice.SetSessionId(id)) }
         }
-    )(ManualEntryTab::class.js.unsafeCast<RClass<ManualEntryTabProps>>())
+    )(ManualEntryTab::class.js.unsafeCast<ComponentClass<ManualEntryTabProps>>())

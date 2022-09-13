@@ -1,8 +1,10 @@
 package ui.components.ace
 
+
 import react.RReadableRef
 
-fun gotoLine(editorRef:RReadableRef<Nothing>, line: Int) {
+
+fun gotoLine(editorRef: RReadableRef<Nothing>, line: Int) {
     editorRef.asDynamic().current.editor.gotoLine(line)
 }
 
