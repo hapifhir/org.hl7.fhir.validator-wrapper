@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 plugins {
-    kotlin("multiplatform") version "1.5.20"
-    kotlin("plugin.serialization") version "1.5.20"
+    kotlin("multiplatform") version "1.6.10"
+    kotlin("plugin.serialization") version "1.6.10"
 
     id("org.hidetake.ssh") version "2.10.1"
     id("org.openjfx.javafxplugin") version "0.0.8"
@@ -150,9 +150,9 @@ kotlin {
 
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react:${property("kotlinReactVersion")}")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:${property("kotlinReactVersion")}")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-router-dom:${property("kotlinReactRouterVersion")}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-router-dom:${property("kotlinReactRouterDomVersion")}")
 
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-redux:4.1.0-pre.216-kotlin-1.5.20")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-redux:4.1.2-pre.325-kotlin-1.6.10")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-redux:${property("kotlinReactReduxVersion")}")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxVersion")}")
@@ -173,8 +173,9 @@ kotlin {
                 implementation(npm("inline-style-prefixer", "${property("npm_inline_styled_prefixer_version")}"))
                 */
                 //implementation("org.jetbrains.kotlin-wrappers:kotlin-react-css:17.0.2-pre.246-kotlin-1.5.30")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.216-kotlin-1.5.20")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-styled:5.3.0-pre.216-kotlin-1.5.20")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.325-kotlin-1.6.10")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-styled:5.3.3-pre.290-kotlin-1.6.10")
+
 
                 implementation(npm("node-polyglot", "2.4.0"))
 
