@@ -43,11 +43,14 @@ kotlin {
             useJUnit()
         }
     }
-    js {
+    js () {
         useCommonJs()
         binaries.executable()
         browser {
             binaries.executable()
+            commonWebpackConfig {
+                mode = if(project.hasProperty("prod")) org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.PRODUCTION else org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.DEVELOPMENT
+            }
             webpackTask {
                 cssSupport.enabled = true
             }
@@ -152,7 +155,7 @@ kotlin {
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:${property("kotlinReactVersion")}")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-router-dom:${property("kotlinReactRouterDomVersion")}")
 
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-redux:4.1.2-pre.325-kotlin-1.6.10")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-redux:4.1.2-pre.290-kotlin-1.6.10")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-redux:${property("kotlinReactReduxVersion")}")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxVersion")}")
@@ -173,9 +176,13 @@ kotlin {
                 implementation(npm("inline-style-prefixer", "${property("npm_inline_styled_prefixer_version")}"))
                 */
                 //implementation("org.jetbrains.kotlin-wrappers:kotlin-react-css:17.0.2-pre.246-kotlin-1.5.30")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.325-kotlin-1.6.10")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.290-kotlin-1.6.10")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-styled:5.3.3-pre.290-kotlin-1.6.10")
 
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-ring-ui:4.1.5-pre.290-kotlin-1.6.10")
+
+                // for kotlin-ring-ui
+                implementation(npm("core-js", "^3.16.0"))
 
                 implementation(npm("node-polyglot", "2.4.0"))
 

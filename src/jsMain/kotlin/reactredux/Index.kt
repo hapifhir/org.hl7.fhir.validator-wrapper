@@ -1,20 +1,15 @@
-import kotlinx.browser.document
+package reactredux
 
-import react.dom.render
-import react.redux.provider
 import reactredux.components.app
 import reactredux.reducers.State
-import reactredux.reducers.rootReducer
-
+import react.dom.render
+import react.redux.provider
 import redux.createStore
 import redux.rEnhancer
+import kotlinx.browser.document
+import reactredux.reducers.rootReducer
 
 val store = createStore(::rootReducer, State(), rEnhancer())
-
-
-/*fun main() {
-    document.getElementById("root")?.innerHTML = "Hello, Kotlin/JS!"
-}*/
 
 fun main() {
     val rootDiv = document.getElementById("root")!!
