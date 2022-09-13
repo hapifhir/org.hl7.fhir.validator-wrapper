@@ -27,7 +27,7 @@ import ui.components.header.SiteStatus.siteStatus
 import utils.Language
 import kotlin.time.ExperimentalTime
 
-external interface HeaderProps : RProps {
+external interface HeaderProps : Props {
     var appScreen: AppScreen
     var language: Language
     var polyglot: Polyglot
@@ -37,13 +37,13 @@ external interface HeaderProps : RProps {
     var setLanguage: (Language) -> Unit
 }
 
-class HeaderState : RState {
+class HeaderState : State {
     var currentScroll: Double = 0.0
     var terminologyServerState = SiteState.IN_PROGESS
     var packageServerState = SiteState.IN_PROGESS
 }
 
-class Header : RComponent<HeaderProps, HeaderState>(), EventListener {
+class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), EventListener {
 
     init {
         state = HeaderState()
@@ -152,7 +152,7 @@ class Header : RComponent<HeaderProps, HeaderState>(), EventListener {
 /**
  * Convenience method for instantiating the component.
  */
-fun RBuilder.header(handler: HeaderProps.() -> Unit): ReactElement {
+fun RBuilder.header(handler: HeaderProps.() -> Unit) {
     return child(Header::class) {
         this.attrs(handler)
     }

@@ -1,10 +1,7 @@
 import kotlinx.coroutines.MainScope
 import kotlinx.css.*
 import model.AppScreen
-import react.RBuilder
-import react.RComponent
-import react.RProps
-import react.RState
+import react.*
 import reactredux.containers.optionsPage
 import reactredux.containers.header
 import styled.StyleSheet
@@ -15,14 +12,14 @@ import ui.components.header.HeaderStyle
 import ui.components.main.sectionTitle
 import ui.components.tabs.tabLayout
 
-external interface AppProps : RProps {
+external interface AppProps : Props {
     var appScreen: AppScreen
     var polyglot: Polyglot
 }
 
 val mainScope = MainScope()
 
-class App : RComponent<AppProps, RState>() {
+class App(props : AppProps) : RComponent<AppProps, State>() {
     override fun RBuilder.render() {
 
         styledDiv {

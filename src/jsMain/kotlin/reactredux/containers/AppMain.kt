@@ -10,15 +10,15 @@ import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
 
-private interface AppStateProps : RProps {
+private interface AppStateProps : Props {
     var appScreen: AppScreen
     var polyglot: Polyglot
 }
 
-private interface AppDispatchProps : RProps
+private interface AppDispatchProps : Props
 
-val app: ComponentClass<RProps> =
-    rConnect<AppState, RAction, WrapperAction, RProps, AppStateProps, AppDispatchProps, AppProps>(
+val app: ComponentClass<Props> =
+    rConnect<AppState, RAction, WrapperAction, Props, AppStateProps, AppDispatchProps, AppProps>(
         mapStateToProps = { state, _ ->
             appScreen = state.appScreenSlice.appScreen
             polyglot = state.localizationSlice.polyglotInstance
