@@ -97,7 +97,7 @@ class IgRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.InternalServerError, response.status())
-            assertEquals(quoteWrap(NO_IGS_RETURNED), response.content)
+            assertEquals(NO_IGS_RETURNED, response.content)
         }
     }
 
@@ -130,7 +130,7 @@ class IgRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.InternalServerError, response.status())
-            assertEquals(quoteWrap(NO_IGS_RETURNED), response.content)
+            assertEquals(NO_IGS_RETURNED, response.content)
         }
     }
 }
