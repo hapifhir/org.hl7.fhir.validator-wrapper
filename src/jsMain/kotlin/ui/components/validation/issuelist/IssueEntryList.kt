@@ -12,18 +12,18 @@ import styled.styledUl
 import ui.components.ace.scrollToLine
 import ui.components.ace.gotoLine
 
-external interface IssueEntryListProps : RProps {
+external interface IssueEntryListProps : Props {
     var validationOutcome: ValidationOutcome
     var messageFilter: MessageFilter
     var highlightedMessages: List<ValidationMessage>?
     var onHighlight: ((Boolean, List<ValidationMessage>) -> Unit)?
-    var editorRef:RReadableRef<Nothing>
+    var editorRef:MutableRefObject<Nothing>
 }
 
 /**
  * Component that displays a list of validation messages.
  */
-class IssueEntryList : RComponent<IssueEntryListProps, RState>() {
+class IssueEntryList : RComponent<IssueEntryListProps, State>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -66,7 +66,7 @@ class IssueEntryList : RComponent<IssueEntryListProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.issueEntryList(handler: IssueEntryListProps.() -> Unit): ReactElement {
+fun RBuilder.issueEntryList(handler: IssueEntryListProps.() -> Unit) {
     return child(IssueEntryList::class) {
         this.attrs(handler)
     }

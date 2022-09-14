@@ -20,7 +20,7 @@ import ui.components.tabs.uploadtab.filelist.fileEntryList
 import ui.components.validation.validationSummaryPopup
 import utils.assembleRequest
 
-external interface FileUploadTabProps : RProps {
+external interface FileUploadTabProps : Props {
     var uploadedFiles: List<ValidationOutcome>
     var cliContext: CliContext
     var sessionId: String
@@ -32,7 +32,7 @@ external interface FileUploadTabProps : RProps {
     var addValidationOutcome: (ValidationOutcome) -> Unit
 }
 
-class FileUploadTabState : RState {
+class FileUploadTabState : State {
     var currentlyDisplayedValidationOutcome: ValidationOutcome? = null
 }
 
@@ -117,7 +117,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.fileUploadTab(handler: FileUploadTabProps.() -> Unit): ReactElement {
+fun RBuilder.fileUploadTab(handler: FileUploadTabProps.() -> Unit) {
     return child(FileUploadTab::class) {
         this.attrs(handler)
     }

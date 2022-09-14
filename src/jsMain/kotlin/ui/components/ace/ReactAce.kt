@@ -8,8 +8,8 @@ import react.*
 @JsName("default")
 external val aceEditor: ComponentClass<AceEditorProps>
 
-    external interface AceEditorProps : RProps {
-    var ref : RReadableRef<Nothing>
+    external interface AceEditorProps : Props {
+    var ref : MutableRefObject<Nothing>
     var mode: String
     var theme : String
     var height : String?

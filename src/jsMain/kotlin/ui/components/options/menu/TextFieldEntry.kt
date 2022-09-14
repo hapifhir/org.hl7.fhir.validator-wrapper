@@ -23,7 +23,7 @@ import ui.components.buttons.imageButton
 import ui.components.options.IgSelectorStyle
 import ui.components.tabs.entrytab.ManualEntryButtonBarStyle
 
-external interface TextFieldEntryProps : RProps {
+external interface TextFieldEntryProps : Props {
     var onSubmitEntry: (String) -> Deferred<Boolean>
     var currentEntry: String
     var heading: String
@@ -33,7 +33,7 @@ external interface TextFieldEntryProps : RProps {
     var successMessage: String
 }
 
-class TextFieldEntryState : RState {
+class TextFieldEntryState : State {
     var displayingError = false
     var displayingSuccess = true
     var validating = false
@@ -143,7 +143,7 @@ class TextFieldEntry : RComponent<TextFieldEntryProps, TextFieldEntryState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.textEntryField(handler: TextFieldEntryProps.() -> Unit): ReactElement {
+fun RBuilder.textEntryField(handler: TextFieldEntryProps.() -> Unit) {
     return child(TextFieldEntry::class) {
         this.attrs(handler)
     }

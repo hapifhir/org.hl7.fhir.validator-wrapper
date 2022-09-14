@@ -11,7 +11,7 @@ import styled.styledDiv
 import ui.components.buttons.imageButton
 import ui.components.tabs.entrytab.ManualEntryButtonBarStyle
 
-external interface FileUploadButtonBarProps : RProps {
+external interface FileUploadButtonBarProps : Props {
     var onUploadRequested: () -> Unit
     var onValidateRequested: () -> Unit
     var workInProgress: Boolean
@@ -20,7 +20,7 @@ external interface FileUploadButtonBarProps : RProps {
 /**
  * Component displaying the horizontal list of buttons for file upload and validation
  */
-class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
+class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, State>() {
 
     override fun RBuilder.render() {
         styledDiv {
@@ -68,7 +68,7 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.fileUploadButtonBar(handler: FileUploadButtonBarProps.() -> Unit): ReactElement {
+fun RBuilder.fileUploadButtonBar(handler: FileUploadButtonBarProps.() -> Unit) {
     return child(FileUploadButtonBar::class) {
         this.attrs(handler)
     }

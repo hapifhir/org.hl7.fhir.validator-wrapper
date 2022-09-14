@@ -8,7 +8,7 @@ import react.*
 import react.dom.attrs
 import styled.*
 
-external interface ImageButtonProps : RProps {
+external interface ImageButtonProps : Props {
     var image: String?
     var borderColor: Color
     var backgroundColor: Color
@@ -21,7 +21,7 @@ external interface ImageButtonProps : RProps {
 /**
  * A generic button with the option to customize, color, label, and optional icon
  */
-class ImageButton : RComponent<ImageButtonProps, RState>() {
+class ImageButton : RComponent<ImageButtonProps, State>() {
     override fun RBuilder.render() {
         // main button layout
         styledDiv {
@@ -70,7 +70,7 @@ class ImageButton : RComponent<ImageButtonProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.imageButton(handler: ImageButtonProps.() -> Unit): ReactElement {
+fun RBuilder.imageButton(handler: ImageButtonProps.() -> Unit){
     return child(ImageButton::class) {
         this.attrs(handler)
     }

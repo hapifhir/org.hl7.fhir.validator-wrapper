@@ -12,12 +12,12 @@ import styled.css
 import styled.styledDiv
 import ui.components.validation.issuelist.issueFilterButtonBar
 
-external interface ValidationSummaryProps : RProps {
+external interface ValidationSummaryProps : Props {
     var validationOutcome: ValidationOutcome
     var onClose: () -> Unit
 }
 
-class ValidationSummaryState : RState {
+class ValidationSummaryState : State {
     var messageFilter: MessageFilter = MessageFilter()
 }
 
@@ -72,7 +72,7 @@ class ValidationSummary : RComponent<ValidationSummaryProps, ValidationSummarySt
 /**
  * React Component Builder
  */
-fun RBuilder.validationSummary(handler: ValidationSummaryProps.() -> Unit): ReactElement {
+fun RBuilder.validationSummary(handler: ValidationSummaryProps.() -> Unit) {
     return child(ValidationSummary::class) {
         this.attrs(handler)
     }

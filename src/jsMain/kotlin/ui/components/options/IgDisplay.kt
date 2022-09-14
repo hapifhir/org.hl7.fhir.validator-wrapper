@@ -11,13 +11,13 @@ import react.*
 import react.dom.attrs
 import styled.*
 
-external interface IgDisplayProps : RProps {
+external interface IgDisplayProps : Props {
     var fhirVersion: String
     var packageInfo: PackageInfo
     var onDelete: () -> Unit
 }
 
-class IgDisplay : RComponent<IgDisplayProps, RState>() {
+class IgDisplay : RComponent<IgDisplayProps, State>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -62,7 +62,7 @@ class IgDisplay : RComponent<IgDisplayProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.igDisplay(handler: IgDisplayProps.() -> Unit): ReactElement {
+fun RBuilder.igDisplay(handler: IgDisplayProps.() -> Unit) {
     return child(IgDisplay::class) {
         this.attrs(handler)
     }

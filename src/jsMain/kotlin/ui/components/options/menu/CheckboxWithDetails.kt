@@ -13,7 +13,7 @@ import styled.*
 
 const val CHECKBOX_CHANGE = "change"
 
-external interface CheckboxWithDetailsProps : RProps {
+external interface CheckboxWithDetailsProps : Props {
     var name: String
     var description: String
     var selected: Boolean
@@ -21,7 +21,7 @@ external interface CheckboxWithDetailsProps : RProps {
     var onChange: (Boolean) -> Unit
 }
 
-class CheckboxWithDetailsState : RState {
+class CheckboxWithDetailsState : State {
     var currentlyExpanded: Boolean = false
 }
 
@@ -111,7 +111,7 @@ class CheckboxWithDetails : RComponent<CheckboxWithDetailsProps, CheckboxWithDet
 /**
  * React Component Builder
  */
-fun RBuilder.checkboxWithDetails(handler: CheckboxWithDetailsProps.() -> Unit): ReactElement {
+fun RBuilder.checkboxWithDetails(handler: CheckboxWithDetailsProps.() -> Unit) {
     return child(CheckboxWithDetails::class) {
         this.attrs(handler)
     }

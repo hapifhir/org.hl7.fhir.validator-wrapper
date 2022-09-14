@@ -16,12 +16,12 @@ import ui.components.ace.AceMarker
 import ui.components.ace.AceOptions
 import ui.components.ace.setAnnotations
 
-external interface CodeIssueDisplayProps : RProps {
+external interface CodeIssueDisplayProps : Props {
     var validationOutcome: ValidationOutcome
     var messageFilter: MessageFilter
     var highlightedMessages: List<ValidationMessage>
     var onHighlight: (Boolean, List<ValidationMessage>) -> Unit
-    var editorRef:RReadableRef<Nothing>
+    var editorRef:MutableRefObject<Nothing>
 }
 
 fun issueSeverityToAceAnnotation(issueSeverity: IssueSeverity): String {
@@ -44,7 +44,7 @@ fun issueSeverityToAceCSSClasses(issueSeverity: IssueSeverity, isSelected: Boole
     }
 }
 
-class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
+class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, State>() {
 
     /*
     This is here because the annotations set in the aceEditor props
@@ -101,7 +101,7 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.codeIssueDisplay(handler: CodeIssueDisplayProps.() -> Unit): ReactElement {
+fun RBuilder.codeIssueDisplay(handler: CodeIssueDisplayProps.() -> Unit) {
     return child(CodeIssueDisplay::class) {
         this.attrs(handler)
     }

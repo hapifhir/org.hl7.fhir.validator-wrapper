@@ -64,7 +64,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
         }
     }
 
-    @ExperimentalTime
+
     override fun RBuilder.render() {
         styledDiv {
             css {

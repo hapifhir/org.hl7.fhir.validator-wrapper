@@ -10,12 +10,12 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 
-external interface ValidationSummaryPopupProps : RProps {
+external interface ValidationSummaryPopupProps : Props {
     var validationOutcome: ValidationOutcome
     var onClose: () -> Unit
 }
 
-class ValidationSummaryPopup : RComponent<ValidationSummaryPopupProps, RState>() {
+class ValidationSummaryPopup : RComponent<ValidationSummaryPopupProps, State>() {
 
     override fun RBuilder.render() {
         styledDiv {
@@ -40,7 +40,7 @@ class ValidationSummaryPopup : RComponent<ValidationSummaryPopupProps, RState>()
 /**
  * React Component Builder
  */
-fun RBuilder.validationSummaryPopup(handler: ValidationSummaryPopupProps.() -> Unit): ReactElement {
+fun RBuilder.validationSummaryPopup(handler: ValidationSummaryPopupProps.() -> Unit) {
     return child(ValidationSummaryPopup::class) {
         this.attrs(handler)
     }

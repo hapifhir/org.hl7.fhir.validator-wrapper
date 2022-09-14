@@ -12,13 +12,13 @@ import styled.css
 import styled.styledDiv
 import styled.styledSpan
 
-external interface HeaderTabButtonProps : RProps {
+external interface HeaderTabButtonProps : Props {
     var selected: Boolean
     var label: String
     var onSelected: (String) -> Unit
 }
 
-class HeaderTabButtonState : RState
+class HeaderTabButtonState : State
 
 class HeaderTabButton : RComponent<HeaderTabButtonProps, HeaderTabButtonState>() {
 
@@ -62,7 +62,7 @@ class HeaderTabButton : RComponent<HeaderTabButtonProps, HeaderTabButtonState>()
 /**
  * Convenience method for instantiating the component.
  */
-fun RBuilder.headerTabButton(handler: HeaderTabButtonProps.() -> Unit): ReactElement {
+fun RBuilder.headerTabButton(handler: HeaderTabButtonProps.() -> Unit) {
     return child(HeaderTabButton::class) {
         this.attrs(handler)
     }

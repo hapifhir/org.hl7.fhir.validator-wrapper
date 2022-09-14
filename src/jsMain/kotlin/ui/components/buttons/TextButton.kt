@@ -12,7 +12,7 @@ import styled.css
 import styled.styledDiv
 import styled.styledP
 
-external interface TextButtonProps : RProps {
+external interface TextButtonProps : Props {
     var textColor: Color
     var label: String
     var active: Boolean
@@ -24,7 +24,7 @@ external interface TextButtonProps : RProps {
 /**
  * A text only button with the option to customize, color, label, and if it is currently active
  */
-class TextButton : RComponent<TextButtonProps, RState>() {
+class TextButton : RComponent<TextButtonProps, State>() {
     override fun RBuilder.render() {
         // main button layout
         styledDiv {
@@ -71,7 +71,7 @@ class TextButton : RComponent<TextButtonProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.textButton(handler: TextButtonProps.() -> Unit): ReactElement {
+fun RBuilder.textButton(handler: TextButtonProps.() -> Unit) {
     return child(TextButton::class) {
         this.attrs(handler)
     }

@@ -4,7 +4,7 @@ import model.CliContext
 import model.FileInfo
 import model.ValidationOutcome
 import react.ComponentClass
-import react.RProps
+import react.Props
 import react.invoke
 import react.redux.rConnect
 import reactredux.slices.UploadedResourceSlice
@@ -14,13 +14,13 @@ import redux.RAction
 import redux.WrapperAction
 import ui.components.tabs.uploadtab.FileUploadTab
 
-private interface FileUploadTabProps : RProps {
+private interface FileUploadTabProps : Props {
     var uploadedFiles: List<ValidationOutcome>
     var cliContext: CliContext
     var sessionId: String
 }
 
-private interface FileUploadTabDispatchProps : RProps {
+private interface FileUploadTabDispatchProps : Props {
     var deleteFile: (FileInfo) -> Unit
     var uploadFile: (FileInfo) -> Unit
     var setSessionId: (String) -> Unit
@@ -28,8 +28,8 @@ private interface FileUploadTabDispatchProps : RProps {
     var addValidationOutcome: (ValidationOutcome) -> Unit
 }
 
-val fileUploadTab: ComponentClass<RProps> =
-    rConnect<AppState, RAction, WrapperAction, RProps, FileUploadTabProps, FileUploadTabDispatchProps, FileUploadTabProps>(
+val fileUploadTab: ComponentClass<Props> =
+    rConnect<AppState, RAction, WrapperAction, Props, FileUploadTabProps, FileUploadTabDispatchProps, FileUploadTabProps>(
         { state, _ ->
             uploadedFiles = state.uploadedResourceSlice.uploadedFiles
             cliContext = state.validationContextSlice.cliContext
