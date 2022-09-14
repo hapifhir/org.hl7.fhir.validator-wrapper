@@ -104,12 +104,9 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
             request.setSessionId(props.sessionId)
         }
         mainScope.launch {
-            console.log("sending validation request")
             val validationResponse = sendValidationRequest(request)
-            console.log(" received validation response: $validationResponse")
             if (validationResponse.getSessionId().isNotEmpty()) props.setSessionId(validationResponse.getSessionId())
             validationResponse.getOutcomes().forEach { outcome ->
-
                 props.addValidationOutcome(outcome)
                 props.toggleValidationInProgress(true, outcome.getFileInfo())
             }

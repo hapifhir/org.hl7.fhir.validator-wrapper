@@ -36,6 +36,8 @@ abstract class BaseRoutingTest {
 
     fun toJsonBody(obj: Any): String = gson.toJson(obj)
 
+    fun quoteWrap(string : String) : String = "\"$string\""
+
     fun <R> TestApplicationResponse.parseBody(clazz: Class<R>): R {
         return gson.fromJson(content, clazz)
     }

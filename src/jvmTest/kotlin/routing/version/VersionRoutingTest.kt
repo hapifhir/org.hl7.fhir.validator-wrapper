@@ -69,7 +69,7 @@ class VersionRoutingTest : BaseRoutingTest() {
 
             with(call) {
                 assertEquals(HttpStatusCode.InternalServerError, response.status())
-                assertEquals(NO_SUPPORTED_VERSIONS_RETURNED, response.content)
+                assertEquals(quoteWrap(NO_SUPPORTED_VERSIONS_RETURNED), response.content)
             }
         }
 }
