@@ -21,7 +21,7 @@ external interface CodeIssueDisplayProps : Props {
     var messageFilter: MessageFilter
     var highlightedMessages: List<ValidationMessage>
     var onHighlight: (Boolean, List<ValidationMessage>) -> Unit
-    var editorRef:MutableRefObject<Nothing>
+    var editorRef:RefObject<Nothing>
 }
 
 fun issueSeverityToAceAnnotation(issueSeverity: IssueSeverity): String {

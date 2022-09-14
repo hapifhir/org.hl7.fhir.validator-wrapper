@@ -9,7 +9,7 @@ import react.*
 external val aceEditor: ComponentClass<AceEditorProps>
 
     external interface AceEditorProps : Props {
-    var ref : MutableRefObject<Nothing>
+    var ref : RefObject<Nothing>
     var mode: String
     var theme : String
     var height : String?

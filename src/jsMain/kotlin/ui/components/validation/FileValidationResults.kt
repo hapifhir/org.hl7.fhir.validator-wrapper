@@ -31,7 +31,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
         state = FileValidationResultsState()
     }
 
-    //var editorRefFV : RReadableRef<Nothing> = createRef<Nothing>()
+    var editorRefFV : RefObject<Nothing> = createRef<Nothing>()
 
     override fun RBuilder.render() {
         styledDiv {
@@ -51,7 +51,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
                             highlightedMessages = if (highlighted) list else emptyList()
                         }
                     }
-                    //editorRef = editorRefFV
+                    editorRef = editorRefFV
                 }
             }
             styledDiv {
@@ -67,7 +67,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
                             highlightedMessages = if (highlighted) list else emptyList()
                         }
                     }
-                   // editorRef = editorRefFV
+                    editorRef = editorRefFV
                 }
             }
         }

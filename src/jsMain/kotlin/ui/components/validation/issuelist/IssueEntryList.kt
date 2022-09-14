@@ -17,7 +17,7 @@ external interface IssueEntryListProps : Props {
     var messageFilter: MessageFilter
     var highlightedMessages: List<ValidationMessage>?
     var onHighlight: ((Boolean, List<ValidationMessage>) -> Unit)?
-    var editorRef:MutableRefObject<Nothing>
+    var editorRef:RefObject<Nothing>
 }
 
 /**
