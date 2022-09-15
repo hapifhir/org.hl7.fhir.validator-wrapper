@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 plugins {
-    kotlin("multiplatform") version "1.6.10"
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("multiplatform") version "1.6.21"
+    kotlin("plugin.serialization") version "1.6.21"
 
     id("org.hidetake.ssh") version "2.10.1"
     id("org.openjfx.javafxplugin") version "0.0.8"
@@ -48,9 +48,6 @@ kotlin {
         binaries.executable()
         browser {
             binaries.executable()
-            commonWebpackConfig {
-                mode = if(project.hasProperty("prod")) org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.PRODUCTION else org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.DEVELOPMENT
-            }
             webpackTask {
                 cssSupport.enabled = true
             }
@@ -195,7 +192,7 @@ task("printVersion") {
 }
 
 tasks.withType<Jar> {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    duplicatesStrategy = DuplicatesStrategy.WARN
 
     manifest {
         attributes["Main-Class"] = "ServerKt"
