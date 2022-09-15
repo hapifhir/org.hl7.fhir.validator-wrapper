@@ -154,15 +154,17 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${property("kotlinxCoroutinesVersion")}")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:${property("ktorVersion")}")
 
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react:${property("kotlinReactVersion")}")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:${property("kotlinReactVersion")}")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-router-dom:${property("kotlinReactRouterDomVersion")}")
+                implementation(project.dependencies.enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:${property("kotlinWrappersVersion")}"))
 
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-redux:${property("kotlinReduxVersion")}")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-redux:${property("kotlinReactReduxVersion")}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-router-dom")
 
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-css:${property("kotlinCssVersion")}")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-styled:${property("kotlinStyledVersion")}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-redux")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-redux")
+
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-css")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-styled")
 
                 implementation(npm("node-polyglot", "2.4.0"))
 
