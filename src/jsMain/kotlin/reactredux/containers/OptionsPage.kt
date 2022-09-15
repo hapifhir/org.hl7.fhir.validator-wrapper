@@ -2,8 +2,8 @@ package reactredux.containers
 
 import model.CliContext
 import model.PackageInfo
-import react.RClass
-import react.RProps
+import react.ComponentClass
+import react.Props
 import react.invoke
 import react.redux.rConnect
 import reactredux.slices.ValidationContextSlice
@@ -13,18 +13,18 @@ import redux.WrapperAction
 import ui.components.options.OptionsPage
 import ui.components.options.OptionsPageProps
 
-private interface OptionsPageStateProps : RProps {
+private interface OptionsPageStateProps : Props {
     var cliContext: CliContext
     var selectedIgPackageInfo: Set<PackageInfo>
 }
 
-private interface OptionsPageDispatchProps : RProps {
+private interface OptionsPageDispatchProps : Props {
     var updateCliContext: (CliContext) -> Unit
     var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
 }
 
-val optionsPage: RClass<RProps> =
-    rConnect<AppState, RAction, WrapperAction, RProps, OptionsPageStateProps, OptionsPageDispatchProps, OptionsPageProps>(
+val optionsPage: ComponentClass<Props> =
+    rConnect<AppState, RAction, WrapperAction, Props, OptionsPageStateProps, OptionsPageDispatchProps, OptionsPageProps>(
         { state, _ ->
             cliContext = state.validationContextSlice.cliContext
             selectedIgPackageInfo = state.validationContextSlice.selectedIgPackageInfo
@@ -37,4 +37,4 @@ val optionsPage: RClass<RProps> =
                 dispatch(ValidationContextSlice.UpdateSelectedIgPackageInfo(it))
             }
         }
-    )(OptionsPage::class.js.unsafeCast<RClass<OptionsPageProps>>())
+    )(OptionsPage::class.js.unsafeCast<ComponentClass<OptionsPageProps>>())

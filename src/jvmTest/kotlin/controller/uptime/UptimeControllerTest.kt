@@ -25,7 +25,7 @@ class UptimeControllerTest : BaseControllerTest() {
     init {
         startInjection(
             module {
-                single(override = true) { endpointApi }
+                single() { endpointApi }
             }
         )
     }

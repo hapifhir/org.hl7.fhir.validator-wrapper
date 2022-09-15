@@ -10,7 +10,7 @@ import styled.css
 import styled.styledDiv
 import ui.components.buttons.imageButton
 
-external interface ManualEntryButtonBarProps : RProps {
+external interface ManualEntryButtonBarProps : Props {
     var onValidateRequested: () -> Unit
     var workInProgress: Boolean
 }
@@ -18,7 +18,7 @@ external interface ManualEntryButtonBarProps : RProps {
 /**
  * Component displaying the horizontal list of buttons for file upload and validation
  */
-class ManualEntryButtonBar : RComponent<ManualEntryButtonBarProps, RState>() {
+class ManualEntryButtonBar : RComponent<ManualEntryButtonBarProps, State>() {
 
     override fun RBuilder.render() {
         styledDiv {
@@ -49,7 +49,7 @@ class ManualEntryButtonBar : RComponent<ManualEntryButtonBarProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.manualEntryButtonBar(handler: ManualEntryButtonBarProps.() -> Unit): ReactElement {
+fun RBuilder.manualEntryButtonBar(handler: ManualEntryButtonBarProps.() -> Unit) {
     return child(ManualEntryButtonBar::class) {
         this.attrs(handler)
     }

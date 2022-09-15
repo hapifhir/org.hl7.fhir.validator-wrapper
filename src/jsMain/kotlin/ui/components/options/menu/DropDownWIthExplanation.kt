@@ -8,7 +8,7 @@ import styled.css
 import styled.styledDiv
 import styled.styledSpan
 
-external interface DropdownWithExplanationProps : RProps {
+external interface DropdownWithExplanationProps : Props {
     var onItemSelected: (String) -> Unit
     var itemList: MutableList<Pair<String, Boolean>>
     var heading: String
@@ -16,7 +16,7 @@ external interface DropdownWithExplanationProps : RProps {
     var defaultLabel: String
 }
 
-class DropdownWithExplanation : RComponent<DropdownWithExplanationProps, RState>() {
+class DropdownWithExplanation : RComponent<DropdownWithExplanationProps, State>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -50,7 +50,7 @@ class DropdownWithExplanation : RComponent<DropdownWithExplanationProps, RState>
 /**
  * React Component Builder
  */
-fun RBuilder.dropdownWithExplanation(handler: DropdownWithExplanationProps.() -> Unit): ReactElement {
+fun RBuilder.dropdownWithExplanation(handler: DropdownWithExplanationProps.() -> Unit) {
     return child(DropdownWithExplanation::class) {
         this.attrs(handler)
     }

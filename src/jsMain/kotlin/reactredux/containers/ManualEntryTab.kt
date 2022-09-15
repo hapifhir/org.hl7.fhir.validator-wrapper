@@ -3,8 +3,8 @@ package reactredux.containers
 import Polyglot
 import model.CliContext
 import model.ValidationOutcome
-import react.RClass
-import react.RProps
+import react.ComponentClass
+import react.Props
 import react.invoke
 import react.redux.rConnect
 import reactredux.slices.ManualEntrySlice
@@ -15,7 +15,7 @@ import redux.WrapperAction
 import ui.components.tabs.entrytab.ManualEntryTab
 import ui.components.tabs.entrytab.ManualEntryTabProps
 
-private interface ManualEntryTabStateProps : RProps {
+private interface ManualEntryTabStateProps : Props {
     var cliContext: CliContext
     var validationOutcome: ValidationOutcome?
     var currentManuallyEnteredText: String
@@ -24,15 +24,15 @@ private interface ManualEntryTabStateProps : RProps {
     var sessionId: String
 }
 
-private interface ManualEntryTabDispatchProps : RProps {
+private interface ManualEntryTabDispatchProps : Props {
     var setValidationOutcome: (ValidationOutcome) -> Unit
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
     var setSessionId: (String) -> Unit
 }
 
-val manualEntryTab: RClass<RProps> =
-    rConnect<AppState, RAction, WrapperAction, RProps, ManualEntryTabStateProps, ManualEntryTabDispatchProps, ManualEntryTabProps>(
+val manualEntryTab: ComponentClass<Props> =
+    rConnect<AppState, RAction, WrapperAction, Props, ManualEntryTabStateProps, ManualEntryTabDispatchProps, ManualEntryTabProps>(
         { state, _ ->
             cliContext = state.validationContextSlice.cliContext
             validationOutcome = state.manualEntrySlice.validationOutcome
@@ -47,4 +47,4 @@ val manualEntryTab: RClass<RProps> =
             updateCurrentlyEnteredText = { dispatch(ManualEntrySlice.UpdateCurrentlyEnteredText(it)) }
             setSessionId = { id: String -> dispatch(ValidationSessionSlice.SetSessionId(id)) }
         }
-    )(ManualEntryTab::class.js.unsafeCast<RClass<ManualEntryTabProps>>())
+    )(ManualEntryTab::class.js.unsafeCast<ComponentClass<ManualEntryTabProps>>())

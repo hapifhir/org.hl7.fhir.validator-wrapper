@@ -9,7 +9,7 @@ import styled.styledDiv
 import ui.components.buttons.labelledSwitch
 import ui.components.buttons.optionButton
 
-external interface IssueFilterButtonBarProps : RProps {
+external interface IssueFilterButtonBarProps : Props {
     var messageFilter: MessageFilter
     var onUpdated: (MessageFilter) -> Unit
 }
@@ -17,7 +17,7 @@ external interface IssueFilterButtonBarProps : RProps {
 /**
  * Component displaying the horizontal list of buttons for file upload and validation
  */
-class IssueFilterButtonBar : RComponent<IssueFilterButtonBarProps, RState>() {
+class IssueFilterButtonBar : RComponent<IssueFilterButtonBarProps, State>() {
 
     override fun RBuilder.render() {
         styledDiv {
@@ -78,7 +78,7 @@ class IssueFilterButtonBar : RComponent<IssueFilterButtonBarProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.issueFilterButtonBar(handler: IssueFilterButtonBarProps.() -> Unit): ReactElement {
+fun RBuilder.issueFilterButtonBar(handler: IssueFilterButtonBarProps.() -> Unit) {
     return child(IssueFilterButtonBar::class) {
         this.attrs(handler)
     }

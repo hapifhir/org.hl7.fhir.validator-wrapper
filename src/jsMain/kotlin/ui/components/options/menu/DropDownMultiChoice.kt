@@ -13,9 +13,10 @@ import kotlinx.html.js.onMouseOutFunction
 import kotlinx.html.js.onMouseOverFunction
 import org.w3c.dom.HTMLInputElement
 import react.*
+import react.dom.attrs
 import styled.*
 
-external interface DropDownMultiChoiceProps : RProps {
+external interface DropDownMultiChoiceProps : Props {
     /*
      * Callback for when item in list is selected. Returns newly selected item, as well as
      * list of all selected options currently
@@ -36,11 +37,15 @@ external interface DropDownMultiChoiceProps : RProps {
 
     // Search field hint text (if enabled)
     var searchHint: String
+
+    // Update function to run when the currentFilterString is changed
+    var onFilterStringChange: (String) -> Unit
 }
 
-class DropDownMultiChoiceState : RState {
+class DropDownMultiChoiceState : State {
     var dropDownMultiChoiceDisplayed = false
     var currentFilterString = ""
+
 }
 
 /**
@@ -132,10 +137,12 @@ class DropDownMultiChoice : RComponent<DropDownMultiChoiceProps, DropDownMultiCh
                                 id = searchAreaId
                                 placeholder = props.searchHint
                                 onKeyUpFunction = {
+                                    val filterString =  (document.getElementById(searchAreaId) as HTMLInputElement).value
                                     setState {
-                                        currentFilterString =
-                                            (document.getElementById(searchAreaId) as HTMLInputElement).value
+                                        currentFilterString = filterString
+
                                     }
+                                    props.onFilterStringChange(filterString)
                                 }
                             }
                         }
@@ -193,7 +200,7 @@ class DropDownMultiChoice : RComponent<DropDownMultiChoiceProps, DropDownMultiCh
 /**
  * Convenience method for instantiating the component.
  */
-fun RBuilder.dropDownMultiChoice(handler: DropDownMultiChoiceProps.() -> Unit): ReactElement {
+fun RBuilder.dropDownMultiChoice(handler: DropDownMultiChoiceProps.() -> Unit) {
     return child(DropDownMultiChoice::class) {
         this.attrs(handler)
     }

@@ -9,13 +9,13 @@ import styled.css
 import styled.styledDiv
 import styled.styledSpan
 
-external interface SiteStatusProps : RProps {
+external interface SiteStatusProps : Props {
     var label: String
     var status: SiteState
     var url: String
 }
 
-class SiteStatus : RComponent<SiteStatusProps, RState>() {
+class SiteStatus : RComponent<SiteStatusProps, State>() {
 
     override fun RBuilder.render() {
         styledDiv {
@@ -38,7 +38,7 @@ class SiteStatus : RComponent<SiteStatusProps, RState>() {
 /**
  * Convenience method for instantiating the component.
  */
-fun RBuilder.siteStatus(handler: SiteStatusProps.() -> Unit): ReactElement {
+fun RBuilder.siteStatus(handler: SiteStatusProps.() -> Unit) {
     return child(SiteStatus::class) {
         this.attrs(handler)
     }

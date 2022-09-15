@@ -9,10 +9,10 @@ import controller.ig.igModule
 import instrumentation.IgInstrumentation.givenAListOfValidIgUrlsA
 import instrumentation.IgInstrumentation.givenAListOfValidIgUrlsB
 import instrumentation.IgInstrumentation.givenAnEmptyListOfIgUrls
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.http.*
 import io.ktor.http.ContentType
-import io.ktor.routing.*
+import io.ktor.server.routing.*
 import io.ktor.server.testing.*
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -66,6 +66,25 @@ class IgRoutingTest : BaseRoutingTest() {
     }
 
     @Test
+    fun `when requesting requesting list of valid igs using a partial name, return ig response body`() = withBaseTestApplication {
+        val igResponseA = givenAListOfValidIgUrlsA()
+        val igResponseB = givenAListOfValidIgUrlsB()
+        coEvery { igController.listIgsFromRegistry() } returns igResponseA
+        coEvery { igController.listIgsFromSimplifier("dummyIgName") } returns igResponseB
+
+
+        val call = handleRequest(HttpMethod.Get, "$IG_ENDPOINT?name=dummyIgName") {
+            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+        }
+
+        with(call) {
+            assertEquals(HttpStatusCode.OK, response.status())
+            val responseBody = response.parseBody(IGResponse::class.java)
+            Assertions.assertIterableEquals(igResponseA + igResponseB, responseBody.packageInfo)
+        }
+    }
+
+    @Test
     fun `when service provides a list containing 0 items, an internal server error code is returned`() = withBaseTestApplication {
         val igResponseA = givenAnEmptyListOfIgUrls()
         val igResponseB = givenAnEmptyListOfIgUrls()
@@ -78,7 +97,7 @@ class IgRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.InternalServerError, response.status())
-            assertEquals(NO_IGS_RETURNED, response.content)
+            assertEquals(quoteWrap(NO_IGS_RETURNED), response.content)
         }
     }
 
@@ -111,7 +130,7 @@ class IgRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.InternalServerError, response.status())
-            assertEquals(NO_IGS_RETURNED, response.content)
+            assertEquals(quoteWrap(NO_IGS_RETURNED), response.content)
         }
     }
 }

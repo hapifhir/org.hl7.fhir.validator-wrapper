@@ -40,4 +40,8 @@ expect class CliContext() {
 
     fun getSv(): String
     fun setSv(sv: String): CliContext
+
+    fun isAllowExampleUrls() : Boolean
+    fun setAllowExampleUrls(allowExampleUrls:Boolean)
+
 }

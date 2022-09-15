@@ -7,10 +7,10 @@ import controller.terminology.terminologyModule
 import instrumentation.TerminologyInstrumentation.givenATerminologyServerUrl
 import instrumentation.TerminologyInstrumentation.givenAValidCapabilityStatement
 import instrumentation.TerminologyInstrumentation.givenAnInvalidCapabilityStatement
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.http.*
 import io.ktor.http.ContentType
-import io.ktor.routing.*
+import io.ktor.server.routing.*
 import io.ktor.server.testing.*
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -31,7 +31,7 @@ class TerminologyRoutingTest : BaseRoutingTest() {
     fun setup() {
         koinModules = module {
             single { terminologyController }
-            single(override = true) { terminologyApi }
+            single() { terminologyApi }
         }
 
         moduleList = {

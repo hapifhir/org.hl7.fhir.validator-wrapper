@@ -1,15 +1,17 @@
 package ui.components.ace
 
-import react.RReadableRef
+import react.MutableRefObject
+import react.RefObject
 
-fun gotoLine(editorRef:RReadableRef<Nothing>, line: Int) {
+
+fun gotoLine(editorRef: RefObject<Nothing>, line: Int) {
     editorRef.asDynamic().current.editor.gotoLine(line)
 }
 
-fun scrollToLine(editorRef: RReadableRef<Nothing>, line: Int) {
+fun scrollToLine(editorRef: RefObject<Nothing>, line: Int) {
     editorRef.asDynamic().current.editor.scrollToLine(line, true, true, null)
 }
 
-fun setAnnotations(editorRef: RReadableRef<Nothing>, aceAnnotations : Array<AceAnnotation>) {
+fun setAnnotations(editorRef: RefObject<Nothing>, aceAnnotations : Array<AceAnnotation>) {
     editorRef.asDynamic().current.editor.getSession().setAnnotations(aceAnnotations)
 }

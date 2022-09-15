@@ -14,12 +14,12 @@ import styled.*
 
 import utils.Language
 
-external interface FooterProps : RProps {
+external interface FooterProps : Props {
     var language: Language //TODO
     var polyglot: Polyglot //TODO
 }
 
-class FooterState : RState {
+class FooterState : State {
     var validatorVersion = "Unknown"
 }
 
@@ -95,7 +95,7 @@ class Footer : RComponent<FooterProps, FooterState>() {
 /**
  * Convenience method for instantiating the component.
  */
-fun RBuilder.footer(handler: FooterProps.() -> Unit): ReactElement {
+fun RBuilder.footer(handler: FooterProps.() -> Unit) {
     return child(Footer::class) {
         this.attrs(handler)
     }

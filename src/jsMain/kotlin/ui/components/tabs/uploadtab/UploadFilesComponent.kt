@@ -13,6 +13,7 @@ import org.w3c.dom.asList
 import org.w3c.dom.events.Event
 import org.w3c.files.File
 import react.*
+import react.dom.attrs
 import styled.css
 import styled.styledInput
 import utils.fileutils.FileLoadEventListener
@@ -21,14 +22,14 @@ import utils.fileutils.loadFile
 
 const val FILE_UPLOAD_ELEMENT_ID = "FileUploadInput"
 
-interface UploadFilesComponentProps : RProps {
+interface UploadFilesComponentProps : Props {
     var onFileUpload: (FileInfo) -> Unit
 }
 
 /**
  * A non-displayed component for uploading files from the local machine.
  */
-class UploadFilesComponent : RComponent<UploadFilesComponentProps, RState>(), FileLoadEventListener {
+class UploadFilesComponent : RComponent<UploadFilesComponentProps, State>(), FileLoadEventListener {
 
     override fun RBuilder.render() {
         styledInput(InputType.file, name = "fileUpload", formEncType = InputFormEncType.multipartFormData) {
@@ -82,7 +83,7 @@ class UploadFilesComponent : RComponent<UploadFilesComponentProps, RState>(), Fi
 /**
  * React Component Builder
  */
-fun RBuilder.uploadFilesComponent(handler: UploadFilesComponentProps.() -> Unit): ReactElement {
+fun RBuilder.uploadFilesComponent(handler: UploadFilesComponentProps.() -> Unit) {
     return child(UploadFilesComponent::class) {
         this.attrs(handler)
     }

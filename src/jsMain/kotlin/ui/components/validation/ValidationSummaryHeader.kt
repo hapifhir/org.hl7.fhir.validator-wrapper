@@ -8,14 +8,15 @@ import kotlinx.css.*
 import kotlinx.css.properties.borderBottom
 import kotlinx.html.js.onClickFunction
 import react.*
+import react.dom.attrs
 import styled.*
 
-external interface ValidationSummaryHeaderProps : RProps {
+external interface ValidationSummaryHeaderProps : Props {
     var filename: String
     var onClose: () -> Unit
 }
 
-class ValidationSummaryHeader : RComponent<ValidationSummaryHeaderProps, RState>() {
+class ValidationSummaryHeader : RComponent<ValidationSummaryHeaderProps, State>() {
 
     override fun RBuilder.render() {
         styledDiv {
@@ -53,7 +54,7 @@ class ValidationSummaryHeader : RComponent<ValidationSummaryHeaderProps, RState>
 /**
  * React Component Builder
  */
-fun RBuilder.validationSummaryHeader(handler: ValidationSummaryHeaderProps.() -> Unit): ReactElement {
+fun RBuilder.validationSummaryHeader(handler: ValidationSummaryHeaderProps.() -> Unit) {
     return child(ValidationSummaryHeader::class) {
         this.attrs(handler)
     }

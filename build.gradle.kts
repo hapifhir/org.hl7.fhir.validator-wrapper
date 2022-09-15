@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 plugins {
-    kotlin("multiplatform") version "1.5.20"
-    kotlin("plugin.serialization") version "1.5.20"
+    kotlin("multiplatform") version "1.6.10"
+    kotlin("plugin.serialization") version "1.6.10"
 
     id("org.hidetake.ssh") version "2.10.1"
     id("org.openjfx.javafxplugin") version "0.0.8"
@@ -43,11 +43,14 @@ kotlin {
             useJUnit()
         }
     }
-    js {
+    js () {
         useCommonJs()
         binaries.executable()
         browser {
             binaries.executable()
+            commonWebpackConfig {
+                mode = if(project.hasProperty("prod")) org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.PRODUCTION else org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.DEVELOPMENT
+            }
             webpackTask {
                 cssSupport.enabled = true
             }
@@ -97,6 +100,8 @@ kotlin {
 
                 implementation("io.ktor:ktor-websockets:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-server-content-negotiation:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-events:${property("ktorVersion")}")
+
                 implementation("io.ktor:ktor-serialization-kotlinx-json:${property("ktorVersion")}")
 
                 implementation("io.ktor:ktor-serialization-gson:${property("ktorVersion")}")
@@ -132,33 +137,32 @@ kotlin {
                 implementation("io.ktor:ktor-server-test-host:${property("ktorVersion")}")
                 implementation("io.mockk:mockk:${property("mockk_version")}")
                 implementation("io.ktor:ktor-client-mock:${property("ktorVersion")}")
-                implementation("org.koin:koin-test:${property("koinVersion")}")
+                implementation("io.insert-koin:koin-test:${property("koinVersion")}")
             }
 
         }
         val jsMain by getting {
             dependencies {
+                implementation("io.ktor:ktor-client-core:${property("ktorVersion")}")
+
                 implementation("io.ktor:ktor-client-js:${property("ktorVersion")}") //include http&websockets
                 implementation("io.ktor:ktor-client-json-js:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-client-content-negotiation:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-client-serialization-js:${property("ktorVersion")}")
-
-                implementation("org.jetbrains:kotlin-react:${property("kotlinReactVersion")}")
-                implementation("org.jetbrains:kotlin-react-dom:${property("kotlinReactVersion")}")
-                implementation("org.jetbrains:kotlin-react-router-dom:${property("kotlinReactRouterVersion")}")
-                implementation("org.jetbrains:kotlin-styled:${property("kotlinStyledVersion")}")
-                implementation("org.jetbrains:kotlin-react-redux:${property("kotlinReactReduxVersion")}")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${property("kotlinxCoroutinesVersion")}")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:${property("ktorVersion")}")
 
-                implementation(npm("core-js", "${property("npm_core_js_version")}"))
-                implementation(npm("react", "${property("npm_react_version")}"))
-                implementation(npm("react-dom", "${property("npm_react_version")}"))
-                implementation(npm("redux", "${property("npm_redux_version")}"))
-                implementation(npm("react-redux", "${property("npm_react_redux_version")}"))
-                implementation(npm("react-router-dom", "${property("npm_react_router_dom_version")}"))
-                implementation(npm("styled-components", "${property("npm_styled_components_version")}"))
-                implementation(npm("inline-style-prefixer", "${property("npm_inline_styled_prefixer_version")}"))
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react:${property("kotlinReactVersion")}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:${property("kotlinReactVersion")}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-router-dom:${property("kotlinReactRouterDomVersion")}")
+
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-redux:${property("kotlinReduxVersion")}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-redux:${property("kotlinReactReduxVersion")}")
+
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-css:${property("kotlinCssVersion")}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-styled:${property("kotlinStyledVersion")}")
 
                 implementation(npm("node-polyglot", "2.4.0"))
 
@@ -189,6 +193,7 @@ task("printVersion") {
 }
 
 tasks.withType<Jar> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     manifest {
         attributes["Main-Class"] = "ServerKt"

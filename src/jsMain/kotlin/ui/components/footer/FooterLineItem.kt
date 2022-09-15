@@ -6,15 +6,16 @@ import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.css.properties.TextDecoration
 import react.*
+import react.dom.attrs
 import styled.*
 
-external interface FooterLineItemProps : RProps {
+external interface FooterLineItemProps : Props {
     var icon: String
     var href: String
     var label: String
 }
 
-class FooterLineItem : RComponent<FooterLineItemProps, RState>() {
+class FooterLineItem : RComponent<FooterLineItemProps, State>() {
 
     override fun RBuilder.render() {
         styledA(href = props.href) {
@@ -42,7 +43,7 @@ class FooterLineItem : RComponent<FooterLineItemProps, RState>() {
 /**
  * Convenience method for instantiating the component.
  */
-fun RBuilder.footerLineItem(handler: FooterLineItemProps.() -> Unit): ReactElement {
+fun RBuilder.footerLineItem(handler: FooterLineItemProps.() -> Unit){
     return child(FooterLineItem::class) {
         this.attrs(handler)
     }

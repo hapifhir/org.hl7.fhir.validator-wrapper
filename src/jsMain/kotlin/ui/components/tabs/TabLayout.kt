@@ -6,6 +6,7 @@ import kotlinx.css.*
 import kotlinx.css.properties.*
 import kotlinx.html.js.onClickFunction
 import react.*
+import react.dom.attrs
 import reactredux.containers.fileUploadTab
 import reactredux.containers.manualEntryTab
 import styled.StyleSheet
@@ -13,9 +14,9 @@ import styled.css
 import styled.styledDiv
 import ui.entity.TabState
 
-external interface TabLayoutProps : RProps
+external interface TabLayoutProps : Props
 
-class TabLayoutState : RState {
+class TabLayoutState : State {
     var tabStates: ArrayList<TabState> = arrayListOf(
         TabState(label = "Enter Resource", active = true),
         TabState(label = "Upload Resources", active = false)
@@ -101,7 +102,7 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.tabLayout(handler: TabLayoutProps.() -> Unit): ReactElement {
+fun RBuilder.tabLayout(handler: TabLayoutProps.() -> Unit) {
     return child(TabLayout::class) {
         this.attrs(handler)
     }

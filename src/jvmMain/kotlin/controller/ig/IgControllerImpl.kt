@@ -27,10 +27,13 @@ class IgControllerImpl : IgController, KoinComponent {
     }
 
     override suspend fun listIgsFromSimplifier(): MutableList<PackageInfo> {
+        return listIgsFromSimplifier(null);
+    }
+    override suspend fun listIgsFromSimplifier(igPackageName : String?): MutableList<PackageInfo> {
         val packageInfoList: MutableList<PackageInfo> = mutableListOf()
 
         SIMPLIFIER_VERSIONS.forEach({
-            val packageList = packageClient.search(null, null, it, false)
+            val packageList = packageClient.search(igPackageName, null, it, false)
             packageList?.map {
                 PackageInfo(id = it.id, version = null, fhirVersion = null, url = null)
             }?.toMutableList()?.forEach({

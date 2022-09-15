@@ -24,14 +24,14 @@ import ui.components.tabs.heading
 const val TERMINOLOGY_SERVER_ERROR = "Server capability statement does not indicate it is a valid terminology server."
 private const val TERMINOLOGY_CHECK_TIME_LIMIT = 20000L
 
-external interface OptionsPageProps : RProps {
+external interface OptionsPageProps : Props {
     var cliContext: CliContext
     var selectedIgPackageInfo: Set<PackageInfo>
     var updateCliContext: (CliContext) -> Unit
     var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
 }
 
-class OptionsPageState : RState {
+class OptionsPageState : State {
     var igList = mutableListOf<PackageInfo>()
     var igPackageNameList = mutableListOf<Pair<String, Boolean>>()
     var fhirVersionsList = mutableListOf<Pair<String, Boolean>>()
@@ -47,7 +47,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
             val versionsResponse = sendVersionsRequest()
             setState {
                 igList = igResponse.packageInfo
-                igPackageNameList = igResponse.packageInfo.map { Pair(it.id!!, false)}.toMutableList()
+                igPackageNameList = getPackageNames(igResponse.packageInfo)
                 fhirVersionsList = versionsResponse.versions
                     .map { Pair(it, props.cliContext.getTargetVer() == it) }
                     .toMutableList()
@@ -162,6 +162,23 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         props.updateCliContext(props.cliContext)
                     }
                 }
+                styledDiv {
+                    css {
+                        +OptionsPageStyle.optionsDivider
+                    }
+                }
+                checkboxWithDetails {
+                    name = "Allow Example URLs (allow-example-urls)"
+                    description =
+                        "Some of the examples in the FHIR specification have URLs in them that refer to example.org. " +
+                                "By default, the validator will always mark any such references as an error, but this " +
+                                "can be overridden with this parameter."
+                    selected = props.cliContext.isAllowExampleUrls()
+                    onChange = {
+                        props.cliContext.setAllowExampleUrls(it)
+                        props.updateCliContext(props.cliContext)
+                    }
+                }
             }
             heading {
                 text = "FHIR version"
@@ -215,6 +232,15 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         }
 
                         props.updateSelectedIgPackageInfo(newSelectedIgSet)
+                    }
+                    onFilterStringChange = { partialIgName ->
+                        mainScope.launch {
+                            val igResponse = sendIGsRequest(partialIgName)
+                            setState {
+                                igList = igResponse.packageInfo
+                                igPackageNameList = getPackageNames(igResponse.packageInfo)
+                            }
+                        }
                     }
                 }
             }
@@ -276,6 +302,10 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
         }
     }
 
+    private fun getPackageNames(packageInfo : List<PackageInfo>) : MutableList<Pair<String, Boolean>> {
+        return packageInfo.map { Pair(it.id!!, false)}.toMutableList()
+    }
+
     private suspend fun checkTxServer(txUrl: String): Boolean {
         var validTxServer = false
         try {
@@ -299,7 +329,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.optionsPage(handler: OptionsPageProps.() -> Unit): ReactElement {
+fun RBuilder.optionsPage(handler: OptionsPageProps.() -> Unit) {
     return child(OptionsPage::class) {
         this.attrs(handler)
     }

@@ -8,12 +8,13 @@ import kotlinx.css.*
 import kotlinx.css.properties.border
 import kotlinx.html.js.onClickFunction
 import react.*
+import react.dom.attrs
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledSpan
 
-external interface ToggleButtonProps : RProps {
+external interface ToggleButtonProps : Props {
     var optionOneLabel: String
     var optionTwoLabel: String
 
@@ -22,7 +23,7 @@ external interface ToggleButtonProps : RProps {
     var onOptionTwo: () -> Unit
 }
 
-class ToggleButtonState : RState {
+class ToggleButtonState : State {
     var optionOneSelected: Boolean = true
 }
 
@@ -92,7 +93,7 @@ class ToggleButton : RComponent<ToggleButtonProps, ToggleButtonState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.toggleButton(handler: ToggleButtonProps.() -> Unit): ReactElement {
+fun RBuilder.toggleButton(handler: ToggleButtonProps.() -> Unit) {
     return child(ToggleButton::class) {
         this.attrs(handler)
     }

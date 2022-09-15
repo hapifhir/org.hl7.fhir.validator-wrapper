@@ -18,14 +18,14 @@ enum class SiteState {
     DOWN
 }
 
-external interface SiteStatusIndicatorProps : RProps {
+external interface SiteStatusIndicatorProps : Props {
     var siteState: SiteState
 }
 
 /**
  * Graphical indicator for outcome of validation process.
  */
-class SiteStatusIndicator : RComponent<SiteStatusIndicatorProps, RState>() {
+class SiteStatusIndicator : RComponent<SiteStatusIndicatorProps, State>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -42,7 +42,7 @@ class SiteStatusIndicator : RComponent<SiteStatusIndicatorProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.siteStatusIndicator(handler: SiteStatusIndicatorProps.() -> Unit): ReactElement {
+fun RBuilder.siteStatusIndicator(handler: SiteStatusIndicatorProps.() -> Unit) {
     return child(SiteStatusIndicator::class) {
         this.attrs(handler)
     }
@@ -94,7 +94,7 @@ object SiteStatusIndicatorStyle : StyleSheet("SiteStatusIndicator", isStatic = t
         spinner()
     }
 
-    fun CSSBuilder.spinner() {
+    fun CssBuilder.spinner() {
         animation(
             duration = 2.s,
             timing = Timing.linear,
@@ -113,7 +113,7 @@ object SiteStatusIndicatorStyle : StyleSheet("SiteStatusIndicator", isStatic = t
         }
     }
 
-    fun CSSBuilder.scaleOutro() {
+    fun CssBuilder.scaleOutro() {
         animation(
             duration = (0.25).s,
             timing = Timing.materialAcceleration,
@@ -131,7 +131,7 @@ object SiteStatusIndicatorStyle : StyleSheet("SiteStatusIndicator", isStatic = t
         }
     }
 
-    fun CSSBuilder.scaleIntro() {
+    fun CssBuilder.scaleIntro() {
         animation(
             duration = (0.5).s,
             // elastic animation

@@ -15,6 +15,7 @@ import mainScope
 import model.CliContext
 import model.ValidationOutcome
 import react.*
+import react.dom.attrs
 import styled.*
 import ui.components.tabs.heading
 import ui.components.validation.issuelist.filteredIssueEntryList
@@ -25,7 +26,7 @@ import utils.isXml
 //TODO make this an intelligent value
 private const val VALIDATION_TIME_LIMIT = 45000L
 
-external interface ManualEntryTabProps : RProps {
+external interface ManualEntryTabProps : Props {
     var cliContext: CliContext
     var validationOutcome: ValidationOutcome?
     var currentManuallyEnteredText: String
@@ -39,7 +40,7 @@ external interface ManualEntryTabProps : RProps {
     var setSessionId: (String) -> Unit
 }
 
-class ManualEntryTabState : RState {
+class ManualEntryTabState : State {
     var displayingError: Boolean = false
     var errorMessage: String = ""
     var ohShitYouDidIt = false

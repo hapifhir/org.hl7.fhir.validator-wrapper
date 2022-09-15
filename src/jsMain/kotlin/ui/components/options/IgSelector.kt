@@ -22,16 +22,17 @@ import kotlinx.coroutines.launch
 
 import mainScope
 
-external interface IgSelectorProps : RProps {
+external interface IgSelectorProps : Props {
     var fhirVersion: String
     var onUpdateIg: (PackageInfo, Boolean) -> Unit
     var igList: MutableList<PackageInfo>
     var igPackageNameList :MutableList<Pair<String, Boolean>>
     var onUpdatePackageName: (String, Boolean) -> Unit
     var selectedIgSet : MutableSet<PackageInfo>
+    var onFilterStringChange: (String) -> Unit
 }
 
-class IgSelectorState : RState {
+class IgSelectorState : State {
     var packageVersions = mutableListOf<Pair<PackageInfo, Boolean>>()
 }
 
@@ -90,6 +91,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     }
                     multichoice = false
                     searchEnabled = true
+                    onFilterStringChange = props.onFilterStringChange
                     searchHint = "Search IGs..."
                 }
                 val versions = state.packageVersions.filter { it.first.fhirVersionMatches(props.fhirVersion)}
@@ -162,7 +164,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.igSelector(handler: IgSelectorProps.() -> Unit): ReactElement {
+fun RBuilder.igSelector(handler: IgSelectorProps.() -> Unit) {
     return child(IgSelector::class) {
         this.attrs(handler)
     }

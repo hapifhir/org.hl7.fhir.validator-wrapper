@@ -8,12 +8,13 @@ import kotlinx.css.*
 import kotlinx.css.properties.border
 import kotlinx.html.js.onClickFunction
 import react.*
+import react.dom.attrs
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledP
 
-external interface OptionButtonProps : RProps {
+external interface OptionButtonProps : Props {
     var label: String
     var active: Boolean
 
@@ -24,7 +25,7 @@ external interface OptionButtonProps : RProps {
 /**
  * A generic button with the option to customize, color, label, and optional icon
  */
-class OptionButton : RComponent<OptionButtonProps, RState>() {
+class OptionButton : RComponent<OptionButtonProps, State>() {
 
     override fun RBuilder.render() {
         // main button layout
@@ -56,7 +57,7 @@ class OptionButton : RComponent<OptionButtonProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.optionButton(handler: OptionButtonProps.() -> Unit): ReactElement {
+fun RBuilder.optionButton(handler: OptionButtonProps.() -> Unit) {
     return child(OptionButton::class) {
         this.attrs(handler)
     }
