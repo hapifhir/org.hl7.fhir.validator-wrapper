@@ -150,39 +150,19 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-client-serialization-js:${property("ktorVersion")}")
 
+                implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxVersion")}")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${property("kotlinxCoroutinesVersion")}")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:${property("ktorVersion")}")
 
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react:${property("kotlinReactVersion")}")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:${property("kotlinReactVersion")}")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-router-dom:${property("kotlinReactRouterDomVersion")}")
 
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-redux:4.1.2-pre.290-kotlin-1.6.10")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-redux:${property("kotlinReduxVersion")}")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-redux:${property("kotlinReactReduxVersion")}")
 
-                implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxVersion")}")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${property("kotlinxCoroutinesVersion")}")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:${property("ktorVersion")}")
-
-
-                //implementation(npm("core-js", "${property("npm_core_js_version")}"))
-                //implementation(npm("react", "${property("npm_react_version")}"))
-                //implementation(npm("react-dom", "${property("npm_react_version")}"))
-                //implementation(npm("redux", "${property("npm_redux_version")}"))
-                //implementation(npm("react-redux", "${property("npm_react_redux_version")}"))
-                //implementation(npm("react-router-dom", "${property("npm_react_router_dom_version")}"))
-
-                //Styled Components
-               /*implementation("org.jetbrains:kotlin-styled:${property("kotlinStyledVersion")}")
-                implementation(npm("styled-components", "${property("npm_styled_components_version")}"))
-                implementation(npm("inline-style-prefixer", "${property("npm_inline_styled_prefixer_version")}"))
-                */
-                //implementation("org.jetbrains.kotlin-wrappers:kotlin-react-css:17.0.2-pre.246-kotlin-1.5.30")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-css:1.0.0-pre.290-kotlin-1.6.10")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-styled:5.3.3-pre.290-kotlin-1.6.10")
-
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-ring-ui:4.1.5-pre.290-kotlin-1.6.10")
-
-                // for kotlin-ring-ui
-                implementation(npm("core-js", "^3.16.0"))
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-css:${property("kotlinCssVersion")}")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-styled:${property("kotlinStyledVersion")}")
 
                 implementation(npm("node-polyglot", "2.4.0"))
 
