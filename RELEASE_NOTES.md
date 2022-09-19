@@ -1,0 +1,1 @@
+* Fix JAR duplication strategy
