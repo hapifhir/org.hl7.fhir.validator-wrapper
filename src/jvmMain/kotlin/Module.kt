@@ -7,13 +7,17 @@ import controller.uptime.uptimeModule
 import controller.validation.validationModule
 import controller.version.versionModule
 import desktop.launchLocalApp
-import io.ktor.application.*
-import io.ktor.features.*
+import io.ktor.server.application.*
+import io.ktor.server.plugins.callloging.*
+import io.ktor.server.plugins.cors.*
+import io.ktor.server.plugins.compression.*
+import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.http.*
 import io.ktor.http.content.*
-import io.ktor.jackson.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.http.content.*
+import io.ktor.serialization.jackson.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
 /**
  * Entry point of the application.
@@ -61,17 +65,17 @@ fun Application.setup() {
     }
 
     install(CORS) {
-        method(HttpMethod.Options)
-        method(HttpMethod.Get)
-        method(HttpMethod.Put)
-        method(HttpMethod.Delete)
-        method(HttpMethod.Patch)
-        header(HttpHeaders.Authorization)
-        header(HttpHeaders.AccessControlAllowOrigin)
+        allowMethod(HttpMethod.Options)
+        allowMethod(HttpMethod.Get)
+        allowMethod(HttpMethod.Put)
+        allowMethod(HttpMethod.Delete)
+        allowMethod(HttpMethod.Patch)
+        allowHeader(HttpHeaders.Authorization)
+        allowHeader(HttpHeaders.AccessControlAllowOrigin)
         allowNonSimpleContentTypes = true
         allowCredentials = true
         allowSameOrigin = true
-        host("*", listOf("http", "https"))
+        allowHost("*", listOf("http", "https"))
     }
 
     install(Compression) {
@@ -81,6 +85,7 @@ fun Application.setup() {
     install(ContentNegotiation) {
         jackson {
             enable(SerializationFeature.INDENT_OUTPUT)
+
             /*
              * Right now we need to ignore unknown fields because we take a very simplified version of many of the fhir
              * model classes, and map them to classes across JVM/Common/JS.

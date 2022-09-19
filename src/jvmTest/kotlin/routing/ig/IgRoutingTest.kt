@@ -9,10 +9,10 @@ import controller.ig.igModule
 import instrumentation.IgInstrumentation.givenAListOfValidIgUrlsA
 import instrumentation.IgInstrumentation.givenAListOfValidIgUrlsB
 import instrumentation.IgInstrumentation.givenAnEmptyListOfIgUrls
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.http.*
 import io.ktor.http.ContentType
-import io.ktor.routing.*
+import io.ktor.server.routing.*
 import io.ktor.server.testing.*
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -97,7 +97,7 @@ class IgRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.InternalServerError, response.status())
-            assertEquals(NO_IGS_RETURNED, response.content)
+            assertEquals(quoteWrap(NO_IGS_RETURNED), response.content)
         }
     }
 
@@ -130,7 +130,7 @@ class IgRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.InternalServerError, response.status())
-            assertEquals(NO_IGS_RETURNED, response.content)
+            assertEquals(quoteWrap(NO_IGS_RETURNED), response.content)
         }
     }
 }

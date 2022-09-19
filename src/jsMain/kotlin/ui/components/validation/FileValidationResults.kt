@@ -4,6 +4,7 @@ import kotlinx.css.*
 import model.MessageFilter
 import model.ValidationMessage
 import model.ValidationOutcome
+
 import react.*
 import styled.StyleSheet
 import styled.css
@@ -11,12 +12,12 @@ import styled.styledDiv
 import ui.components.validation.codeissuedisplay.codeIssueDisplay
 import ui.components.validation.issuelist.issueEntryList
 
-external interface FileValidationResultsProps : RProps {
+external interface FileValidationResultsProps : Props {
     var validationOutcome: ValidationOutcome
     var messageFilter: MessageFilter
 }
 
-class FileValidationResultsState : RState {
+class FileValidationResultsState : State {
     var highlightedMessages: List<ValidationMessage> = emptyList()
 }
 
@@ -30,7 +31,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
         state = FileValidationResultsState()
     }
 
-    var editorRefFV = createRef<Nothing>()
+    var editorRefFV : RefObject<Nothing> = createRef<Nothing>()
 
     override fun RBuilder.render() {
         styledDiv {
@@ -76,7 +77,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
 /**
  * React Component Builder
  */
-fun RBuilder.fileValidationResults(handler: FileValidationResultsProps.() -> Unit): ReactElement {
+fun RBuilder.fileValidationResults(handler: FileValidationResultsProps.() -> Unit) {
     return child(FileValidationResults::class) {
         this.attrs(handler)
     }

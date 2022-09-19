@@ -10,10 +10,11 @@ import kotlinx.html.InputType
 import kotlinx.html.js.onChangeFunction
 import org.w3c.dom.HTMLInputElement
 import react.*
+import react.dom.attrs
 import styled.*
 import ui.components.options.menu.CHECKBOX_CHANGE
 
-external interface ToggleSwitchProps : RProps {
+external interface ToggleSwitchProps : Props {
     var selected: Boolean
     var onChange: (Boolean) -> Unit
 }
@@ -21,7 +22,7 @@ external interface ToggleSwitchProps : RProps {
 /**
  * A text only button with the option to customize, color, label, and if it is currently active
  */
-class ToggleSwitch : RComponent<ToggleSwitchProps, RState>() {
+class ToggleSwitch : RComponent<ToggleSwitchProps, State>() {
 
     override fun RBuilder.render() {
         styledLabel {
@@ -54,7 +55,7 @@ class ToggleSwitch : RComponent<ToggleSwitchProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.toggleSwitch(handler: ToggleSwitchProps.() -> Unit): ReactElement {
+fun RBuilder.toggleSwitch(handler: ToggleSwitchProps.() -> Unit) {
     return child(ToggleSwitch::class) {
         this.attrs(handler)
     }

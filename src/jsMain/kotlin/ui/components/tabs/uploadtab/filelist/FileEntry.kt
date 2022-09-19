@@ -9,13 +9,13 @@ import styled.css
 import styled.styledLi
 import styled.styledP
 
-external interface FileEntryProps : RProps {
+external interface FileEntryProps : Props {
     var validationOutcome: ValidationOutcome
     var onView: (ValidationOutcome) -> Unit
     var onDelete: (ValidationOutcome) -> Unit
 }
 
-class FileEntryState : RState
+class FileEntryState : State
 
 /**
  * File list entry, detailing the validation status, filename, and giving the user options to either delete or view
@@ -53,7 +53,7 @@ class FileEntry : RComponent<FileEntryProps, FileEntryState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.fileEntry(handler: FileEntryProps.() -> Unit): ReactElement {
+fun RBuilder.fileEntry(handler: FileEntryProps.() -> Unit) {
     return child(FileEntry::class) {
         this.attrs(handler)
     }

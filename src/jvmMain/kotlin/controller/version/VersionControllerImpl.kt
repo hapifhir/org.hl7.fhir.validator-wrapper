@@ -1,7 +1,7 @@
 package controller.version
 
 import org.hl7.fhir.utilities.VersionUtilities
-import org.koin.core.KoinComponent
+import org.koin.core.component.KoinComponent
 
 class VersionControllerImpl : VersionController, KoinComponent {
 

@@ -14,7 +14,7 @@ import react.*
 import styled.*
 import ui.components.options.menu.CHECKBOX_CHANGE
 
-external interface LabelledSwitchProps : RProps {
+external interface LabelledSwitchProps : Props {
     var label: String
     var active: Boolean
 
@@ -25,7 +25,7 @@ external interface LabelledSwitchProps : RProps {
 /**
  * A text only button with the option to customize, color, label, and if it is currently active
  */
-class LabelledSwitch : RComponent<LabelledSwitchProps, RState>() {
+class LabelledSwitch : RComponent<LabelledSwitchProps, State>() {
 
     override fun RBuilder.render() {
         styledDiv {
@@ -55,7 +55,7 @@ class LabelledSwitch : RComponent<LabelledSwitchProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.labelledSwitch(handler: LabelledSwitchProps.() -> Unit): ReactElement {
+fun RBuilder.labelledSwitch(handler: LabelledSwitchProps.() -> Unit){
     return child(LabelledSwitch::class) {
         this.attrs(handler)
     }

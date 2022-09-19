@@ -30,7 +30,7 @@ class ValidationControllerTest : BaseControllerTest() {
     init {
         startInjection(
             module {
-                single(override = true) { validationServiceFactory }
+                single() { validationServiceFactory }
             }
         )
     }

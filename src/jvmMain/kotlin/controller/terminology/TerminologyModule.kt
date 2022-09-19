@@ -2,12 +2,13 @@ package controller.terminology
 
 import api.terminogy.TerminologyApi
 import constants.TERMINOLOGY_ENDPOINT
-import io.ktor.application.*
-import io.ktor.client.features.*
+
+import io.ktor.client.plugins.*
 import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import model.TerminologyServerRequest
 import model.TerminologyServerResponse
 import org.koin.ktor.ext.inject

@@ -6,10 +6,10 @@ package ui.components.ace
 import react.*
 
 @JsName("default")
-external val aceEditor: RClass<AceEditorProps>
+external val aceEditor: ComponentClass<AceEditorProps>
 
-    external interface AceEditorProps : RProps {
-    var ref : RReadableRef<Nothing>
+    external interface AceEditorProps : Props {
+    var ref : RefObject<Nothing>
     var mode: String
     var theme : String
     var height : String?

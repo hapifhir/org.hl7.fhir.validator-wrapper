@@ -8,12 +8,12 @@ import styled.css
 import styled.styledDiv
 import styled.styledSpan
 
-external interface PageTitleProps : RProps {
+external interface PageTitleProps : Props {
     var majorText: String
     var minorText: String
 }
 
-class PageTitle : RComponent<PageTitleProps, RState>() {
+class PageTitle : RComponent<PageTitleProps, State>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -39,7 +39,7 @@ class PageTitle : RComponent<PageTitleProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.sectionTitle(handler: PageTitleProps.() -> Unit): ReactElement {
+fun RBuilder.sectionTitle(handler: PageTitleProps.() -> Unit) {
     return child(PageTitle::class) {
         this.attrs(handler)
     }

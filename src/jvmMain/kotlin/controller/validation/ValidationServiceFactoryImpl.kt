@@ -1,6 +1,6 @@
 package controller.validation
 
-import io.ktor.application.*
+
 import org.hl7.fhir.validation.cli.services.ValidationService
 
 private const val MIN_FREE_MEMORY = 2500000000

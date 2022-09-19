@@ -9,17 +9,18 @@ import kotlinx.html.id
 import kotlinx.html.js.onInputFunction
 import org.w3c.dom.HTMLTextAreaElement
 import react.*
+import react.dom.attrs
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
-import styled.styledTextArea
+import styled.styledTextarea
 
-external interface ManualEntryTextAreaProps : RProps {
+external interface ManualEntryTextAreaProps : Props {
     var currentText: String
     var onTextUpdate: (String) -> Unit
 }
 
-class ManualEntryTextArea : RComponent<ManualEntryTextAreaProps, RState>() {
+class ManualEntryTextArea : RComponent<ManualEntryTextAreaProps, State>() {
     private val textAreaId = "manual_entry_field"
 
     override fun RBuilder.render() {
@@ -27,7 +28,7 @@ class ManualEntryTextArea : RComponent<ManualEntryTextAreaProps, RState>() {
             css {
                 +ManualEntryTextAreaStyle.mainContainer
             }
-            styledTextArea {
+            styledTextarea {
                 css {
                     +TextStyle.codeTextBase
                     +ManualEntryTextAreaStyle.textArea
@@ -50,7 +51,7 @@ class ManualEntryTextArea : RComponent<ManualEntryTextAreaProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.manualEntryTextArea(handler: ManualEntryTextAreaProps.() -> Unit): ReactElement {
+fun RBuilder.manualEntryTextArea(handler: ManualEntryTextAreaProps.() -> Unit) {
     return child(ManualEntryTextArea::class) {
         this.attrs(handler)
     }

@@ -2,17 +2,17 @@ package controller.ig
 
 import constants.IG_ENDPOINT
 import constants.IG_VERSIONS_ENDPOINT
-import io.ktor.application.*
-import io.ktor.features.*
 import io.ktor.http.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.util.*
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+
 import model.IGResponse
 import model.PackageInfo
 import org.koin.ktor.ext.inject
 
-const val NO_IGS_RETURNED = "No IGs returned from igController. List size '0'."
+const val NO_IGS_RETURNED = "No IGs returned from igController. List size is 0."
 
 
 

@@ -1,7 +1,7 @@
 package controller.terminology
 
 import model.CapabilityStatement
-import org.koin.core.KoinComponent
+import org.koin.core.component.KoinComponent
 
 class TerminologyControllerImpl : TerminologyController, KoinComponent {
 

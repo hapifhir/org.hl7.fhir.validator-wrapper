@@ -11,7 +11,7 @@ import styled.css
 import styled.styledDiv
 import styled.styledUl
 
-external interface FileEntryListProps : RProps {
+external interface FileEntryListProps : Props {
     var validationOutcomes: List<ValidationOutcome>
     var viewFile: (ValidationOutcome) -> Unit
     var deleteFile: (ValidationOutcome) -> Unit
@@ -20,7 +20,7 @@ external interface FileEntryListProps : RProps {
 /**
  * Component that displays a list of validation outcomes.
  */
-class FileEntryList : RComponent<FileEntryListProps, RState>() {
+class FileEntryList : RComponent<FileEntryListProps, State>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -57,7 +57,7 @@ class FileEntryList : RComponent<FileEntryListProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.fileEntryList(handler: FileEntryListProps.() -> Unit): ReactElement {
+fun RBuilder.fileEntryList(handler: FileEntryListProps.() -> Unit) {
     return child(FileEntryList::class) {
         this.attrs(handler)
     }

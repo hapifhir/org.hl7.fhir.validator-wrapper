@@ -2,7 +2,7 @@ package model
 
 import kotlinx.serialization.Serializable
 
-@Serializable()
+@Serializable
 actual class ValidationResponse actual constructor() {
 
     private var outcomes: List<ValidationOutcome> = listOf()

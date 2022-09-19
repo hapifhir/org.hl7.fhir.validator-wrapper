@@ -13,12 +13,13 @@ import kotlinx.html.js.onMouseOverFunction
 import model.IssueSeverity
 import model.ValidationMessage
 import react.*
+import react.dom.attrs
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledSpan
 
-external interface IssueEntryProps : RProps {
+external interface IssueEntryProps : Props {
     var validationMessage: ValidationMessage
     var highlighted: Boolean
 
@@ -29,7 +30,7 @@ external interface IssueEntryProps : RProps {
 /**
  * A single list entry for a validation issue. Displays the type, line number, and explanation.
  */
-class IssueEntry : RComponent<IssueEntryProps, RState>() {
+class IssueEntry : RComponent<IssueEntryProps, State>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -84,7 +85,7 @@ class IssueEntry : RComponent<IssueEntryProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.issueEntry(handler: IssueEntryProps.() -> Unit): ReactElement {
+fun RBuilder.issueEntry(handler: IssueEntryProps.() -> Unit) {
     return child(IssueEntry::class) {
         this.attrs(handler)
     }

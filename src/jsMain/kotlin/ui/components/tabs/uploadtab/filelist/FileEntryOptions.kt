@@ -9,7 +9,7 @@ import styled.css
 import styled.styledDiv
 import ui.components.buttons.textButton
 
-external interface FileEntryOptionsProps : RProps {
+external interface FileEntryOptionsProps : Props {
     var viewOption: Boolean
     var onViewClicked: () -> Unit
     var onDeleteClicked: () -> Unit
@@ -18,7 +18,7 @@ external interface FileEntryOptionsProps : RProps {
 /**
  * Component displaying the horizontal list of buttons for file upload and validation
  */
-class FileEntryOptions : RComponent<FileEntryOptionsProps, RState>() {
+class FileEntryOptions : RComponent<FileEntryOptionsProps, State>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -52,7 +52,7 @@ class FileEntryOptions : RComponent<FileEntryOptionsProps, RState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.fileEntryOptions(handler: FileEntryOptionsProps.() -> Unit): ReactElement {
+fun RBuilder.fileEntryOptions(handler: FileEntryOptionsProps.() -> Unit) {
     return child(FileEntryOptions::class) {
         this.attrs(handler)
     }

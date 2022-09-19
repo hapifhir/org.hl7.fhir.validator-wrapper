@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 import mainScope
 
-external interface IgSelectorProps : RProps {
+external interface IgSelectorProps : Props {
     var fhirVersion: String
     var onUpdateIg: (PackageInfo, Boolean) -> Unit
     var igList: MutableList<PackageInfo>
@@ -32,7 +32,7 @@ external interface IgSelectorProps : RProps {
     var onFilterStringChange: (String) -> Unit
 }
 
-class IgSelectorState : RState {
+class IgSelectorState : State {
     var packageVersions = mutableListOf<Pair<PackageInfo, Boolean>>()
 }
 
@@ -164,7 +164,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
 /**
  * React Component Builder
  */
-fun RBuilder.igSelector(handler: IgSelectorProps.() -> Unit): ReactElement {
+fun RBuilder.igSelector(handler: IgSelectorProps.() -> Unit) {
     return child(IgSelector::class) {
         this.attrs(handler)
     }

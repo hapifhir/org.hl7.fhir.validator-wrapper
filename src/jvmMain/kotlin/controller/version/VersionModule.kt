@@ -1,10 +1,12 @@
 package controller.version
 
 import constants.VERSIONS_ENDPOINT
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.http.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import model.FhirVersionsResponse
 import org.koin.ktor.ext.inject
 

@@ -6,14 +6,15 @@ import kotlinx.css.properties.*
 import model.IssueSeverity
 import model.ValidationOutcome
 import react.*
+import react.dom.attrs
 import styled.*
 import utils.getHighestIssueSeverity
 
-external interface FileStatusIndicatorProps : RProps {
+external interface FileStatusIndicatorProps : Props {
     var validationOutcome: ValidationOutcome
 }
 
-class FileStatusIndicatorState : RState
+class FileStatusIndicatorState : State
 
 /**
  * Graphical indicator for outcome of validation process.
@@ -66,7 +67,7 @@ class FileStatusIndicator : RComponent<FileStatusIndicatorProps, FileStatusIndic
 /**
  * React Component Builder
  */
-fun RBuilder.fileStatusIndicator(handler: FileStatusIndicatorProps.() -> Unit): ReactElement {
+fun RBuilder.fileStatusIndicator(handler: FileStatusIndicatorProps.() -> Unit) {
     return child(FileStatusIndicator::class) {
         this.attrs(handler)
     }
@@ -146,7 +147,7 @@ object FileStatusIndicatorStyle : StyleSheet("FileStatusIndicator", isStatic = t
         spinner()
     }
 
-    fun CSSBuilder.spinner() {
+    fun CssBuilder.spinner() {
         animation(
             duration = 2.s,
             timing = Timing.linear,
@@ -165,7 +166,7 @@ object FileStatusIndicatorStyle : StyleSheet("FileStatusIndicator", isStatic = t
         }
     }
 
-    fun CSSBuilder.scaleOutro() {
+    fun CssBuilder.scaleOutro() {
         animation(
             duration = (0.25).s,
             timing = Timing.materialAcceleration,
@@ -183,7 +184,7 @@ object FileStatusIndicatorStyle : StyleSheet("FileStatusIndicator", isStatic = t
         }
     }
 
-    fun CSSBuilder.scaleIntro() {
+    fun CssBuilder.scaleIntro() {
         animation(
             duration = (0.5).s,
             // elastic animation

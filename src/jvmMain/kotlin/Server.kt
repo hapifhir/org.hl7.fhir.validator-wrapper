@@ -1,15 +1,15 @@
 import api.ApiInjection
 import com.typesafe.config.ConfigFactory
 import controller.ControllersInjection
-import io.ktor.application.*
-import io.ktor.config.*
+import io.ktor.server.application.*
+import io.ktor.server.config.*
 import io.ktor.server.engine.*
 import io.ktor.server.jetty.*
 import io.ktor.util.*
 import org.hl7.fhir.validation.ValidatorCli
 import org.hl7.fhir.validation.cli.utils.Params
 import org.koin.dsl.module
-import org.koin.ktor.ext.Koin
+import org.koin.ktor.plugin.Koin
 import java.util.concurrent.TimeUnit
 
 private const val DEFAULT_ENVIRONMENT: String = "dev"
@@ -94,7 +94,7 @@ private fun runningAsDesktopApp(args: Array<String>): Boolean {
 
 data class Config(val host: String, val port: Int)
 
-@KtorExperimentalAPI
+
 fun extractConfig(environment: String, hoconConfig: HoconApplicationConfig): Config {
     val hoconEnvironment = hoconConfig.config("ktor.deployment.$environment")
     return Config(

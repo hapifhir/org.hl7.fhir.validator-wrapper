@@ -9,11 +9,11 @@ import styled.css
 import styled.styledDiv
 import ui.components.tabs.heading
 
-external interface FilteredIssueEntryListProps : RProps {
+external interface FilteredIssueEntryListProps : Props {
     var validationOutcome: ValidationOutcome
 }
 
-class FilteredIssueEntryListState : RState {
+class FilteredIssueEntryListState : State {
     var messageFilter = MessageFilter()
 }
 
@@ -54,7 +54,7 @@ class FilteredIssueEntryList : RComponent<FilteredIssueEntryListProps, FilteredI
 /**
  * React Component Builder
  */
-fun RBuilder.filteredIssueEntryList(handler: FilteredIssueEntryListProps.() -> Unit): ReactElement {
+fun RBuilder.filteredIssueEntryList(handler: FilteredIssueEntryListProps.() -> Unit) {
     return child(FilteredIssueEntryList::class) {
         this.attrs(handler)
     }
