@@ -194,18 +194,14 @@ task("printVersion") {
 
 
 tasks.withType<Jar> {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
     manifest {
         attributes["Main-Class"] = "ServerKt"
         exclude("META-INF/*.SF",
             "META-INF/*.DSA",
-            "META-INF/*.RSA",
-            "META-INF/DEPENDENCIES",
-            "META-INF/LICENSE*",
-            "META-INF/NOTICE*",
-            "META-INF/versions/9/module-info.class",
-            "module-info.class")
+            "META-INF/*.RSA"
+        )
     }
     // To add all of the dependencies otherwise a "NoClassDefFoundError" error
     from(sourceSets.main.get().output)
