@@ -39,11 +39,14 @@ On Mac or Linux:
 gradlew build
 ```
 
-On Windows:
+On Windows (Command Prompt):
 
 ```
 gradlew.bat build
 ```
+
+Note: If you are using Windows Powershell, you may get a error `The term 'gradlew.bat' is not recognized as the name of a cmdlet...`. To fix
+this, wrap your command with `cmd.exe /c 'gradlew.bat build'`
 
 ### To run a self-hosted version of the web UI:
 
