@@ -5,8 +5,10 @@ import api.isPackagesServerUp
 import api.isTerminologyServerUp
 import css.const.HEADER_SHADOW
 import css.const.HIGHLIGHT_GRAY
+import css.const.SUCCESS_GREEN
 import css.const.WHITE
 import kotlinx.browser.document
+import kotlinx.browser.window
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,6 +24,7 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledImg
+import ui.components.buttons.textButton
 import ui.components.header.SiteStatus.SiteState
 import ui.components.header.SiteStatus.siteStatus
 import utils.Language
@@ -62,9 +65,18 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                 }
             }
         }
+
     }
 
-
+    fun getPolyglot ()  : Polyglot {
+        console.log("getPolyglot")
+        var polyglot = Polyglot(js("{locale: \"en\"}"))
+        polyglot.extend(phrases = js("{" +
+                "'Options': 'Options'," +
+                "'Validate': 'Validate'" +
+                "}"))
+        return polyglot
+    }
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -84,7 +96,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                 }
                 AppScreen.values().forEach { screen ->
                     headerTabButton {
-                        label = screen.display
+                        label = props.polyglot.t(screen.display)
                         selected = props.appScreen == screen
                         onSelected = { buttonLabel ->
                             AppScreen.fromDisplay(buttonLabel)?.let { it -> props.setScreen(it) }
@@ -109,6 +121,16 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                         label = "packages2.fhir.org"
                         status = state.packageServerState
                     }
+                    textButton {
+                        textColor = SUCCESS_GREEN
+                        active = true
+                        label = props.polyglot.locale()
+                        onSelected = {
+                            props.setPolyglot( getPolyglot() )
+                        }
+                    }
+                    +props.polyglot.t("heading_validate")
+
                 }
             }
             /** TODO LOCALIZATION
