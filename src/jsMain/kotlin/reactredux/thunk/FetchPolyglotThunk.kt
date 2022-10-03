@@ -1,6 +1,7 @@
 package reactredux.thunk
 
 import Polyglot
+import kotlinx.coroutines.*
 import kotlinx.browser.window
 import reactredux.slices.LocalizationSlice
 import reactredux.store.AppState
@@ -9,26 +10,25 @@ import reactredux.store.nullAction
 import redux.RAction
 import redux.WrapperAction
 
-class FetchPolyglotThunk : RThunk {
+import api.getPolyglotPhrases
+import kotlinext.js.asJsObject
 
-    fun fetchPolyglot ()  : Polyglot {
-        console.log("hello fetchPolyglot")
-        var polyglot = Polyglot(js("{locale: \"es\"}"))
-        polyglot.extend(phrases = js("{" +
-                "'Validate': '¡Validar!'," +
-                "'Options': 'Opciones'" +
-                "}"))
-        return polyglot
-    }
+import kotlinx.serialization.json.Json
+class FetchPolyglotThunk : RThunk {
 
 
     override fun invoke(dispatch: (RAction) -> WrapperAction, getState: () -> AppState): WrapperAction {
 
+        GlobalScope.launch {
+            val phrases : String = getPolyglotPhrases()
+            console.log("hello fetchPolyglot")
+            console.log("phrases: " + phrases)
+            var polyglot = Polyglot(js("{locale: \"es\"}"))
+           polyglot.extend(phrases = JSON.parse(phrases))
 
-        window.setTimeout({
-                dispatch(LocalizationSlice.SetPolyglot(fetchPolyglot()))
-        }, 5000)
 
+            dispatch(LocalizationSlice.SetPolyglot(polyglot))
+        }
         return nullAction
     }
 }
