@@ -9,14 +9,14 @@ import reactredux.store.nullAction
 import redux.RAction
 import redux.WrapperAction
 
-class FetchLocalizedStringThunk : RThunk {
+class FetchPolyglotThunk : RThunk {
 
-    fun getPolyglot ()  : Polyglot {
-        console.log("getPolyglot")
-        var polyglot = Polyglot(js("{locale: \"fr\"}"))
+    fun fetchPolyglot ()  : Polyglot {
+        console.log("hello fetchPolyglot")
+        var polyglot = Polyglot(js("{locale: \"es\"}"))
         polyglot.extend(phrases = js("{" +
-                "'heading_validate': 'Boop a doo'," +
-                "'test_string': 'Test String'" +
+                "'Validate': '¡Validar!'," +
+                "'Options': 'Opciones'" +
                 "}"))
         return polyglot
     }
@@ -24,12 +24,10 @@ class FetchLocalizedStringThunk : RThunk {
 
     override fun invoke(dispatch: (RAction) -> WrapperAction, getState: () -> AppState): WrapperAction {
 
+
         window.setTimeout({
-
-
-                dispatch(LocalizationSlice.SetPolyglot(getPolyglot()))
-
-        }, 2000)
+                dispatch(LocalizationSlice.SetPolyglot(fetchPolyglot()))
+        }, 5000)
 
         return nullAction
     }

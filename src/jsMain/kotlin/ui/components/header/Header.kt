@@ -8,10 +8,7 @@ import css.const.HIGHLIGHT_GRAY
 import css.const.SUCCESS_GREEN
 import css.const.WHITE
 import kotlinx.browser.document
-import kotlinx.browser.window
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.css.*
 import kotlinx.css.properties.borderBottom
 import kotlinx.css.properties.boxShadow
@@ -28,7 +25,6 @@ import ui.components.buttons.textButton
 import ui.components.header.SiteStatus.SiteState
 import ui.components.header.SiteStatus.siteStatus
 import utils.Language
-import kotlin.time.ExperimentalTime
 
 external interface HeaderProps : Props {
     var appScreen: AppScreen
@@ -36,6 +32,7 @@ external interface HeaderProps : Props {
     var polyglot: Polyglot
 
     var setScreen: (AppScreen) -> Unit
+    var fetchPolyglot:  () -> Unit
     var setPolyglot: (Polyglot) -> Unit
     var setLanguage: (Language) -> Unit
 }
@@ -65,7 +62,11 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                 }
             }
         }
+    }
 
+    override fun componentDidMount() {
+        console.log("Header.componentDidMount")
+        props.fetchPolyglot()
     }
 
     fun getPolyglot ()  : Polyglot {
