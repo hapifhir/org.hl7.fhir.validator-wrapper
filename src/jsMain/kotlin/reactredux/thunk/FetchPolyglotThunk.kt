@@ -1,7 +1,7 @@
 package reactredux.thunk
 
 import Polyglot
-import kotlinx.browser.window
+import kotlinx.coroutines.*
 import reactredux.slices.LocalizationSlice
 import reactredux.store.AppState
 import reactredux.store.RThunk
@@ -9,26 +9,33 @@ import reactredux.store.nullAction
 import redux.RAction
 import redux.WrapperAction
 
-class FetchPolyglotThunk : RThunk {
+import api.getPolyglotPhrases
 
-    fun fetchPolyglot ()  : Polyglot {
-        console.log("hello fetchPolyglot")
-        var polyglot = Polyglot(js("{locale: \"es\"}"))
-        polyglot.extend(phrases = js("{" +
-                "'Validate': '¡Validar!'," +
-                "'Options': 'Opciones'" +
-                "}"))
-        return polyglot
-    }
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlin.js.json
+
+class FetchPolyglotThunk : RThunk {
 
 
     override fun invoke(dispatch: (RAction) -> WrapperAction, getState: () -> AppState): WrapperAction {
 
+        GlobalScope.launch {
+            val phrases : JsonObject = getPolyglotPhrases()
 
-        window.setTimeout({
-                dispatch(LocalizationSlice.SetPolyglot(fetchPolyglot()))
-        }, 5000)
+            /*  Polyglot expects js or json as its phrases, so we need to convert our
+                kotlin JsonObject into the Pair<String, Any?> structure that the json
+                method will accept.
+             */
+            val pairs : Array<Pair<String, Any?>> = phrases.entries.map {
+                   it -> Pair(it.key, (it.value as JsonPrimitive).content)
+            }.toTypedArray()
 
+            var polyglot = Polyglot(js("{locale: \"en\"}"))
+            polyglot.extend(phrases = json(*pairs))
+
+            dispatch(LocalizationSlice.SetPolyglot(polyglot))
+        }
         return nullAction
     }
 }

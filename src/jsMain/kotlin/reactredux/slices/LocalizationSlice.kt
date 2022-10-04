@@ -8,19 +8,8 @@ import utils.Language
 
 object LocalizationSlice {
 
-
-    fun getPolyglot ()  : Polyglot {
-        console.log("getPolyglot")
-        var polyglot = Polyglot(js("{locale: \"fr\"}"))
-        polyglot.extend(phrases = js("{" +
-                "'Options': 'Options en Francais'," +
-                "'Validate': 'Validate'" +
-                "}"))
-        return polyglot
-    }
-
     data class State(
-        val polyglotInstance: Polyglot = getPolyglot(),
+        val polyglotInstance: Polyglot = Polyglot(),
         val selectedLangauge: Language = Language.US_ENGLISH,
     )
 

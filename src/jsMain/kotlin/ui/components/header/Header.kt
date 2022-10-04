@@ -69,15 +69,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
         props.fetchPolyglot()
     }
 
-    fun getPolyglot ()  : Polyglot {
-        console.log("getPolyglot")
-        var polyglot = Polyglot(js("{locale: \"en\"}"))
-        polyglot.extend(phrases = js("{" +
-                "'Options': 'Options'," +
-                "'Validate': 'Validate'" +
-                "}"))
-        return polyglot
-    }
+
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -122,16 +114,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                         label = "packages2.fhir.org"
                         status = state.packageServerState
                     }
-                    textButton {
-                        textColor = SUCCESS_GREEN
-                        active = true
-                        label = props.polyglot.locale()
-                        onSelected = {
-                            props.setPolyglot( getPolyglot() )
-                        }
-                    }
-                    +props.polyglot.t("heading_validate")
-
+                    +props.polyglot.locale()
                 }
             }
             /** TODO LOCALIZATION
