@@ -15,11 +15,11 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlin.js.json
 
-class FetchPolyglotThunk : RThunk {
+class FetchPolyglotThunk (private val localeString : String) : RThunk {
 
 
     override fun invoke(dispatch: (RAction) -> WrapperAction, getState: () -> AppState): WrapperAction {
-
+        console.log("Lo-lo-localestring: $localeString")
         GlobalScope.launch {
             val phrases : JsonObject = getPolyglotPhrases()
 

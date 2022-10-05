@@ -32,7 +32,7 @@ external interface HeaderProps : Props {
     var polyglot: Polyglot
 
     var setScreen: (AppScreen) -> Unit
-    var fetchPolyglot:  () -> Unit
+    var fetchPolyglot:  (String) -> Unit
     var setPolyglot: (Polyglot) -> Unit
     var setLanguage: (Language) -> Unit
 }
@@ -66,7 +66,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
 
     override fun componentDidMount() {
         console.log("Header.componentDidMount")
-        props.fetchPolyglot()
+        props.fetchPolyglot("cs")
     }
 
 
@@ -113,6 +113,14 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                     siteStatus {
                         label = "packages2.fhir.org"
                         status = state.packageServerState
+                    }
+                    textButton {
+                        textColor = SUCCESS_GREEN
+                        active = true
+                        label = props.polyglot.locale()
+                        onSelected = {
+                            props.fetchPolyglot("jp")
+                        }
                     }
                     +props.polyglot.locale()
                 }
