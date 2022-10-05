@@ -1,5 +1,6 @@
 package ui.components.tabs.entrytab
 
+import Polyglot
 import css.animation.LoadingSpinner
 import css.const.HL7_RED
 import css.const.WHITE
@@ -13,6 +14,8 @@ import ui.components.buttons.imageButton
 external interface ManualEntryButtonBarProps : Props {
     var onValidateRequested: () -> Unit
     var workInProgress: Boolean
+    //var polyglot: Polyglot
+    var validateText: String
 }
 
 /**
@@ -36,7 +39,7 @@ class ManualEntryButtonBar : RComponent<ManualEntryButtonBarProps, State>() {
                     backgroundColor = WHITE
                     borderColor = HL7_RED
                     image = "images/validate_red.png"
-                    label = "Validate"
+                    label = props.validateText
                     onSelected = {
                         props.onValidateRequested()
                     }

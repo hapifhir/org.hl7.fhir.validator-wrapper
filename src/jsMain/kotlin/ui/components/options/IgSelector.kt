@@ -1,5 +1,6 @@
 package ui.components.options
 
+import Polyglot
 import css.const.HL7_RED
 import css.const.WHITE
 import css.const.SWITCH_GRAY
@@ -30,6 +31,7 @@ external interface IgSelectorProps : Props {
     var onUpdatePackageName: (String, Boolean) -> Unit
     var selectedIgSet : MutableSet<PackageInfo>
     var onFilterStringChange: (String) -> Unit
+    var polyglot: Polyglot
 }
 
 class IgSelectorState : State {
@@ -104,7 +106,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     }
                     dropDownMultiChoice {
                         choices = versions
-                        buttonLabel = if (versions.size > 0) "Select IG version" else "No compatible versions"
+                        buttonLabel = if (versions.size > 0) "Select IG version" else props.polyglot.t("options_ig_version_dropdown_default")
                         onSelected = { igVersion ->
                             setState {
                                 packageVersions = state.packageVersions.map{Pair(it.first, it.first.version == igVersion)}.toMutableList()

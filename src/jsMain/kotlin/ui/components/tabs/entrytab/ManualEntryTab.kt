@@ -57,7 +57,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 +ManualEntryTabStyle.mainContainer
             }
             heading {
-                text = "Code"
+                text = props.polyglot.t("manual_entry_title")
             }
             if (state.ohShitYouDidIt) {
                 styledIframe {
@@ -71,6 +71,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             } else {
                 manualEntryTextArea {
                     currentText = props.currentManuallyEnteredText
+                    placeholderText = props.polyglot.t("manual_entry_place_holder")
                     onTextUpdate = { str ->
                         props.updateCurrentlyEnteredText(str)
                         if (state.displayingError) {
@@ -82,12 +83,14 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 }
             }
             manualEntryButtonBar {
+                validateText = props.polyglot.t("validate_button")
                 onValidateRequested = {
                     if (props.currentManuallyEnteredText.isNotEmpty()) {
                         validateEnteredText(props.currentManuallyEnteredText)
                     } else {
+                        val newErrorMessage = props.polyglot.t("manual_entry_error")
                         setState {
-                            errorMessage = "Please enter something to validate."
+                            errorMessage = newErrorMessage
                             displayingError = true
                         }
                     }
@@ -149,7 +152,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                         errorMessage = "Never gonna give you up, never gonna let you down, never gonna run around..."
                         displayingError = true
                     } else {
-                        errorMessage = "Cannot parse entered text as valid JSON/XML."
+                        errorMessage = props.polyglot.t("manual_entry_exception")
                         displayingError = true
                     }
                 }

@@ -43,16 +43,18 @@ class App(props : AppProps) : RComponent<AppProps, State>() {
                     AppScreen.VALIDATOR -> {
                         sectionTitle {
                         //  TODO once localization is updated
-                        //  majorText = props.polyglot.t("heading_validate")
-                            majorText = "Validate Resources"
-                            minorText = "Manually enter, or upload resources for validation."
+                            majorText = props.polyglot.t("appscreen_validator_major")
+                            minorText = props.polyglot.t("appscreen_validator_minor")
                         }
-                        tabLayout {}
+                        tabLayout {
+                            enterResourceText = props.polyglot.t("enter_resources_heading")
+                            uploadResourcesText = props.polyglot.t("upload_resources_heading")
+                        }
                     }
                     AppScreen.SETTINGS -> {
                         sectionTitle {
-                            majorText = "Validation Options"
-                            minorText = "Modify setting for validating resources."
+                            majorText = props.polyglot.t("appscreen_settings_major")
+                            minorText = props.polyglot.t("appscreen_settings_minor")
                         }
                         optionsPage {}
                     }

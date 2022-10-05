@@ -1,5 +1,6 @@
 package reactredux.containers
 
+import Polyglot
 import model.CliContext
 import model.PackageInfo
 import react.ComponentClass
@@ -16,6 +17,7 @@ import ui.components.options.OptionsPageProps
 private interface OptionsPageStateProps : Props {
     var cliContext: CliContext
     var selectedIgPackageInfo: Set<PackageInfo>
+    var polyglot: Polyglot
 }
 
 private interface OptionsPageDispatchProps : Props {
@@ -28,6 +30,7 @@ val optionsPage: ComponentClass<Props> =
         { state, _ ->
             cliContext = state.validationContextSlice.cliContext
             selectedIgPackageInfo = state.validationContextSlice.selectedIgPackageInfo
+            polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->
             updateCliContext = {

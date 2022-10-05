@@ -1,5 +1,6 @@
 package ui.components.tabs
 
+import Polyglot
 import css.const.*
 import css.text.TextStyle
 import kotlinx.css.*
@@ -14,12 +15,16 @@ import styled.css
 import styled.styledDiv
 import ui.entity.TabState
 
-external interface TabLayoutProps : Props
+external interface TabLayoutProps : Props {
+    var polyglot: Polyglot
+    var enterResourceText: String
+    var uploadResourcesText: String
+}
 
 class TabLayoutState : State {
     var tabStates: ArrayList<TabState> = arrayListOf(
-        TabState(label = "Enter Resource", active = true),
-        TabState(label = "Upload Resources", active = false)
+        TabState(label = "", active = true),
+        TabState(label = "", active = false)
     )
 }
 
@@ -28,7 +33,10 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
         state = TabLayoutState()
     }
 
+
     override fun RBuilder.render() {
+        state.tabStates[0].label = props.enterResourceText
+        state.tabStates[1].label = props.uploadResourcesText
         styledDiv {
             css {
                 +TabBarStyle.mainLayout

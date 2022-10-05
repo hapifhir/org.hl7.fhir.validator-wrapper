@@ -66,7 +66,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
             }
         }
     }
-
+    /*
     fun getPolyglot ()  : Polyglot {
         console.log("getPolyglot")
         var polyglot = Polyglot(js("{locale: \"en\"}"))
@@ -76,6 +76,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                 "}"))
         return polyglot
     }
+     */
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -95,7 +96,13 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                 }
                 AppScreen.values().forEach { screen ->
                     headerTabButton {
-                        label = props.polyglot.t(screen.display)
+                        var polyKey = ""
+                        if (screen.display == "Validate") {
+                            polyKey = "validate_heading"
+                        } else if (screen.display == "Options") {
+                            polyKey = "options_heading"
+                        }
+                        label = props.polyglot.t(polyKey)
                         selected = props.appScreen == screen
                         onSelected = { buttonLabel ->
                             AppScreen.fromDisplay(buttonLabel)?.let { it -> props.setScreen(it) }

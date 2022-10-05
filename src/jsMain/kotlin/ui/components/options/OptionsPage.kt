@@ -1,5 +1,6 @@
 package ui.components.options
 
+import Polyglot
 import api.sendIGsRequest
 import api.sendVersionsRequest
 import api.validateTxServer
@@ -29,6 +30,7 @@ external interface OptionsPageProps : Props {
     var selectedIgPackageInfo: Set<PackageInfo>
     var updateCliContext: (CliContext) -> Unit
     var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
+    var polyglot: Polyglot
 }
 
 class OptionsPageState : State {
@@ -215,6 +217,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     +OptionsPageStyle.optionsSubSection
                 }
                 igSelector {
+                    polyglot = props.polyglot
                     fhirVersion = props.cliContext.getTargetVer()
                     igList = state.igList
                     igPackageNameList = state.igPackageNameList
