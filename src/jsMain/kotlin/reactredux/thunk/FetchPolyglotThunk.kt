@@ -20,6 +20,8 @@ class FetchPolyglotThunk (private val localeString : String) : RThunk {
 
     override fun invoke(dispatch: (RAction) -> WrapperAction, getState: () -> AppState): WrapperAction {
         GlobalScope.launch {
+
+            //TODO make this pull phrases based on localeString
             val phrases : JsonObject = getPolyglotPhrases()
 
             /*  Polyglot expects js or json as its phrases, so we need to convert our
