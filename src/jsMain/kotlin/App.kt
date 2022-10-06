@@ -15,11 +15,16 @@ import ui.components.tabs.tabLayout
 external interface AppProps : Props {
     var appScreen: AppScreen
     var polyglot: Polyglot
+
+    var fetchPolyglot:  (String) -> Unit
 }
 
 val mainScope = MainScope()
 
 class App(props : AppProps) : RComponent<AppProps, State>() {
+    init {
+        props.fetchPolyglot("en_US")
+    }
     override fun RBuilder.render() {
 
         styledDiv {

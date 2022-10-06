@@ -23,6 +23,7 @@ private interface HeaderStateProps : Props {
 
 private interface HeaderDispatchProps : Props {
     var setScreen: (AppScreen) -> Unit
+    var fetchPolyglot: (String) -> Unit
     var setPolyglot: (Polyglot) -> Unit
     var setLanguage: (Language) -> Unit
 }
@@ -36,6 +37,7 @@ val header: ComponentClass<Props> =
         },
         { dispatch, _ ->
             setScreen = { dispatch(AppScreenSlice.SetScreen(it)) }
+            fetchPolyglot = { dispatch(LocalizationSlice.fetchPolyglot(it)) }
             setPolyglot = { dispatch(LocalizationSlice.SetPolyglot(it)) }
             setLanguage = { dispatch(LocalizationSlice.SetLanguage(it)) }
         }

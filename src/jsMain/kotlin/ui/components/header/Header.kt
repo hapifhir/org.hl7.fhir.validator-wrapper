@@ -5,11 +5,10 @@ import api.isPackagesServerUp
 import api.isTerminologyServerUp
 import css.const.HEADER_SHADOW
 import css.const.HIGHLIGHT_GRAY
+import css.const.SUCCESS_GREEN
 import css.const.WHITE
 import kotlinx.browser.document
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.css.*
 import kotlinx.css.properties.borderBottom
 import kotlinx.css.properties.boxShadow
@@ -22,10 +21,10 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledImg
+import ui.components.buttons.textButton
 import ui.components.header.SiteStatus.SiteState
 import ui.components.header.SiteStatus.siteStatus
 import utils.Language
-import kotlin.time.ExperimentalTime
 
 external interface HeaderProps : Props {
     var appScreen: AppScreen
@@ -33,6 +32,7 @@ external interface HeaderProps : Props {
     var polyglot: Polyglot
 
     var setScreen: (AppScreen) -> Unit
+    var fetchPolyglot:  (String) -> Unit
     var setPolyglot: (Polyglot) -> Unit
     var setLanguage: (Language) -> Unit
 }
@@ -65,6 +65,8 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
     }
 
 
+
+
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -84,7 +86,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                 }
                 AppScreen.values().forEach { screen ->
                     headerTabButton {
-                        label = screen.display
+                        label = props.polyglot.t(screen.display)
                         selected = props.appScreen == screen
                         onSelected = { buttonLabel ->
                             AppScreen.fromDisplay(buttonLabel)?.let { it -> props.setScreen(it) }
@@ -109,36 +111,18 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                         label = "packages2.fhir.org"
                         status = state.packageServerState
                     }
+                    /* TODO LOCALIZATION WIDGET
+                    textButton {
+                        textColor = SUCCESS_GREEN
+                        active = true
+                        label = props.polyglot.locale()
+                        onSelected = {
+                            props.fetchPolyglot("jp")
+                        }
+                    }
+                    */
                 }
             }
-            /** TODO LOCALIZATION
-            styledSpan {
-            css {
-            +TextStyle.headerMenuItem
-            }
-            +props.polyglot.t("heading_validate") //"Language"
-            attrs {
-            onClickFunction = {
-            //setState {
-            println("ON CLICK BUTTON")
-            props.setLanguage(if (props.language == Language.US_ENGLISH) Language.MEX_SPANISH else Language.US_ENGLISH)
-            var polyglot = Polyglot()
-            when (props.language) {
-            Language.US_ENGLISH -> polyglot.extend(phrases = js("{" +
-            "'heading_validate': 'Validate Resources'," +
-            "'test_string': 'Test String'" +
-            "}"))
-            Language.MEX_SPANISH -> polyglot.extend(phrases = js("{" +
-            "'heading_validate': 'Spanish Resources'," +
-            "'test_string': 'Spanish String'" +
-            "}"))
-            }
-            props.setPolyglot(polyglot)
-            //}
-            }
-            }
-            }
-             **/
         }
     }
 

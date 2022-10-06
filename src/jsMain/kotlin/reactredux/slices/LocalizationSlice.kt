@@ -1,6 +1,8 @@
 package reactredux.slices
 
 import Polyglot
+import reactredux.store.RThunk
+import reactredux.thunk.FetchPolyglotThunk
 import redux.RAction
 import utils.Language
 
@@ -10,6 +12,10 @@ object LocalizationSlice {
         val polyglotInstance: Polyglot = Polyglot(),
         val selectedLangauge: Language = Language.US_ENGLISH,
     )
+
+    fun fetchPolyglot(localeString: String): RThunk {
+        return FetchPolyglotThunk(localeString)
+    }
 
     data class SetPolyglot(val polyglotInstance: Polyglot) : RAction
     data class SetLanguage(val selectedLangauge: Language) : RAction
