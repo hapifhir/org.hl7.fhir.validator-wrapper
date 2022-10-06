@@ -19,7 +19,6 @@ class FetchPolyglotThunk (private val localeString : String) : RThunk {
 
 
     override fun invoke(dispatch: (RAction) -> WrapperAction, getState: () -> AppState): WrapperAction {
-        console.log("Lo-lo-localestring: $localeString")
         GlobalScope.launch {
             val phrases : JsonObject = getPolyglotPhrases()
 
@@ -27,12 +26,16 @@ class FetchPolyglotThunk (private val localeString : String) : RThunk {
                 kotlin JsonObject into the Pair<String, Any?> structure that the json
                 method will accept.
              */
-            val pairs : Array<Pair<String, Any?>> = phrases.entries.map {
+            val phrasePairs : Array<Pair<String, Any?>> = phrases.entries.map {
                    it -> Pair(it.key, (it.value as JsonPrimitive).content)
             }.toTypedArray()
 
-            var polyglot = Polyglot(js("{locale: \"en\"}"))
-            polyglot.extend(phrases = json(*pairs))
+
+            var polyglot = Polyglot()
+            polyglot.locale(localeString)
+            polyglot.extend(phrases = json(*phrasePairs))
+
+            //TODO use dispatch to set localizationSlice.selectedLangauge
 
             dispatch(LocalizationSlice.SetPolyglot(polyglot))
         }

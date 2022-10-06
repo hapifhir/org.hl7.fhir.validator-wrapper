@@ -13,9 +13,8 @@ object LocalizationSlice {
         val selectedLangauge: Language = Language.US_ENGLISH,
     )
 
-    fun fetchPolyglot( localeString : String): RThunk {
-        val fetchPolyglotThunk = FetchPolyglotThunk(localeString)
-        return fetchPolyglotThunk
+    fun fetchPolyglot(localeString: String): RThunk {
+        return FetchPolyglotThunk(localeString)
     }
 
     data class SetPolyglot(val polyglotInstance: Polyglot) : RAction

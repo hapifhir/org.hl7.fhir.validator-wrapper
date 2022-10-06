@@ -64,10 +64,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
         }
     }
 
-    override fun componentDidMount() {
-        console.log("Header.componentDidMount")
-        props.fetchPolyglot("cs")
-    }
+
 
 
     override fun RBuilder.render() {
@@ -114,6 +111,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                         label = "packages2.fhir.org"
                         status = state.packageServerState
                     }
+                    /* TODO LOCALIZATION WIDGET
                     textButton {
                         textColor = SUCCESS_GREEN
                         active = true
@@ -122,37 +120,9 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                             props.fetchPolyglot("jp")
                         }
                     }
-                    +props.polyglot.locale()
+                    */
                 }
             }
-            /** TODO LOCALIZATION
-            styledSpan {
-            css {
-            +TextStyle.headerMenuItem
-            }
-            +props.polyglot.t("heading_validate") //"Language"
-            attrs {
-            onClickFunction = {
-            //setState {
-            println("ON CLICK BUTTON")
-            props.setLanguage(if (props.language == Language.US_ENGLISH) Language.MEX_SPANISH else Language.US_ENGLISH)
-            var polyglot = Polyglot()
-            when (props.language) {
-            Language.US_ENGLISH -> polyglot.extend(phrases = js("{" +
-            "'heading_validate': 'Validate Resources'," +
-            "'test_string': 'Test String'" +
-            "}"))
-            Language.MEX_SPANISH -> polyglot.extend(phrases = js("{" +
-            "'heading_validate': 'Spanish Resources'," +
-            "'test_string': 'Spanish String'" +
-            "}"))
-            }
-            props.setPolyglot(polyglot)
-            //}
-            }
-            }
-            }
-             **/
         }
     }
 
