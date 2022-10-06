@@ -23,7 +23,7 @@ val mainScope = MainScope()
 
 class App(props : AppProps) : RComponent<AppProps, State>() {
     init {
-        props.fetchPolyglot("cs")
+        props.fetchPolyglot("en_US")
     }
     override fun RBuilder.render() {
 
