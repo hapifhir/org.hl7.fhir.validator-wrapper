@@ -38,7 +38,6 @@ class LabelledSwitch : RComponent<LabelledSwitchProps, State>() {
             toggleSwitch {
                 selected = props.active
                 onChange = {
-                    console.log("I touch da switchy.")
                     props.onSelected(it)
                 }
             }

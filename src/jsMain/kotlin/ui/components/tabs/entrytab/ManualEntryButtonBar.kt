@@ -14,7 +14,6 @@ import ui.components.buttons.imageButton
 external interface ManualEntryButtonBarProps : Props {
     var onValidateRequested: () -> Unit
     var workInProgress: Boolean
-    //var polyglot: Polyglot
     var validateText: String
 }
 

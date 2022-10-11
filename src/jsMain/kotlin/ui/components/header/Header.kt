@@ -66,17 +66,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
             }
         }
     }
-    /*
-    fun getPolyglot ()  : Polyglot {
-        console.log("getPolyglot")
-        var polyglot = Polyglot(js("{locale: \"en\"}"))
-        polyglot.extend(phrases = js("{" +
-                "'Options': 'Options'," +
-                "'Validate': 'Validate'" +
-                "}"))
-        return polyglot
-    }
-     */
+
     override fun RBuilder.render() {
         styledDiv {
             css {

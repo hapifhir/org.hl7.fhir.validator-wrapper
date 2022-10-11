@@ -66,7 +66,7 @@ class IssueFilterButtonBar : RComponent<IssueFilterButtonBarProps, State>() {
                 }
             }
             labelledSwitch {
-                label = props.polyglot.t("Information")
+                label = props.polyglot.t("validation_info")
                 active = props.messageFilter.showInfo
                 onSelected = {
                     props.messageFilter.showInfo = it
