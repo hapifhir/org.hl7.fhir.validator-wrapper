@@ -1,5 +1,6 @@
 package reactredux.containers
 
+import Polyglot
 import model.CliContext
 import model.FileInfo
 import model.ValidationOutcome
@@ -18,6 +19,7 @@ private interface FileUploadTabProps : Props {
     var uploadedFiles: List<ValidationOutcome>
     var cliContext: CliContext
     var sessionId: String
+    var polyglot: Polyglot
 }
 
 private interface FileUploadTabDispatchProps : Props {
@@ -34,6 +36,7 @@ val fileUploadTab: ComponentClass<Props> =
             uploadedFiles = state.uploadedResourceSlice.uploadedFiles
             cliContext = state.validationContextSlice.cliContext
             sessionId = state.validationSessionSlice.sessionId
+            polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->
             deleteFile = { dispatch(UploadedResourceSlice.RemoveFile(it)) }

@@ -1,5 +1,6 @@
 package ui.components.tabs.uploadtab.filelist
 
+import Polyglot
 import css.const.BORDER_GRAY
 import kotlinx.css.*
 import kotlinx.css.properties.border
@@ -13,6 +14,7 @@ import styled.styledUl
 
 external interface FileEntryListProps : Props {
     var validationOutcomes: List<ValidationOutcome>
+    var polyglot: Polyglot
     var viewFile: (ValidationOutcome) -> Unit
     var deleteFile: (ValidationOutcome) -> Unit
 }
@@ -33,6 +35,7 @@ class FileEntryList : RComponent<FileEntryListProps, State>() {
                 val filesIterator = props.validationOutcomes.iterator()
                 while (filesIterator.hasNext()) {
                     fileEntry {
+                        polyglot = props.polyglot
                         validationOutcome = filesIterator.next()
                         onView = {
                             props.viewFile(validationOutcome)

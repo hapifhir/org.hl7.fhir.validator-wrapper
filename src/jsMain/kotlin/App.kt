@@ -53,14 +53,16 @@ class App(props : AppProps) : RComponent<AppProps, State>() {
                     }
                     AppScreen.SETTINGS -> {
                         sectionTitle {
-                            majorText = props.polyglot.t("appscreen_settings_major")
-                            minorText = props.polyglot.t("appscreen_settings_minor")
+                            majorText = props.polyglot.t("appscreen_options_major")
+                            minorText = props.polyglot.t("appscreen_options_minor")
                         }
                         optionsPage {}
                     }
                 }
             }
-            footer { }
+            footer {
+                polyglot = props.polyglot
+            }
         }
     }
 }

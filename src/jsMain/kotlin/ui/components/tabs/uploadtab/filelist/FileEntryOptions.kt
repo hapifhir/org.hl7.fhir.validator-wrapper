@@ -11,6 +11,8 @@ import ui.components.buttons.textButton
 
 external interface FileEntryOptionsProps : Props {
     var viewOption: Boolean
+    var viewText: String
+    var deleteText: String
     var onViewClicked: () -> Unit
     var onDeleteClicked: () -> Unit
 }

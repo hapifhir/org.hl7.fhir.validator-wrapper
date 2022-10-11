@@ -107,6 +107,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             }
             props.validationOutcome?.let {
                 filteredIssueEntryList {
+                    polyglot = props.polyglot
                     validationOutcome = props.validationOutcome!!
                 }
             }

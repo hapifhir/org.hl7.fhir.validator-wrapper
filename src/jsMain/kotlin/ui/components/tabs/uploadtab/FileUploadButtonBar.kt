@@ -15,6 +15,8 @@ external interface FileUploadButtonBarProps : Props {
     var onUploadRequested: () -> Unit
     var onValidateRequested: () -> Unit
     var workInProgress: Boolean
+    var uploadText: String
+    var validateText: String
 }
 
 /**
@@ -32,7 +34,7 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, State>() {
                 backgroundColor = WHITE
                 borderColor = HL7_RED
                 image = "images/upload_red.png"
-                label = "Upload"
+                label = props.uploadText
                 onSelected = {
                     props.onUploadRequested()
                 }
@@ -55,7 +57,7 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, State>() {
                     backgroundColor = WHITE
                     borderColor = HL7_RED
                     image = "images/validate_red.png"
-                    label = "Validate"
+                    label = props.validateText
                     onSelected = {
                         props.onValidateRequested()
                     }

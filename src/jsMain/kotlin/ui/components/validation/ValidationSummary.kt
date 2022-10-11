@@ -1,5 +1,6 @@
 package ui.components.validation
 
+import Polyglot
 import css.const.BORDER_GRAY
 import css.const.WHITE
 import kotlinx.css.*
@@ -14,6 +15,7 @@ import ui.components.validation.issuelist.issueFilterButtonBar
 
 external interface ValidationSummaryProps : Props {
     var validationOutcome: ValidationOutcome
+    var polyglot: Polyglot
     var onClose: () -> Unit
 }
 
@@ -48,6 +50,7 @@ class ValidationSummary : RComponent<ValidationSummaryProps, ValidationSummarySt
                     +ValidationSummaryStyle.filterMenuContainer
                 }
                 issueFilterButtonBar {
+                    polyglot = props.polyglot
                     messageFilter = state.messageFilter
                     onUpdated = { newMessageFilter ->
                         setState {
