@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 plugins {
+    // Make sure the version for multiplatform and plugin.serialization match kotlinVersion in gradle.properties
     kotlin("multiplatform") version "1.6.21"
     kotlin("plugin.serialization") version "1.6.21"
 
@@ -68,9 +69,9 @@ kotlin {
                 implementation(kotlin("stdlib-common"))
                 implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
                 implementation("com.fasterxml.jackson.core:jackson-databind:${property("jacksonVersion")}")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${property("serializationVersion")}")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${property("serializationVersion")}")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:${property("serializationVersion")}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${property("kotlinxSerializationVersion")}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${property("kotlinxSerializationVersion")}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:${property("kotlinxSerializationVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
             }
@@ -104,7 +105,7 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-gson:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-serialization-jackson:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-serialization:${property("ktorVersion")}")
-                implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${property("kotlinxVersion")}")
+                implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:${property("kotlinxHtmlVersion")}")
                 implementation("io.insert-koin:koin-ktor:${property("koinVersion")}")
                 //TODO
                 implementation("io.ktor:ktor-client-core:${property("ktorVersion")}")
@@ -147,7 +148,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-client-serialization-js:${property("ktorVersion")}")
 
-                implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxVersion")}")
+                implementation("org.jetbrains.kotlinx:kotlinx-html-js:${property("kotlinxHtmlVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${property("kotlinxCoroutinesVersion")}")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:${property("ktorVersion")}")
 
