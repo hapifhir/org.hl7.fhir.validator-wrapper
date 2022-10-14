@@ -14,6 +14,7 @@ import styled.styledSpan
 
 external interface HeaderTabButtonProps : Props {
     var selected: Boolean
+    var name : String
     var label: String
     var onSelected: (String) -> Unit
 }
@@ -33,7 +34,7 @@ class HeaderTabButton : RComponent<HeaderTabButtonProps, HeaderTabButtonState>()
             }
             attrs {
                 onClickFunction = {
-                    props.onSelected(props.label)
+                    props.onSelected(props.name)
                 }
             }
             styledDiv {

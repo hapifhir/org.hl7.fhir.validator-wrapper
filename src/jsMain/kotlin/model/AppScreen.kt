@@ -5,7 +5,7 @@ enum class AppScreen(val polyglotKey: String) {
     SETTINGS("options_heading");
 
     companion object {
-        private val map = AppScreen.values().associateBy(AppScreen::polyglotKey)
+        private val map = AppScreen.values().associateBy(AppScreen::name)
         fun fromDisplay(type: String) = map[type]
     }
 }

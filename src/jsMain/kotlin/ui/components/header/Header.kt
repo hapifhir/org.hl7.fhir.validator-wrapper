@@ -92,10 +92,11 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                         }
                         label = props.polyglot.t(polyKey)
                         */
+                        name = screen.name
                         label = props.polyglot.t(screen.polyglotKey)
                         selected = props.appScreen == screen
-                        onSelected = { buttonLabel ->
-                            AppScreen.fromDisplay(buttonLabel)?.let { it -> props.setScreen(it) }
+                        onSelected = { buttonName ->
+                            AppScreen.fromDisplay(buttonName)?.let { it -> props.setScreen(it) }
                         }
                     }
                 }
