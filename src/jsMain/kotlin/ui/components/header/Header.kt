@@ -83,15 +83,6 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                 }
                 AppScreen.values().forEach { screen ->
                     headerTabButton {
-                        /*
-                        var polyKey = ""
-                        if (screen.display == "Validate") {
-                            polyKey = "validate_heading"
-                        } else if (screen.display == "Options") {
-                            polyKey = "options_heading"
-                        }
-                        label = props.polyglot.t(polyKey)
-                        */
                         name = screen.name
                         label = props.polyglot.t(screen.polyglotKey)
                         selected = props.appScreen == screen
@@ -119,6 +110,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                         status = state.packageServerState
                     }
                     // TODO LOCALIZATION WIDGET
+                    /*
                     textButton {
                         textColor = SUCCESS_GREEN
                         active = true
@@ -127,7 +119,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                             props.fetchPolyglot("jp")
                         }
                     }
-
+                     */
                 }
             }
         }
