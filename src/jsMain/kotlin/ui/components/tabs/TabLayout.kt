@@ -17,8 +17,6 @@ import ui.entity.TabState
 
 external interface TabLayoutProps : Props {
     var polyglot: Polyglot
-    var enterResourceText: String
-    var uploadResourcesText: String
 }
 
 class TabLayoutState : State {
@@ -35,8 +33,8 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
 
 
     override fun RBuilder.render() {
-        state.tabStates[0].label = props.enterResourceText
-        state.tabStates[1].label = props.uploadResourcesText
+        state.tabStates[0].label = props.polyglot.t("enter_resources_heading")
+        state.tabStates[1].label = props.polyglot.t("upload_resources_heading")
         styledDiv {
             css {
                 +TabBarStyle.mainLayout

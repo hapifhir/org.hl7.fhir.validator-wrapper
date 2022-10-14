@@ -153,7 +153,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                         errorMessage = "Never gonna give you up, never gonna let you down, never gonna run around..."
                         displayingError = true
                     } else {
-                        errorMessage = props.polyglot.t("manual_entry_exception")
+                        errorMessage = props.polyglot.t("manual_entry_cannot_parse_exception")
                         displayingError = true
                     }
                 }

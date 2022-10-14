@@ -48,13 +48,13 @@ class Footer : RComponent<FooterProps, FooterState>() {
                     css {
                         +FooterStyle.footerTitleLarge
                     }
-                    + props.polyglot.t("footer_title")
+                    +"validator-wrapper"
                 }
                 styledSpan {
                     css {
                         +FooterStyle.footerTitleSmall
                     }
-                    + (props.polyglot.t("footer_running") + state.validatorVersion)
+                    + (props.polyglot.t("footer_running_version") + state.validatorVersion)
                 }
             }
             styledDiv {
@@ -69,13 +69,13 @@ class Footer : RComponent<FooterProps, FooterState>() {
                 footerLineItem {
                     href = "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/issues/new/choose"
                     icon = "images/bug_report_white.png"
-                    label = props.polyglot.t("footer_issue")
+                    label = props.polyglot.t("footer_create_issue")
                 }
                 footerLineItem {
                     href =
                         "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/releases/latest/download/validator_cli.jar"
                     icon = "images/download_white.png"
-                    label = props.polyglot.t("footer_cli")
+                    label = props.polyglot.t("footer_download_cli")
                 }
             }
             styledDiv {

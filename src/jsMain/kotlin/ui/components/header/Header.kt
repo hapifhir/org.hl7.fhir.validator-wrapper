@@ -8,10 +8,7 @@ import css.const.HIGHLIGHT_GRAY
 import css.const.SUCCESS_GREEN
 import css.const.WHITE
 import kotlinx.browser.document
-import kotlinx.browser.window
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.css.*
 import kotlinx.css.properties.borderBottom
 import kotlinx.css.properties.boxShadow
@@ -24,10 +21,10 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledImg
+import ui.components.buttons.textButton
 import ui.components.header.SiteStatus.SiteState
 import ui.components.header.SiteStatus.siteStatus
 import utils.Language
-import kotlin.time.ExperimentalTime
 
 external interface HeaderProps : Props {
     var appScreen: AppScreen
@@ -86,6 +83,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                 }
                 AppScreen.values().forEach { screen ->
                     headerTabButton {
+                        /*
                         var polyKey = ""
                         if (screen.display == "Validate") {
                             polyKey = "validate_heading"
@@ -93,6 +91,8 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                             polyKey = "options_heading"
                         }
                         label = props.polyglot.t(polyKey)
+                        */
+                        label = props.polyglot.t(screen.polyglotKey)
                         selected = props.appScreen == screen
                         onSelected = { buttonLabel ->
                             AppScreen.fromDisplay(buttonLabel)?.let { it -> props.setScreen(it) }
@@ -117,7 +117,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                         label = "packages2.fhir.org"
                         status = state.packageServerState
                     }
-                    /* TODO LOCALIZATION WIDGET
+                    // TODO LOCALIZATION WIDGET
                     textButton {
                         textColor = SUCCESS_GREEN
                         active = true
@@ -126,7 +126,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                             props.fetchPolyglot("jp")
                         }
                     }
-                    */
+
                 }
             }
         }

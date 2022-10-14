@@ -68,8 +68,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                 }
             }
             fileUploadButtonBar {
-                uploadText = props.polyglot.t("upload_button")
-                validateText = props.polyglot.t("validate_button")
+                polyglot = props.polyglot
                 onUploadRequested = {
                     (document.getElementById(FILE_UPLOAD_ELEMENT_ID) as HTMLInputElement).click()
                 }
