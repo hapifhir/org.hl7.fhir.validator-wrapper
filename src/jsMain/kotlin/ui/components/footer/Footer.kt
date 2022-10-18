@@ -54,7 +54,7 @@ class Footer : RComponent<FooterProps, FooterState>() {
                     css {
                         +FooterStyle.footerTitleSmall
                     }
-                    +"running validator v${state.validatorVersion}"
+                    + (props.polyglot.t("footer_running_version") + state.validatorVersion)
                 }
             }
             styledDiv {
@@ -64,18 +64,18 @@ class Footer : RComponent<FooterProps, FooterState>() {
                 footerLineItem {
                     href = "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper"
                     icon = "images/github_white.png"
-                    label = "view project on github"
+                    label = props.polyglot.t("footer_github")
                 }
                 footerLineItem {
                     href = "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/issues/new/choose"
                     icon = "images/bug_report_white.png"
-                    label = "log an issue with the team"
+                    label = props.polyglot.t("footer_create_issue")
                 }
                 footerLineItem {
                     href =
                         "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/releases/latest/download/validator_cli.jar"
                     icon = "images/download_white.png"
-                    label = "download the latest cli"
+                    label = props.polyglot.t("footer_download_cli")
                 }
             }
             styledDiv {
@@ -85,7 +85,7 @@ class Footer : RComponent<FooterProps, FooterState>() {
                 footerLineItem {
                     href = "https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator"
                     icon = "images/documentation_white.png"
-                    label = "view the validator documentation"
+                    label = props.polyglot.t("footer_doc")
                 }
             }
         }

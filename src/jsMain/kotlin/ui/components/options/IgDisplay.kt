@@ -1,5 +1,6 @@
 package ui.components.options
 
+import Polyglot
 import css.const.*
 import css.text.TextStyle
 import kotlinx.css.*
@@ -14,6 +15,7 @@ import styled.*
 external interface IgDisplayProps : Props {
     var fhirVersion: String
     var packageInfo: PackageInfo
+    var polyglot: Polyglot
     var onDelete: () -> Unit
 }
 
@@ -34,7 +36,7 @@ class IgDisplay : RComponent<IgDisplayProps, State>() {
             }
             if (!props.packageInfo.fhirVersionMatches(props.fhirVersion)) {
                 attrs {
-                    title = "IG not supported for FHIR version ${props.fhirVersion}"
+                    title = props.polyglot.t("options_ig_not_supported") + " ${props.fhirVersion}"
                 }
             }
             styledSpan {

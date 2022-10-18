@@ -1,5 +1,6 @@
 package ui.components.options
 
+import Polyglot
 import css.const.HL7_RED
 import css.const.WHITE
 import css.const.SWITCH_GRAY
@@ -30,6 +31,7 @@ external interface IgSelectorProps : Props {
     var onUpdatePackageName: (String, Boolean) -> Unit
     var selectedIgSet : MutableSet<PackageInfo>
     var onFilterStringChange: (String) -> Unit
+    var polyglot: Polyglot
 }
 
 class IgSelectorState : State {
@@ -72,19 +74,19 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     +TextStyle.optionsDetailText
                     +IgSelectorStyle.title
                 }
-                +"You can validate against one or more published implementation guides. Select IGs using the dropdown menus below and click the "
+                + props.polyglot.t("options_ig_description_1")
                 styledSpan {
                     css {
                         fontStyle = FontStyle.italic
                     }
-                    + "Add"
+                    + props.polyglot.t("options_ig_description_2")
                 }
-                +" button to include them in your validation."
+                + props.polyglot.t("options_ig_description_3")
             }
             styledSpan {
                 dropDownMultiChoice {
                     choices = props.igPackageNameList
-                    buttonLabel = "Select IG"
+                    buttonLabel = props.polyglot.t("options_ig_dropdown")
                     onSelected = { igPackageName ->
                         props.onUpdatePackageName(igPackageName, true)
                         setIGVersions(igPackageName)
@@ -92,7 +94,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     multichoice = false
                     searchEnabled = true
                     onFilterStringChange = props.onFilterStringChange
-                    searchHint = "Search IGs..."
+                    searchHint = props.polyglot.t("options_ig_dropdown_hint")
                 }
                 val versions = state.packageVersions.filter { it.first.fhirVersionMatches(props.fhirVersion)}
                     .map{Pair(it.first.version ?: "", it.second)}
@@ -104,7 +106,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     }
                     dropDownMultiChoice {
                         choices = versions
-                        buttonLabel = if (versions.size > 0) "Select IG version" else "No compatible versions"
+                        buttonLabel = if (versions.size > 0) props.polyglot.t("options_ig_version_dropdown_hint") else props.polyglot.t("options_ig_version_dropdown_default")
                         onSelected = { igVersion ->
                             setState {
                                 packageVersions = state.packageVersions.map{Pair(it.first, it.first.version == igVersion)}.toMutableList()
@@ -122,7 +124,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                         backgroundColor = WHITE
                         borderColor = if (versionSelected) {HL7_RED} else { SWITCH_GRAY }
                         image = "images/add_circle_black_24dp.svg"
-                        label = "Add"
+                        label = props.polyglot.t("options_ig_add")
                         onSelected = {
                             if (versionSelected)
                             props.onUpdateIg(state.packageVersions.first{it.second}.first, true)
@@ -135,7 +137,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     padding(top = 24.px)
                     + if (props.selectedIgSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
                 }
-                + ("Selected IGs (${props.selectedIgSet.size})" + if (props.selectedIgSet.isEmpty()) { "" } else { ":"})
+                + (props.polyglot.t("options_ig_selected") + " (${props.selectedIgSet.size})" + if (props.selectedIgSet.isEmpty()) { "" } else { ":"})
             }
             styledDiv {
                 css {
@@ -146,6 +148,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                 }
                 props.selectedIgSet.forEach { _packageInfo ->
                     igDisplay {
+                        polyglot = props.polyglot
                         fhirVersion = props.fhirVersion
                         packageInfo = _packageInfo
 

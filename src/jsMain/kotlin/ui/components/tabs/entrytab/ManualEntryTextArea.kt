@@ -1,5 +1,6 @@
 package ui.components.tabs.entrytab
 
+import Polyglot
 import css.const.BORDER_GRAY
 import css.text.TextStyle
 import kotlinx.browser.document
@@ -18,11 +19,11 @@ import styled.styledTextarea
 external interface ManualEntryTextAreaProps : Props {
     var currentText: String
     var onTextUpdate: (String) -> Unit
+    var placeholderText: String
 }
 
 class ManualEntryTextArea : RComponent<ManualEntryTextAreaProps, State>() {
     private val textAreaId = "manual_entry_field"
-
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -35,7 +36,7 @@ class ManualEntryTextArea : RComponent<ManualEntryTextAreaProps, State>() {
                 }
                 attrs {
                     id = textAreaId
-                    placeholder = "Enter Resource Manually..."
+                    placeholder = props.placeholderText
                     onInputFunction = {
                         props.onTextUpdate((document.getElementById(textAreaId) as HTMLTextAreaElement).value)
                     }

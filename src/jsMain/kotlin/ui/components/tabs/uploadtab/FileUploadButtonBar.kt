@@ -1,5 +1,6 @@
 package ui.components.tabs.uploadtab
 
+import Polyglot
 import css.animation.LoadingSpinner
 import css.const.HL7_RED
 import css.const.WHITE
@@ -15,6 +16,9 @@ external interface FileUploadButtonBarProps : Props {
     var onUploadRequested: () -> Unit
     var onValidateRequested: () -> Unit
     var workInProgress: Boolean
+    var polyglot: Polyglot
+    var uploadText: String
+    var validateText: String
 }
 
 /**
@@ -32,7 +36,7 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, State>() {
                 backgroundColor = WHITE
                 borderColor = HL7_RED
                 image = "images/upload_red.png"
-                label = "Upload"
+                label = props.polyglot.t("upload_button")
                 onSelected = {
                     props.onUploadRequested()
                 }
@@ -55,7 +59,7 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, State>() {
                     backgroundColor = WHITE
                     borderColor = HL7_RED
                     image = "images/validate_red.png"
-                    label = "Validate"
+                    label = props.polyglot.t("validate_button")
                     onSelected = {
                         props.onValidateRequested()
                     }

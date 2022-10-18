@@ -1,5 +1,6 @@
 package ui.components.tabs.uploadtab
 
+import Polyglot
 import api.sendValidationRequest
 import css.animation.FadeIn.fadeIn
 import css.const.WHITE
@@ -24,6 +25,7 @@ external interface FileUploadTabProps : Props {
     var uploadedFiles: List<ValidationOutcome>
     var cliContext: CliContext
     var sessionId: String
+    var polyglot: Polyglot
 
     var deleteFile: (FileInfo) -> Unit
     var uploadFile: (FileInfo) -> Unit
@@ -51,9 +53,10 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                 +TabStyle.tabContent
             }
             heading {
-                text = "Uploaded Files (${props.uploadedFiles.size})"
+                text =  props.polyglot.t("upload_files_title") +  "(${props.uploadedFiles.size})"
             }
             fileEntryList {
+                polyglot = props.polyglot
                 validationOutcomes = props.uploadedFiles
                 viewFile = { outcomeToView ->
                     setState {
@@ -65,6 +68,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                 }
             }
             fileUploadButtonBar {
+                polyglot = props.polyglot
                 onUploadRequested = {
                     (document.getElementById(FILE_UPLOAD_ELEMENT_ID) as HTMLInputElement).click()
                 }
@@ -79,6 +83,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
             }
             state.currentlyDisplayedValidationOutcome?.let {
                 validationSummaryPopup {
+                    polyglot = props.polyglot
                     validationOutcome = state.currentlyDisplayedValidationOutcome!!
                     onClose = {
                         setState {

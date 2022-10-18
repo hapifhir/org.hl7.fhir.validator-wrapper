@@ -1,5 +1,6 @@
 package ui.components.validation.issuelist
 
+import Polyglot
 import kotlinx.css.*
 import model.MessageFilter
 import model.ValidationOutcome
@@ -11,6 +12,7 @@ import ui.components.tabs.heading
 
 external interface FilteredIssueEntryListProps : Props {
     var validationOutcome: ValidationOutcome
+    var polyglot: Polyglot
 }
 
 class FilteredIssueEntryListState : State {
@@ -32,10 +34,10 @@ class FilteredIssueEntryList : RComponent<FilteredIssueEntryListProps, FilteredI
                 +FilteredIssueEntryListStyle.entryListContainer
             }
             heading {
-                text =
-                    "Results (${state.messageFilter.determineNumberDisplayedIssues(props.validationOutcome.getMessages())})"
+                text = props.polyglot.t("validation_results") + " (${state.messageFilter.determineNumberDisplayedIssues(props.validationOutcome.getMessages())})"
             }
             issueFilterButtonBar {
+                polyglot = props.polyglot
                 messageFilter = state.messageFilter
                 onUpdated = { newMessageFilter ->
                     setState {

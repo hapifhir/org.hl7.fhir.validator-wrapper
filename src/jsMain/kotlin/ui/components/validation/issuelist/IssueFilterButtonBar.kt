@@ -1,5 +1,6 @@
 package ui.components.validation.issuelist
 
+import Polyglot
 import kotlinx.css.*
 import model.MessageFilter
 import react.*
@@ -12,6 +13,7 @@ import ui.components.buttons.optionButton
 external interface IssueFilterButtonBarProps : Props {
     var messageFilter: MessageFilter
     var onUpdated: (MessageFilter) -> Unit
+    var polyglot: Polyglot
 }
 
 /**
@@ -25,7 +27,7 @@ class IssueFilterButtonBar : RComponent<IssueFilterButtonBarProps, State>() {
                 +IssueFilterButtonBarStyle.buttonBarContainer
             }
             labelledSwitch {
-                label = "Fatals"
+                label = props.polyglot.t("validation_fatals")
                 active = props.messageFilter.showFatal
                 onSelected = {
                     props.messageFilter.showFatal = it
@@ -38,7 +40,7 @@ class IssueFilterButtonBar : RComponent<IssueFilterButtonBarProps, State>() {
                 }
             }
             labelledSwitch {
-                label = "Errors"
+                label = props.polyglot.t("validation_errors")
                 active = props.messageFilter.showError
                 onSelected = {
                     props.messageFilter.showError = it
@@ -51,7 +53,7 @@ class IssueFilterButtonBar : RComponent<IssueFilterButtonBarProps, State>() {
                 }
             }
             labelledSwitch {
-                label = "Warnings"
+                label = props.polyglot.t("validation_warnings")
                 active = props.messageFilter.showWarning
                 onSelected = {
                     props.messageFilter.showWarning = it
@@ -64,7 +66,7 @@ class IssueFilterButtonBar : RComponent<IssueFilterButtonBarProps, State>() {
                 }
             }
             labelledSwitch {
-                label = "Information"
+                label = props.polyglot.t("validation_info")
                 active = props.messageFilter.showInfo
                 onSelected = {
                     props.messageFilter.showInfo = it

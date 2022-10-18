@@ -11,6 +11,7 @@ import ui.components.footer.footer
 import ui.components.header.HeaderStyle
 import ui.components.main.sectionTitle
 import ui.components.tabs.tabLayout
+import kotlinx.browser.window
 
 external interface AppProps : Props {
     var appScreen: AppScreen
@@ -23,6 +24,14 @@ val mainScope = MainScope()
 
 class App(props : AppProps) : RComponent<AppProps, State>() {
     init {
+        /*
+        // TODO : Get actual locale of the user's browswer
+        console.log("LANGUAGE:")
+        for (item in window.navigator.languages) {
+            console.log(item)
+        }
+        console.log("LANGUAGE LANGUAGE LANGUAGE: " + window.navigator.language)
+        */
         props.fetchPolyglot("en_US")
     }
     override fun RBuilder.render() {
@@ -42,23 +51,25 @@ class App(props : AppProps) : RComponent<AppProps, State>() {
                 when (props.appScreen) {
                     AppScreen.VALIDATOR -> {
                         sectionTitle {
-                        //  TODO once localization is updated
-                        //  majorText = props.polyglot.t("heading_validate")
-                            majorText = "Validate Resources"
-                            minorText = "Manually enter, or upload resources for validation."
+                            majorText = props.polyglot.t("appscreen_validator_major")
+                            minorText = props.polyglot.t("appscreen_validator_minor")
                         }
-                        tabLayout {}
+                        tabLayout {
+                            polyglot = props.polyglot
+                        }
                     }
                     AppScreen.SETTINGS -> {
                         sectionTitle {
-                            majorText = "Validation Options"
-                            minorText = "Modify setting for validating resources."
+                            majorText = props.polyglot.t("appscreen_options_major")
+                            minorText = props.polyglot.t("appscreen_options_minor")
                         }
                         optionsPage {}
                     }
                 }
             }
-            footer { }
+            footer {
+                polyglot = props.polyglot
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package ui.components.validation
 
+import Polyglot
 import css.animation.FadeIn.quickFadeIn
 import css.const.POPUP_SHADOW
 import css.const.WHITE
@@ -12,6 +13,7 @@ import styled.styledDiv
 
 external interface ValidationSummaryPopupProps : Props {
     var validationOutcome: ValidationOutcome
+    var polyglot: Polyglot
     var onClose: () -> Unit
 }
 
@@ -27,6 +29,7 @@ class ValidationSummaryPopup : RComponent<ValidationSummaryPopupProps, State>() 
                     +ValidationSummaryPopupStyle.content
                 }
                 validationSummary {
+                    polyglot = props.polyglot
                     validationOutcome = props.validationOutcome
                     onClose = {
                         props.onClose()

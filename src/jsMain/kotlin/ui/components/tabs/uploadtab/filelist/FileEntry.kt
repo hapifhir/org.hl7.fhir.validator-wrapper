@@ -1,5 +1,6 @@
 package ui.components.tabs.uploadtab.filelist
 
+import Polyglot
 import css.text.TextStyle
 import kotlinx.css.*
 import model.ValidationOutcome
@@ -11,6 +12,7 @@ import styled.styledP
 
 external interface FileEntryProps : Props {
     var validationOutcome: ValidationOutcome
+    var polyglot: Polyglot
     var onView: (ValidationOutcome) -> Unit
     var onDelete: (ValidationOutcome) -> Unit
 }
@@ -38,6 +40,8 @@ class FileEntry : RComponent<FileEntryProps, FileEntryState>() {
                 }
             }
             fileEntryOptions {
+                viewText = props.polyglot.t("upload_entry_view")
+                deleteText = props.polyglot.t("upload_entry_delete")
                 viewOption = props.validationOutcome.isValidated()
                 onViewClicked = {
                     props.onView(props.validationOutcome)

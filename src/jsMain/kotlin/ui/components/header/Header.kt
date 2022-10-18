@@ -64,9 +64,6 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
         }
     }
 
-
-
-
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -86,10 +83,11 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                 }
                 AppScreen.values().forEach { screen ->
                     headerTabButton {
-                        label = props.polyglot.t(screen.display)
+                        name = screen.name
+                        label = props.polyglot.t(screen.polyglotKey)
                         selected = props.appScreen == screen
-                        onSelected = { buttonLabel ->
-                            AppScreen.fromDisplay(buttonLabel)?.let { it -> props.setScreen(it) }
+                        onSelected = { buttonName ->
+                            AppScreen.fromDisplay(buttonName)?.let { it -> props.setScreen(it) }
                         }
                     }
                 }
@@ -111,7 +109,8 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                         label = "packages2.fhir.org"
                         status = state.packageServerState
                     }
-                    /* TODO LOCALIZATION WIDGET
+                    // TODO LOCALIZATION WIDGET
+                    /*
                     textButton {
                         textColor = SUCCESS_GREEN
                         active = true
@@ -120,7 +119,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                             props.fetchPolyglot("jp")
                         }
                     }
-                    */
+                     */
                 }
             }
         }
