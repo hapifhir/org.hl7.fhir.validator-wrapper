@@ -32,7 +32,7 @@ val header: ComponentClass<Props> =
     rConnect<AppState, RAction, WrapperAction, Props, HeaderStateProps, HeaderDispatchProps, HeaderProps>(
         { state, _ ->
             appScreen = state.appScreenSlice.appScreen
-            language = state.localizationSlice.selectedLangauge
+            language = state.localizationSlice.selectedLanguage
             polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->

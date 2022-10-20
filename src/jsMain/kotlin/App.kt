@@ -24,15 +24,16 @@ val mainScope = MainScope()
 
 class App(props : AppProps) : RComponent<AppProps, State>() {
     init {
-        /*
+
         // TODO : Get actual locale of the user's browswer
         console.log("LANGUAGE:")
         for (item in window.navigator.languages) {
             console.log(item)
         }
         console.log("LANGUAGE LANGUAGE LANGUAGE: " + window.navigator.language)
-        */
-        props.fetchPolyglot("en_US")
+
+        props.fetchPolyglot(window.navigator.language)
+        console.log("Locale:" + props.polyglot.locale())
     }
     override fun RBuilder.render() {
 

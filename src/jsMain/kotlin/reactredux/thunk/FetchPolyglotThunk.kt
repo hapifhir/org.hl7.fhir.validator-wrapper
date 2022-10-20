@@ -22,7 +22,7 @@ class FetchPolyglotThunk (private val localeString : String) : RThunk {
         GlobalScope.launch {
 
             //TODO make this pull phrases based on localeString
-            val phrases : JsonObject = getPolyglotPhrases()
+            val phrases : JsonObject = getPolyglotPhrases(localeString)
 
             /*  Polyglot expects js or json as its phrases, so we need to convert our
                 kotlin JsonObject into the Pair<String, Any?> structure that the json

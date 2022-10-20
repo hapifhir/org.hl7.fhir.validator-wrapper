@@ -3,10 +3,12 @@ package ui.components.header
 import Polyglot
 import api.isPackagesServerUp
 import api.isTerminologyServerUp
+import css.animation.LoadingSpinner
 import css.const.HEADER_SHADOW
 import css.const.HIGHLIGHT_GRAY
 import css.const.SUCCESS_GREEN
 import css.const.WHITE
+import io.ktor.client.fetch.*
 import kotlinx.browser.document
 import kotlinx.coroutines.launch
 import kotlinx.css.*
@@ -24,6 +26,8 @@ import styled.styledImg
 import ui.components.buttons.textButton
 import ui.components.header.SiteStatus.SiteState
 import ui.components.header.SiteStatus.siteStatus
+import ui.components.header.LanguageOption.languageSelect
+
 import utils.Language
 
 external interface HeaderProps : Props {
@@ -110,6 +114,10 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                         status = state.packageServerState
                     }
                     // TODO LOCALIZATION WIDGET
+                    languageSelect{
+                        polyglot = props.polyglot
+                        fetchPolyglot = props.fetchPolyglot
+                    }
                     /*
                     textButton {
                         textColor = SUCCESS_GREEN
@@ -119,7 +127,9 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                             props.fetchPolyglot("jp")
                         }
                     }
-                     */
+                    */
+
+
                 }
             }
         }
