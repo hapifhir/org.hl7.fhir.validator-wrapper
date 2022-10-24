@@ -12,28 +12,44 @@ import ui.components.header.HeaderStyle
 import ui.components.main.sectionTitle
 import ui.components.tabs.tabLayout
 import kotlinx.browser.window
+import utils.Language
 
 external interface AppProps : Props {
+
     var appScreen: AppScreen
     var polyglot: Polyglot
+    var selectedLanguage: Language
 
     var fetchPolyglot:  (String) -> Unit
+    var setLanguage: (Language) -> Unit
 }
 
 val mainScope = MainScope()
 
+fun convertToLanguage() {
+
+}
+
 class App(props : AppProps) : RComponent<AppProps, State>() {
     init {
-
-        // TODO : Get actual locale of the user's browswer
-        console.log("LANGUAGE:")
+        // TODO : Get actual locale of the user's browser
         for (item in window.navigator.languages) {
-            console.log(item)
+            // TODO
+            // Translate the language here into one of our Language enum
+            // values.
+            val prefix = item.substring(0, 2)
+            console.log(prefix)
+            for (language in Language.values()) {
+                if (prefix == language.code) {
+                    props.setLanguage(language)
+                    props.fetchPolyglot(language.code);
+                    console.log("Language:" + item + ", "+ language.code)
+                    break
+                }
+            }
+            break
         }
-        console.log("LANGUAGE LANGUAGE LANGUAGE: " + window.navigator.language)
 
-        props.fetchPolyglot(window.navigator.language)
-        console.log("Locale:" + props.polyglot.locale())
     }
     override fun RBuilder.render() {
 

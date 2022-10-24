@@ -4,47 +4,65 @@ import Polyglot
 import mui.material.*
 import react.*
 
+import csstype.px
+import mui.system.sx
+import react.FC
+import react.Props
+import react.ReactNode
+import react.useState
+
 external interface LanguageSelectProps : Props {
     var polyglot: Polyglot
-
     var fetchPolyglot: (String) -> Unit
+    var language : String
 }
 
 class LanguageSelect(props : LanguageSelectProps) : RComponent<LanguageSelectProps, State>() {
     init {
-        var language = "Language"
     }
     override fun RBuilder.render() {
         Box {
-            /*
-            sx {
-                minWidth = 120.px
+            attrs{
+                sx{
+                    minWidth = 120.px
+                }
             }
-             */
             FormControl {
-                //fullWidth = true
-                //size = Size.small
+                attrs {
+                    fullWidth = true
+                    size = Size.small
+                }
                 InputLabel {
                     +"Language"
                 }
                 Select {
-                    //label = ReactNode("Language")
-                    /*
-                    onChange = { event, _ ->
-                        language = event.target.value
+
+                    attrs {
+                        label = ReactNode("Language")
+                        onChange = { event, _ ->
+                            //props.language = event.target.value
+                            console.log(event.target.value)
+                            props.fetchPolyglot(event.target.value)
+                        }
                     }
-                     */
+
                     MenuItem {
-                        //value = "en"
+                        attrs {
+                            value = "en"
+                        }
                         +"English"
                     }
                     MenuItem {
-                        //value = "es"
-                        +"Spanish"
+                        attrs {
+                            value = "es"
+                        }
+                        +"Español" // Spanish
                     }
                     MenuItem {
-                        //value = "30"
-                        +"German"
+                        attrs {
+                            value = "de"
+                        }
+                        +"Deutsch" // German
                     }
                 }
             }
@@ -97,4 +115,4 @@ val languageSelect = FC<Props> {
         }
     }
 }
- */
+*/
