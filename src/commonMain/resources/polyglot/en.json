@@ -62,6 +62,4 @@
   "validation_warnings" : "Warnings",
   "validation_info" : "Information",
   "language" : "Language",
-  "test_single" : "Selected IG (%{numOfVersions})",
-  "test_plural" : "Selected IGs (%{numOfVersions}):"
 }

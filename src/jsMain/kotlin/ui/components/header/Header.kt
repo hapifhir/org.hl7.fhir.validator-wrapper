@@ -3,12 +3,10 @@ package ui.components.header
 import Polyglot
 import api.isPackagesServerUp
 import api.isTerminologyServerUp
-import css.animation.LoadingSpinner
 import css.const.HEADER_SHADOW
 import css.const.HIGHLIGHT_GRAY
 import css.const.SUCCESS_GREEN
 import css.const.WHITE
-import io.ktor.client.fetch.*
 import kotlinx.browser.document
 import kotlinx.coroutines.launch
 import kotlinx.css.*
@@ -23,7 +21,6 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledImg
-import ui.components.buttons.textButton
 import ui.components.header.SiteStatus.SiteState
 import ui.components.header.SiteStatus.siteStatus
 import ui.components.header.LanguageOption.languageSelect
@@ -113,7 +110,6 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                         label = "packages2.fhir.org"
                         status = state.packageServerState
                     }
-                    // TODO LOCALIZATION WIDGET
                     languageSelect{
                         polyglot = props.polyglot
                         selectedLanguage = props.selectedLanguage
