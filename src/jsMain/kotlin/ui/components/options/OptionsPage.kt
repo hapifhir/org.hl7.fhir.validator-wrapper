@@ -73,8 +73,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     +OptionsPageStyle.optionsSubSection
                 }
                 checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_1_title")
-                    description = props.polyglot.t("options_flags_1_description")
+                    name = props.polyglot.t("options_flags_do_native_title")
+                    description = props.polyglot.t("options_flags_do_native_description")
                     selected = props.cliContext.isDoNative()
                     onChange = {
                         props.updateCliContext(props.cliContext.setDoNative(it))
@@ -86,8 +86,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     }
                 }
                 checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_2_title")
-                    description = props.polyglot.t("options_flags_2_description")
+                    name = props.polyglot.t("options_flags_must_support_title")
+                    description = props.polyglot.t("options_flags_must_support_description")
                     selected = props.cliContext.isHintAboutNonMustSupport()
                     onChange = {
                         props.updateCliContext(props.cliContext.setHintAboutNonMustSupport(it))
@@ -99,8 +99,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     }
                 }
                 checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_3_title")
-                    description = props.polyglot.t("options_flags_3_description")
+                    name = props.polyglot.t("options_flags_valid_reference_title")
+                    description = props.polyglot.t("options_flags_valid_reference_description")
                     selected = props.cliContext.isAssumeValidRestReferences()
                     onChange = {
                         props.updateCliContext(props.cliContext.setAssumeValidRestReferences(it))
@@ -112,8 +112,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     }
                 }
                 checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_4_title")
-                    description = props.polyglot.t("options_flags_4_description")
+                    name = props.polyglot.t("options_flags_binding_warnings_title")
+                    description = props.polyglot.t("options_flags_binding_warnings_description")
                     selected = props.cliContext.isNoExtensibleBindingMessages()
                     onChange = {
                         props.updateCliContext(props.cliContext.setNoExtensibleBindingMessages(it))
@@ -125,8 +125,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     }
                 }
                 checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_5_title")
-                    description = props.polyglot.t("options_flags_5_description")
+                    name = props.polyglot.t("options_flags_show_times_title")
+                    description = props.polyglot.t("options_flags_show_times_description")
                     selected = props.cliContext.isShowTimes()
                     onChange = {
                         props.cliContext.setShowTimes(it)
@@ -139,8 +139,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     }
                 }
                 checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_6_title")
-                    description = props.polyglot.t("options_flags_6_description")
+                    name = props.polyglot.t("options_flags_allow_example_title")
+                    description = props.polyglot.t("options_flags_allow_example_description")
                     selected = props.cliContext.isAllowExampleUrls()
                     onChange = {
                         props.cliContext.setAllowExampleUrls(it)
