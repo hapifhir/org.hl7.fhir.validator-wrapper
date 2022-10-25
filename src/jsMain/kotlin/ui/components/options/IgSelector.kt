@@ -138,6 +138,14 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     + if (props.selectedIgSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
                 }
                 + (props.polyglot.t("options_ig_selected") + " (${props.selectedIgSet.size})" + if (props.selectedIgSet.isEmpty()) { "" } else { ":"})
+
+                if (props.selectedIgSet.isEmpty()) {
+                    +props.polyglot.t("test_single", {numOfVersions: props.selectIqSet.size})
+                } else {
+                    +props.polyglot.t("test_plural", {numOfVersions: props.selectIqSet.size})
+                }
+
+
             }
             styledDiv {
                 css {

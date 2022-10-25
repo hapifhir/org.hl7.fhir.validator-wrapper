@@ -27,7 +27,6 @@ val app: ComponentClass<Props> =
     rConnect<AppState, RAction, WrapperAction, Props, AppStateProps, AppDispatchProps, AppProps>(
         mapStateToProps = { state, _ ->
             appScreen = state.appScreenSlice.appScreen
-            selectedLanguage = state.localizationSlice.selectedLanguage
             polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->

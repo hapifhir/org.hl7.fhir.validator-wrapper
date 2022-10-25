@@ -32,7 +32,7 @@ import utils.Language
 
 external interface HeaderProps : Props {
     var appScreen: AppScreen
-    var language: Language
+    var selectedLanguage: Language
     var polyglot: Polyglot
 
     var setScreen: (AppScreen) -> Unit
@@ -116,20 +116,10 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                     // TODO LOCALIZATION WIDGET
                     languageSelect{
                         polyglot = props.polyglot
+                        selectedLanguage = props.selectedLanguage
+                        setLanguage = props.setLanguage
                         fetchPolyglot = props.fetchPolyglot
                     }
-                    /*
-                    textButton {
-                        textColor = SUCCESS_GREEN
-                        active = true
-                        label = props.polyglot.locale()
-                        onSelected = {
-                            props.fetchPolyglot("jp")
-                        }
-                    }
-                    */
-
-
                 }
             }
         }

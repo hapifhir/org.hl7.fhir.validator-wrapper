@@ -18,7 +18,6 @@ external interface AppProps : Props {
 
     var appScreen: AppScreen
     var polyglot: Polyglot
-    var selectedLanguage: Language
 
     var fetchPolyglot:  (String) -> Unit
     var setLanguage: (Language) -> Unit
@@ -26,30 +25,25 @@ external interface AppProps : Props {
 
 val mainScope = MainScope()
 
-fun convertToLanguage() {
-
+fun languageSetup(props: AppProps) {
+    for (item in window.navigator.languages) {
+        val prefix = item.substring(0, 2)
+        console.log(prefix)
+        for (language in Language.values()) {
+            if (prefix == language.code) {
+                props.setLanguage(language)
+                props.fetchPolyglot(language.code);
+                break
+            }
+        }
+        break
+    }
 }
+
 
 class App(props : AppProps) : RComponent<AppProps, State>() {
     init {
-        // TODO : Get actual locale of the user's browser
-        for (item in window.navigator.languages) {
-            // TODO
-            // Translate the language here into one of our Language enum
-            // values.
-            val prefix = item.substring(0, 2)
-            console.log(prefix)
-            for (language in Language.values()) {
-                if (prefix == language.code) {
-                    props.setLanguage(language)
-                    props.fetchPolyglot(language.code);
-                    console.log("Language:" + item + ", "+ language.code)
-                    break
-                }
-            }
-            break
-        }
-
+        languageSetup(props)
     }
     override fun RBuilder.render() {
 
