@@ -15,7 +15,6 @@ import kotlinx.browser.window
 import utils.Language
 
 external interface AppProps : Props {
-
     var appScreen: AppScreen
     var polyglot: Polyglot
 
