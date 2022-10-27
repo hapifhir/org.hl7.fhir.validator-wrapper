@@ -29,9 +29,9 @@ fun languageSetup(props: AppProps) {
         val prefix = item.substring(0, 2)
         console.log(prefix)
         for (language in Language.values()) {
-            if (prefix == language.code) {
+            if (prefix == language.code.substring(0, 2)) {
                 props.setLanguage(language)
-                props.fetchPolyglot(language.code);
+                props.fetchPolyglot(language.code.substring(0, 2));
                 break
             }
         }

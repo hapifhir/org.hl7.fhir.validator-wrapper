@@ -35,15 +35,14 @@ class LanguageSelect(props : LanguageSelectProps) : RComponent<LanguageSelectPro
                     +props.polyglot.t("language")
                 }
                 Select {
-
                     attrs {
                         label = ReactNode("Language")
                         onChange = { event, _ ->
                             console.log(event.target.value)
                             for (language in Language.values()) {
-                                if (event.target.value == language.code) {
+                                if (event.target.value == language.code.substring(0, 2)) {
                                     props.setLanguage(language)
-                                    props.fetchPolyglot(language.code);
+                                    props.fetchPolyglot(language.code.substring(0, 2));
                                     break
                                 }
                             }
@@ -52,19 +51,13 @@ class LanguageSelect(props : LanguageSelectProps) : RComponent<LanguageSelectPro
 
                     MenuItem {
                         attrs {
-                            value = Language.ENGLISH.code
+                            value = Language.ENGLISH.code.substring(0, 2)
                         }
                         +"English"
                     }
                     MenuItem {
                         attrs {
-                            value = Language.SPANISH.code
-                        }
-                        +"Español" // Spanish
-                    }
-                    MenuItem {
-                        attrs {
-                            value = Language.GERMAN.code
+                            value = Language.GERMAN.code.substring(0, 2)
                         }
                         +"Deutsch" // German
                     }
