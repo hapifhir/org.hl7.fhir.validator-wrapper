@@ -8,6 +8,7 @@ import mui.system.sx
 import react.Props
 import react.ReactNode
 import utils.Language
+import utils.getSelectedLanguage
 
 external interface LanguageSelectProps : Props {
     var polyglot: Polyglot
@@ -38,26 +39,23 @@ class LanguageSelect(props : LanguageSelectProps) : RComponent<LanguageSelectPro
                     attrs {
                         label = ReactNode("Language")
                         onChange = { event, _ ->
-                            console.log(event.target.value)
-                            for (language in Language.values()) {
-                                if (event.target.value == language.code.substring(0, 2)) {
-                                    props.setLanguage(language)
-                                    props.fetchPolyglot(language.code.substring(0, 2));
-                                    break
-                                }
+                            var selectedLanguage = getSelectedLanguage(event.target.value)
+                            if (selectedLanguage != null) {
+                                props.setLanguage(selectedLanguage)
+                                props.fetchPolyglot(selectedLanguage.getLanguageCode());
                             }
                         }
                     }
 
                     MenuItem {
                         attrs {
-                            value = Language.ENGLISH.code.substring(0, 2)
+                            value = Language.ENGLISH.getLanguageCode()
                         }
                         +"English"
                     }
                     MenuItem {
                         attrs {
-                            value = Language.GERMAN.code.substring(0, 2)
+                            value = Language.GERMAN.getLanguageCode()
                         }
                         +"Deutsch" // German
                     }

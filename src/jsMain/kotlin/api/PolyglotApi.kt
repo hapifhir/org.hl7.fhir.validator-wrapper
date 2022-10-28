@@ -10,6 +10,7 @@ import utils.Language
 suspend fun getPolyglotPhrases(localeString: String): JsonObject {
     var matched = false
     var newLocaleString = localeString
+
     for (language in Language.values()) {
         if (localeString == language.code) {
             matched = true
@@ -18,7 +19,7 @@ suspend fun getPolyglotPhrases(localeString: String): JsonObject {
     }
     if (matched == false) {
         for (language in Language.values()) {
-            if (localeString == language.code.substring(0, 2)) {
+            if (localeString == language.getLanguageCode()) {
                 newLocaleString = language.code
                 break
             }
