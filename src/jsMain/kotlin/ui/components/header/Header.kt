@@ -100,6 +100,17 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                 }
                 styledDiv {
                     css {
+                        +HeaderStyle.languageOptionDiv
+                    }
+                    languageSelect{
+                        polyglot = props.polyglot
+                        selectedLanguage = props.selectedLanguage
+                        setLanguage = props.setLanguage
+                        fetchPolyglot = props.fetchPolyglot
+                    }
+                }
+                styledDiv {
+                    css {
                         +HeaderStyle.siteStatusDiv
                     }
                     siteStatus {
@@ -109,12 +120,6 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                     siteStatus {
                         label = "packages2.fhir.org"
                         status = state.packageServerState
-                    }
-                    languageSelect{
-                        polyglot = props.polyglot
-                        selectedLanguage = props.selectedLanguage
-                        setLanguage = props.setLanguage
-                        fetchPolyglot = props.fetchPolyglot
                     }
                 }
             }
@@ -175,5 +180,11 @@ object HeaderStyle : StyleSheet("HeaderStyle", isStatic = true) {
         display = Display.inlineFlex
         flexDirection = FlexDirection.column
         alignSelf = Align.center
+    }
+    val languageOptionDiv by css {
+        display = Display.inlineFlex
+        flexDirection = FlexDirection.column
+        alignSelf = Align.center
+        padding(horizontal = 12.px)
     }
 }
