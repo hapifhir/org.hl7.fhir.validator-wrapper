@@ -10,14 +10,17 @@ import reactredux.slices.LocalizationSlice
 import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
+import utils.Language
 
 private interface AppStateProps : Props {
     var appScreen: AppScreen
     var polyglot: Polyglot
+    var selectedLanguage: Language
 }
 
 private interface AppDispatchProps : Props {
     var fetchPolyglot: (String) -> Unit
+    var setLanguage: (Language) -> Unit
 }
 
 val app: ComponentClass<Props> =
@@ -28,5 +31,6 @@ val app: ComponentClass<Props> =
         },
         { dispatch, _ ->
             fetchPolyglot = { dispatch(LocalizationSlice.fetchPolyglot(it)) }
+            setLanguage = { dispatch(LocalizationSlice.SetLanguage(it)) }
         }
     )(App::class.js.unsafeCast<ComponentClass<AppProps>>())

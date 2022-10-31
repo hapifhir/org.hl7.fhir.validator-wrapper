@@ -10,7 +10,7 @@ object LocalizationSlice {
 
     data class State(
         val polyglotInstance: Polyglot = Polyglot(),
-        val selectedLangauge: Language = Language.US_ENGLISH,
+        val selectedLanguage: Language = Language.ENGLISH,
     )
 
     fun fetchPolyglot(localeString: String): RThunk {
@@ -28,9 +28,9 @@ object LocalizationSlice {
                 state.copy(polyglotInstance = action.polyglotInstance)
             }
             is SetLanguage -> {
-                println("setting new lang instance\nexisting -> ${state.selectedLangauge}")
+                println("setting new lang instance\nexisting -> ${state.selectedLanguage}")
                 println("setting new lang instance\nnew -> ${action.selectedLangauge}")
-                state.copy(selectedLangauge = action.selectedLangauge)
+                state.copy(selectedLanguage = action.selectedLangauge)
             }
             else -> state
         }

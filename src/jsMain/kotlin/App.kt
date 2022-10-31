@@ -12,27 +12,35 @@ import ui.components.header.HeaderStyle
 import ui.components.main.sectionTitle
 import ui.components.tabs.tabLayout
 import kotlinx.browser.window
+import utils.Language
+import utils.getSelectedLanguage
 
 external interface AppProps : Props {
     var appScreen: AppScreen
     var polyglot: Polyglot
 
     var fetchPolyglot:  (String) -> Unit
+    var setLanguage: (Language) -> Unit
 }
 
 val mainScope = MainScope()
 
+fun languageSetup(props: AppProps) {
+    for (item in window.navigator.languages) {
+        val prefix = item.substring(0, 2)
+        var selectedLanguage = getSelectedLanguage(prefix)
+        if (selectedLanguage != null) {
+            props.setLanguage(selectedLanguage)
+            props.fetchPolyglot(selectedLanguage.getLanguageCode());
+            break
+        }
+    }
+}
+
+
 class App(props : AppProps) : RComponent<AppProps, State>() {
     init {
-        /*
-        // TODO : Get actual locale of the user's browswer
-        console.log("LANGUAGE:")
-        for (item in window.navigator.languages) {
-            console.log(item)
-        }
-        console.log("LANGUAGE LANGUAGE LANGUAGE: " + window.navigator.language)
-        */
-        props.fetchPolyglot("en_US")
+        languageSetup(props)
     }
     override fun RBuilder.render() {
 

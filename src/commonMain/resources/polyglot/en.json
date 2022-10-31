@@ -60,5 +60,6 @@
   "validation_fatals" : "Fatals",
   "validation_errors" : "Errors",
   "validation_warnings" : "Warnings",
-  "validation_info" : "Information"
+  "validation_info" : "Information",
+  "language" : "Language"
 }

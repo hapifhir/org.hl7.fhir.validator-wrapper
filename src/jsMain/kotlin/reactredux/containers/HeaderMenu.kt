@@ -17,7 +17,7 @@ import utils.Language
 
 private interface HeaderStateProps : Props {
     var appScreen: AppScreen
-    var language: Language
+    var selectedLanguage: Language
     var polyglot: Polyglot
 }
 
@@ -32,7 +32,7 @@ val header: ComponentClass<Props> =
     rConnect<AppState, RAction, WrapperAction, Props, HeaderStateProps, HeaderDispatchProps, HeaderProps>(
         { state, _ ->
             appScreen = state.appScreenSlice.appScreen
-            language = state.localizationSlice.selectedLangauge
+            selectedLanguage = state.localizationSlice.selectedLanguage
             polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->
