@@ -32,8 +32,8 @@ fun languageSetup(props: AppProps) {
         if (selectedLanguage != null) {
             props.setLanguage(selectedLanguage)
             props.fetchPolyglot(selectedLanguage.getLanguageCode());
+            break
         }
-        break
     }
 }
 
