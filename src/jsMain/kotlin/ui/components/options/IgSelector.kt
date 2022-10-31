@@ -5,10 +5,8 @@ import css.const.HL7_RED
 import css.const.WHITE
 import css.const.SWITCH_GRAY
 import css.text.TextStyle
-
 import kotlinx.css.*
 import model.PackageInfo
-
 import react.*
 import styled.StyleSheet
 import styled.css
@@ -16,10 +14,9 @@ import styled.styledDiv
 import styled.styledSpan
 import ui.components.buttons.imageButton
 import ui.components.options.menu.dropDownMultiChoice
-
 import api.sendIGVersionsRequest
-
 import kotlinx.coroutines.launch
+import utils.getJS
 
 import mainScope
 
@@ -137,7 +134,10 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     padding(top = 24.px)
                     + if (props.selectedIgSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
                 }
-                + (props.polyglot.t("options_ig_selected") + " (${props.selectedIgSet.size})" + if (props.selectedIgSet.isEmpty()) { "" } else { ":"})
+                //+ (props.polyglot.t("options_ig_selected") + " (${props.selectedIgSet.size})" + if (props.selectedIgSet.isEmpty()) { "" } else { ":"})
+                var polyglotKey : String
+                if (props.selectedIgSet.isEmpty()) {polyglotKey = "options_ig_not_selected"} else { polyglotKey = "options_ig_selected"}
+                +props.polyglot.t(polyglotKey, getJS(arrayOf(Pair("selectedIgs", props.selectedIgSet.size.toString()))))
             }
             styledDiv {
                 css {

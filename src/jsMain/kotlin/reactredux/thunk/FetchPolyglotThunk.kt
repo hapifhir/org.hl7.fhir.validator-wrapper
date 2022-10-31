@@ -13,6 +13,7 @@ import api.getPolyglotPhrases
 
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import utils.getJS
 import kotlin.js.json
 
 class FetchPolyglotThunk (private val localeString : String) : RThunk {
@@ -35,7 +36,7 @@ class FetchPolyglotThunk (private val localeString : String) : RThunk {
 
             var polyglot = Polyglot()
             polyglot.locale(localeString)
-            polyglot.extend(phrases = json(*phrasePairs))
+            polyglot.extend(getJS(phrasePairs))
 
             //TODO use dispatch to set localizationSlice.selectedLangauge
 

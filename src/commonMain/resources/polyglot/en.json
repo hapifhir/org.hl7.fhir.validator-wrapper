@@ -61,5 +61,7 @@
   "validation_errors" : "Errors",
   "validation_warnings" : "Warnings",
   "validation_info" : "Information",
-  "language" : "Language"
+  "language" : "Language",
+  "options_ig_not_selected" : "Selected IGs (%{selectedIgs})",
+  "options_ig_selected" : "Selected IGs (%{selectedIgs}):"
 }
