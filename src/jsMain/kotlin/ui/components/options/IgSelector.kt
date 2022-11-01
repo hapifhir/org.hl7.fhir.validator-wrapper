@@ -134,7 +134,6 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     padding(top = 24.px)
                     + if (props.selectedIgSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
                 }
-                //+ (props.polyglot.t("options_ig_selected") + " (${props.selectedIgSet.size})" + if (props.selectedIgSet.isEmpty()) { "" } else { ":"})
                 var polyglotKey : String
                 if (props.selectedIgSet.isEmpty()) {polyglotKey = "options_ig_not_selected"} else { polyglotKey = "options_ig_selected"}
                 +props.polyglot.t(polyglotKey, getJS(arrayOf(Pair("selectedIgs", props.selectedIgSet.size.toString()))))
