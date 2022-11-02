@@ -12,6 +12,7 @@ import ui.components.header.HeaderStyle
 import ui.components.main.sectionTitle
 import ui.components.tabs.tabLayout
 import kotlinx.browser.window
+import model.CliContext
 import utils.Language
 import utils.getSelectedLanguage
 
@@ -21,6 +22,9 @@ external interface AppProps : Props {
 
     var fetchPolyglot:  (String) -> Unit
     var setLanguage: (Language) -> Unit
+
+    var cliContext: CliContext
+    var updateCliContext: (CliContext) -> Unit
 }
 
 val mainScope = MainScope()
@@ -32,6 +36,7 @@ fun languageSetup(props: AppProps) {
         if (selectedLanguage != null) {
             props.setLanguage(selectedLanguage)
             props.fetchPolyglot(selectedLanguage.getLanguageCode());
+            props.updateCliContext(props.cliContext.setLocale(selectedLanguage.getLanguageCode()))
             break
         }
     }
