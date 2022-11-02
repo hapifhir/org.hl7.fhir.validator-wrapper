@@ -3,6 +3,7 @@ package model
 import constants.Snomed
 import kotlinx.serialization.Serializable
 
+
 @Serializable
 actual class CliContext actual constructor() {
 
@@ -22,9 +23,11 @@ actual class CliContext actual constructor() {
 
     private var igs: List<String> = listOf()
 
+    private var locale: String = ""
     init {
         targetVer = "4.0.1"
         sv = "4.0.1"
+        locale = "de"
     }
 
     actual fun isDoNative(): Boolean {
@@ -154,6 +157,17 @@ actual class CliContext actual constructor() {
         return this
     }
 
+
+    actual fun setLocale(languageString: String): CliContext {
+        this.locale = languageString
+        return this
+    }
+
+
+    actual fun getLanguageCode() : String {
+        return this.locale
+    }
+
     fun prettyPrint() {
         println("CliContext :: \n" +
                 "doNative = ${doNative}\n" +
@@ -166,6 +180,7 @@ actual class CliContext actual constructor() {
                 "txCache = ${txCache}\n" +
                 "snomedCT = ${snomedCT}\n" +
                 "targetVer = ${targetVer}\n" +
+                "locale = ${locale}\n" +
                 "igs -> \n" +
                 igs.forEach { println("\t" + it) }
         )
