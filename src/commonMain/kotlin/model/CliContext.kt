@@ -44,4 +44,7 @@ expect class CliContext() {
     fun isAllowExampleUrls() : Boolean
     fun setAllowExampleUrls(allowExampleUrls:Boolean)
 
+    fun setLocale(languageString: String) : CliContext
+
+    fun getLanguageCode() : String
 }
