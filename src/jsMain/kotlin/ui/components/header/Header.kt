@@ -5,7 +5,6 @@ import api.isPackagesServerUp
 import api.isTerminologyServerUp
 import css.const.HEADER_SHADOW
 import css.const.HIGHLIGHT_GRAY
-import css.const.SUCCESS_GREEN
 import css.const.WHITE
 import kotlinx.browser.document
 import kotlinx.coroutines.launch
@@ -24,8 +23,8 @@ import styled.styledImg
 import ui.components.header.SiteStatus.SiteState
 import ui.components.header.SiteStatus.siteStatus
 import ui.components.header.LanguageOption.languageSelect
-
 import utils.Language
+import model.CliContext
 
 external interface HeaderProps : Props {
     var appScreen: AppScreen
@@ -36,6 +35,9 @@ external interface HeaderProps : Props {
     var fetchPolyglot:  (String) -> Unit
     var setPolyglot: (Polyglot) -> Unit
     var setLanguage: (Language) -> Unit
+
+    var cliContext: CliContext
+    var updateCliContext: (CliContext) -> Unit
 }
 
 class HeaderState : State {
@@ -107,6 +109,8 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                         selectedLanguage = props.selectedLanguage
                         setLanguage = props.setLanguage
                         fetchPolyglot = props.fetchPolyglot
+                        cliContext = props.cliContext
+                        updateCliContext = props.updateCliContext
                     }
                 }
                 styledDiv {
