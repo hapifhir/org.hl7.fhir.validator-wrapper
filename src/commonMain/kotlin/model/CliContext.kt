@@ -47,4 +47,8 @@ expect class CliContext() {
     fun setLocale(languageString: String) : CliContext
 
     fun getLanguageCode() : String
+
+    fun setExtensions(extensions: List<String>) : CliContext
+
+    fun getExtensions() : List<String>
 }
