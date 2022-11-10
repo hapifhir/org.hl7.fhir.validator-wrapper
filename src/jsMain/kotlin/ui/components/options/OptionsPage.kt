@@ -30,6 +30,8 @@ external interface OptionsPageProps : Props {
     var selectedIgPackageInfo: Set<PackageInfo>
     var updateCliContext: (CliContext) -> Unit
     var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
+    var updateAddedExtensionUrl: (Set<String>) -> Unit
+    var addedExtensionUrl: MutableSet<String>
     var polyglot: Polyglot
 }
 
@@ -38,6 +40,7 @@ class OptionsPageState : State {
     var igPackageNameList = mutableListOf<Pair<String, Boolean>>()
     var fhirVersionsList = mutableListOf<Pair<String, Boolean>>()
     var snomedVersionList = mutableListOf<Pair<String, Boolean>>()
+    var extensionUrlList = mutableListOf<String>()
 }
 
 class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
@@ -209,6 +212,22 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                 igPackageNameList = getPackageNames(igResponse.packageInfo)
                             }
                         }
+                    }
+                }
+            }
+            heading {
+                text = "Extensions"
+            }
+            styledDiv {
+                css {
+                    +OptionsPageStyle.optionsSubSection
+                }
+                addExtension {
+                    polyglot = props.polyglot
+                    addedExtensionSet = state.extensionUrlList.toMutableSet()
+                    console.log("one: " + addedExtensionSet)
+                    onUpdateExtension = { ExtensionUrl ->
+                        addedExtensionSet.plus(ExtensionUrl).toMutableSet()
                     }
                 }
             }
