@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 actual class CliContext actual constructor() {
 
+    private var extensions : List<String> = listOf()
     private var doNative = false
     private var hintAboutNonMustSupport = false
     private var assumeValidRestReferences = false
@@ -186,4 +187,12 @@ actual class CliContext actual constructor() {
         )
     }
 
+    actual fun setExtensions(extensions : List<String>) : CliContext {
+        this.extensions = extensions
+        return this
+    }
+
+    actual fun getExtensions() : List<String> {
+        return this.extensions
+    }
 }
