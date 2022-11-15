@@ -59,7 +59,7 @@ class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
             }
             styledSpan {
                 checkboxWithDetails {
-                    name = "Allow Any Extensions"
+                    name = props.polyglot.t("options_extensions_checkbox")
                     selected = anyChecked()
                     hasDescription = false
                     onChange = {
