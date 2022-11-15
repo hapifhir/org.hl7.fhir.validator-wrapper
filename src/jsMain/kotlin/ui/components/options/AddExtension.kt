@@ -115,7 +115,6 @@ class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
                             url = _url
                             onDelete = {
                                 props.onUpdateExtension(_url, true)
-                                props.onUpdateAnyExtension(false)
                             }
                         }
                     }

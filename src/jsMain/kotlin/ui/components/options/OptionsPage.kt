@@ -230,24 +230,21 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     addedExtensionSet = props.addedExtensionInfo.toMutableSet()
                     updateCliContext = updateCliContext
                     cliContext = cliContext
-                    onUpdateExtension = { ExtensionUrl , delete ->
+                    onUpdateExtension = { extensionUrl , delete ->
                         val newAddedExtensionSet = if (delete) {
-                            addedExtensionSet.minus(ExtensionUrl).toMutableSet()
+                            addedExtensionSet.minus(extensionUrl).toMutableSet()
                         } else {
-                            addedExtensionSet.plus(ExtensionUrl).toMutableSet()
+                            addedExtensionSet.plus(extensionUrl).toMutableSet()
                         }
-                        addedExtensionSet = newAddedExtensionSet
-                        props.updateAddedExtensionUrl(addedExtensionSet)
+                        props.updateAddedExtensionUrl(newAddedExtensionSet)
                     }
                     onUpdateAnyExtension = {anySelected ->
-                        val newSet : MutableSet<String>
-                        if (anySelected) {
-                            newSet = addedExtensionSet.plus("any").toMutableSet()
+                        val newSet = if (anySelected) {
+                            addedExtensionSet.plus("any").toMutableSet()
                         } else {
-                            newSet = addedExtensionSet.minus("any").toMutableSet()
+                            addedExtensionSet.minus("any").toMutableSet()
                         }
-                        addedExtensionSet = newSet
-                        props.updateAddedExtensionUrl(addedExtensionSet)
+                        props.updateAddedExtensionUrl(newSet)
                     }
                 }
             }
