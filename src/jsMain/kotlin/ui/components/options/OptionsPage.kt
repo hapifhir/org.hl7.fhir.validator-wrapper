@@ -22,7 +22,6 @@ import ui.components.options.menu.dropdownWithExplanation
 import ui.components.options.menu.textEntryField
 import ui.components.tabs.heading
 
-const val TERMINOLOGY_SERVER_ERROR = "Server capability statement does not indicate it is a valid terminology server."
 private const val TERMINOLOGY_CHECK_TIME_LIMIT = 20000L
 
 external interface OptionsPageProps : Props {
