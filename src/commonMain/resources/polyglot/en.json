@@ -47,7 +47,7 @@
   "options_extensions_title" : "Extensions",
   "options_extensions_description" : "Controls how extensions are validated by the validator. Values for option are URLs for domains from which extensions will be allowed. By default, unknown extensions are prohibited, but can be allowed by selecting the 'Allow Any Extensions' checkbox.",
   "options_extensions_checkbox" : "Allow Any Extensions",
-  "options_extensions_not_added" : "Added Extensions(%{addedExtensions})",
+  "options_extensions_not_added" : "Added Extensions (%{addedExtensions})",
   "options_extensions_added" : "Added Extensions (%{addedExtensions}):",
   "options_settings_title" : "Other Settings",
   "options_settings_snomed_title" : "Select SNOMED Version",
