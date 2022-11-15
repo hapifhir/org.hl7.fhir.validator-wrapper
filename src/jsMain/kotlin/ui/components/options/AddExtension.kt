@@ -19,22 +19,20 @@ import kotlinx.html.js.onChangeFunction
 import utils.getJS
 
 import mainScope
+import model.CliContext
 import org.w3c.dom.HTMLInputElement
 import react.dom.attrs
 import react.dom.defaultValue
 import styled.*
 import ui.components.options.menu.TextFieldEntryStyle
+import ui.components.options.menu.checkboxWithDetails
 
 external interface AddExtensionProps : Props {
-    var fhirVersion: String
-    var onUpdateIg: (PackageInfo, Boolean) -> Unit
-    var igList: MutableList<PackageInfo>
-    var igPackageNameList :MutableList<Pair<String, Boolean>>
-    var onUpdatePackageName: (String, Boolean) -> Unit
-    var onFilterStringChange: (String) -> Unit
-
     var addedExtensionSet : MutableSet<String>
-    var onUpdateExtension : (String) -> Unit
+    var onUpdateExtension : (String, Boolean) -> Unit
+    var updateCliContext : (CliContext) -> Unit
+    var cliContext : CliContext
+    var onUpdateAnyExtension : (Boolean) -> Unit
     var polyglot: Polyglot
 }
 
@@ -57,50 +55,76 @@ class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
                     +TextStyle.optionsDetailText
                     +IgSelectorStyle.title
                 }
-                +"Extension Description"
+                +props.polyglot.t("options_extensions_description")
             }
             styledSpan {
-                css {
-                    +TextFieldEntryStyle.textFieldAndGButtonDiv
-                }
-                styledInput {
-                    css {
-                        +TextFieldEntryStyle.entryTextArea
-                    }
-                    attrs {
-                        type = InputType.text
-                        defaultValue = "http://"
-                        id = textInputId
+                checkboxWithDetails {
+                    name = "Allow Any Extensions"
+                    selected = anyChecked()
+                    hasDescription = false
+                    onChange = {
+                        props.onUpdateAnyExtension(it)
                     }
                 }
+            }
+            if (!anyChecked()) {
                 styledSpan {
-                    imageButton {
-                        backgroundColor = WHITE
-                        borderColor = SWITCH_GRAY
-                        image = "images/add_circle_black_24dp.svg"
-                        label = props.polyglot.t("options_ig_add")
-                        onSelected = {
-                            console.log("two: " + props.addedExtensionSet)
-                            props.onUpdateExtension("TEST")
-                            console.log("three: " + props.addedExtensionSet)
-                            for (item in props.addedExtensionSet) {
-                                console.log("four" + item)
+                    css {
+                        +TextFieldEntryStyle.textFieldAndGButtonDiv
+                    }
+                    styledInput {
+                        css {
+                            +TextFieldEntryStyle.entryTextArea
+                        }
+                        attrs {
+                            type = InputType.text
+                            defaultValue = "http://"
+                            id = textInputId
+                        }
+                    }
+                    styledSpan {
+                        imageButton {
+                            backgroundColor = WHITE
+                            borderColor = SWITCH_GRAY
+                            image = "images/add_circle_black_24dp.svg"
+                            label = props.polyglot.t("options_ig_add")
+                            onSelected = {
+                                props.onUpdateExtension((document.getElementById(textInputId) as HTMLInputElement).value, false)
+                            }
+                        }
+                    }
+                }
+                styledDiv {
+                    css {
+                        padding(top = 24.px)
+                        + if (props.addedExtensionSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
+                    }
+                    val polyglotKey = if (props.addedExtensionSet.isEmpty()) { "options_extensions_not_added"} else { "options_extensions_added"}
+                    +props.polyglot.t(polyglotKey, getJS(arrayOf(Pair("addedExtensions", props.addedExtensionSet.size.toString()))))
+                }
+                styledDiv {
+                    css {
+                        +IgSelectorStyle.selectedIgsDiv
+                        if (!props.addedExtensionSet.isEmpty()) {
+                            padding(top = 16.px)
+                        }
+                    }
+                    props.addedExtensionSet.forEach { _url ->
+                        extensionDisplay {
+                            polyglot = props.polyglot
+                            url = _url
+                            onDelete = {
+                                props.onUpdateExtension(_url, true)
+                                props.onUpdateAnyExtension(false)
                             }
                         }
                     }
                 }
             }
-            /*
-            styledDiv {
-                css {
-                    padding(top = 24.px)
-                    + if (props.addedExtensionSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
-                }
-                val polyglotKey = if (props.addedExtensionSet.isEmpty()) { "options_ig_not_selected"} else { "options_ig_selected"}
-                +props.polyglot.t(polyglotKey, getJS(arrayOf(Pair("selectedIgs", props.addedExtensionSet.size.toString()))))
-            }*/
         }
-
+    }
+    private fun anyChecked() : Boolean {
+        return props.addedExtensionSet.contains("any")
     }
 }
 

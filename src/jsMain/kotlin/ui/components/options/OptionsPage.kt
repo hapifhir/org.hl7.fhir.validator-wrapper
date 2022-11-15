@@ -30,8 +30,8 @@ external interface OptionsPageProps : Props {
     var selectedIgPackageInfo: Set<PackageInfo>
     var updateCliContext: (CliContext) -> Unit
     var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
+    var addedExtensionInfo: Set<String>
     var updateAddedExtensionUrl: (Set<String>) -> Unit
-    var addedExtensionUrl: MutableSet<String>
     var polyglot: Polyglot
 }
 
@@ -40,7 +40,6 @@ class OptionsPageState : State {
     var igPackageNameList = mutableListOf<Pair<String, Boolean>>()
     var fhirVersionsList = mutableListOf<Pair<String, Boolean>>()
     var snomedVersionList = mutableListOf<Pair<String, Boolean>>()
-    var extensionUrlList = mutableListOf<String>()
 }
 
 class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
@@ -79,6 +78,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     name = props.polyglot.t("options_flags_do_native_title")
                     description = props.polyglot.t("options_flags_do_native_description")
                     selected = props.cliContext.isDoNative()
+                    hasDescription = true
                     onChange = {
                         props.updateCliContext(props.cliContext.setDoNative(it))
                     }
@@ -92,6 +92,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     name = props.polyglot.t("options_flags_must_support_title")
                     description = props.polyglot.t("options_flags_must_support_description")
                     selected = props.cliContext.isHintAboutNonMustSupport()
+                    hasDescription = true
                     onChange = {
                         props.updateCliContext(props.cliContext.setHintAboutNonMustSupport(it))
                     }
@@ -105,6 +106,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     name = props.polyglot.t("options_flags_valid_reference_title")
                     description = props.polyglot.t("options_flags_valid_reference_description")
                     selected = props.cliContext.isAssumeValidRestReferences()
+                    hasDescription = true
                     onChange = {
                         props.updateCliContext(props.cliContext.setAssumeValidRestReferences(it))
                     }
@@ -118,6 +120,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     name = props.polyglot.t("options_flags_binding_warnings_title")
                     description = props.polyglot.t("options_flags_binding_warnings_description")
                     selected = props.cliContext.isNoExtensibleBindingMessages()
+                    hasDescription = true
                     onChange = {
                         props.updateCliContext(props.cliContext.setNoExtensibleBindingMessages(it))
                     }
@@ -131,6 +134,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     name = props.polyglot.t("options_flags_show_times_title")
                     description = props.polyglot.t("options_flags_show_times_description")
                     selected = props.cliContext.isShowTimes()
+                    hasDescription = true
                     onChange = {
                         props.cliContext.setShowTimes(it)
                         props.updateCliContext(props.cliContext)
@@ -145,6 +149,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     name = props.polyglot.t("options_flags_allow_example_title")
                     description = props.polyglot.t("options_flags_allow_example_description")
                     selected = props.cliContext.isAllowExampleUrls()
+                    hasDescription = true
                     onChange = {
                         props.cliContext.setAllowExampleUrls(it)
                         props.updateCliContext(props.cliContext)
@@ -201,7 +206,6 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         } else {
                             selectedIgSet.minus(igPackageInfo).toMutableSet()
                         }
-
                         props.updateSelectedIgPackageInfo(newSelectedIgSet)
                     }
                     onFilterStringChange = { partialIgName ->
@@ -216,7 +220,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
             }
             heading {
-                text = "Extensions"
+                text = props.polyglot.t("options_extensions_title")
             }
             styledDiv {
                 css {
@@ -224,10 +228,27 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 addExtension {
                     polyglot = props.polyglot
-                    addedExtensionSet = state.extensionUrlList.toMutableSet()
-                    console.log("one: " + addedExtensionSet)
-                    onUpdateExtension = { ExtensionUrl ->
-                        addedExtensionSet.plus(ExtensionUrl).toMutableSet()
+                    addedExtensionSet = props.addedExtensionInfo.toMutableSet()
+                    updateCliContext = updateCliContext
+                    cliContext = cliContext
+                    onUpdateExtension = { ExtensionUrl , delete ->
+                        val newAddedExtensionSet = if (delete) {
+                            addedExtensionSet.minus(ExtensionUrl).toMutableSet()
+                        } else {
+                            addedExtensionSet.plus(ExtensionUrl).toMutableSet()
+                        }
+                        addedExtensionSet = newAddedExtensionSet
+                        props.updateAddedExtensionUrl(addedExtensionSet)
+                    }
+                    onUpdateAnyExtension = {anySelected ->
+                        val newSet : MutableSet<String>
+                        if (anySelected) {
+                            newSet = addedExtensionSet.plus("any").toMutableSet()
+                        } else {
+                            newSet = addedExtensionSet.minus("any").toMutableSet()
+                        }
+                        addedExtensionSet = newSet
+                        props.updateAddedExtensionUrl(addedExtensionSet)
                     }
                 }
             }
