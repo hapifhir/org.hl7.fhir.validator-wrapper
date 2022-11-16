@@ -17,12 +17,14 @@ import ui.components.options.OptionsPageProps
 private interface OptionsPageStateProps : Props {
     var cliContext: CliContext
     var selectedIgPackageInfo: Set<PackageInfo>
+    var addedExtensionInfo: Set<String>
     var polyglot: Polyglot
 }
 
 private interface OptionsPageDispatchProps : Props {
     var updateCliContext: (CliContext) -> Unit
     var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
+    var updateAddedExtensionUrl: (Set<String>) -> Unit
 }
 
 val optionsPage: ComponentClass<Props> =
@@ -30,6 +32,7 @@ val optionsPage: ComponentClass<Props> =
         { state, _ ->
             cliContext = state.validationContextSlice.cliContext
             selectedIgPackageInfo = state.validationContextSlice.selectedIgPackageInfo
+            addedExtensionInfo = state.validationContextSlice.addedExtensionInfo
             polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->
@@ -38,6 +41,9 @@ val optionsPage: ComponentClass<Props> =
             }
             updateSelectedIgPackageInfo = {
                 dispatch(ValidationContextSlice.UpdateSelectedIgPackageInfo(it))
+            }
+            updateAddedExtensionUrl = {
+                dispatch(ValidationContextSlice.UpdateAddedExtensionUrl(it))
             }
         }
     )(OptionsPage::class.js.unsafeCast<ComponentClass<OptionsPageProps>>())

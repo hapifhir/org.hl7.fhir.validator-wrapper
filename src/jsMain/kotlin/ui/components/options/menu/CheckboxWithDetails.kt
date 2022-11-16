@@ -17,8 +17,8 @@ external interface CheckboxWithDetailsProps : Props {
     var name: String
     var description: String
     var selected: Boolean
-
     var onChange: (Boolean) -> Unit
+    var hasDescription: Boolean
 }
 
 class CheckboxWithDetailsState : State {
@@ -67,19 +67,21 @@ class CheckboxWithDetails : RComponent<CheckboxWithDetailsProps, CheckboxWithDet
                     }
                     +props.name
                 }
-                styledDiv {
-                    css {
-                        +CheckboxStyle.dropdownButtonContainer
-                    }
-                    styledImg {
+                if (props.hasDescription) {
+                    styledDiv {
                         css {
-                            +CheckboxStyle.dropdownButton
+                            +CheckboxStyle.dropdownButtonContainer
                         }
-                        attrs {
-                            src = if (state.currentlyExpanded) {
-                                "images/arrow_up.svg"
-                            } else {
-                                "images/arrow_down.svg"
+                        styledImg {
+                            css {
+                                +CheckboxStyle.dropdownButton
+                            }
+                            attrs {
+                                src = if (state.currentlyExpanded) {
+                                    "images/arrow_up.svg"
+                                } else {
+                                    "images/arrow_down.svg"
+                                }
                             }
                         }
                     }

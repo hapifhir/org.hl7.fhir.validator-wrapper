@@ -5,17 +5,17 @@ import org.hl7.fhir.utilities.npm.PackageInfo
 object IgInstrumentation {
 
     val packageInfoA = listOf<PackageInfo>(
-        PackageInfo(null, null, null, null, "https://www.youtube.com/user/MarbleHornets/videos", null),
-        PackageInfo(null, null, null, null, "https://www.youtube.com/c/lockpickinglawyer/videos", null),
-        PackageInfo(null, null, null, null, "https://www.youtube.com/c/theneedledrop/videos", null),
-        PackageInfo(null, null, null, null, "https://www.youtube.com/c/GavinWebber/videos", null),
+        PackageInfo(null, null, null, null, "https://www.youtube.com/user/MarbleHornets/videos", null, null),
+        PackageInfo(null, null, null, null, "https://www.youtube.com/c/lockpickinglawyer/videos", null, null),
+        PackageInfo(null, null, null, null, "https://www.youtube.com/c/theneedledrop/videos", null, null),
+        PackageInfo(null, null, null, null, "https://www.youtube.com/c/GavinWebber/videos", null, null),
     )
 
     val packageInfoB = listOf<PackageInfo>(
-        PackageInfo(null, null, null, null, "https://www.youtube.com/c/TechnologyConnections/videos",null),
-        PackageInfo(null, null, null, null, "https://www.youtube.com/c/OrdinarySausage/videos", null),
-        PackageInfo(null, null, null, null, "https://www.youtube.com/c/Electroboom/videos", null),
-        PackageInfo(null, null, null, null, "https://www.youtube.com/c/ThisOldTony/videos", null)
+        PackageInfo(null, null, null, null, "https://www.youtube.com/c/TechnologyConnections/videos",null, null),
+        PackageInfo(null, null, null, null, "https://www.youtube.com/c/OrdinarySausage/videos", null, null),
+        PackageInfo(null, null, null, null, "https://www.youtube.com/c/Electroboom/videos", null, null),
+        PackageInfo(null, null, null, null, "https://www.youtube.com/c/ThisOldTony/videos", null, null)
     )
 
     val modelPackageInfoA = listOf<model.PackageInfo>(
@@ -33,10 +33,10 @@ object IgInstrumentation {
     )
 
     val simplifierPackageInfoDSTU2 = listOf<PackageInfo>(
-        PackageInfo("A", null, null, null, null, null),
-        PackageInfo("B", null, null, null, null, null),
-        PackageInfo("C", null, null, null, null, null),
-        PackageInfo("D", null, null, null, null, null)
+        PackageInfo("A", null, null, null, null, null, null),
+        PackageInfo("B", null, null, null, null, null, null),
+        PackageInfo("C", null, null, null, null, null, null),
+        PackageInfo("D", null, null, null, null, null, null)
     )
 
     val simplifierModelPackageInfoDSTU2 = listOf<model.PackageInfo>(
@@ -47,10 +47,10 @@ object IgInstrumentation {
     )
 
     val simplifierPackageInfoSTU3 = listOf<PackageInfo>(
-        PackageInfo("E", null, null, null, null, null),
-        PackageInfo("F", null, null, null, null, null),
-        PackageInfo("G", null, null, null, null, null),
-        PackageInfo("H", null, null, null, null, null)
+        PackageInfo("E", null, null, null, null, null, null),
+        PackageInfo("F", null, null, null, null, null, null),
+        PackageInfo("G", null, null, null, null, null, null),
+        PackageInfo("H", null, null, null, null, null, null)
     )
 
     val simplifierModelPackageInfoSTU3 = listOf<model.PackageInfo>(
@@ -61,10 +61,10 @@ object IgInstrumentation {
     )
 
     val simplifierPackageInfoR4 = listOf<PackageInfo>(
-        PackageInfo("I", null, null, null, null, null),
-        PackageInfo("J", null, null, null, null, null),
-        PackageInfo("K", null, null, null, null, null),
-        PackageInfo("L", null, null, null, null, null)
+        PackageInfo("I", null, null, null, null, null, null),
+        PackageInfo("J", null, null, null, null, null, null),
+        PackageInfo("K", null, null, null, null, null, null),
+        PackageInfo("L", null, null, null, null, null, null)
     )
 
     val simplifierModelPackageInfoR4 = listOf<model.PackageInfo>(
