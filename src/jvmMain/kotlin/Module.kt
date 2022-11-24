@@ -13,7 +13,6 @@ import io.ktor.server.plugins.cors.*
 import io.ktor.server.plugins.compression.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.http.*
-import io.ktor.http.content.*
 import io.ktor.server.http.content.*
 import io.ktor.serialization.jackson.*
 import io.ktor.server.response.*
@@ -104,13 +103,21 @@ fun Application.setup() {
 
         get("/") {
             call.respondText(
-                this::class.java.classLoader.getResource("index.html")!!.readText(),
+                this::class.java.classLoader.getResource("static-content/index.html")!!.readText(),
                 ContentType.Text.Html
             )
         }
 
+
+        get("/validator-wrapper.js") {
+            call.respondText(
+                this::class.java.classLoader.getResource("validator-wrapper.js")!!.readText(),
+                ContentType.Text.JavaScript
+            )
+        }
+
         static("/") {
-            resources("")
+            resources("static-content")
         }
     }
 }

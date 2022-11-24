@@ -1,24 +1,17 @@
 package ui.components.options
 
 import Polyglot
-import css.const.HL7_RED
 import css.const.WHITE
 import css.const.SWITCH_GRAY
 import css.text.TextStyle
 import kotlinx.css.*
-import model.PackageInfo
 import react.*
 import ui.components.buttons.imageButton
-import ui.components.options.menu.dropDownMultiChoice
-import api.sendIGVersionsRequest
 import kotlinx.browser.document
-import kotlinx.coroutines.launch
 import kotlinx.html.InputType
 import kotlinx.html.id
-import kotlinx.html.js.onChangeFunction
 import utils.getJS
 
-import mainScope
 import model.CliContext
 import org.w3c.dom.HTMLInputElement
 import react.dom.attrs
