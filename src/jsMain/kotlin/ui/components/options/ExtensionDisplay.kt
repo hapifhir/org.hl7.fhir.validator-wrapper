@@ -6,8 +6,6 @@ import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import kotlinx.html.js.onClickFunction
-import kotlinx.html.title
-import model.PackageInfo
 import react.*
 import react.dom.attrs
 import styled.*

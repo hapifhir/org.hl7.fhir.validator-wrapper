@@ -1,6 +1,5 @@
 package ui.components.tabs.entrytab
 
-import Polyglot
 import css.animation.LoadingSpinner
 import css.const.HL7_RED
 import css.const.WHITE
