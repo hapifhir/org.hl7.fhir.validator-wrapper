@@ -55,13 +55,19 @@ class LanguageSelect(props : LanguageSelectProps) : RComponent<LanguageSelectPro
                         attrs {
                             value = Language.ENGLISH.getLanguageCode()
                         }
-                        +"English"
+                        +Language.ENGLISH.display
                     }
                     MenuItem {
                         attrs {
                             value = Language.GERMAN.getLanguageCode()
                         }
-                        +"Deutsch" // German
+                        +Language.GERMAN.display
+                    }
+                    MenuItem {
+                        attrs {
+                            value = Language.SPANISH.getLanguageCode()
+                        }
+                        +Language.SPANISH.display
                     }
                 }
             }

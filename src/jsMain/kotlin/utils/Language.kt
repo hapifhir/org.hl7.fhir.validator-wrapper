@@ -2,7 +2,8 @@ package utils
 
 enum class Language(val code: String, val display: String) {
     ENGLISH("en", "English"),
-    GERMAN("de_DE", "Deutsch");
+    GERMAN("de_DE", "Deutsch"),
+    SPANISH("es", "Español");
 
     fun getLanguageCode() : String {
         return this.code.substring(0, 2)
