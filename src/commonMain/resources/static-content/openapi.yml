@@ -1,0 +1,352 @@
+openapi: "3.0.2"
+info:
+  title: "Validator Wrapper API"
+  description: "Official API documentations for the Validator Wrapper"
+  version: ""
+  contact:
+    name: "Validator Wrapper"
+    url: "https://validator.fhir.org/"
+servers:
+  - url: "https://validator.fhir.org/"
+
+paths:
+  /validate:
+    post:
+      tags:
+        - Validate a Resource
+      description: "Validates resources and returns the validation results"
+      operationId: ValidateAResource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/validatePayLoad"
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/validateResponse"
+        "400":
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                title: validateBadRequest
+                type: string
+                example: No files for validation provided in request.
+        "500":
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                title: validateInternalServerError
+                type: string
+                example: Internal server error.
+  /validator/version:
+    get:
+      tags:
+        - List Validator Version
+      description: "Returns the current validator version"
+      operationId: ListValidatorVersion
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                title: validatorVersionOK
+                type: string
+                example: 5.6.39
+  /ig:
+    get:
+      tags:
+        - List IGs
+      description: "Returns the list of available implementation guides"
+      operationId: ListIgs
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listIgsResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                title: igInternalServerError
+                type: string
+                example: No IGs returned from igController. List size is 0.
+  /igVersions/{igPackageName}:
+    get:
+      tags:
+        - List IG Versions
+      description: "Returns the list of available versions for a specific implementation guide (specified through parameter <igPackageName>)"
+      operationId: ListIgVersions
+      parameters:
+        - in: path
+          name: igPackageName
+          required: true
+          description: "Implementation guide package name"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listIgVersionsResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                title: igVersionsInternalServerError
+                type: string
+                example: No IGs returned from igController. List size is 0.
+  /versions:
+    get:
+      tags:
+        - List Supported FHIR Versions
+      description: "Returns the list of supported FHIR versions"
+      operationId: ListSupportedFhirVersions
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listSupportedFhirVersions"
+        "500":
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                title: fhirVersionsInternalServerError
+                type: string
+                example: Empty fhir version list returned from core libraries.
+  /terminology:
+    post:
+      tags:
+        - Validate Terminology Server
+      description: "description"
+      operationId: ValidateTerminologyServer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/validateTerminologyServer"
+  /txStatus:
+    get:
+      tags:
+        - Terminology Server Status
+      description: "Returns the status of the terminology server in boolean"
+      operationId: terminologyServerStatus
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/terminologyServerStatus"
+  /packStatus:
+    get:
+      tags:
+        - Package Server Status
+      description: "Returns the status of the package server in boolean"
+      operationId: packageServerStatus
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/packageServerStatus"
+
+
+components:
+  parameters:
+  schemas:
+    validatePayLoad:
+      type: object
+      properties:
+        cliContext:
+          type: object
+          properties:
+            targetVer:
+              type: string
+              example: "4.0.1"
+            sv:
+              type: string
+              example: "4.0.1"
+            igs:
+              type: array
+              items:
+                type: string
+                example: "hl7.fhir.us.core#4.0.0"
+        filesToValidate:
+          type: array
+          items:
+            properties:
+              fileName:
+                type: string
+                example: "manually_entered_file.json"
+              fileContent:
+                type: string
+                example: "\"resourceType\": \"Patient\"}"
+              fileType:
+                type: string
+                example: "json"
+        sessionId:
+          type: string
+          example: "32fc25cf-020e-4492-ace5-03fe904d22e0"
+      required:
+        - cliContext
+        - filesToValidate
+        - sessionId
+    validateResponse:
+      type: object
+      properties:
+        outcomes:
+          type: array
+          items:
+            properties:
+              fileInfo:
+                type: array
+                items:
+                  properties:
+                    fileName:
+                      type: string
+                      example: "manually_entered_file.json"
+                    fileContent:
+                      type: string
+                      example: "{\n  \"resourceType\": \"Patient\"}"
+                    fileType:
+                      type: string
+                      example: "json"
+              issues:
+                type: array
+                example: []
+        sessionId:
+          type: string
+          example: "32fc25cf-020e-4492-ace5-03fe904d22e0"
+    listIgsResponse:
+      type: object
+      properties:
+        packageInfo:
+          type: array
+          items:
+            oneOf:
+              - type: object
+                properties:
+                  id:
+                    type: string
+                    example: "hl7.fhir.us.core"
+                  version:
+                    type: string
+                    example: "5.0.1"
+                  fhirVersion:
+                    type: string
+                    example: "4.0.1"
+                  url:
+                    type: string
+                    example: "http://hl7.org/fhir/us/core/STU5.0.1"
+              - type: object
+                properties:
+                  id:
+                    type: string
+                    example: "hl7.fhir.au.base"
+                  version:
+                    type: string
+                    example: "1.0.1"
+                  fhirVersion:
+                    type: string
+                    example: "3.0.1"
+                  url:
+                    type: string
+                    example: "http://hl7.org.au/fhir/base/2019Feb"
+              - type: object
+                properties:
+                  id:
+                    type: string
+                    example: "hl7.fhir.us.davinci-pcde"
+                  version:
+                    type: string
+                    example: null
+                  fhirVersion:
+                    type: string
+                    example: null
+                  url:
+                    type: string
+                    example: null
+    listIgVersionsResponse:
+      type: object
+      properties:
+        packageInfo:
+          type: array
+          items:
+            oneOf:
+              - type: object
+                properties:
+                  id:
+                    type: string
+                    example: "hl7.fhir.us.core"
+                  version:
+                    type: string
+                    example: "0.0.0"
+                  fhirVersion:
+                    type: string
+                    example: "STU3"
+                  url:
+                    type: string
+                    example: "https://packages.simplifier.net/hl7.fhir.us.core/0.0.0"
+              - type: object
+                properties:
+                  id:
+                    type: string
+                    example: "hl7.fhir.us.core"
+                  version:
+                    type: string
+                    example: "1.0.0"
+                  fhirVersion:
+                    type: string
+                    example: "STU3"
+                  url:
+                    type: string
+                    example: "https://packages.simplifier.net/hl7.fhir.us.core/1.0.0"
+              - type: object
+                properties:
+                  id:
+                    type: string
+                    example: "hl7.fhir.us.core"
+                  version:
+                    type: string
+                    example: "5.0.1"
+                  fhirVersion:
+                    type: string
+                    example: "R4"
+                  url:
+                    type: string
+                    example: "https://packages.simplifier.net/hl7.fhir.us.core/5.0.1"
+    listSupportedFhirVersions:
+      type: object
+      properties:
+        versions:
+          type: string
+          example: [ "1.0.2", "1.4.0", "3.0.2", "4.0.1", "4.1.0", "4.3.0", "5.0", "4.6.0" ]
+    validateTerminologyServer:
+      type: object
+    terminologyServerStatus:
+      type: boolean
+      example: true
+    packageServerStatus:
+      type: boolean
+      example: true
