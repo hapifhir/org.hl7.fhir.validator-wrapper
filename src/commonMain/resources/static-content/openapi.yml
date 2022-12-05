@@ -201,7 +201,7 @@ components:
                 example: "manually_entered_file.json"
               fileContent:
                 type: string
-                example: "\"resourceType\": \"Patient\"}"
+                example: "{\"resourceType\": \"Patient\"}"
               fileType:
                 type: string
                 example: "json"
