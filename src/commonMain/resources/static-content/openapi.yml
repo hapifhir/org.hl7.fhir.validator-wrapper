@@ -183,9 +183,11 @@ components:
           properties:
             targetVer:
               type: string
+              description: Target FHIR version for conversion
               example: "4.0.1"
             sv:
               type: string
+              description: Base FHIR version for validation
               example: "4.0.1"
             igs:
               type: array
