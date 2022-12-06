@@ -244,49 +244,7 @@ components:
         packageInfo:
           type: array
           items:
-            oneOf:
-              - type: object
-                properties:
-                  id:
-                    type: string
-                    example: "hl7.fhir.us.core"
-                  version:
-                    type: string
-                    example: "5.0.1"
-                  fhirVersion:
-                    type: string
-                    example: "4.0.1"
-                  url:
-                    type: string
-                    example: "http://hl7.org/fhir/us/core/STU5.0.1"
-              - type: object
-                properties:
-                  id:
-                    type: string
-                    example: "hl7.fhir.au.base"
-                  version:
-                    type: string
-                    example: "1.0.1"
-                  fhirVersion:
-                    type: string
-                    example: "3.0.1"
-                  url:
-                    type: string
-                    example: "http://hl7.org.au/fhir/base/2019Feb"
-              - type: object
-                properties:
-                  id:
-                    type: string
-                    example: "hl7.fhir.us.davinci-pcde"
-                  version:
-                    type: string
-                    example: null
-                  fhirVersion:
-                    type: string
-                    example: null
-                  url:
-                    type: string
-                    example: null
+            $ref: '#/components/schemas/IG'
     listIgVersionsResponse:
       type: object
       properties:
@@ -350,3 +308,18 @@ components:
     packageServerStatus:
       type: boolean
       example: true
+    IG:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "hl7.fhir.us.core"
+        version:
+          type: string
+          example: "0.0.0"
+        fhirVersion:
+          type: string
+          example: "STU3"
+        url:
+          type: string
+          example: "https://packages.simplifier.net/hl7.fhir.us.core/0.0.0"
