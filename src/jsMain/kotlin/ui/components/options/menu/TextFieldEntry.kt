@@ -31,6 +31,7 @@ external interface TextFieldEntryProps : Props {
     var buttonLabel: String
     var errorMessage: String
     var successMessage: String
+    var textFieldId : String
 }
 
 class TextFieldEntryState : State {
@@ -39,8 +40,9 @@ class TextFieldEntryState : State {
     var validating = false
 }
 
+
 class TextFieldEntry : RComponent<TextFieldEntryProps, TextFieldEntryState>() {
-    private val textInputId = "text_entry_field"
+   //private val textInputId = "text_entry_field"
 
     override fun RBuilder.render() {
         styledDiv {
@@ -71,7 +73,7 @@ class TextFieldEntry : RComponent<TextFieldEntryProps, TextFieldEntryState>() {
                     attrs {
                         type = InputType.text
                         defaultValue = props.currentEntry
-                        id = textInputId
+                        id = props.textFieldId
                         onChangeFunction = {
                             setState {
                                 displayingError = false
@@ -98,7 +100,7 @@ class TextFieldEntry : RComponent<TextFieldEntryProps, TextFieldEntryState>() {
                             }
                             GlobalScope.launch {
                                 val result =
-                                    props.onSubmitEntry((document.getElementById(textInputId) as HTMLInputElement).value)
+                                    props.onSubmitEntry((document.getElementById(props.textFieldId) as HTMLInputElement).value)
                                         .await()
                                 if (result) {
                                     setState {
@@ -114,8 +116,6 @@ class TextFieldEntry : RComponent<TextFieldEntryProps, TextFieldEntryState>() {
                                     }
                                 }
                             }
-
-
                         }
                     }
                 }

@@ -285,7 +285,9 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     currentEntry = props.cliContext.getTxServer()
                     explanation = props.polyglot.t("options_settings_tm_description")
                     heading = props.polyglot.t("options_settings_tm_title")
+                    textFieldId = "terminology_server_entry"
                     onSubmitEntry = { url ->
+
                         GlobalScope.async {
                             val txServerOutcome = async { checkTxServer(url) }
                             if (txServerOutcome.await()) {

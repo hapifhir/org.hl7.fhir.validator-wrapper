@@ -33,7 +33,7 @@ class AddExtensionState : State {
 }
 
 class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
-    private val textInputId = "text_entry_field"
+    val textInputId = "extension_entry"
     init {
         state = AddExtensionState()
     }
