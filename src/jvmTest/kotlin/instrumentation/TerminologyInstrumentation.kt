@@ -35,16 +35,14 @@ object TerminologyInstrumentation {
 
     fun givenAValidCapabilityStatement(): CapabilityStatement {
         val capStmt = CapabilityStatement()
-        val canonicalType = CanonicalType()
-        canonicalType.value = "http://hl7.org/fhir/CapabilityStatement/terminology-server"
+        val canonicalType = "http://hl7.org/fhir/CapabilityStatement/terminology-server"
         capStmt.instantiates?.add(canonicalType)
         return capStmt
     }
 
     fun givenAnInvalidCapabilityStatement(): CapabilityStatement {
         val capStmt = CapabilityStatement()
-        val canonicalType = CanonicalType()
-        canonicalType.value = "https://tinyurl.com/3usj3yvc"
+        val canonicalType = "https://tinyurl.com/3usj3yvc"
         capStmt.instantiates?.add(canonicalType)
         return capStmt
     }

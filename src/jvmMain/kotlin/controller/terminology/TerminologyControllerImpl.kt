@@ -10,8 +10,8 @@ class TerminologyControllerImpl : TerminologyController, KoinComponent {
     override suspend fun isTerminologyServerValid(capabilityStatement: CapabilityStatement): Boolean {
         capabilityStatement.instantiates?.forEach { canonicalType ->
             if (canonicalType != null) {
-                println("Cap statement -> ${canonicalType.valueAsString}")
-                if (canonicalType.valueAsString == TERMINOLOGY_CAP_STATEMENT) return true
+                println("Cap statement -> ${canonicalType}")
+                if (canonicalType == TERMINOLOGY_CAP_STATEMENT) return true
             }
         }
         return false
