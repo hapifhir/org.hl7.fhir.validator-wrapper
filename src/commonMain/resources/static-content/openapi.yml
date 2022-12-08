@@ -137,6 +137,12 @@ paths:
         - Validate Terminology Server
       description: "description"
       operationId: ValidateTerminologyServer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+
       responses:
         "200":
           description: OK
@@ -144,6 +150,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/validateTerminologyServer"
+
   /txStatus:
     get:
       tags:
@@ -246,7 +253,7 @@ components:
         packageInfo:
           type: array
           items:
-            $ref: '#/components/schemas/IG'
+            $ref: "#/components/schemas/IG"
     listIgVersionsResponse:
       type: object
       properties:
@@ -302,8 +309,14 @@ components:
         versions:
           type: string
           example: [ "1.0.2", "1.4.0", "3.0.2", "4.0.1", "4.1.0", "4.3.0", "5.0", "4.6.0" ]
-    validateTerminologyServer:
+    validateTerminologyServerRequest:
       type: object
+      properties:
+
+    validateTerminologyServerResponse:
+      type: object
+      properties:
+
     terminologyServerStatus:
       type: boolean
       example: true
@@ -325,3 +338,5 @@ components:
         url:
           type: string
           example: "https://packages.simplifier.net/hl7.fhir.us.core/0.0.0"
+    IGVersions:
+
