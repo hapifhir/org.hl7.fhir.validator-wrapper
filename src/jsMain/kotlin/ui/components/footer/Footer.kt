@@ -87,6 +87,11 @@ class Footer : RComponent<FooterProps, FooterState>() {
                     icon = "images/documentation_white.png"
                     label = props.polyglot.t("footer_doc")
                 }
+                footerLineItem {
+                    href = "../swagger-ui/index.html"
+                    icon = "images/documentation_white.png"
+                    label = props.polyglot.t("footer_openapi")
+                }
             }
         }
     }

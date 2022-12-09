@@ -62,6 +62,7 @@
   "footer_create_issue" : "Issue erstellen",
   "footer_download_cli" : "download des neusten cli",
   "footer_doc" : "die Dokumentation des Validators anzeigen",
+  "footer_openapi" : "die Dokumentation des OpenAPI anzeigen",
   "validation_results" : "Ergebnisse",
   "validation_fatals" : "Fatale Fehler",
   "validation_errors" : "Fehler",
