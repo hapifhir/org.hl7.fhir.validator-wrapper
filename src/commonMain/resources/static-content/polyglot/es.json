@@ -62,6 +62,7 @@
     "footer_create_issue": "registrar un problema con el equipo",
     "footer_download_cli": "descargar la ultima versión de linea de comandos",
     "footer_doc": "ver la documentación del validador",
+    "footer_openapi" : "ver la documentación del OpenAPI",
     "validation_results": "Resultados",
     "validation_fatals": "Fatales",
     "validation_errors": "Errores",

@@ -62,6 +62,7 @@
   "footer_create_issue" : "log an issue with the team",
   "footer_download_cli" : "download the latest cli",
   "footer_doc" : "view the validator documentation",
+  "footer_openapi" : "view the OpenAPI documentation",
   "validation_results" : "Results",
   "validation_fatals" : "Fatals",
   "validation_errors" : "Errors",
