@@ -26,7 +26,6 @@ actual class CliContext actual constructor() {
 
     private var locale: String = ""
     init {
-        targetVer = "4.0.1"
         sv = "4.0.1"
         locale = "de"
     }
