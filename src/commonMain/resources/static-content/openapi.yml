@@ -5,9 +5,9 @@ info:
   version: ""
   contact:
     name: "Validator Wrapper"
-    url: "http://0.0.0.0:8082/"
+    url: "https://validator.fhir.org/"
 servers:
-  - url: "http://0.0.0.0:8082/"
+  - url: "https://validator.fhir.org/"
 
 paths:
   /validate:
