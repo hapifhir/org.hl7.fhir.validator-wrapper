@@ -261,9 +261,11 @@ components:
                 - es
               description: "Specified the locale/language of the validation result messages. [[more...]](https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator#UsingtheFHIRValidator-Locale)"
           example:
-            - sv: "4.0.1"
-              ig: ["hl7.fhir.us.core#4.0.0"]
-              locale: "en"
+            {
+                sv: "4.0.1",
+                ig: [ "hl7.fhir.us.core#4.0.0" ],
+                locale: "en"
+            }
         filesToValidate:
           type: array
           items:
