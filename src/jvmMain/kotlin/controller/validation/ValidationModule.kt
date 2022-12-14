@@ -1,5 +1,6 @@
 package controller.validation
 
+import constants.VALIDATE_OPERATION_ENDPOINT
 import constants.VALIDATION_ENDPOINT
 import constants.VALIDATOR_VERSION_ENDPOINT
 
@@ -51,5 +52,10 @@ fun Route.validationModule() {
 
     get(VALIDATOR_VERSION_ENDPOINT) {
         call.respond(HttpStatusCode.OK, validationController.getValidatorVersion())
+    }
+
+    post(VALIDATE_OPERATION_ENDPOINT) {
+        val request = call.receive<String>()
+        call.respond(HttpStatusCode.OK, request + "O.O")
     }
 }
