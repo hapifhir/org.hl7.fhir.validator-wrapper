@@ -9,9 +9,11 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import model.CliContext
 import model.FhirVersionsResponse
 import model.ValidationRequest
 import model.asString
+import org.hl7.fhir.validation.cli.model.FileInfo
 import org.koin.ktor.ext.inject
 import utils.badFileEntryExists
 
@@ -55,7 +57,19 @@ fun Route.validationModule() {
     }
 
     post(VALIDATE_OPERATION_ENDPOINT) {
-        val request = call.receive<String>()
-        call.respond(HttpStatusCode.OK, request + "O.O")
+        val resource = call.receive<String>()
+        val ourConstructedRequest = ValidationRequest()
+        // set CliContext
+        val cli = CliContext()
+        ourConstructedRequest.setCliContext(cli)
+        // set filesToValidate
+        val firstFile = FileInfo()
+        firstFile.fileName = ""
+        firstFile.fileContent = resource
+        firstFile.fileType = "json"
+        val filesToValidate: List<FileInfo> = listOf(firstFile)
+
+        ourConstructedRequest.setFilesToValidate(filesToValidate)
+        call.respond(HttpStatusCode.OK, validationController.validateRequest(ourConstructedRequest))
     }
 }
