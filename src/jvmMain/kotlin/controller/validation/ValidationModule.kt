@@ -13,9 +13,10 @@ import model.CliContext
 import model.FhirVersionsResponse
 import model.ValidationRequest
 import model.asString
-import org.hl7.fhir.validation.cli.model.FileInfo
+import model.FileInfo
 import org.koin.ktor.ext.inject
 import utils.badFileEntryExists
+import model.OperationOutcome
 
 const val DEBUG_NUMBER_FILES = "Received %d files to validate."
 const val NO_FILES_PROVIDED_MESSAGE = "No files for validation provided in request."
@@ -43,7 +44,9 @@ fun Route.validationModule() {
             }
             else -> {
                 try {
-                    call.respond(HttpStatusCode.OK, validationController.validateRequest(request))
+                    val response = validationController.validateRequest(request)
+                    call.respond(HttpStatusCode.OK, response)
+                    println(response)
                 } catch (e: Exception) {
                     logger.error(e.localizedMessage)
                     call.respond(HttpStatusCode.InternalServerError, e.localizedMessage)
@@ -62,6 +65,7 @@ fun Route.validationModule() {
         // set CliContext
         val cli = CliContext()
         ourConstructedRequest.setCliContext(cli)
+        println(cli)
         // set filesToValidate
         val firstFile = FileInfo()
         firstFile.fileName = ""
@@ -70,6 +74,10 @@ fun Route.validationModule() {
         val filesToValidate: List<FileInfo> = listOf(firstFile)
 
         ourConstructedRequest.setFilesToValidate(filesToValidate)
-        call.respond(HttpStatusCode.OK, validationController.validateRequest(ourConstructedRequest))
+        val validationOutcome = validationController.validateRequest(ourConstructedRequest).getOutcomes().get(0)
+
+        val operationOutcome = OperationOutcome()
+
+        call.respond(HttpStatusCode.OK, validationOutcome.messages)
     }
 }
