@@ -29,7 +29,7 @@ This project contains the CLI, Desktop GUI, and Standalone Validation Server for
 
 ## Building this Project
 
-This project uses the [gradle build tool][Link-GradleWebpage] to build, and includes pre-build gradlew wrappers for common build tasks. 
+This project uses the [gradle build tool][Link-GradleWebpage] to build, and includes pre-built gradlew wrappers for common build tasks. 
 
 ### To build:
 
