@@ -21,7 +21,9 @@ Please maintain this README.md as a linkable document, as other documentation ma
 | [![Build Status][Badge-AzureMasterPipeline]][Link-AzureMasterPipeline] | [![Docker Status][Badge-DockerHub]][Link-DockerHub] |
 
 
-This project contains the CLI, Desktop GUI, and Standalone Validation Server for the FHIR Validator
+This project contains the CLI, Desktop GUI, and Standalone Validation Server for the FHIR Validator.
+
+A publicly hosted instance of the Web interface for this validator is available here: https://validator.fhir.org/
 
 ## REST API
 
