@@ -31,6 +31,8 @@ A publicly hosted instance of the Web interface for this validator is available 
 
 ## Building this Project
 
+You can find detailed instructions on setting up this project in your IDE [here](https://hl7.github.io/docs/validator-wrapper/getting-started).
+
 This project uses the [gradle build tool][Link-GradleWebpage] to build, and includes pre-built gradlew wrappers for common build tasks. 
 
 ### To build:
