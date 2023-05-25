@@ -27,7 +27,7 @@ A publicly hosted instance of the Web interface for this validator is available 
 
 ## REST API
 
-**[See here](rest-api.md) for the REST API documentation.**
+**[See here](.github/workflows/rest-api.md) for the REST API documentation.**
 
 ## Building this Project
 
