@@ -52,7 +52,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 igList = igResponse.packageInfo
                 igPackageNameList = getPackageNames(igResponse.packageInfo)
                 fhirVersionsList = versionsResponse.versions
-                    .map { Pair(it, props.cliContext.getTargetVer() == it) }
+                    .map { Pair(it, props.cliContext.getSv() == it) }
                     .toMutableList()
                 snomedVersionList = Snomed.values()
                     .map { Pair("${it.name} - ${it.code}", props.cliContext.getSnomedCTCode() == it.code) }
@@ -190,7 +190,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 igSelector {
                     polyglot = props.polyglot
-                    fhirVersion = props.cliContext.getTargetVer()
+                    fhirVersion = props.cliContext.getSv()
                     igList = state.igList
                     igPackageNameList = state.igPackageNameList
                     onUpdatePackageName = {igPackageName, selected ->
