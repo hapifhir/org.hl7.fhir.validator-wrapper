@@ -199,6 +199,7 @@ task("printVersion") {
 
 
 tasks.withType<Jar> {
+    setProperty("zip64", true)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
     manifest {
@@ -233,7 +234,7 @@ application {
 
 // include JS artifacts in any JAR we generate
 tasks.getByName<Jar>("jvmJar") {
-    setProperty("zip64", true)
+
     val taskName = if (project.hasProperty("isProduction")) {
         "jsBrowserProductionWebpack"
     } else {
