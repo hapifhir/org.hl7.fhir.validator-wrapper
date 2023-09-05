@@ -1,1 +1,1 @@
-* Bump core version to 6.6.0
+* Bump core version to 6.1.2

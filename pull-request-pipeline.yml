@@ -28,8 +28,7 @@ steps:
     gradleOptions: '-Xmx8192m'
     jdkArchitectureOption: 'x64'
     tasks: 'build --debug'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
+    publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
     jdkVersionOption: 1.11

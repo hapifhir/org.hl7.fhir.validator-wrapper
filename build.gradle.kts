@@ -199,6 +199,7 @@ task("printVersion") {
 
 
 tasks.withType<Jar> {
+    setProperty("zip64", true)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
     manifest {
