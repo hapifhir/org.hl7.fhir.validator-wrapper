@@ -5,6 +5,6 @@ expect class FileInfo() {
     fun getFileName(): String
     fun setFileContent(fileContent: String): FileInfo
     fun getFileContent(): String
-    fun setFileType(fileType: String): FileInfo
-    fun getFileType(): String
+    fun setFileType(fileType: String?): FileInfo
+    fun getFileType(): String?
 }
