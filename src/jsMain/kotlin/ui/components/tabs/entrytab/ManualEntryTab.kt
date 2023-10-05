@@ -125,7 +125,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             cliContext = props.cliContext,
             fileName = generateFileName(fileContent),
             fileContent = fileContent,
-            fileType = FhirFormat.JSON
+            fileType = null
         ).setSessionId(props.sessionId)
         mainScope.launch {
             try {

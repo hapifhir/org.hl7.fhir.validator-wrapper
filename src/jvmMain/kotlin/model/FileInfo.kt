@@ -19,7 +19,7 @@ fun FileInfo.isValidFileName(): Boolean {
 }
 
 fun FileInfo.isValidFileType(): Boolean {
-    return (this.fileType != null && FhirFormat.fromCode(this.fileType) != null)
+    return (this.fileType == null || FhirFormat.fromCode(this.fileType) != null)
 }
 
 fun FileInfo.isValidFileContent(): Boolean {

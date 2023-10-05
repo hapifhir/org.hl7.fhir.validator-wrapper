@@ -44,6 +44,13 @@ fun issueSeverityToAceCSSClasses(issueSeverity: IssueSeverity, isSelected: Boole
     }
 }
 
+fun fileTypeToAceMode(fileType : String?) : String {
+    if (fileType == null) {
+        return "json"
+    }
+    return fileType
+}
+
 class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, State>() {
 
     /*
@@ -82,7 +89,7 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, State>() {
         aceEditor {
             attrs {
                 ref = props.editorRef
-                mode = "json"
+                mode = fileTypeToAceMode(props.validationOutcome.getFileInfo().fileType)
                 theme = "github"
                 height = "100%"
                 width = "100%"
@@ -93,8 +100,8 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, State>() {
                 setOptions = AceOptions(false)
                 markers = aceMarkers
             }
-
         }
+        
     }
 }
 
