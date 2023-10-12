@@ -9,6 +9,7 @@ object ValidationContextSlice {
     data class State(
         val selectedIgPackageInfo: Set<PackageInfo> = mutableSetOf<PackageInfo>(),
         val addedExtensionInfo: Set<String> = mutableSetOf<String>(),
+        val addedProfiles: Set<String> = mutableSetOf<String>(),
         val cliContext: CliContext = CliContext()
     )
 
@@ -16,7 +17,9 @@ object ValidationContextSlice {
 
     data class UpdateCliContext(val cliContext: CliContext) : RAction
 
-    data class UpdateAddedExtensionUrl(val extensionUrl: Set<String>) : RAction
+    data class UpdateAddedExtensionUrl(val extensionUrls: Set<String>) : RAction
+
+    data class UpdateAddedProfile(val profiles: Set<String>) : RAction
 
     fun reducer(state: State = State(), action: RAction): State {
         return when (action) {
@@ -28,8 +31,12 @@ object ValidationContextSlice {
                 cliContext = action.cliContext
             )
             is UpdateAddedExtensionUrl -> state.copy(
-                addedExtensionInfo = action.extensionUrl,
-                cliContext = state.cliContext.setExtensions(action.extensionUrl.toList())
+                addedExtensionInfo = action.extensionUrls,
+                cliContext = state.cliContext.setExtensions(action.extensionUrls.toList())
+            )
+            is UpdateAddedProfile -> state.copy(
+                addedProfiles = action.profiles,
+                cliContext = state.cliContext.setProfiles(action.profiles.toList())
             )
             else -> state
         }

@@ -25,7 +25,8 @@ data class PackageInfo(
         when (fhirVersion) {
             "DSTU2" -> return "1.0"
             "STU3" -> return "3.0"
-            "R4" ->return "4.0"
+            "R4" -> return "4.0"
+            "R5" -> return "5.0"
         }
         val versions = fhirVersion.split('.')
         return if (versions.size >= 2) {

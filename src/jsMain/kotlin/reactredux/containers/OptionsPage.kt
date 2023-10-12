@@ -18,6 +18,7 @@ private interface OptionsPageStateProps : Props {
     var cliContext: CliContext
     var selectedIgPackageInfo: Set<PackageInfo>
     var addedExtensionInfo: Set<String>
+    var addedProfiles: Set<String>
     var polyglot: Polyglot
 }
 
@@ -25,6 +26,7 @@ private interface OptionsPageDispatchProps : Props {
     var updateCliContext: (CliContext) -> Unit
     var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
     var updateAddedExtensionUrl: (Set<String>) -> Unit
+    var updateAddedProfiles: (Set<String>) -> Unit
 }
 
 val optionsPage: ComponentClass<Props> =
@@ -33,6 +35,7 @@ val optionsPage: ComponentClass<Props> =
             cliContext = state.validationContextSlice.cliContext
             selectedIgPackageInfo = state.validationContextSlice.selectedIgPackageInfo
             addedExtensionInfo = state.validationContextSlice.addedExtensionInfo
+            addedProfiles = state.validationContextSlice.addedProfiles
             polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->
@@ -44,6 +47,9 @@ val optionsPage: ComponentClass<Props> =
             }
             updateAddedExtensionUrl = {
                 dispatch(ValidationContextSlice.UpdateAddedExtensionUrl(it))
+            }
+            updateAddedProfiles = {
+                dispatch(ValidationContextSlice.UpdateAddedProfile(it))
             }
         }
     )(OptionsPage::class.js.unsafeCast<ComponentClass<OptionsPageProps>>())

@@ -23,6 +23,7 @@ actual class CliContext actual constructor() {
     private var sv: String = ""
 
     private var igs: List<String> = listOf()
+    private var profiles: List<String> = listOf()
 
     private var locale: String = ""
     init {
@@ -157,6 +158,26 @@ actual class CliContext actual constructor() {
         return this
     }
 
+    actual fun getProfiles(): List<String> {
+        return profiles
+    }
+
+    actual fun setProfiles(profiles: List<String>): CliContext {
+        this.profiles = profiles
+        return this
+    }
+
+    fun addProfile(profile: String): CliContext {
+        this.profiles += profile
+        return this
+    }
+
+    fun removeProfile(profile: String): CliContext {
+        if (this.profiles.contains(profile)) {
+            this.profiles = this.profiles.filterNot { it == profile }.toList()
+        }
+        return this
+    }
 
     actual fun setLocale(languageString: String): CliContext {
         this.locale = languageString
