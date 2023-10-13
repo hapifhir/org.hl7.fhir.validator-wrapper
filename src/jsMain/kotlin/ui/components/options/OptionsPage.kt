@@ -221,7 +221,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
             }
             heading {
-                text = props.polyglot.t("options_profile_title")
+                text = props.polyglot.t("options_profiles_title")
             }
             styledDiv {
                 css {
@@ -238,7 +238,6 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         } else {
                             addedProfiles.plus(profile).toMutableSet()
                         }
-                        console.log("Here we are");
                         props.updateAddedProfiles(newProfiles)
                     }
                 }
