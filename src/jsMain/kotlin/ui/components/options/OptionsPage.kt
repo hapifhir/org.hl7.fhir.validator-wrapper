@@ -32,6 +32,7 @@ external interface OptionsPageProps : Props {
     var addedExtensionInfo: Set<String>
     var updateAddedExtensionUrl: (Set<String>) -> Unit
     var polyglot: Polyglot
+    var setSessionId: (String) -> Unit
 }
 
 class OptionsPageState : State {
@@ -61,6 +62,11 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
         }
     }
 
+    private fun updateCliContext(cliContext: CliContext) {
+        props.updateCliContext(cliContext)
+        props.setSessionId("");
+        console.log("Ungabunga")
+    }
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -79,7 +85,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     selected = props.cliContext.isDoNative()
                     hasDescription = true
                     onChange = {
-                        props.updateCliContext(props.cliContext.setDoNative(it))
+                       updateCliContext(props.cliContext.setDoNative(it))
                     }
                 }
                 styledDiv {

@@ -8,6 +8,7 @@ import react.Props
 import react.invoke
 import react.redux.rConnect
 import reactredux.slices.ValidationContextSlice
+import reactredux.slices.ValidationSessionSlice
 import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
@@ -25,6 +26,7 @@ private interface OptionsPageDispatchProps : Props {
     var updateCliContext: (CliContext) -> Unit
     var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
     var updateAddedExtensionUrl: (Set<String>) -> Unit
+    var setSessionId: (String) -> Unit
 }
 
 val optionsPage: ComponentClass<Props> =
@@ -45,5 +47,6 @@ val optionsPage: ComponentClass<Props> =
             updateAddedExtensionUrl = {
                 dispatch(ValidationContextSlice.UpdateAddedExtensionUrl(it))
             }
+            setSessionId = { id: String -> dispatch(ValidationSessionSlice.SetSessionId(id)) }
         }
     )(OptionsPage::class.js.unsafeCast<ComponentClass<OptionsPageProps>>())
