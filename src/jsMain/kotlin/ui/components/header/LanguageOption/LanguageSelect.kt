@@ -42,7 +42,7 @@ class LanguageSelect(props : LanguageSelectProps) : RComponent<LanguageSelectPro
                     attrs {
                         label = ReactNode("Language")
                         onChange = { event, _ ->
-                            var selectedLanguage = getSelectedLanguage(event.target.value)
+                            val selectedLanguage = getSelectedLanguage(event.target.value)
                             if (selectedLanguage != null) {
                                 props.setLanguage(selectedLanguage)
                                 props.fetchPolyglot(selectedLanguage.getLanguageCode());

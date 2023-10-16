@@ -34,6 +34,7 @@ external interface OptionsPageProps : Props {
     var addedProfiles: Set<String>
     var updateAddedProfiles: (Set<String>) -> Unit
     var polyglot: Polyglot
+    var setSessionId: (String) -> Unit
 }
 
 class OptionsPageState : State {
@@ -63,6 +64,18 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
         }
     }
 
+    private fun updateCliContext(cliContext: CliContext) {
+        props.updateCliContext(cliContext)
+        props.setSessionId("");
+        console.log("Ungabunga")
+    }
+
+    private fun updateAddedExtensions(newAddedExtensionSet: MutableSet<String>) {
+        props.updateAddedExtensionUrl(newAddedExtensionSet)
+        props.setSessionId("");
+        console.log("Ungabunga 2")
+    }
+
     override fun RBuilder.render() {
         styledDiv {
             css {
@@ -81,7 +94,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     selected = props.cliContext.isDoNative()
                     hasDescription = true
                     onChange = {
-                        props.updateCliContext(props.cliContext.setDoNative(it))
+                       updateCliContext(props.cliContext.setDoNative(it))
                     }
                 }
                 styledDiv {
@@ -95,7 +108,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     selected = props.cliContext.isHintAboutNonMustSupport()
                     hasDescription = true
                     onChange = {
-                        props.updateCliContext(props.cliContext.setHintAboutNonMustSupport(it))
+                        updateCliContext(props.cliContext.setHintAboutNonMustSupport(it))
                     }
                 }
                 styledDiv {
@@ -109,7 +122,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     selected = props.cliContext.isAssumeValidRestReferences()
                     hasDescription = true
                     onChange = {
-                        props.updateCliContext(props.cliContext.setAssumeValidRestReferences(it))
+                        updateCliContext(props.cliContext.setAssumeValidRestReferences(it))
                     }
                 }
                 styledDiv {
@@ -123,7 +136,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     selected = props.cliContext.isNoExtensibleBindingMessages()
                     hasDescription = true
                     onChange = {
-                        props.updateCliContext(props.cliContext.setNoExtensibleBindingMessages(it))
+                        updateCliContext(props.cliContext.setNoExtensibleBindingMessages(it))
                     }
                 }
                 styledDiv {
@@ -138,7 +151,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     hasDescription = true
                     onChange = {
                         props.cliContext.setShowTimes(it)
-                        props.updateCliContext(props.cliContext)
+                        updateCliContext(props.cliContext)
                     }
                 }
                 styledDiv {
@@ -153,7 +166,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     hasDescription = true
                     onChange = {
                         props.cliContext.setAllowExampleUrls(it)
-                        props.updateCliContext(props.cliContext)
+                        updateCliContext(props.cliContext)
                     }
                 }
             }
@@ -179,6 +192,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                         else -> it.copy(second = false)
                                     }
                             }
+                            updateCliContext(props.cliContext)
                         }
                     }
                 }
@@ -208,6 +222,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             selectedIgSet.minus(igPackageInfo).toMutableSet()
                         }
                         props.updateSelectedIgPackageInfo(newSelectedIgSet)
+                        props.setSessionId("")
                     }
                     onFilterStringChange = { partialIgName ->
                         mainScope.launch {
@@ -260,7 +275,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         } else {
                             addedExtensionSet.plus(extensionUrl).toMutableSet()
                         }
-                        props.updateAddedExtensionUrl(newAddedExtensionSet)
+                        updateAddedExtensions(newAddedExtensionSet)
                     }
                     onUpdateAnyExtension = {anySelected ->
                         val newSet = if (anySelected) {
@@ -268,7 +283,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         } else {
                             addedExtensionSet.minus("any").toMutableSet()
                         }
-                        props.updateAddedExtensionUrl(newSet)
+                        updateAddedExtensions(newSet)
                     }
                 }
             }
@@ -294,8 +309,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                         version -> it.copy(second = true)
                                         else -> it.copy(second = false)
                                     }
-
                             }
+                            updateCliContext(props.cliContext)
                         }
                     }
                 }
@@ -315,7 +330,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         GlobalScope.async {
                             val txServerOutcome = async { checkTxServer(url) }
                             if (txServerOutcome.await()) {
-                                props.updateCliContext(props.cliContext.setTxServer(url))
+                                updateCliContext(props.cliContext.setTxServer(url))
                                 true
                             } else {
                                 false
@@ -330,6 +345,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
         }
     }
 
+
+
     private fun getPackageNames(packageInfo : List<PackageInfo>) : MutableList<Pair<String, Boolean>> {
         return packageInfo.map { Pair(it.id!!, false)}.toMutableList()
     }
@@ -340,7 +357,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
             withTimeout(TERMINOLOGY_CHECK_TIME_LIMIT) {
                 val response = validateTxServer(txUrl)
                 if (response.validTxServer) {
-                    props.updateCliContext(props.cliContext.setTxServer(response.url))
+                    updateCliContext(props.cliContext.setTxServer(response.url))
                     validTxServer = true
                 }
             }

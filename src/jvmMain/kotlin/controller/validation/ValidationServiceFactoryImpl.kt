@@ -3,7 +3,7 @@ package controller.validation
 
 import org.hl7.fhir.validation.cli.services.ValidationService
 
-private const val MIN_FREE_MEMORY = 2500000000
+private const val MIN_FREE_MEMORY = 250000000
 
 class ValidationServiceFactoryImpl : ValidationServiceFactory {
 
