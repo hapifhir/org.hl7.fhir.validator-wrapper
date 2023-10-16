@@ -34,6 +34,9 @@ expect class CliContext() {
 
     fun getIgs(): List<String>
     fun setIgs(igs: List<String>): CliContext
+
+    fun getProfiles(): List<String>
+    fun setProfiles(profiles: List<String>): CliContext
 //TODO
 //    fun getQuestionnaires(): List<String>
 //    fun setQuestionnaires(questionnaires: List<String>): CliContext

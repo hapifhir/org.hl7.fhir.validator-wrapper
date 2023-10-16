@@ -31,6 +31,8 @@ external interface OptionsPageProps : Props {
     var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
     var addedExtensionInfo: Set<String>
     var updateAddedExtensionUrl: (Set<String>) -> Unit
+    var addedProfiles: Set<String>
+    var updateAddedProfiles: (Set<String>) -> Unit
     var polyglot: Polyglot
 }
 
@@ -215,6 +217,28 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                 igPackageNameList = getPackageNames(igResponse.packageInfo)
                             }
                         }
+                    }
+                }
+            }
+            heading {
+                text = props.polyglot.t("options_profiles_title")
+            }
+            styledDiv {
+                css {
+                    +OptionsPageStyle.optionsSubSection
+                }
+                addProfile {
+                    polyglot = props.polyglot
+                    addedProfiles = props.addedProfiles.toMutableSet()
+                    updateCliContext = updateCliContext
+                    cliContext = cliContext
+                    onUpdateProfiles = { profile , delete ->
+                        val newProfiles = if (delete) {
+                            addedProfiles.minus(profile).toMutableSet()
+                        } else {
+                            addedProfiles.plus(profile).toMutableSet()
+                        }
+                        props.updateAddedProfiles(newProfiles)
                     }
                 }
             }
