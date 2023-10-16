@@ -23,8 +23,8 @@ object LocalizationSlice {
     fun reducer(state: State = State(), action: RAction): State {
         return when (action) {
             is SetPolyglot -> {
-                println("setting new polyglot instance\nexisting -> ${state.polyglotInstance.t("heading_validate")}")
-                println("setting new polyglot instance\nnew -> ${action.polyglotInstance.t("heading_validate")}")
+                println("setting new polyglot instance\nexisting -> ${state.polyglotInstance.t("validate_heading")}")
+                println("setting new polyglot instance\nnew -> ${action.polyglotInstance.t("validate_heading")}")
                 state.copy(polyglotInstance = action.polyglotInstance)
             }
             is SetLanguage -> {
