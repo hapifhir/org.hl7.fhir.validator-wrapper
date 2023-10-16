@@ -254,6 +254,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             addedProfiles.plus(profile).toMutableSet()
                         }
                         props.updateAddedProfiles(newProfiles)
+                        props.setSessionId("")
                     }
                 }
             }
