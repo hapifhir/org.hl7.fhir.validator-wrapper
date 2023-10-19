@@ -28,7 +28,7 @@ actual class CliContext actual constructor() {
     private var locale: String = ""
     init {
         sv = "4.0.1"
-        locale = "de"
+        locale = "en"
     }
 
     actual fun isDoNative(): Boolean {

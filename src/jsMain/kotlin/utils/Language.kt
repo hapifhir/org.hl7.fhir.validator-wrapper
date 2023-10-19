@@ -8,12 +8,16 @@ enum class Language(val code: String, val display: String) {
     fun getLanguageCode() : String {
         return this.code.substring(0, 2)
     }
-}
-fun getSelectedLanguage(targetLanguage: String) : Language? {
-    for (language in Language.values()) {
-        if (targetLanguage == language.getLanguageCode()) {
-            return language
+    companion object {
+
+        fun getSelectedLanguage(targetLanguage: String) : Language? {
+        for (language in Language.values()) {
+            if (targetLanguage == language.getLanguageCode()) {
+                return language
+            }
         }
+        return null
     }
-    return null
+    }
 }
+

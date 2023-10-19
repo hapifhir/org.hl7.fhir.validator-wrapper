@@ -2,7 +2,7 @@ package ui.components.tabs.entrytab
 
 import Polyglot
 import api.sendValidationRequest
-import constants.FhirFormat
+
 import css.animation.FadeIn.fadeIn
 import css.const.BORDER_GRAY
 import css.text.TextStyle
@@ -17,6 +17,7 @@ import model.ValidationOutcome
 import react.*
 import react.dom.attrs
 import styled.*
+import ui.components.options.presetSelect
 import ui.components.tabs.heading
 import ui.components.validation.issuelist.filteredIssueEntryList
 import utils.assembleRequest
@@ -37,6 +38,7 @@ external interface ManualEntryTabProps : Props {
     var setValidationOutcome: (ValidationOutcome) -> Unit
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
+    var updateCliContext: (CliContext) -> Unit
     var setSessionId: (String) -> Unit
 }
 
@@ -96,6 +98,11 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     }
                 }
                 workInProgress = props.validatingManualEntryInProgress
+            }
+            presetSelect{
+                cliContext = props.cliContext
+                updateCliContext = props.updateCliContext
+                setSessionId = props.setSessionId
             }
             if (state.displayingError) {
                 styledSpan {
