@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.css.*
 import model.CliContext
 import mainScope
+import model.PackageInfo
 import mui.system.sx
 import react.Props
 import react.ReactNode
@@ -21,6 +22,7 @@ import utils.Preset
 external interface PresetSelectProps : Props {
     var cliContext: CliContext
     var updateCliContext: (CliContext) -> Unit
+    var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
     var setSessionId: (String) -> Unit
 }
 
@@ -69,12 +71,17 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                             onChange = { event, _ ->
                                 val selectedCliContext = Preset.getSelectedCliContext(event.target.value)
                                 if (selectedCliContext != null) {
-                                    console.log("selectedPreset: " + event.target.value)
+                                    console.log("updating cli context for preset: " + event.target.value)
                                     props.updateCliContext(selectedCliContext)
+                                }
+                                val selectedIgPackageInfo = Preset.getSelectedIgPackageInfo(event.target.value)
+                                if (selectedIgPackageInfo != null) {
+                                    console.log("updating selected igs for preset: " + event.target.value)
+                                    props.updateSelectedIgPackageInfo(selectedIgPackageInfo)
                                 }
                                 mainScope.launch {
                                     setState {
-                                        snackbarOpen = event.target.value
+                                        snackbarOpen = Preset.getSelectedLabel(event.target.value)
                                     }
                                 }
                             }

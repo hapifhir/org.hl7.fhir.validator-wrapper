@@ -13,6 +13,7 @@ import kotlinx.css.*
 import kotlinx.css.properties.border
 import mainScope
 import model.CliContext
+import model.PackageInfo
 import model.ValidationOutcome
 import react.*
 import react.dom.attrs
@@ -39,6 +40,7 @@ external interface ManualEntryTabProps : Props {
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
     var updateCliContext: (CliContext) -> Unit
+    var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
     var setSessionId: (String) -> Unit
 }
 
@@ -102,6 +104,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             presetSelect{
                 cliContext = props.cliContext
                 updateCliContext = props.updateCliContext
+                updateSelectedIgPackageInfo = props.updateSelectedIgPackageInfo
                 setSessionId = props.setSessionId
             }
             if (state.displayingError) {

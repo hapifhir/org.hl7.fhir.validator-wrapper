@@ -2,6 +2,7 @@ package reactredux.containers
 
 import Polyglot
 import model.CliContext
+import model.PackageInfo
 import model.ValidationOutcome
 import react.ComponentClass
 import react.Props
@@ -30,6 +31,7 @@ private interface ManualEntryTabDispatchProps : Props {
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
     var updateCliContext: (CliContext) -> Unit
+    var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
     var setSessionId: (String) -> Unit
 }
 
@@ -49,6 +51,9 @@ val manualEntryTab: ComponentClass<Props> =
             updateCurrentlyEnteredText = { dispatch(ManualEntrySlice.UpdateCurrentlyEnteredText(it)) }
             updateCliContext = {
                 dispatch(ValidationContextSlice.UpdateCliContext(it))
+            }
+            updateSelectedIgPackageInfo = {
+                dispatch(ValidationContextSlice.UpdateSelectedIgPackageInfo(it))
             }
             setSessionId = { id: String -> dispatch(ValidationSessionSlice.SetSessionId(id)) }
         }
