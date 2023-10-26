@@ -4,6 +4,7 @@ import model.CliContext
 import model.PackageInfo
 
 import constants.ANY_EXTENSION
+import model.BundleValidationRule
 
 val DEFAULT_CONTEXT = CliContext()
 
@@ -39,15 +40,27 @@ val IPS_BUNDLE_PROFILE = "http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-
 
 val IPS_AU_BUNDLE_PROFILE = "http://hl7.org.au/fhir/ips/StructureDefinition/Bundle-au-ips"
 
-val IPS_CURRENT_CONTEXT = CliContext()
+val IPS_CONTEXT = CliContext()
     .setSv("4.0.1")
     .addIg(PackageInfo.igLookupString(IPS_IG))
     .setExtensions(listOf(ANY_EXTENSION))
+    .setCheckIPSCodes(true)
+    .setBundleValidationRules(listOf(
+        BundleValidationRule()
+            .setRule("Composition:0")
+            .setProfile("http://hl7.org/fhir/uv/ips/StructureDefinition/Composition-uv-ips")
+    ))
 
 val IPS_AU_CONTEXT = CliContext()
     .setSv("4.0.1")
     .addIg(PackageInfo.igLookupString(IPS_AU_IG))
     .setExtensions(listOf(ANY_EXTENSION))
+    .setCheckIPSCodes(true)
+    .setBundleValidationRules(listOf(
+        BundleValidationRule()
+            .setRule("Composition:0")
+            .setProfile("http://hl7.org.au/fhir/ips/StructureDefinition/Composition-au-ips")
+    ))
 
 val CDA_CONTEXT = CliContext()
     .setSv("5.0.0")
@@ -76,7 +89,7 @@ enum class Preset(
     IPS_CURRENT(
         "IPS_CURRENT",
         "IPS Document",
-        IPS_CURRENT_CONTEXT,
+        IPS_CONTEXT,
         setOf(IPS_IG),
         setOf(ANY_EXTENSION),
         setOf(IPS_BUNDLE_PROFILE)

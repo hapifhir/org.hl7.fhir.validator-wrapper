@@ -54,4 +54,12 @@ expect class CliContext() {
     fun setExtensions(extensions: List<String>) : CliContext
 
     fun getExtensions() : List<String>
+
+    fun setCheckIPSCodes(checkIPSCodes : Boolean) : CliContext
+
+    fun isCheckIPSCodes() : Boolean
+
+    fun setBundleValidationRules(bundleValidationRules: List<BundleValidationRule>) : CliContext
+
+    fun getBundleValidationRules():List<BundleValidationRule>
 }
