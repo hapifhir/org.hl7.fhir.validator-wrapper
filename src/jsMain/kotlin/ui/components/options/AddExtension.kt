@@ -21,8 +21,8 @@ import ui.components.options.menu.TextFieldEntryStyle
 import ui.components.options.menu.checkboxWithDetails
 
 external interface AddExtensionProps : Props {
-    var addedExtensionSet : MutableSet<String>
-    var onUpdateExtension : (String, Boolean) -> Unit
+    var extensionSet : MutableSet<String>
+    var onUpdateExtensionSet : (String, Boolean) -> Unit
     var updateCliContext : (CliContext) -> Unit
     var cliContext : CliContext
     var onUpdateAnyExtension : (Boolean) -> Unit
@@ -82,7 +82,7 @@ class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
                             image = "images/add_circle_black_24dp.svg"
                             label = props.polyglot.t("options_ig_add")
                             onSelected = {
-                                props.onUpdateExtension((document.getElementById(textInputId) as HTMLInputElement).value, false)
+                                props.onUpdateExtensionSet((document.getElementById(textInputId) as HTMLInputElement).value, false)
                             }
                         }
                     }
@@ -90,24 +90,24 @@ class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
                 styledDiv {
                     css {
                         padding(top = 24.px)
-                        + if (props.addedExtensionSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
+                        + if (props.extensionSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
                     }
-                    val polyglotKey = if (props.addedExtensionSet.isEmpty()) { "options_extensions_not_added"} else { "options_extensions_added"}
-                    +props.polyglot.t(polyglotKey, getJS(arrayOf(Pair("addedExtensions", props.addedExtensionSet.size.toString()))))
+                    val polyglotKey = if (props.extensionSet.isEmpty()) { "options_extensions_not_added"} else { "options_extensions_added"}
+                    +props.polyglot.t(polyglotKey, getJS(arrayOf(Pair("addedExtensions", props.extensionSet.size.toString()))))
                 }
                 styledDiv {
                     css {
                         +IgSelectorStyle.selectedIgsDiv
-                        if (!props.addedExtensionSet.isEmpty()) {
+                        if (!props.extensionSet.isEmpty()) {
                             padding(top = 16.px)
                         }
                     }
-                    props.addedExtensionSet.forEach { _url ->
+                    props.extensionSet.forEach { _url ->
                         extensionDisplay {
                             polyglot = props.polyglot
                             url = _url
                             onDelete = {
-                                props.onUpdateExtension(_url, true)
+                                props.onUpdateExtensionSet(_url, true)
                             }
                         }
                     }
@@ -116,7 +116,7 @@ class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
         }
     }
     private fun anyChecked() : Boolean {
-        return props.addedExtensionSet.contains("any")
+        return props.extensionSet.contains("any")
     }
 }
 

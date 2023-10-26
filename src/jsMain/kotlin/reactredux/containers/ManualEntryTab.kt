@@ -53,7 +53,7 @@ val manualEntryTab: ComponentClass<Props> =
                 dispatch(ValidationContextSlice.UpdateCliContext(it))
             }
             updateSelectedIgPackageInfo = {
-                dispatch(ValidationContextSlice.UpdateSelectedIgPackageInfo(it))
+                dispatch(ValidationContextSlice.UpdateIgPackageInfoSet(it))
             }
             setSessionId = { id: String -> dispatch(ValidationSessionSlice.SetSessionId(id)) }
         }
