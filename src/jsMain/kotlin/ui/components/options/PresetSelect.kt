@@ -1,6 +1,5 @@
 package ui.components.options
 
-import api.sendIGsRequest
 import mui.material.*
 import react.*
 import csstype.px
@@ -22,7 +21,8 @@ import utils.Preset
 external interface PresetSelectProps : Props {
     var cliContext: CliContext
     var updateCliContext: (CliContext) -> Unit
-    var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
+    var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
+    var updateExtensionSet: (Set<String>) -> Unit
     var setSessionId: (String) -> Unit
 }
 
@@ -69,19 +69,16 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                         attrs {
                             label = ReactNode("preset")
                             onChange = { event, _ ->
-                                val selectedCliContext = Preset.getSelectedCliContext(event.target.value)
-                                if (selectedCliContext != null) {
+                                val selectedPreset = Preset.getSelectedPreset(event.target.value)
+                                if (selectedPreset != null) {
                                     console.log("updating cli context for preset: " + event.target.value)
-                                    props.updateCliContext(selectedCliContext)
-                                }
-                                val selectedIgPackageInfo = Preset.getSelectedIgPackageInfo(event.target.value)
-                                if (selectedIgPackageInfo != null) {
-                                    console.log("updating selected igs for preset: " + event.target.value)
-                                    props.updateSelectedIgPackageInfo(selectedIgPackageInfo)
-                                }
-                                mainScope.launch {
-                                    setState {
-                                        snackbarOpen = Preset.getSelectedLabel(event.target.value)
+                                    props.updateCliContext(selectedPreset.cliContext)
+                                    props.updateIgPackageInfoSet(selectedPreset.packageInfo)
+                                    props.updateExtensionSet(selectedPreset.extensionSet)
+                                    mainScope.launch {
+                                        setState {
+                                            snackbarOpen = selectedPreset.label
+                                        }
                                     }
                                 }
                             }

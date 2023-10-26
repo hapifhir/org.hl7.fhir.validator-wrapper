@@ -40,7 +40,8 @@ external interface ManualEntryTabProps : Props {
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
     var updateCliContext: (CliContext) -> Unit
-    var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
+    var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
+    var updateExtensionSet: (Set<String>) -> Unit
     var setSessionId: (String) -> Unit
 }
 
@@ -104,7 +105,8 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             presetSelect{
                 cliContext = props.cliContext
                 updateCliContext = props.updateCliContext
-                updateSelectedIgPackageInfo = props.updateSelectedIgPackageInfo
+                updateIgPackageInfoSet = props.updateIgPackageInfoSet
+                updateExtensionSet = props.updateExtensionSet
                 setSessionId = props.setSessionId
             }
             if (state.displayingError) {

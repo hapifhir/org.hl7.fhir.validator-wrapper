@@ -30,34 +30,21 @@ val IPS_AU_CONTEXT = CliContext()
     .addIg(PackageInfo.igLookupString(IPS_AU_IG))
     .setExtensions(listOf("any"))
 
-enum class Preset(val key: String, val label: String, val cliContext: CliContext?, val packageInfo: Set<PackageInfo>) {
-    DEFAULT("DEFAULT", "FHIR 4.0 Resource", DEFAULT_CONTEXT, setOf()),
-    IPS_CURRENT("IPS_CURRENT", "IPS Document", IPS_CURRENT_CONTEXT, setOf(IPS_IG)),
-    IPS_AU("IPS_AU", "Australian IPS Document", IPS_AU_CONTEXT,setOf(IPS_AU_IG));
+enum class Preset(val key: String,
+                  val label: String,
+                  val cliContext: CliContext,
+                  val packageInfo: Set<PackageInfo>,
+                val extensionSet: Set<String>
+) {
+    DEFAULT("DEFAULT", "FHIR 4.0 Resource", DEFAULT_CONTEXT, setOf(), setOf()),
+    IPS_CURRENT("IPS_CURRENT", "IPS Document", IPS_CURRENT_CONTEXT, setOf(IPS_IG), setOf("any")),
+    IPS_AU("IPS_AU", "Australian IPS Document", IPS_AU_CONTEXT,setOf(IPS_AU_IG), setOf("any"));
 
     companion object {
-        fun getSelectedCliContext(key: String?) : CliContext? {
+        fun getSelectedPreset(key: String?) : Preset? {
             for (preset in Preset.values()) {
                 if (key == preset.key) {
-                    return preset.cliContext
-                }
-            }
-            return null
-        }
-
-        fun getSelectedLabel(key: String?) : String? {
-            for (preset in Preset.values()) {
-                if (key == preset.key) {
-                    return preset.label
-                }
-            }
-            return null
-        }
-
-        fun getSelectedIgPackageInfo(key: String?) : Set<PackageInfo>? {
-            for (preset in Preset.values()) {
-                if (key == preset.key) {
-                    return preset.packageInfo
+                    return preset
                 }
             }
             return null

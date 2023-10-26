@@ -31,7 +31,8 @@ private interface ManualEntryTabDispatchProps : Props {
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
     var updateCliContext: (CliContext) -> Unit
-    var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
+    var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
+    var updateExtensionSet: (Set<String>) -> Unit
     var setSessionId: (String) -> Unit
 }
 
@@ -52,8 +53,11 @@ val manualEntryTab: ComponentClass<Props> =
             updateCliContext = {
                 dispatch(ValidationContextSlice.UpdateCliContext(it))
             }
-            updateSelectedIgPackageInfo = {
+            updateIgPackageInfoSet = {
                 dispatch(ValidationContextSlice.UpdateIgPackageInfoSet(it))
+            }
+            updateExtensionSet = {
+                dispatch(ValidationContextSlice.UpdateExtensionSet(it))
             }
             setSessionId = { id: String -> dispatch(ValidationSessionSlice.SetSessionId(id)) }
         }
