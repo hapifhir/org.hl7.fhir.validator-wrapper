@@ -33,6 +33,7 @@ private interface ManualEntryTabDispatchProps : Props {
     var updateCliContext: (CliContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
+    var updateProfileSet: (Set<String>)-> Unit
     var setSessionId: (String) -> Unit
 }
 
@@ -58,6 +59,9 @@ val manualEntryTab: ComponentClass<Props> =
             }
             updateExtensionSet = {
                 dispatch(ValidationContextSlice.UpdateExtensionSet(it))
+            }
+            updateProfileSet = {
+                dispatch(ValidationContextSlice.UpdateProfileSet(it))
             }
             setSessionId = { id: String -> dispatch(ValidationSessionSlice.SetSessionId(id)) }
         }

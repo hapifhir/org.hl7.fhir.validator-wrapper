@@ -23,6 +23,7 @@ external interface PresetSelectProps : Props {
     var updateCliContext: (CliContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
+    var updateProfileSet: (Set<String>) -> Unit
     var setSessionId: (String) -> Unit
 }
 
@@ -73,8 +74,9 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                 if (selectedPreset != null) {
                                     console.log("updating cli context for preset: " + event.target.value)
                                     props.updateCliContext(selectedPreset.cliContext)
-                                    props.updateIgPackageInfoSet(selectedPreset.packageInfo)
+                                    props.updateIgPackageInfoSet(selectedPreset.igPackageInfo)
                                     props.updateExtensionSet(selectedPreset.extensionSet)
+                                    props.updateProfileSet(selectedPreset.profileSet)
                                     mainScope.launch {
                                         setState {
                                             snackbarOpen = selectedPreset.label

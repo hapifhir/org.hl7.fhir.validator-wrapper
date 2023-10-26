@@ -12,6 +12,8 @@ import kotlinx.html.InputType
 import kotlinx.html.id
 import utils.getJS
 
+import constants.ANY_EXTENSION
+
 import model.CliContext
 import org.w3c.dom.HTMLInputElement
 import react.dom.attrs
@@ -31,6 +33,8 @@ external interface AddExtensionProps : Props {
 
 class AddExtensionState : State {
 }
+
+
 
 class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
     val textInputId = "extension_entry"
@@ -116,7 +120,7 @@ class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
         }
     }
     private fun anyChecked() : Boolean {
-        return props.extensionSet.contains("any")
+        return props.extensionSet.contains(ANY_EXTENSION)
     }
 }
 

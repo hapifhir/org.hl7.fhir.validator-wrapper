@@ -42,6 +42,7 @@ external interface ManualEntryTabProps : Props {
     var updateCliContext: (CliContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
+    var updateProfileSet: (Set<String>) -> Unit
     var setSessionId: (String) -> Unit
 }
 
@@ -107,6 +108,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 updateCliContext = props.updateCliContext
                 updateIgPackageInfoSet = props.updateIgPackageInfoSet
                 updateExtensionSet = props.updateExtensionSet
+                updateProfileSet = props.updateProfileSet
                 setSessionId = props.setSessionId
             }
             if (state.displayingError) {
