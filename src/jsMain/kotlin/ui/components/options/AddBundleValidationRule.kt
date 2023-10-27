@@ -172,6 +172,9 @@ object AddBundleValidationRuleStyle : StyleSheet("AddBundleValidationRuleStyle",
         padding(horizontal = 8.px)
     }
     val ruleEntryDetailText by css {
+        fontFamily = TextStyle.FONT_FAMILY_MAIN
+        fontSize = 11.pt
+        fontWeight = FontWeight.w200
         display = Display.inlineBlock
         verticalAlign = VerticalAlign.middle
         resize = Resize.none
@@ -190,7 +193,7 @@ object AddBundleValidationRuleStyle : StyleSheet("AddBundleValidationRuleStyle",
         border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
         backgroundColor = Color.transparent
         justifyContent = JustifyContent.center
-
+        +TextStyle.optionsDetailText
     }
     val title by css {
         paddingBottom = 16.px
