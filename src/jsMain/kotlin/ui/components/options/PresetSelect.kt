@@ -1,5 +1,6 @@
 package ui.components.options
 
+import Polyglot
 import mui.material.*
 import react.*
 import csstype.px
@@ -16,6 +17,7 @@ import styled.css
 import styled.styledDiv
 
 import utils.Preset
+import utils.getJS
 
 
 external interface PresetSelectProps : Props {
@@ -25,6 +27,7 @@ external interface PresetSelectProps : Props {
     var updateExtensionSet: (Set<String>) -> Unit
     var updateProfileSet: (Set<String>) -> Unit
     var setSessionId: (String) -> Unit
+    var polyglot: Polyglot
 }
 
 class PresetSelectState : State {
@@ -64,7 +67,7 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                         size = Size.small
                     }
                     InputLabel {
-                        +"Preset"
+                        +props.polyglot.t("preset_label")
                     }
                     Select {
                         attrs {
@@ -79,7 +82,7 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                     props.updateProfileSet(selectedPreset.profileSet)
                                     mainScope.launch {
                                         setState {
-                                            snackbarOpen = selectedPreset.label
+                                            snackbarOpen = selectedPreset.polyglotKey
                                         }
                                     }
                                 }
@@ -91,7 +94,7 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                 attrs {
                                     value = it.key
                                 }
-                                +it.label
+                                +props.polyglot.t(it.polyglotKey)
                             }
                         }
                     }
@@ -100,7 +103,10 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
             Snackbar {
                 attrs {
                     open = state.snackbarOpen != null
-                    message = ReactNode( "Set to validate using " + state.snackbarOpen + ". Select the Options tab for more settings.")
+                    message = ReactNode(
+                        props.polyglot.t("preset_notification",
+                            getJS(arrayOf(Pair("selectedPreset", props.polyglot.t(state.snackbarOpen.toString())))))
+                    )
                     autoHideDuration=6000
                     onClose = { event, _ -> handleSnackBarClose() }
                 }

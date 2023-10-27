@@ -72,7 +72,7 @@ val SQL_VIEW_CONTEXT = CliContext()
 
 enum class Preset(
     val key: String,
-    val label: String,
+    val polyglotKey: String,
     val cliContext: CliContext,
     val igPackageInfo: Set<PackageInfo>,
     val extensionSet: Set<String>,
@@ -80,15 +80,15 @@ enum class Preset(
 ) {
     DEFAULT(
         "DEFAULT",
-        "FHIR 4.0 Resource",
+        "preset_fhir_resource",
         DEFAULT_CONTEXT,
         setOf(),
         setOf(),
         setOf()
     ),
     IPS_CURRENT(
-        "IPS_CURRENT",
-        "IPS Document",
+        "IPS",
+        "preset_ips",
         IPS_CONTEXT,
         setOf(IPS_IG),
         setOf(ANY_EXTENSION),
@@ -96,7 +96,7 @@ enum class Preset(
     ),
     IPS_AU(
         "IPS_AU",
-        "Australian IPS Document",
+        "preset_ips_au",
         IPS_AU_CONTEXT,
         setOf(IPS_AU_IG),
         setOf(ANY_EXTENSION),
@@ -104,7 +104,7 @@ enum class Preset(
     ),
     CDA(
         "CDA",
-        "CDA Document",
+        "present_cda",
         CDA_CONTEXT,
         setOf(CDA_IG),
         setOf(),
@@ -112,7 +112,7 @@ enum class Preset(
     ),
     US_CCDA(
         "US_CDA",
-        "US CCDA Document",
+        "preset_us_ccda",
         CDA_CONTEXT,
         setOf(CDA_IG),
         setOf(),
@@ -120,7 +120,7 @@ enum class Preset(
     ),
     SQL_VIEW(
         "SQL_VIEW",
-        "SQL View Definition",
+        "preset_sql_view",
         SQL_VIEW_CONTEXT,
         setOf(SQL_ON_FHIR_IG),
         setOf(),

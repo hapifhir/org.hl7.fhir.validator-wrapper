@@ -72,5 +72,13 @@
     "validation_errors": "Errores",
     "validation_warnings": "Alertas",
     "validation_info": "Información",
+    "preset_label" : "Quick Settings -Spanish",
+    "preset_notification" : "Set to validate using %{selectedPreset}. Select the Options tab for more settings. -Spanish",
+    "preset_fhir_resource" : "FHIR 4.0 Resource -Spanish",
+    "preset_ips" : "IPS Document -Spanish",
+    "preset_ips_au" : "Australian IPS Document -Spanish",
+    "present_cda" : "CDA Document -Spanish",
+    "preset_us_ccda" : "US CCDA Document -Spanish",
+    "preset_sql_view": "SQL View Definition -Spanish",
     "language": "Lenguaje"
 }

@@ -72,5 +72,13 @@
   "validation_errors" : "Fehler",
   "validation_warnings" : "Warnungen",
   "validation_info" : "Information",
+  "preset_label" : "Quick Settings -German",
+  "preset_notification" : "Set to validate using %{selectedPreset}. Select the Options tab for more settings. -German",
+  "preset_fhir_resource" : "FHIR 4.0 Resource -German",
+  "preset_ips" : "IPS Document -German",
+  "preset_ips_au" : "Australian IPS Document -German",
+  "present_cda" : "CDA Document -German",
+  "preset_us_ccda" : "US CCDA Document -German",
+  "preset_sql_view": "SQL View Definition -German",
   "language" : "Sprache"
 }

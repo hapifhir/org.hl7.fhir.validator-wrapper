@@ -110,6 +110,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 updateExtensionSet = props.updateExtensionSet
                 updateProfileSet = props.updateProfileSet
                 setSessionId = props.setSessionId
+                polyglot = props.polyglot
             }
             if (state.displayingError) {
                 styledSpan {
