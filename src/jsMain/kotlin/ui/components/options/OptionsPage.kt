@@ -169,6 +169,21 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         updateCliContext(props.cliContext)
                     }
                 }
+                styledDiv {
+                    css {
+                        +OptionsPageStyle.optionsDivider
+                    }
+                }
+                checkboxWithDetails {
+                    name = props.polyglot.t("options_flags_check_ips_codes_title")
+                    description = props.polyglot.t("options_flags_check_ips_codes_description")
+                    selected = props.cliContext.isCheckIPSCodes()
+                    hasDescription = true
+                    onChange = {
+                        props.cliContext.setCheckIPSCodes(it)
+                        updateCliContext(props.cliContext)
+                    }
+                }
             }
             heading {
                 text = props.polyglot.t("options_fhir_title")
