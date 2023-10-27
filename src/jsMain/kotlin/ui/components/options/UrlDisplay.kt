@@ -10,28 +10,28 @@ import react.*
 import react.dom.attrs
 import styled.*
 
-external interface ExtensionDisplayProps : Props {
+external interface UrlDisplayProps : Props {
     var url: String
     var polyglot: Polyglot
     var onDelete: () -> Unit
 }
 
-class ExtensionDisplay : RComponent<ExtensionDisplayProps, State>() {
+class UrlDisplay : RComponent<UrlDisplayProps, State>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +ExtensionDisplayStyle.mainDiv
+                +UrlDisplayStyle.mainDiv
             }
             styledSpan {
                 css {
                     +TextStyle.dropDownLabel
-                    +ExtensionDisplayStyle.extensionName
+                    +UrlDisplayStyle.extensionName
                 }
                 +props.url
             }
             styledImg {
                 css {
-                    +ExtensionDisplayStyle.closeButton
+                    +UrlDisplayStyle.closeButton
                 }
                 attrs {
                     src = "images/close_black.png"
@@ -47,8 +47,8 @@ class ExtensionDisplay : RComponent<ExtensionDisplayProps, State>() {
 /**
  * React Component Builder
  */
-fun RBuilder.extensionDisplay(handler: ExtensionDisplayProps.() -> Unit) {
-    return child(ExtensionDisplay::class) {
+fun RBuilder.urlDisplay(handler: UrlDisplayProps.() -> Unit) {
+    return child(UrlDisplay::class) {
         this.attrs(handler)
     }
 }
@@ -56,7 +56,7 @@ fun RBuilder.extensionDisplay(handler: ExtensionDisplayProps.() -> Unit) {
 /**
  * CSS
  */
-object ExtensionDisplayStyle : StyleSheet("ExtensionDisplayStyle", isStatic = true) {
+object UrlDisplayStyle : StyleSheet("UrlDisplayStyle", isStatic = true) {
     val mainDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.row

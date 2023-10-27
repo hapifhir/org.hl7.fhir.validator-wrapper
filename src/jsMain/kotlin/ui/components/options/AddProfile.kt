@@ -102,7 +102,7 @@ class AddProfile : RComponent<AddProfileProps, AddProfileState>() {
                     }
                 }
                 props.profileSet.forEach { _url ->
-                    extensionDisplay {
+                    urlDisplay {
                         polyglot = props.polyglot
                         url = _url
                         onDelete = {

@@ -107,7 +107,7 @@ class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
                         }
                     }
                     props.extensionSet.forEach { _url ->
-                        extensionDisplay {
+                        urlDisplay {
                             polyglot = props.polyglot
                             url = _url
                             onDelete = {
