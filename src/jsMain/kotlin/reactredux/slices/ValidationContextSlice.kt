@@ -1,5 +1,6 @@
 package reactredux.slices
 
+import model.BundleValidationRule
 import model.CliContext
 import model.PackageInfo
 import redux.RAction
@@ -7,9 +8,10 @@ import redux.RAction
 object ValidationContextSlice {
 
     data class State(
-        val igPackageInfoSet: Set<PackageInfo> = mutableSetOf<PackageInfo>(),
-        val extensionSet: Set<String> = mutableSetOf<String>(),
-        val profileSet: Set<String> = mutableSetOf<String>(),
+        val igPackageInfoSet: Set<PackageInfo> = mutableSetOf(),
+        val extensionSet: Set<String> = mutableSetOf(),
+        val profileSet: Set<String> = mutableSetOf(),
+        val bundleValidationRuleSet: Set<BundleValidationRule> = mutableSetOf(),
         val cliContext: CliContext = CliContext()
     )
 
@@ -20,6 +22,8 @@ object ValidationContextSlice {
     data class UpdateExtensionSet(val extensionSet: Set<String>) : RAction
 
     data class UpdateProfileSet(val profileSet: Set<String>) : RAction
+
+    data class UpdateBundleValidationRuleSet(val bundleValidationRuleSet: Set<BundleValidationRule>) : RAction
 
     fun reducer(state: State = State(), action: RAction): State {
         return when (action) {
@@ -37,6 +41,10 @@ object ValidationContextSlice {
             is UpdateProfileSet -> state.copy(
                 profileSet = action.profileSet,
                 cliContext = state.cliContext.setProfiles(action.profileSet.toList())
+            )
+            is UpdateBundleValidationRuleSet -> state.copy(
+                bundleValidationRuleSet = action.bundleValidationRuleSet,
+                cliContext = state.cliContext.setBundleValidationRules(action.bundleValidationRuleSet.toList())
             )
             else -> state
         }

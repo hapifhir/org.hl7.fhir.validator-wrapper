@@ -1,6 +1,8 @@
 package model
 
+import kotlinx.js.Object
 import kotlinx.serialization.Serializable
+import utils.Preset
 
 @Serializable
 actual class BundleValidationRule actual constructor() {
@@ -26,4 +28,30 @@ actual class BundleValidationRule actual constructor() {
         return this
     }
 
+    override fun hashCode(): Int {
+        return toDisplayString(this).hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is BundleValidationRule) {
+            return false
+        } else {
+            return rule.equals(other.getRule()) && profile.equals(other.getProfile())
+        }
+    }
+
+    companion object {
+        fun toDisplayString(rule:BundleValidationRule): String {
+            return "${rule.rule} ${rule.profile}"
+        }
+
+        fun findByDisplayString(displayString : String, collection : Collection<BundleValidationRule>) : BundleValidationRule? {
+            for (rule in collection) {
+                if (displayString == toDisplayString(rule)) {
+                    return rule
+                }
+            }
+            return null
+        }
+    }
 }

@@ -11,6 +11,7 @@ import kotlinx.coroutines.*
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import mainScope
+import model.BundleValidationRule
 import model.CliContext
 import model.PackageInfo
 import react.*
@@ -33,6 +34,8 @@ external interface OptionsPageProps : Props {
     var updateExtensionSet: (Set<String>) -> Unit
     var profileSet: Set<String>
     var updateProfileSet: (Set<String>) -> Unit
+    var bundleValidationRuleSet : Set<BundleValidationRule>
+    var updateBundleValidationRuleSet : (Set<BundleValidationRule>) -> Unit
     var polyglot: Polyglot
     var setSessionId: (String) -> Unit
 }
@@ -67,14 +70,13 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
     private fun updateCliContext(cliContext: CliContext) {
         props.updateCliContext(cliContext)
         props.setSessionId("");
-        console.log("Ungabunga")
     }
 
-    private fun updateExtensionSet(newAddedExtensionSet: MutableSet<String>) {
-        props.updateExtensionSet(newAddedExtensionSet)
+    private fun updateExtensionSet(newExtensionSet: MutableSet<String>) {
+        props.updateExtensionSet(newExtensionSet)
         props.setSessionId("");
-        console.log("Ungabunga 2")
     }
+
 
     override fun RBuilder.render() {
         styledDiv {
@@ -269,6 +271,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             profileSet.plus(profile).toMutableSet()
                         }
                         props.updateProfileSet(newProfileSet)
+                        props.setSessionId("")
                     }
                 }
             }
@@ -299,6 +302,31 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             extensionSet.minus("any").toMutableSet()
                         }
                         updateExtensionSet(newExtensionSet)
+                    }
+                }
+            }
+            heading {
+                text = props.polyglot.t("options_bundle_validation_title")
+            }
+            styledDiv {
+                css {
+                    +OptionsPageStyle.optionsSubSection
+                }
+                addBundleValidationRule {
+                    polyglot = props.polyglot
+                    bundleValidationRuleSet = props.bundleValidationRuleSet.toMutableSet()
+                    updateCliContext = updateCliContext
+                    cliContext = cliContext
+                    onUpdateBundleValidationRuleSet = { rule, delete ->
+                        console.log("rule")
+                       val bundleValidationRuleSet = props.bundleValidationRuleSet.toMutableSet()
+                        val newBundleValidationRuleSet = if (delete) {
+                            bundleValidationRuleSet.minus(rule).toMutableSet()
+                        } else {
+                            bundleValidationRuleSet.plus(rule).toMutableSet()
+                        }
+                        props.updateBundleValidationRuleSet(newBundleValidationRuleSet)
+                        props.setSessionId("")
                     }
                 }
             }

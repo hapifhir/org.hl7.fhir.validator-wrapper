@@ -1,6 +1,7 @@
 package reactredux.containers
 
 import Polyglot
+import model.BundleValidationRule
 import model.CliContext
 import model.PackageInfo
 import model.ValidationOutcome
@@ -34,6 +35,7 @@ private interface ManualEntryTabDispatchProps : Props {
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
     var updateProfileSet: (Set<String>)-> Unit
+    var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
     var setSessionId: (String) -> Unit
 }
 
@@ -62,6 +64,9 @@ val manualEntryTab: ComponentClass<Props> =
             }
             updateProfileSet = {
                 dispatch(ValidationContextSlice.UpdateProfileSet(it))
+            }
+            updateBundleValidationRuleSet = {
+                dispatch(ValidationContextSlice.UpdateBundleValidationRuleSet(it))
             }
             setSessionId = { id: String -> dispatch(ValidationSessionSlice.SetSessionId(id)) }
         }

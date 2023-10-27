@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.css.*
 import model.CliContext
 import mainScope
+import model.BundleValidationRule
 import model.PackageInfo
 import mui.system.sx
 import react.Props
@@ -26,6 +27,7 @@ external interface PresetSelectProps : Props {
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
     var updateProfileSet: (Set<String>) -> Unit
+    var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
     var setSessionId: (String) -> Unit
     var polyglot: Polyglot
 }
@@ -80,11 +82,13 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                     props.updateIgPackageInfoSet(selectedPreset.igPackageInfo)
                                     props.updateExtensionSet(selectedPreset.extensionSet)
                                     props.updateProfileSet(selectedPreset.profileSet)
+                                    props.updateBundleValidationRuleSet(selectedPreset.cliContext.getBundleValidationRules().toMutableSet())
                                     mainScope.launch {
                                         setState {
                                             snackbarOpen = selectedPreset.polyglotKey
                                         }
                                     }
+                                    props.setSessionId("")
                                 }
                             }
                         }
