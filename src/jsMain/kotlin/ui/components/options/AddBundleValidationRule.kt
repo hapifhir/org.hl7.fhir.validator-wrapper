@@ -1,6 +1,7 @@
 package ui.components.options
 
 import Polyglot
+import css.const.BORDER_GRAY
 import css.const.WHITE
 import css.const.SWITCH_GRAY
 import css.text.TextStyle
@@ -8,12 +9,14 @@ import kotlinx.css.*
 import react.*
 import ui.components.buttons.imageButton
 import kotlinx.browser.document
+import kotlinx.css.properties.border
 import kotlinx.html.InputType
 import kotlinx.html.id
 import model.BundleValidationRule
 import utils.getJS
 
 import model.CliContext
+import mui.icons.material.Add
 import org.w3c.dom.HTMLInputElement
 import react.dom.attrs
 import react.dom.defaultValue
@@ -54,11 +57,22 @@ class AddBundleValidationRule : RComponent<AddBundleValidationRuleProps, AddProf
 
             styledSpan {
                 css {
-                    +TextFieldEntryStyle.textFieldAndGButtonDiv
+                    display = Display.grid
+                    gridTemplateColumns = GridTemplateColumns(LinearDimension.minContent, LinearDimension("1fr"))
+                    gap = LinearDimension("10px")
+                    alignItems = Align.start
+                }
+                styledSpan {
+                    css {
+                        gridColumn = GridColumn("1")
+                        +AddBundleValidationRuleStyle.ruleEntryDetailText
+                    }
+                    +props.polyglot.t("options_bundle_validation_rules_rule_description")
                 }
                 styledInput {
                     css {
-                        +TextFieldEntryStyle.entryTextArea
+                        gridColumn = GridColumn("2")
+                        +AddBundleValidationRuleStyle.ruleEntryTextArea
                     }
                     attrs {
                         type = InputType.text
@@ -66,9 +80,18 @@ class AddBundleValidationRule : RComponent<AddBundleValidationRuleProps, AddProf
                         id = ruleInputId
                     }
                 }
+                styledSpan {
+                    css {
+                        gridColumn = GridColumn("1")
+                        +AddBundleValidationRuleStyle.ruleEntryDetailText
+
+                    }
+                    +props.polyglot.t("options_bundle_validation_rules_profile_description")
+                }
                 styledInput {
                     css {
-                        +TextFieldEntryStyle.entryTextArea
+                        gridColumn = GridColumn("2")
+                        +AddBundleValidationRuleStyle.ruleEntryTextArea
                     }
                     attrs {
                         type = InputType.text
@@ -77,6 +100,11 @@ class AddBundleValidationRule : RComponent<AddBundleValidationRuleProps, AddProf
                     }
                 }
                 styledSpan {
+                    css {
+                        gridColumn = GridColumn("2")
+                        width = 60.pct
+                        textAlign = TextAlign.end
+                    }
                     imageButton {
                         backgroundColor = WHITE
                         borderColor = SWITCH_GRAY
@@ -102,9 +130,9 @@ class AddBundleValidationRule : RComponent<AddBundleValidationRuleProps, AddProf
                     +if (props.bundleValidationRuleSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
                 }
                 val polyglotKey = if (props.bundleValidationRuleSet.isEmpty()) {
-                    "options_profiles_not_added"
+                    "options_bundle_validation_rules_not_added"
                 } else {
-                    "options_profiles_added"
+                    "options_bundle_validation_rules_added"
                 }
                 +props.polyglot.t(
                     polyglotKey,
@@ -120,7 +148,6 @@ class AddBundleValidationRule : RComponent<AddBundleValidationRuleProps, AddProf
                 }
                 props.bundleValidationRuleSet.forEach { _rule ->
                     bundleValidationRuleDisplay {
-
                         rule = _rule
                         onDelete = {
                             props.onUpdateBundleValidationRuleSet(_rule, true)
@@ -143,6 +170,27 @@ object AddBundleValidationRuleStyle : StyleSheet("AddBundleValidationRuleStyle",
         display = Display.flex
         flexDirection = FlexDirection.column
         padding(horizontal = 8.px)
+    }
+    val ruleEntryDetailText by css {
+        display = Display.inlineBlock
+        verticalAlign = VerticalAlign.middle
+        resize = Resize.none
+        height = 42.px
+        paddingTop = 16.px
+    }
+    val ruleEntryTextArea by css {
+        display = Display.inlineBlock
+        verticalAlign = VerticalAlign.middle
+        resize = Resize.none
+        width = 60.pct
+        height = 42.px
+        marginRight = 16.px
+        outline = Outline.none
+        //padding(horizontal = 16.px)
+        border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
+        backgroundColor = Color.transparent
+        justifyContent = JustifyContent.center
+
     }
     val title by css {
         paddingBottom = 16.px

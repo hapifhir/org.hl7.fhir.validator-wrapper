@@ -67,7 +67,7 @@ class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
             if (!anyChecked()) {
                 styledSpan {
                     css {
-                        +TextFieldEntryStyle.textFieldAndGButtonDiv
+                        +TextFieldEntryStyle.textFieldAndAddButtonDiv
                     }
                     styledInput {
                         css {

@@ -60,7 +60,7 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
             Box {
                 attrs {
                     sx {
-                        minWidth = 120.px
+                        minWidth = 180.px
                     }
                 }
                 FormControl {

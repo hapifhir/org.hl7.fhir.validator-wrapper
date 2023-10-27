@@ -6,6 +6,7 @@ import api.sendValidationRequest
 import css.animation.FadeIn.fadeIn
 import css.const.BORDER_GRAY
 import css.text.TextStyle
+import csstype.FlexGrow
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
@@ -95,7 +96,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 css {
                     +ManualEntryTabStyle.buttonBar
                 }
-                manualEntryButtonBar {
+                manualEntryValidateButton {
                     validateText = props.polyglot.t("validate_button")
                     onValidateRequested = {
                         if (props.currentManuallyEnteredText.isNotEmpty()) {
@@ -109,6 +110,11 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                         }
                     }
                     workInProgress = props.validatingManualEntryInProgress
+                }
+                styledDiv{
+                    css {
+                        flexGrow = 1.0
+                    }
                 }
                 presetSelect{
                     cliContext = props.cliContext

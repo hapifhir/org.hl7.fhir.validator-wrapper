@@ -52,7 +52,7 @@ class AddProfile : RComponent<AddProfileProps, AddProfileState>() {
 
             styledSpan {
                 css {
-                    +TextFieldEntryStyle.textFieldAndGButtonDiv
+                    +TextFieldEntryStyle.textFieldAndAddButtonDiv
                 }
                 styledInput {
                     css {

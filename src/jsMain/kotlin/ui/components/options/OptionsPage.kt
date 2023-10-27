@@ -306,7 +306,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
             }
             heading {
-                text = props.polyglot.t("options_bundle_validation_title")
+                text = props.polyglot.t("options_bundle_validation_rules_title")
             }
             styledDiv {
                 css {
@@ -318,8 +318,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     updateCliContext = updateCliContext
                     cliContext = cliContext
                     onUpdateBundleValidationRuleSet = { rule, delete ->
-                        console.log("rule")
-                       val bundleValidationRuleSet = props.bundleValidationRuleSet.toMutableSet()
+                        val bundleValidationRuleSet = props.bundleValidationRuleSet.toMutableSet()
                         val newBundleValidationRuleSet = if (delete) {
                             bundleValidationRuleSet.minus(rule).toMutableSet()
                         } else {

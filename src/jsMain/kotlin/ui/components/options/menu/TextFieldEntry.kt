@@ -64,7 +64,7 @@ class TextFieldEntry : RComponent<TextFieldEntryProps, TextFieldEntryState>() {
             }
             styledDiv {
                 css {
-                    +TextFieldEntryStyle.textFieldAndGButtonDiv
+                    +TextFieldEntryStyle.textFieldAndAddButtonDiv
                 }
                 styledInput {
                     css {
@@ -161,7 +161,7 @@ object TextFieldEntryStyle : StyleSheet("TextFieldEntryStyle", isStatic = true) 
     val detailsText by css {
         padding(top = 8.px, bottom = 16.px)
     }
-    val textFieldAndGButtonDiv by css {
+    val textFieldAndAddButtonDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.row
         alignItems = Align.center
