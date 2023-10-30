@@ -16,12 +16,16 @@ import model.BundleValidationRule
 import utils.getJS
 
 import model.CliContext
-import mui.icons.material.Add
+
+import mui.icons.material.InfoOutlined
+import mui.material.Tooltip
+
 import org.w3c.dom.HTMLInputElement
 import react.dom.attrs
 import react.dom.defaultValue
+import react.dom.li
+import react.dom.ul
 import styled.*
-import ui.components.options.menu.TextFieldEntryStyle
 
 external interface AddBundleValidationRuleProps : Props {
     var bundleValidationRuleSet : MutableSet<BundleValidationRule>
@@ -52,23 +56,35 @@ class AddBundleValidationRule : RComponent<AddBundleValidationRuleProps, AddProf
                     +IgSelectorStyle.title
                 }
                 +props.polyglot.t("options_bundle_validation_rules_description")
+                ul {
+                    li {
+                        +props.polyglot.t("options_bundle_validation_rules_example_1")
+                    }
+                    li {
+                        +props.polyglot.t("options_bundle_validation_rules_example_2")
+                    }
+                    li {
+                        +props.polyglot.t("options_bundle_validation_rules_example_3")
+                    }
+                }
             }
-
 
             styledSpan {
                 css {
                     display = Display.grid
-                    gridTemplateColumns = GridTemplateColumns(LinearDimension.minContent, LinearDimension("1fr"))
+                    gridTemplateColumns = GridTemplateColumns(LinearDimension.maxContent, LinearDimension("0.4fr"), LinearDimension.minContent)
                     gap = LinearDimension("10px")
                     alignItems = Align.start
                 }
+
                 styledSpan {
                     css {
                         gridColumn = GridColumn("1")
                         +AddBundleValidationRuleStyle.ruleEntryDetailText
                     }
-                    +props.polyglot.t("options_bundle_validation_rules_rule_description")
+                    +props.polyglot.t("options_bundle_validation_rules_rule_label")
                 }
+
                 styledInput {
                     css {
                         gridColumn = GridColumn("2")
@@ -80,13 +96,29 @@ class AddBundleValidationRule : RComponent<AddBundleValidationRuleProps, AddProf
                         id = ruleInputId
                     }
                 }
+                styledDiv {
+                    css {
+                        gridColumn = GridColumn("3")
+                        + AddBundleValidationRuleStyle.ruleEntryTooltip
+                    }
+                    Tooltip {
+                        attrs {
+                            title = ReactNode(
+                                props.polyglot.t("options_bundle_validation_rules_rule_description")
+                            )
+                        }
+                        InfoOutlined {}
+                    }
+                }
                 styledSpan {
+
                     css {
                         gridColumn = GridColumn("1")
                         +AddBundleValidationRuleStyle.ruleEntryDetailText
 
                     }
-                    +props.polyglot.t("options_bundle_validation_rules_profile_description")
+                    + props.polyglot.t("options_bundle_validation_rules_profile_label")
+
                 }
                 styledInput {
                     css {
@@ -99,10 +131,21 @@ class AddBundleValidationRule : RComponent<AddBundleValidationRuleProps, AddProf
                         id = profileInputId
                     }
                 }
+                styledDiv {
+                    css {
+                        gridColumn = GridColumn("3")
+                       + AddBundleValidationRuleStyle.ruleEntryTooltip
+                    }
+                    Tooltip {
+                        attrs {
+                            title = ReactNode(props.polyglot.t("options_bundle_validation_rules_profile_description"))
+                        }
+                        InfoOutlined {}
+                    }
+                }
                 styledSpan {
                     css {
-                        gridColumn = GridColumn("2")
-                        width = 60.pct
+                        gridColumn = GridColumn("2 / span 2")
                         textAlign = TextAlign.end
                     }
                     imageButton {
@@ -178,22 +221,24 @@ object AddBundleValidationRuleStyle : StyleSheet("AddBundleValidationRuleStyle",
         display = Display.inlineBlock
         verticalAlign = VerticalAlign.middle
         resize = Resize.none
-        height = 42.px
         paddingTop = 16.px
     }
     val ruleEntryTextArea by css {
         display = Display.inlineBlock
         verticalAlign = VerticalAlign.middle
         resize = Resize.none
-        width = 60.pct
+        width = 100.pct
         height = 42.px
         marginRight = 16.px
         outline = Outline.none
-        //padding(horizontal = 16.px)
         border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
         backgroundColor = Color.transparent
         justifyContent = JustifyContent.center
         +TextStyle.optionsDetailText
+    }
+    val ruleEntryTooltip by css {
+        paddingTop = 8.px
+        paddingLeft = 8.px
     }
     val title by css {
         paddingBottom = 16.px
