@@ -12,41 +12,19 @@ import styled.styledDiv
 import ui.components.buttons.imageButton
 import ui.components.tabs.entrytab.ManualEntryButtonBarStyle
 
-external interface FileUploadButtonBarProps : Props {
-    var onUploadRequested: () -> Unit
+external interface FileValidateButtonProps : Props {
     var onValidateRequested: () -> Unit
     var workInProgress: Boolean
     var polyglot: Polyglot
-    var uploadText: String
-    var validateText: String
 }
 
 /**
  * Component displaying the horizontal list of buttons for file upload and validation
  */
-class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, State>() {
+class FileValidateButton : RComponent<FileValidateButtonProps, State>() {
 
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +FileUploadButtonBarStyle.buttonBarContainer
-            }
 
-            imageButton {
-                backgroundColor = WHITE
-                borderColor = HL7_RED
-                image = "images/upload_red.png"
-                label = props.polyglot.t("upload_button")
-                onSelected = {
-                    props.onUploadRequested()
-                }
-            }
-
-            styledDiv {
-                css {
-                    +FileUploadButtonBarStyle.buttonBarDivider
-                }
-            }
 
             if (props.workInProgress) {
                 styledDiv {
@@ -66,14 +44,14 @@ class FileUploadButtonBar : RComponent<FileUploadButtonBarProps, State>() {
                 }
             }
         }
-    }
+
 }
 
 /**
  * React Component Builder
  */
-fun RBuilder.fileUploadButtonBar(handler: FileUploadButtonBarProps.() -> Unit) {
-    return child(FileUploadButtonBar::class) {
+fun RBuilder.fileValidateButton(handler: FileValidateButtonProps.() -> Unit) {
+    return child(FileValidateButton::class) {
         this.attrs(handler)
     }
 }
@@ -81,16 +59,8 @@ fun RBuilder.fileUploadButtonBar(handler: FileUploadButtonBarProps.() -> Unit) {
 /**
  * CSS
  */
-object FileUploadButtonBarStyle : StyleSheet("FileUploadButtonBarStyle", isStatic = true) {
-    val buttonBarContainer by css {
-        display = Display.inlineFlex
-        flexDirection = FlexDirection.row
-        alignItems = Align.center
-        padding(vertical = 16.px)
-    }
-    val buttonBarDivider by css {
-        width = 16.px
-    }
+object FileValidateButtonStyle : StyleSheet("FileValidateButtonStyle", isStatic = true) {
+
     val spinner by css {
         height = 32.px
         width = 32.px

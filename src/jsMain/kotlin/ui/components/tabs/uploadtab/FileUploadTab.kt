@@ -67,15 +67,31 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                     props.deleteFile(it.getFileInfo())
                 }
             }
-            fileUploadButtonBar {
-                polyglot = props.polyglot
-                onUploadRequested = {
-                    (document.getElementById(FILE_UPLOAD_ELEMENT_ID) as HTMLInputElement).click()
+            styledDiv {
+                css {
+                    +TabStyle.buttonBarContainer
                 }
-                onValidateRequested = {
-                    validateUploadedFiles()
+                fileUploadButton {
+                    polyglot = props.polyglot
+                    onUploadRequested = {
+                        (document.getElementById(FILE_UPLOAD_ELEMENT_ID) as HTMLInputElement).click()
+                    }
+                }
+
+                styledDiv {
+                    css {
+                        +TabStyle.buttonBarDivider
+                    }
+                }
+
+                fileValidateButton {
+                    polyglot = props.polyglot
+                    onValidateRequested = {
+                        validateUploadedFiles()
+                    }
                 }
             }
+
             uploadFilesComponent {
                 onFileUpload = {
                     props.uploadFile(it)
@@ -141,5 +157,14 @@ object TabStyle : StyleSheet("TabStyle", isStatic = true) {
         padding(horizontal = 32.px, vertical = 16.px)
         fadeIn()
         flex(flexBasis = 100.pct)
+    }
+    val buttonBarContainer by css {
+        display = Display.inlineFlex
+        flexDirection = FlexDirection.row
+        alignItems = Align.center
+        padding(vertical = 16.px)
+    }
+    val buttonBarDivider by css {
+        width = 16.px
     }
 }
