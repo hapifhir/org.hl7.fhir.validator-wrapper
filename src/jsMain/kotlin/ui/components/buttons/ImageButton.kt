@@ -27,7 +27,7 @@ class ImageButton : RComponent<ImageButtonProps, State>() {
         styledDiv {
             css {
                 +ImageButtonStyle.button
-                border(width = 1.px, style = BorderStyle.solid, color = props.borderColor, borderRadius = 5.px)
+                border(width = 1.px, style = BorderStyle.solid, color = props.borderColor, borderRadius = 4.px)
                 backgroundColor = props.backgroundColor
                 hover {
                     backgroundColor = props.borderColor.changeAlpha(0.1)
@@ -84,7 +84,7 @@ object ImageButtonStyle : StyleSheet("ImageButtonStyle", isStatic = true) {
         cursor = Cursor.pointer
         display = Display.inlineFlex
         flexDirection = FlexDirection.row
-        minHeight = 32.px
+        minHeight = 36.px
         alignSelf = Align.center
         padding(horizontal = 16.px, vertical = 8.px)
     }

@@ -11,6 +11,7 @@ import mainScope
 import model.BundleValidationRule
 import model.PackageInfo
 import mui.system.sx
+import popper.core.Placement
 import react.Props
 import react.ReactNode
 
@@ -57,48 +58,59 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                 alignSelf = Align.center
 
             }
-            Box {
+            Tooltip {
                 attrs {
-                    sx {
-                        minWidth = 180.px
-                    }
+                    title = ReactNode(
+                        props.polyglot.t("preset_description")
+                    )
+                    placement = TooltipPlacement.left
                 }
-                FormControl {
+                Box {
                     attrs {
-                        fullWidth = true
-                        size = Size.small
-                    }
-                    InputLabel {
-                        +props.polyglot.t("preset_label")
-                    }
-                    Select {
-                        attrs {
-                            label = ReactNode("preset")
-                            onChange = { event, _ ->
-                                val selectedPreset = Preset.getSelectedPreset(event.target.value)
-                                if (selectedPreset != null) {
-                                    console.log("updating cli context for preset: " + event.target.value)
-                                    props.updateCliContext(selectedPreset.cliContext)
-                                    props.updateIgPackageInfoSet(selectedPreset.igPackageInfo)
-                                    props.updateExtensionSet(selectedPreset.extensionSet)
-                                    props.updateProfileSet(selectedPreset.profileSet)
-                                    props.updateBundleValidationRuleSet(selectedPreset.cliContext.getBundleValidationRules().toMutableSet())
-                                    mainScope.launch {
-                                        setState {
-                                            snackbarOpen = selectedPreset.polyglotKey
-                                        }
-                                    }
-                                    props.setSessionId("")
-                                }
-                            }
+                        sx {
+                            minWidth = 270.px
                         }
-
-                        Preset.values().forEach {
-                            MenuItem {
-                                attrs {
-                                    value = it.key
+                    }
+                    FormControl {
+                        attrs {
+                            fullWidth = true
+                            size = Size.medium
+                        }
+                        InputLabel {
+                            +props.polyglot.t("preset_label")
+                        }
+                        Select {
+                            attrs {
+                                label = ReactNode("preset")
+                                onChange = { event, _ ->
+                                    val selectedPreset = Preset.getSelectedPreset(event.target.value)
+                                    if (selectedPreset != null) {
+                                        console.log("updating cli context for preset: " + event.target.value)
+                                        props.updateCliContext(selectedPreset.cliContext)
+                                        props.updateIgPackageInfoSet(selectedPreset.igPackageInfo)
+                                        props.updateExtensionSet(selectedPreset.extensionSet)
+                                        props.updateProfileSet(selectedPreset.profileSet)
+                                        props.updateBundleValidationRuleSet(
+                                            selectedPreset.cliContext.getBundleValidationRules().toMutableSet()
+                                        )
+                                        mainScope.launch {
+                                            setState {
+                                                snackbarOpen = selectedPreset.polyglotKey
+                                            }
+                                        }
+                                        props.setSessionId("")
+                                    }
                                 }
-                                +props.polyglot.t(it.polyglotKey)
+
+                            }
+
+                            Preset.values().forEach {
+                                MenuItem {
+                                    attrs {
+                                        value = it.key
+                                    }
+                                    +props.polyglot.t(it.polyglotKey)
+                                }
                             }
                         }
                     }

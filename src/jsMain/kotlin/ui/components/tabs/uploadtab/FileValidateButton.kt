@@ -10,7 +10,6 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import ui.components.buttons.imageButton
-import ui.components.tabs.entrytab.ManualEntryButtonBarStyle
 
 external interface FileValidateButtonProps : Props {
     var onValidateRequested: () -> Unit
@@ -24,12 +23,10 @@ external interface FileValidateButtonProps : Props {
 class FileValidateButton : RComponent<FileValidateButtonProps, State>() {
 
     override fun RBuilder.render() {
-
-
             if (props.workInProgress) {
                 styledDiv {
                     css {
-                        +ManualEntryButtonBarStyle.spinner
+                        +FileValidateButtonStyle.spinner
                     }
                 }
             } else {

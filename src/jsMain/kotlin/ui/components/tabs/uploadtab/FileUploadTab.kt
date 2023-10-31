@@ -98,7 +98,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
 
                 styledDiv{
                     css {
-                        flexGrow = 1.0
+                        +FileUploadTabStyle.buttonBarDivider
                     }
                 }
 

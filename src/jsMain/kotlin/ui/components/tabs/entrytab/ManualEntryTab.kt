@@ -6,7 +6,7 @@ import api.sendValidationRequest
 import css.animation.FadeIn.fadeIn
 import css.const.BORDER_GRAY
 import css.text.TextStyle
-import csstype.FlexGrow
+
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
@@ -23,13 +23,14 @@ import react.dom.attrs
 import styled.*
 import ui.components.options.presetSelect
 import ui.components.tabs.heading
+
 import ui.components.validation.issuelist.filteredIssueEntryList
 import utils.assembleRequest
 import utils.isJson
 import utils.isXml
 
 //TODO make this an intelligent value
-private const val VALIDATION_TIME_LIMIT = 45000L
+private const val VALIDATION_TIME_LIMIT =  60000L
 
 external interface ManualEntryTabProps : Props {
     var cliContext: CliContext
@@ -113,7 +114,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 }
                 styledDiv{
                     css {
-                        flexGrow = 1.0
+                        +ManualEntryTabStyle.buttonBarDivider
                     }
                 }
                 presetSelect{
@@ -219,6 +220,9 @@ object ManualEntryTabStyle : StyleSheet("ManualEntryTabStyle") {
         display = Display.inlineFlex
         flexDirection = FlexDirection.row
         alignItems = Align.center
+    }
+    val buttonBarDivider by css {
+        width = 16.px
     }
     val ken by css {
         display = Display.flex
