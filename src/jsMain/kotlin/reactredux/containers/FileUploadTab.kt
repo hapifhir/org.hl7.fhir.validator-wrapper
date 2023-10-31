@@ -1,14 +1,13 @@
 package reactredux.containers
 
 import Polyglot
-import model.CliContext
-import model.FileInfo
-import model.ValidationOutcome
+import model.*
 import react.ComponentClass
 import react.Props
 import react.invoke
 import react.redux.rConnect
 import reactredux.slices.UploadedResourceSlice
+import reactredux.slices.ValidationContextSlice
 import reactredux.slices.ValidationSessionSlice
 import reactredux.store.AppState
 import redux.RAction
@@ -28,6 +27,12 @@ private interface FileUploadTabDispatchProps : Props {
     var setSessionId: (String) -> Unit
     var toggleValidationInProgress: (Boolean, FileInfo) -> Unit
     var addValidationOutcome: (ValidationOutcome) -> Unit
+
+    var updateCliContext: (CliContext) -> Unit
+    var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
+    var updateExtensionSet: (Set<String>) -> Unit
+    var updateProfileSet: (Set<String>)-> Unit
+    var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
 }
 
 val fileUploadTab: ComponentClass<Props> =
@@ -47,5 +52,20 @@ val fileUploadTab: ComponentClass<Props> =
                     fileInfo))
             }
             addValidationOutcome = { dispatch(UploadedResourceSlice.AddValidationOutcome(it)) }
+            updateCliContext = {
+                dispatch(ValidationContextSlice.UpdateCliContext(it))
+            }
+            updateIgPackageInfoSet = {
+                dispatch(ValidationContextSlice.UpdateIgPackageInfoSet(it))
+            }
+            updateExtensionSet = {
+                dispatch(ValidationContextSlice.UpdateExtensionSet(it))
+            }
+            updateProfileSet = {
+                dispatch(ValidationContextSlice.UpdateProfileSet(it))
+            }
+            updateBundleValidationRuleSet = {
+                dispatch(ValidationContextSlice.UpdateBundleValidationRuleSet(it))
+            }
         }
     )(FileUploadTab::class.js.unsafeCast<ComponentClass<FileUploadTabProps>>())

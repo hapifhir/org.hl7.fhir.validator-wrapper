@@ -219,7 +219,6 @@ object ManualEntryTabStyle : StyleSheet("ManualEntryTabStyle") {
         display = Display.inlineFlex
         flexDirection = FlexDirection.row
         alignItems = Align.center
-        padding(vertical = 16.px)
     }
     val ken by css {
         display = Display.flex

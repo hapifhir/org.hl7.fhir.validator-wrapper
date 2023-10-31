@@ -8,14 +8,13 @@ import kotlinx.browser.document
 import kotlinx.coroutines.launch
 import kotlinx.css.*
 import mainScope
-import model.CliContext
-import model.FileInfo
-import model.ValidationOutcome
+import model.*
 import org.w3c.dom.HTMLInputElement
 import react.*
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
+import ui.components.options.presetSelect
 import ui.components.tabs.heading
 import ui.components.tabs.uploadtab.filelist.fileEntryList
 import ui.components.validation.validationSummaryPopup
@@ -29,9 +28,15 @@ external interface FileUploadTabProps : Props {
 
     var deleteFile: (FileInfo) -> Unit
     var uploadFile: (FileInfo) -> Unit
-    var setSessionId: (String) -> Unit
     var toggleValidationInProgress: (Boolean, FileInfo) -> Unit
     var addValidationOutcome: (ValidationOutcome) -> Unit
+
+    var updateCliContext: (CliContext) -> Unit
+    var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
+    var updateExtensionSet: (Set<String>) -> Unit
+    var updateProfileSet: (Set<String>) -> Unit
+    var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
+    var setSessionId: (String) -> Unit
 }
 
 class FileUploadTabState : State {
@@ -50,7 +55,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +TabStyle.tabContent
+                +FileUploadTabStyle.tabContent
             }
             heading {
                 text =  props.polyglot.t("upload_files_title") +  "(${props.uploadedFiles.size})"
@@ -69,7 +74,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
             }
             styledDiv {
                 css {
-                    +TabStyle.buttonBarContainer
+                    +FileUploadTabStyle.buttonBarContainer
                 }
                 fileUploadButton {
                     polyglot = props.polyglot
@@ -80,7 +85,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
 
                 styledDiv {
                     css {
-                        +TabStyle.buttonBarDivider
+                        +FileUploadTabStyle.buttonBarDivider
                     }
                 }
 
@@ -89,6 +94,23 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                     onValidateRequested = {
                         validateUploadedFiles()
                     }
+                }
+
+                styledDiv{
+                    css {
+                        flexGrow = 1.0
+                    }
+                }
+
+                presetSelect{
+                    cliContext = props.cliContext
+                    updateCliContext = props.updateCliContext
+                    updateIgPackageInfoSet = props.updateIgPackageInfoSet
+                    updateExtensionSet = props.updateExtensionSet
+                    updateProfileSet = props.updateProfileSet
+                    updateBundleValidationRuleSet = props.updateBundleValidationRuleSet
+                    setSessionId = props.setSessionId
+                    polyglot = props.polyglot
                 }
             }
 
@@ -147,16 +169,14 @@ fun RBuilder.fileUploadTab(handler: FileUploadTabProps.() -> Unit) {
 /**
  * CSS
  */
-object TabStyle : StyleSheet("TabStyle", isStatic = true) {
+object FileUploadTabStyle : StyleSheet("FileUploadTabStyle", isStatic = true) {
     val tabContent by css {
         backgroundColor = WHITE
         flexDirection = FlexDirection.column
         justifyContent = JustifyContent.flexStart
-        alignItems = Align.flexStart
         display = Display.flex
         padding(horizontal = 32.px, vertical = 16.px)
         fadeIn()
-        flex(flexBasis = 100.pct)
     }
     val buttonBarContainer by css {
         display = Display.inlineFlex
