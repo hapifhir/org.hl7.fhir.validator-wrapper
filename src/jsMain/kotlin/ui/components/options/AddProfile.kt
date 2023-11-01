@@ -18,11 +18,10 @@ import react.dom.attrs
 import react.dom.defaultValue
 import styled.*
 import ui.components.options.menu.TextFieldEntryStyle
-import ui.components.options.menu.checkboxWithDetails
 
 external interface AddProfileProps : Props {
-    var addedProfiles : MutableSet<String>
-    var onUpdateProfiles : (String, Boolean) -> Unit
+    var profileSet : MutableSet<String>
+    var onUpdateProfileSet : (String, Boolean) -> Unit
     var updateCliContext : (CliContext) -> Unit
     var cliContext : CliContext
     var polyglot: Polyglot
@@ -53,7 +52,7 @@ class AddProfile : RComponent<AddProfileProps, AddProfileState>() {
 
             styledSpan {
                 css {
-                    +TextFieldEntryStyle.textFieldAndGButtonDiv
+                    +TextFieldEntryStyle.textFieldAndAddButtonDiv
                 }
                 styledInput {
                     css {
@@ -72,7 +71,7 @@ class AddProfile : RComponent<AddProfileProps, AddProfileState>() {
                         image = "images/add_circle_black_24dp.svg"
                         label = props.polyglot.t("options_ig_add")
                         onSelected = {
-                            props.onUpdateProfiles(
+                            props.onUpdateProfileSet(
                                 (document.getElementById(textInputId) as HTMLInputElement).value,
                                 false
                             )
@@ -83,31 +82,31 @@ class AddProfile : RComponent<AddProfileProps, AddProfileState>() {
             styledDiv {
                 css {
                     padding(top = 24.px)
-                    +if (props.addedProfiles.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
+                    +if (props.profileSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
                 }
-                val polyglotKey = if (props.addedProfiles.isEmpty()) {
+                val polyglotKey = if (props.profileSet.isEmpty()) {
                     "options_profiles_not_added"
                 } else {
                     "options_profiles_added"
                 }
                 +props.polyglot.t(
                     polyglotKey,
-                    getJS(arrayOf(Pair("addedProfiles", props.addedProfiles.size.toString())))
+                    getJS(arrayOf(Pair("addedProfiles", props.profileSet.size.toString())))
                 )
             }
             styledDiv {
                 css {
                     +IgSelectorStyle.selectedIgsDiv
-                    if (!props.addedProfiles.isEmpty()) {
+                    if (!props.profileSet.isEmpty()) {
                         padding(top = 16.px)
                     }
                 }
-                props.addedProfiles.forEach { _url ->
-                    extensionDisplay {
+                props.profileSet.forEach { _url ->
+                    urlDisplay {
                         polyglot = props.polyglot
                         url = _url
                         onDelete = {
-                            props.onUpdateProfiles(_url, true)
+                            props.onUpdateProfileSet(_url, true)
                         }
                     }
                 }

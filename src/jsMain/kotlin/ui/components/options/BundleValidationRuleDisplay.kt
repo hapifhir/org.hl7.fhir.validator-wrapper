@@ -1,37 +1,37 @@
 package ui.components.options
 
-import Polyglot
 import css.const.*
 import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import kotlinx.html.js.onClickFunction
+import model.BundleValidationRule
 import react.*
 import react.dom.attrs
 import styled.*
 
-external interface ExtensionDisplayProps : Props {
-    var url: String
-    var polyglot: Polyglot
+external interface BundleValidationRuleDisplayProps : Props {
+    var rule: BundleValidationRule
     var onDelete: () -> Unit
 }
 
-class ExtensionDisplay : RComponent<ExtensionDisplayProps, State>() {
+class BundleValidationRuleDisplay : RComponent<BundleValidationRuleDisplayProps, State>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +ExtensionDisplayStyle.mainDiv
+                +BundleValidationRuleDisplayStyle.mainDiv
             }
+
             styledSpan {
                 css {
                     +TextStyle.dropDownLabel
-                    +ExtensionDisplayStyle.extensionName
+                    +BundleValidationRuleDisplayStyle.igName
                 }
-                +props.url
+                +BundleValidationRule.toDisplayString(props.rule)
             }
             styledImg {
                 css {
-                    +ExtensionDisplayStyle.closeButton
+                    +BundleValidationRuleDisplayStyle.closeButton
                 }
                 attrs {
                     src = "images/close_black.png"
@@ -47,8 +47,8 @@ class ExtensionDisplay : RComponent<ExtensionDisplayProps, State>() {
 /**
  * React Component Builder
  */
-fun RBuilder.extensionDisplay(handler: ExtensionDisplayProps.() -> Unit) {
-    return child(ExtensionDisplay::class) {
+fun RBuilder.bundleValidationRuleDisplay(handler: BundleValidationRuleDisplayProps.() -> Unit) {
+    return child(BundleValidationRuleDisplay::class) {
         this.attrs(handler)
     }
 }
@@ -56,7 +56,7 @@ fun RBuilder.extensionDisplay(handler: ExtensionDisplayProps.() -> Unit) {
 /**
  * CSS
  */
-object ExtensionDisplayStyle : StyleSheet("ExtensionDisplayStyle", isStatic = true) {
+object BundleValidationRuleDisplayStyle : StyleSheet("BundleValidationRuleDisplayStyle", isStatic = true) {
     val mainDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.row
@@ -65,7 +65,7 @@ object ExtensionDisplayStyle : StyleSheet("ExtensionDisplayStyle", isStatic = tr
         padding(horizontal = 16.px, vertical = 8.px)
         backgroundColor = WHITE
     }
-    val extensionName by css {
+    val igName by css {
         padding(right = 16.px)
     }
     val closeButton by css {

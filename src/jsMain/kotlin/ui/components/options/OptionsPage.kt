@@ -11,6 +11,7 @@ import kotlinx.coroutines.*
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import mainScope
+import model.BundleValidationRule
 import model.CliContext
 import model.PackageInfo
 import react.*
@@ -26,13 +27,15 @@ private const val TERMINOLOGY_CHECK_TIME_LIMIT = 20000L
 
 external interface OptionsPageProps : Props {
     var cliContext: CliContext
-    var selectedIgPackageInfo: Set<PackageInfo>
+    var igPackageInfoSet: Set<PackageInfo>
     var updateCliContext: (CliContext) -> Unit
-    var updateSelectedIgPackageInfo: (Set<PackageInfo>) -> Unit
-    var addedExtensionInfo: Set<String>
-    var updateAddedExtensionUrl: (Set<String>) -> Unit
-    var addedProfiles: Set<String>
-    var updateAddedProfiles: (Set<String>) -> Unit
+    var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
+    var extensionSet: Set<String>
+    var updateExtensionSet: (Set<String>) -> Unit
+    var profileSet: Set<String>
+    var updateProfileSet: (Set<String>) -> Unit
+    var bundleValidationRuleSet : Set<BundleValidationRule>
+    var updateBundleValidationRuleSet : (Set<BundleValidationRule>) -> Unit
     var polyglot: Polyglot
     var setSessionId: (String) -> Unit
 }
@@ -67,14 +70,13 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
     private fun updateCliContext(cliContext: CliContext) {
         props.updateCliContext(cliContext)
         props.setSessionId("");
-        console.log("Ungabunga")
     }
 
-    private fun updateAddedExtensions(newAddedExtensionSet: MutableSet<String>) {
-        props.updateAddedExtensionUrl(newAddedExtensionSet)
+    private fun updateExtensionSet(newExtensionSet: MutableSet<String>) {
+        props.updateExtensionSet(newExtensionSet)
         props.setSessionId("");
-        console.log("Ungabunga 2")
     }
+
 
     override fun RBuilder.render() {
         styledDiv {
@@ -169,6 +171,21 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         updateCliContext(props.cliContext)
                     }
                 }
+                styledDiv {
+                    css {
+                        +OptionsPageStyle.optionsDivider
+                    }
+                }
+                checkboxWithDetails {
+                    name = props.polyglot.t("options_flags_check_ips_codes_title")
+                    description = props.polyglot.t("options_flags_check_ips_codes_description")
+                    selected = props.cliContext.isCheckIPSCodes()
+                    hasDescription = true
+                    onChange = {
+                        props.cliContext.setCheckIPSCodes(it)
+                        updateCliContext(props.cliContext)
+                    }
+                }
             }
             heading {
                 text = props.polyglot.t("options_fhir_title")
@@ -214,14 +231,14 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             igPackageNameList = state.igPackageNameList.map{ Pair(it.first, it.first == igPackageName)}.toMutableList()
                         }
                     }
-                    selectedIgSet = props.selectedIgPackageInfo.toMutableSet()
+                    selectedIgSet = props.igPackageInfoSet.toMutableSet()
                     onUpdateIg = { igPackageInfo, selected ->
                         val newSelectedIgSet = if (selected) {
                             selectedIgSet.plus(igPackageInfo).toMutableSet()
                         } else {
                             selectedIgSet.minus(igPackageInfo).toMutableSet()
                         }
-                        props.updateSelectedIgPackageInfo(newSelectedIgSet)
+                        props.updateIgPackageInfoSet(newSelectedIgSet)
                         props.setSessionId("")
                     }
                     onFilterStringChange = { partialIgName ->
@@ -244,16 +261,17 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 addProfile {
                     polyglot = props.polyglot
-                    addedProfiles = props.addedProfiles.toMutableSet()
+                    profileSet = props.profileSet.toMutableSet()
                     updateCliContext = updateCliContext
                     cliContext = cliContext
-                    onUpdateProfiles = { profile , delete ->
-                        val newProfiles = if (delete) {
-                            addedProfiles.minus(profile).toMutableSet()
+                    onUpdateProfileSet = { profile, delete ->
+                        val newProfileSet = if (delete) {
+                            profileSet.minus(profile).toMutableSet()
                         } else {
-                            addedProfiles.plus(profile).toMutableSet()
+                            profileSet.plus(profile).toMutableSet()
                         }
-                        props.updateAddedProfiles(newProfiles)
+                        props.updateProfileSet(newProfileSet)
+                        props.setSessionId("")
                     }
                 }
             }
@@ -266,24 +284,48 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 addExtension {
                     polyglot = props.polyglot
-                    addedExtensionSet = props.addedExtensionInfo.toMutableSet()
+                    extensionSet = props.extensionSet.toMutableSet()
                     updateCliContext = updateCliContext
                     cliContext = cliContext
-                    onUpdateExtension = { extensionUrl , delete ->
-                        val newAddedExtensionSet = if (delete) {
-                            addedExtensionSet.minus(extensionUrl).toMutableSet()
+                    onUpdateExtensionSet = { extensionUrl, delete ->
+                        val newExtensionSet = if (delete) {
+                            extensionSet.minus(extensionUrl).toMutableSet()
                         } else {
-                            addedExtensionSet.plus(extensionUrl).toMutableSet()
+                            extensionSet.plus(extensionUrl).toMutableSet()
                         }
-                        updateAddedExtensions(newAddedExtensionSet)
+                        updateExtensionSet(newExtensionSet)
                     }
                     onUpdateAnyExtension = {anySelected ->
-                        val newSet = if (anySelected) {
-                            addedExtensionSet.plus("any").toMutableSet()
+                        val newExtensionSet = if (anySelected) {
+                            extensionSet.plus("any").toMutableSet()
                         } else {
-                            addedExtensionSet.minus("any").toMutableSet()
+                            extensionSet.minus("any").toMutableSet()
                         }
-                        updateAddedExtensions(newSet)
+                        updateExtensionSet(newExtensionSet)
+                    }
+                }
+            }
+            heading {
+                text = props.polyglot.t("options_bundle_validation_rules_title")
+            }
+            styledDiv {
+                css {
+                    +OptionsPageStyle.optionsSubSection
+                }
+                addBundleValidationRule {
+                    polyglot = props.polyglot
+                    bundleValidationRuleSet = props.bundleValidationRuleSet.toMutableSet()
+                    updateCliContext = updateCliContext
+                    cliContext = cliContext
+                    onUpdateBundleValidationRuleSet = { rule, delete ->
+                        val bundleValidationRuleSet = props.bundleValidationRuleSet.toMutableSet()
+                        val newBundleValidationRuleSet = if (delete) {
+                            bundleValidationRuleSet.minus(rule).toMutableSet()
+                        } else {
+                            bundleValidationRuleSet.plus(rule).toMutableSet()
+                        }
+                        props.updateBundleValidationRuleSet(newBundleValidationRuleSet)
+                        props.setSessionId("")
                     }
                 }
             }

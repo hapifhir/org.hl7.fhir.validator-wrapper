@@ -25,10 +25,14 @@ actual class CliContext actual constructor() {
     private var igs: List<String> = listOf()
     private var profiles: List<String> = listOf()
 
+    private var checkIPSCodes = false
+
+    private var bundleValidationRules : List<BundleValidationRule> = listOf()
+
     private var locale: String = ""
     init {
         sv = "4.0.1"
-        locale = "de"
+        locale = "en"
     }
 
     actual fun isDoNative(): Boolean {
@@ -214,5 +218,23 @@ actual class CliContext actual constructor() {
 
     actual fun getExtensions() : List<String> {
         return this.extensions
+    }
+
+    actual fun setCheckIPSCodes(checkIPSCodes: Boolean): CliContext {
+        this.checkIPSCodes = checkIPSCodes;
+        return this;
+    }
+
+    actual fun isCheckIPSCodes(): Boolean {
+        return this.checkIPSCodes
+    }
+
+    actual fun getBundleValidationRules(): List<BundleValidationRule> {
+        return bundleValidationRules
+    }
+
+    actual fun setBundleValidationRules(bundleValidationRules: List<BundleValidationRule>): CliContext {
+        this.bundleValidationRules = bundleValidationRules
+        return this
     }
 }

@@ -21,7 +21,7 @@ import react.dom.defaultValue
 import styled.*
 import ui.components.buttons.imageButton
 import ui.components.options.IgSelectorStyle
-import ui.components.tabs.entrytab.ManualEntryButtonBarStyle
+import ui.components.tabs.entrytab.ManualValidateButtonStyle
 
 external interface TextFieldEntryProps : Props {
     var onSubmitEntry: (String) -> Deferred<Boolean>
@@ -64,7 +64,7 @@ class TextFieldEntry : RComponent<TextFieldEntryProps, TextFieldEntryState>() {
             }
             styledDiv {
                 css {
-                    +TextFieldEntryStyle.textFieldAndGButtonDiv
+                    +TextFieldEntryStyle.textFieldAndAddButtonDiv
                 }
                 styledInput {
                     css {
@@ -85,7 +85,7 @@ class TextFieldEntry : RComponent<TextFieldEntryProps, TextFieldEntryState>() {
                 if (state.validating) {
                     styledDiv {
                         css {
-                            +ManualEntryButtonBarStyle.spinner
+                            +ManualValidateButtonStyle.spinner
                         }
                     }
                 } else {
@@ -161,7 +161,7 @@ object TextFieldEntryStyle : StyleSheet("TextFieldEntryStyle", isStatic = true) 
     val detailsText by css {
         padding(top = 8.px, bottom = 16.px)
     }
-    val textFieldAndGButtonDiv by css {
+    val textFieldAndAddButtonDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.row
         alignItems = Align.center

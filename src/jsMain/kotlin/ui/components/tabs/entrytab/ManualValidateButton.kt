@@ -24,12 +24,12 @@ class ManualEntryButtonBar : RComponent<ManualEntryButtonBarProps, State>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +ManualEntryButtonBarStyle.buttonBarContainer
+                +ManualValidateButtonStyle.buttonBarContainer
             }
             if (props.workInProgress) {
                 styledDiv {
                     css {
-                        +ManualEntryButtonBarStyle.spinner
+                        +ManualValidateButtonStyle.spinner
                     }
                 }
             } else {
@@ -50,7 +50,7 @@ class ManualEntryButtonBar : RComponent<ManualEntryButtonBarProps, State>() {
 /**
  * React Component Builder
  */
-fun RBuilder.manualEntryButtonBar(handler: ManualEntryButtonBarProps.() -> Unit) {
+fun RBuilder.manualEntryValidateButton(handler: ManualEntryButtonBarProps.() -> Unit) {
     return child(ManualEntryButtonBar::class) {
         this.attrs(handler)
     }
@@ -59,7 +59,7 @@ fun RBuilder.manualEntryButtonBar(handler: ManualEntryButtonBarProps.() -> Unit)
 /**
  * CSS
  */
-object ManualEntryButtonBarStyle : StyleSheet("ManualEntryButtonBarStyle", isStatic = true) {
+object ManualValidateButtonStyle : StyleSheet("ManualEntryButtonBarStyle", isStatic = true) {
     val buttonBarContainer by css {
         display = Display.inlineFlex
         flexDirection = FlexDirection.row

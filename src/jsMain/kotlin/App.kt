@@ -14,7 +14,7 @@ import ui.components.tabs.tabLayout
 import kotlinx.browser.window
 import model.CliContext
 import utils.Language
-import utils.getSelectedLanguage
+
 
 external interface AppProps : Props {
     var appScreen: AppScreen
@@ -32,7 +32,7 @@ val mainScope = MainScope()
 fun languageSetup(props: AppProps) {
     for (item in window.navigator.languages) {
         val prefix = item.substring(0, 2)
-        var selectedLanguage = getSelectedLanguage(prefix)
+        var selectedLanguage = Language.getSelectedLanguage(prefix)
         if (selectedLanguage != null) {
             props.setLanguage(selectedLanguage)
             props.fetchPolyglot(selectedLanguage.getLanguageCode());

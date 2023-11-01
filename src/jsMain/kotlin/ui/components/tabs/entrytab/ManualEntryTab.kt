@@ -2,29 +2,35 @@ package ui.components.tabs.entrytab
 
 import Polyglot
 import api.sendValidationRequest
-import constants.FhirFormat
+
 import css.animation.FadeIn.fadeIn
 import css.const.BORDER_GRAY
 import css.text.TextStyle
+
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import mainScope
+import model.BundleValidationRule
 import model.CliContext
+import model.PackageInfo
 import model.ValidationOutcome
 import react.*
 import react.dom.attrs
+
 import styled.*
+import ui.components.options.presetSelect
 import ui.components.tabs.heading
+
 import ui.components.validation.issuelist.filteredIssueEntryList
 import utils.assembleRequest
 import utils.isJson
 import utils.isXml
 
 //TODO make this an intelligent value
-private const val VALIDATION_TIME_LIMIT = 45000L
+private const val VALIDATION_TIME_LIMIT =  60000L
 
 external interface ManualEntryTabProps : Props {
     var cliContext: CliContext
@@ -37,6 +43,11 @@ external interface ManualEntryTabProps : Props {
     var setValidationOutcome: (ValidationOutcome) -> Unit
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
+    var updateCliContext: (CliContext) -> Unit
+    var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
+    var updateExtensionSet: (Set<String>) -> Unit
+    var updateProfileSet: (Set<String>) -> Unit
+    var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
     var setSessionId: (String) -> Unit
 }
 
@@ -82,20 +93,40 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     }
                 }
             }
-            manualEntryButtonBar {
-                validateText = props.polyglot.t("validate_button")
-                onValidateRequested = {
-                    if (props.currentManuallyEnteredText.isNotEmpty()) {
-                        validateEnteredText(props.currentManuallyEnteredText)
-                    } else {
-                        val newErrorMessage = props.polyglot.t("manual_entry_error")
-                        setState {
-                            errorMessage = newErrorMessage
-                            displayingError = true
+            styledDiv {
+                css {
+                    +ManualEntryTabStyle.buttonBar
+                }
+                manualEntryValidateButton {
+                    validateText = props.polyglot.t("validate_button")
+                    onValidateRequested = {
+                        if (props.currentManuallyEnteredText.isNotEmpty()) {
+                            validateEnteredText(props.currentManuallyEnteredText)
+                        } else {
+                            val newErrorMessage = props.polyglot.t("manual_entry_error")
+                            setState {
+                                errorMessage = newErrorMessage
+                                displayingError = true
+                            }
                         }
                     }
+                    workInProgress = props.validatingManualEntryInProgress
                 }
-                workInProgress = props.validatingManualEntryInProgress
+                styledDiv{
+                    css {
+                        +ManualEntryTabStyle.buttonBarDivider
+                    }
+                }
+                presetSelect{
+                    cliContext = props.cliContext
+                    updateCliContext = props.updateCliContext
+                    updateIgPackageInfoSet = props.updateIgPackageInfoSet
+                    updateExtensionSet = props.updateExtensionSet
+                    updateProfileSet = props.updateProfileSet
+                    updateBundleValidationRuleSet = props.updateBundleValidationRuleSet
+                    setSessionId = props.setSessionId
+                    polyglot = props.polyglot
+                }
             }
             if (state.displayingError) {
                 styledSpan {
@@ -184,6 +215,14 @@ object ManualEntryTabStyle : StyleSheet("ManualEntryTabStyle") {
         overflowY = Overflow.auto
         padding(horizontal = 32.px, vertical = 16.px)
         fadeIn()
+    }
+    val buttonBar by css {
+        display = Display.inlineFlex
+        flexDirection = FlexDirection.row
+        alignItems = Align.center
+    }
+    val buttonBarDivider by css {
+        width = 16.px
     }
     val ken by css {
         display = Display.flex
