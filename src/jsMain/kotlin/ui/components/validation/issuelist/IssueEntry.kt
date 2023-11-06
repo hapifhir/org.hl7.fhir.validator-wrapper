@@ -115,6 +115,6 @@ object IssueEntryStyle : StyleSheet("IssueEntryStyle", isStatic = true) {
     val messageDetails by css {
         flex(flexBasis = 100.pct)
         alignSelf = Align.center
-        overflowWrap = OverflowWrap.breakWord
+        overflowWrap = OverflowWrap.anywhere
     }
 }

@@ -24,7 +24,14 @@ val IPS_AU_IG = PackageInfo(
 
 val CDA_IG = PackageInfo(
     "hl7.cda.uv.core",
-    "2.1.0-draft1",
+    "2.0.0-sd-ballot",
+    "5.0.0",
+    "http://hl7.org/cda/stds/core/ImplementationGuide/hl7.cda.uv.core"
+)
+
+val CCDA_IG = PackageInfo(
+    "hl7.cda.us.ccda",
+    "current",
     "5.0.0",
     "http://hl7.org/cda/stds/core/ImplementationGuide/hl7.cda.uv.core"
 )

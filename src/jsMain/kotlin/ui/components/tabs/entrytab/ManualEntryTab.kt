@@ -13,10 +13,7 @@ import kotlinx.coroutines.withTimeout
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import mainScope
-import model.BundleValidationRule
-import model.CliContext
-import model.PackageInfo
-import model.ValidationOutcome
+import model.*
 import react.*
 import react.dom.attrs
 
@@ -25,6 +22,7 @@ import ui.components.options.presetSelect
 import ui.components.tabs.heading
 
 import ui.components.validation.issuelist.filteredIssueEntryList
+import ui.components.validation.validationSummary
 import utils.assembleRequest
 import utils.isJson
 import utils.isXml
@@ -137,7 +135,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 }
             }
             props.validationOutcome?.let {
-                filteredIssueEntryList {
+                validationSummary {
                     polyglot = props.polyglot
                     validationOutcome = props.validationOutcome!!
                 }
@@ -174,8 +172,11 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     props.toggleValidationInProgress(false)
                 }
             } catch (e: TimeoutCancellationException) {
-                //TODO
-                println("Timeout ${e.message}")
+                setState {
+                    errorMessage = props.polyglot.t("manual_entry_timeout_exception")
+                    displayingError = true
+                }
+                props.toggleValidationInProgress(false)
             } catch (e: Exception) {
                 setState {
                     if (props.currentManuallyEnteredText.contains("Mark is super dorky")) {
