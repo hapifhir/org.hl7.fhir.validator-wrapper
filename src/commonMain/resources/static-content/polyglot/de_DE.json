@@ -7,6 +7,7 @@
   "manual_entry_title" : "Code",
   "manual_entry_error" : "Bitte geben Sie etwas zum Validieren an.",
   "manual_entry_cannot_parse_exception" : "Der eingegebene Text kann nicht als gültiges JSON/XML geparst werden.",
+  "manual_entry_timeout_exception" : "Validation timed out. Please wait 30 seconds and try again. -German",
   "validate_button" : "Validieren",
   "upload_resources_heading" : "Ressourcen Hochladen",
   "upload_files_title" : "Hochgeladene Dateien",

@@ -7,6 +7,7 @@
     "manual_entry_title": "Código",
     "manual_entry_error": "Por favor ingrese algo para validar.",
     "manual_entry_cannot_parse_exception": "No se pudo analizar el texto ingresado como JSON o XML.",
+    "manual_entry_timeout_exception" : "Validation timed out. Please wait 30 seconds and try again. -Spanish",
     "validate_button": "Validar",
     "upload_resources_heading": "Cargar Recursos",
     "upload_files_title": "Cargar Archivos",
