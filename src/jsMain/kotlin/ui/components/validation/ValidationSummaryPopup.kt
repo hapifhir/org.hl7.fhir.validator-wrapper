@@ -28,11 +28,33 @@ class ValidationSummaryPopup : RComponent<ValidationSummaryPopupProps, State>() 
                 css {
                     +ValidationSummaryPopupStyle.content
                 }
-                validationSummary {
-                    polyglot = props.polyglot
-                    validationOutcome = props.validationOutcome
-                    onClose = {
-                        props.onClose()
+                styledDiv {
+                    css {
+                        +ValidationSummaryStyle.mainContainer
+                    }
+
+                    styledDiv {
+                        css {
+                            +ValidationSummaryStyle.headerContainer
+                        }
+                        validationResultDialogHeader {
+                            filename = props.validationOutcome.getFileInfo().fileName
+                            onClose = {
+                                props.onClose()
+                            }
+                        }
+                    }
+                    styledDiv {
+                        css {
+                           + ValidationSummaryPopupStyle.resultsContainer
+                        }
+                        validationSummary {
+                            polyglot = props.polyglot
+                            validationOutcome = props.validationOutcome
+                            onClose = {
+                                props.onClose()
+                            }
+                        }
                     }
                 }
             }
@@ -56,7 +78,7 @@ object ValidationSummaryPopupStyle : StyleSheet("ValidationSummaryPopupStyle", i
     val overlay by css {
         display = Display.flex
         position = Position.fixed
-        zIndex = 2
+        zIndex = 8
         left = 0.px
         top = 0.px
         right = 0.px
@@ -65,6 +87,13 @@ object ValidationSummaryPopupStyle : StyleSheet("ValidationSummaryPopupStyle", i
         justifyContent = JustifyContent.center
         alignContent = Align.center
         quickFadeIn()
+    }
+    val resultsContainer by css {
+        paddingLeft = 16.px
+        paddingRight = 16.px
+        display = Display.flex
+        flexDirection = FlexDirection.column
+        height = 100.pct - (72.px + 8.px)
     }
     val content by css {
         display = Display.flex

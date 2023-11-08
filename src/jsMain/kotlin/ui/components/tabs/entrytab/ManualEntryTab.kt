@@ -135,9 +135,14 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 }
             }
             props.validationOutcome?.let {
-                validationSummary {
-                    polyglot = props.polyglot
-                    validationOutcome = props.validationOutcome!!
+                styledDiv {
+                    css {
+                        +ManualEntryTabStyle.resultsContainer
+                    }
+                    validationSummary {
+                        polyglot = props.polyglot
+                        validationOutcome = props.validationOutcome!!
+                    }
                 }
             }
         }
@@ -221,6 +226,11 @@ object ManualEntryTabStyle : StyleSheet("ManualEntryTabStyle") {
         display = Display.inlineFlex
         flexDirection = FlexDirection.row
         alignItems = Align.center
+    }
+    val resultsContainer by css {
+        display = Display.flex
+        flexDirection = FlexDirection.column
+        minHeight = 600.px
     }
     val buttonBarDivider by css {
         width = 16.px

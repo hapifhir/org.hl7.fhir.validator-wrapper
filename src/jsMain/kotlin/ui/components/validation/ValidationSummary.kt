@@ -8,9 +8,11 @@ import kotlinx.css.properties.border
 import model.MessageFilter
 import model.ValidationOutcome
 import react.*
+import react.dom.div
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
+import ui.components.tabs.heading
 import ui.components.validation.issuelist.issueFilterButtonBar
 
 external interface ValidationSummaryProps : Props {
@@ -30,24 +32,18 @@ class ValidationSummary : RComponent<ValidationSummaryProps, ValidationSummarySt
     }
 
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +ValidationSummaryStyle.mainContainer
-            }
-            styledDiv {
-                css {
-                    +ValidationSummaryStyle.headerContainer
-                }
-                validationSummaryHeader {
-                    filename = props.validationOutcome.getFileInfo().fileName
-                    onClose = {
-                        props.onClose()
-                    }
-                }
-            }
+
             styledDiv {
                 css {
                     +ValidationSummaryStyle.filterMenuContainer
+                }
+                heading {
+                    text = props.polyglot.t("validation_results") + " (${state.messageFilter.determineNumberDisplayedIssues(props.validationOutcome.getMessages())}):"
+                }
+                styledDiv {
+                    css {
+                        width = 16.px
+                    }
                 }
                 issueFilterButtonBar {
                     polyglot = props.polyglot
@@ -69,7 +65,7 @@ class ValidationSummary : RComponent<ValidationSummaryProps, ValidationSummarySt
                 }
             }
         }
-    }
+
 }
 
 /**
@@ -100,9 +96,9 @@ object ValidationSummaryStyle : StyleSheet("ValidationSummaryStyle", isStatic = 
     }
     val filterMenuContainer by css {
         display = Display.flex
-        flexDirection = FlexDirection.column
-        justifyContent = JustifyContent.center
-        padding(horizontal = 16.px)
+        flexDirection = FlexDirection.row
+        justifyContent = JustifyContent.left
+        //padding(horizontal = 16.px)
     }
     val resultsDiv by css {
         display = Display.flex

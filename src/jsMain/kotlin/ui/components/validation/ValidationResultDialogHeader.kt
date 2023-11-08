@@ -11,12 +11,12 @@ import react.*
 import react.dom.attrs
 import styled.*
 
-external interface ValidationSummaryHeaderProps : Props {
+external interface ValidationResultDialogHeaderProps : Props {
     var filename: String
     var onClose: () -> Unit
 }
 
-class ValidationSummaryHeader : RComponent<ValidationSummaryHeaderProps, State>() {
+class ValidationResultDialogHeader : RComponent<ValidationResultDialogHeaderProps, State>() {
 
     override fun RBuilder.render() {
         styledDiv {
@@ -54,8 +54,8 @@ class ValidationSummaryHeader : RComponent<ValidationSummaryHeaderProps, State>(
 /**
  * React Component Builder
  */
-fun RBuilder.validationSummaryHeader(handler: ValidationSummaryHeaderProps.() -> Unit) {
-    return child(ValidationSummaryHeader::class) {
+fun RBuilder.validationResultDialogHeader(handler: ValidationResultDialogHeaderProps.() -> Unit) {
+    return child(ValidationResultDialogHeader::class) {
         this.attrs(handler)
     }
 }

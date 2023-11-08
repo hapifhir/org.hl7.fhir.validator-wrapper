@@ -1,5 +1,6 @@
 package ui.components.validation
 
+import css.const.BORDER_GRAY
 import kotlinx.css.*
 import model.MessageFilter
 import model.ValidationMessage
@@ -93,7 +94,6 @@ object FileValidationResultsStyle : StyleSheet("FileValidationSummaryStyle", isS
         justifyContent = JustifyContent.start
         overflowY = Overflow.auto
         flexGrow = 1.0
-        padding(horizontal = 16.px)
         media(query = "(min-width: 1200px) and (orientation:landscape)", block = ruleSet {
             flexDirection = FlexDirection.row
         })
@@ -101,7 +101,11 @@ object FileValidationResultsStyle : StyleSheet("FileValidationSummaryStyle", isS
     val containerLeft by css {
         marginRight = 0.px
         marginBottom = 8.px
-        width = 100.pct
+        borderColor = BORDER_GRAY
+        borderStyle = BorderStyle.solid
+        borderWidth = 1.px
+
+        height = LinearDimension.fillAvailable
         media(query = "(min-width: 1200px) and (orientation:landscape)", block = ruleSet {
             marginBottom = 0.px
             marginRight = 8.px
