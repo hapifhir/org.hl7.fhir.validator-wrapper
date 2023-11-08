@@ -58,7 +58,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                 +FileUploadTabStyle.tabContent
             }
             heading {
-                text =  props.polyglot.t("upload_files_title") +  "(${props.uploadedFiles.size})"
+                text =  props.polyglot.t("upload_files_title") +  " (${props.uploadedFiles.size})"
             }
             fileEntryList {
                 polyglot = props.polyglot
