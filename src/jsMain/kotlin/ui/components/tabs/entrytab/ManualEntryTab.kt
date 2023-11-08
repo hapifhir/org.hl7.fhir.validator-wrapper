@@ -21,8 +21,7 @@ import styled.*
 import ui.components.options.presetSelect
 import ui.components.tabs.heading
 
-import ui.components.validation.issuelist.filteredIssueEntryList
-import ui.components.validation.validationSummary
+import ui.components.validation.validationOutcomeContainer
 import utils.assembleRequest
 import utils.isJson
 import utils.isXml
@@ -139,7 +138,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     css {
                         +ManualEntryTabStyle.resultsContainer
                     }
-                    validationSummary {
+                    validationOutcomeContainer {
                         polyglot = props.polyglot
                         validationOutcome = props.validationOutcome!!
                     }

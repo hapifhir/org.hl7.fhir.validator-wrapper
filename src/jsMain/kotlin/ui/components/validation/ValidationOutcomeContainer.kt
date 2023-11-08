@@ -8,34 +8,33 @@ import kotlinx.css.properties.border
 import model.MessageFilter
 import model.ValidationOutcome
 import react.*
-import react.dom.div
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import ui.components.tabs.heading
 import ui.components.validation.issuelist.issueFilterButtonBar
 
-external interface ValidationSummaryProps : Props {
+external interface ValidationOutcomeContainerProps : Props {
     var validationOutcome: ValidationOutcome
     var polyglot: Polyglot
     var onClose: () -> Unit
 }
 
-class ValidationSummaryState : State {
+class ValidationOutcomeContainerState : State {
     var messageFilter: MessageFilter = MessageFilter()
 }
 
-class ValidationSummary : RComponent<ValidationSummaryProps, ValidationSummaryState>() {
+class ValidationOutcomeContainer : RComponent<ValidationOutcomeContainerProps, ValidationOutcomeContainerState>() {
 
     init {
-        state = ValidationSummaryState()
+        state = ValidationOutcomeContainerState()
     }
 
     override fun RBuilder.render() {
 
             styledDiv {
                 css {
-                    +ValidationSummaryStyle.filterMenuContainer
+                    +ValidationOutcomeContainerStyle.filterMenuContainer
                 }
                 heading {
                     text = props.polyglot.t("validation_results") + " (${state.messageFilter.determineNumberDisplayedIssues(props.validationOutcome.getMessages())}):"
@@ -57,9 +56,9 @@ class ValidationSummary : RComponent<ValidationSummaryProps, ValidationSummarySt
             }
             styledDiv {
                 css {
-                    +ValidationSummaryStyle.resultsDiv
+                    +ValidationOutcomeContainerStyle.resultsDiv
                 }
-                fileValidationResults {
+                fileValidationOutcome {
                     validationOutcome = props.validationOutcome
                     messageFilter = state.messageFilter
                 }
@@ -71,8 +70,8 @@ class ValidationSummary : RComponent<ValidationSummaryProps, ValidationSummarySt
 /**
  * React Component Builder
  */
-fun RBuilder.validationSummary(handler: ValidationSummaryProps.() -> Unit) {
-    return child(ValidationSummary::class) {
+fun RBuilder.validationOutcomeContainer(handler: ValidationOutcomeContainerProps.() -> Unit) {
+    return child(ValidationOutcomeContainer::class) {
         this.attrs(handler)
     }
 }
@@ -80,7 +79,7 @@ fun RBuilder.validationSummary(handler: ValidationSummaryProps.() -> Unit) {
 /**
  * CSS
  */
-object ValidationSummaryStyle : StyleSheet("ValidationSummaryStyle", isStatic = true) {
+object ValidationOutcomeContainerStyle : StyleSheet("ValidationOutcomeContainerStyle", isStatic = true) {
     val mainContainer by css {
         display = Display.flex
         flexDirection = FlexDirection.column
@@ -98,7 +97,6 @@ object ValidationSummaryStyle : StyleSheet("ValidationSummaryStyle", isStatic = 
         display = Display.flex
         flexDirection = FlexDirection.row
         justifyContent = JustifyContent.left
-        //padding(horizontal = 16.px)
     }
     val resultsDiv by css {
         display = Display.flex

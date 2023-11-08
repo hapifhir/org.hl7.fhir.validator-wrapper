@@ -17,7 +17,7 @@ import styled.styledDiv
 import ui.components.options.presetSelect
 import ui.components.tabs.heading
 import ui.components.tabs.uploadtab.filelist.fileEntryList
-import ui.components.validation.validationSummaryPopup
+import ui.components.validation.validationOutcomePopup
 import utils.assembleRequest
 
 external interface FileUploadTabProps : Props {
@@ -120,7 +120,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                 }
             }
             state.currentlyDisplayedValidationOutcome?.let {
-                validationSummaryPopup {
+                validationOutcomePopup {
                     polyglot = props.polyglot
                     validationOutcome = state.currentlyDisplayedValidationOutcome!!
                     onClose = {

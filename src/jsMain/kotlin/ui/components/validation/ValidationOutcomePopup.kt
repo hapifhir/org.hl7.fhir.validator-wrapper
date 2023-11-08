@@ -11,33 +11,33 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 
-external interface ValidationSummaryPopupProps : Props {
+external interface ValidationOutcomePopupProps : Props {
     var validationOutcome: ValidationOutcome
     var polyglot: Polyglot
     var onClose: () -> Unit
 }
 
-class ValidationSummaryPopup : RComponent<ValidationSummaryPopupProps, State>() {
+class ValidationOutcomePopup : RComponent<ValidationOutcomePopupProps, State>() {
 
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +ValidationSummaryPopupStyle.overlay
+                +ValidationOutcomePopupStyle.overlay
             }
             styledDiv {
                 css {
-                    +ValidationSummaryPopupStyle.content
+                    +ValidationOutcomePopupStyle.content
                 }
                 styledDiv {
                     css {
-                        +ValidationSummaryStyle.mainContainer
+                        +ValidationOutcomeContainerStyle.mainContainer
                     }
 
                     styledDiv {
                         css {
-                            +ValidationSummaryStyle.headerContainer
+                            +ValidationOutcomeContainerStyle.headerContainer
                         }
-                        validationResultDialogHeader {
+                        validationOutcomePopupHeader {
                             filename = props.validationOutcome.getFileInfo().fileName
                             onClose = {
                                 props.onClose()
@@ -46,9 +46,9 @@ class ValidationSummaryPopup : RComponent<ValidationSummaryPopupProps, State>() 
                     }
                     styledDiv {
                         css {
-                           + ValidationSummaryPopupStyle.resultsContainer
+                           + ValidationOutcomePopupStyle.resultsContainer
                         }
-                        validationSummary {
+                        validationOutcomeContainer {
                             polyglot = props.polyglot
                             validationOutcome = props.validationOutcome
                             onClose = {
@@ -65,8 +65,8 @@ class ValidationSummaryPopup : RComponent<ValidationSummaryPopupProps, State>() 
 /**
  * React Component Builder
  */
-fun RBuilder.validationSummaryPopup(handler: ValidationSummaryPopupProps.() -> Unit) {
-    return child(ValidationSummaryPopup::class) {
+fun RBuilder.validationOutcomePopup(handler: ValidationOutcomePopupProps.() -> Unit) {
+    return child(ValidationOutcomePopup::class) {
         this.attrs(handler)
     }
 }
@@ -74,7 +74,7 @@ fun RBuilder.validationSummaryPopup(handler: ValidationSummaryPopupProps.() -> U
 /**
  * CSS
  */
-object ValidationSummaryPopupStyle : StyleSheet("ValidationSummaryPopupStyle", isStatic = true) {
+object ValidationOutcomePopupStyle : StyleSheet("ValidationOutcomePopupStyle", isStatic = true) {
     val overlay by css {
         display = Display.flex
         position = Position.fixed

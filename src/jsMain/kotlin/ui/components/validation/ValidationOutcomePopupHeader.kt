@@ -11,28 +11,28 @@ import react.*
 import react.dom.attrs
 import styled.*
 
-external interface ValidationResultDialogHeaderProps : Props {
+external interface ValidationOutcomePopupHeaderProps : Props {
     var filename: String
     var onClose: () -> Unit
 }
 
-class ValidationResultDialogHeader : RComponent<ValidationResultDialogHeaderProps, State>() {
+class ValidationOutcomePopupHeader : RComponent<ValidationOutcomePopupHeaderProps, State>() {
 
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +ValidationSummaryHeaderStyle.container
+                +ValidationOutcomePopupHeaderStyle.container
             }
             styledSpan {
                 css {
                     +TextStyle.tabSectionHeading
-                    +ValidationSummaryHeaderStyle.titleField
+                    +ValidationOutcomePopupHeaderStyle.titleField
                 }
                 +props.filename
             }
             styledImg {
                 css {
-                    +ValidationSummaryHeaderStyle.closeIcon
+                    +ValidationOutcomePopupHeaderStyle.closeIcon
                     hover {
                         backgroundColor = INACTIVE_GRAY
                     }
@@ -54,8 +54,8 @@ class ValidationResultDialogHeader : RComponent<ValidationResultDialogHeaderProp
 /**
  * React Component Builder
  */
-fun RBuilder.validationResultDialogHeader(handler: ValidationResultDialogHeaderProps.() -> Unit) {
-    return child(ValidationResultDialogHeader::class) {
+fun RBuilder.validationOutcomePopupHeader(handler: ValidationOutcomePopupHeaderProps.() -> Unit) {
+    return child(ValidationOutcomePopupHeader::class) {
         this.attrs(handler)
     }
 }
@@ -63,7 +63,7 @@ fun RBuilder.validationResultDialogHeader(handler: ValidationResultDialogHeaderP
 /**
  * CSS
  */
-object ValidationSummaryHeaderStyle : StyleSheet("ValidationSummaryHeaderStyle", isStatic = true) {
+object ValidationOutcomePopupHeaderStyle : StyleSheet("ValidationOutcomePopupHeaderStyle", isStatic = true) {
     val container by css {
         display = Display.flex
         flexDirection = FlexDirection.row
