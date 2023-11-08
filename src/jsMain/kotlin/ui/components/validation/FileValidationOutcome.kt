@@ -1,5 +1,6 @@
 package ui.components.validation
 
+import css.const.BORDER_GRAY
 import kotlinx.css.*
 import model.MessageFilter
 import model.ValidationMessage
@@ -12,12 +13,12 @@ import styled.styledDiv
 import ui.components.validation.codeissuedisplay.codeIssueDisplay
 import ui.components.validation.issuelist.issueEntryList
 
-external interface FileValidationResultsProps : Props {
+external interface FileValidationOutcomeProps : Props {
     var validationOutcome: ValidationOutcome
     var messageFilter: MessageFilter
 }
 
-class FileValidationResultsState : State {
+class FileValidationOutcomeState : State {
     var highlightedMessages: List<ValidationMessage> = emptyList()
 }
 
@@ -25,10 +26,10 @@ class FileValidationResultsState : State {
  * A React component displaying the code with highlighted issues, alongside the list of issues with associated details
  * and line numbers. Layout will change depending on current horizontal space for display.
  */
-class FileValidationResults : RComponent<FileValidationResultsProps, FileValidationResultsState>() {
+class FileValidationOutcome : RComponent<FileValidationOutcomeProps, FileValidationOutcomeState>() {
 
     init {
-        state = FileValidationResultsState()
+        state = FileValidationOutcomeState()
     }
 
     var editorRefFV : RefObject<Nothing> = createRef<Nothing>()
@@ -36,11 +37,11 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +FileValidationResultsStyle.parentContainer
+                +FileValidationOutcomeStyle.parentContainer
             }
             styledDiv {
                 css {
-                    +FileValidationResultsStyle.containerLeft
+                    +FileValidationOutcomeStyle.containerLeft
                 }
                 codeIssueDisplay {
                     validationOutcome = props.validationOutcome
@@ -56,7 +57,7 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
             }
             styledDiv {
                 css {
-                    +FileValidationResultsStyle.containerRight
+                    +FileValidationOutcomeStyle.containerRight
                 }
                 issueEntryList {
                     validationOutcome = props.validationOutcome
@@ -77,8 +78,8 @@ class FileValidationResults : RComponent<FileValidationResultsProps, FileValidat
 /**
  * React Component Builder
  */
-fun RBuilder.fileValidationResults(handler: FileValidationResultsProps.() -> Unit) {
-    return child(FileValidationResults::class) {
+fun RBuilder.fileValidationOutcome(handler: FileValidationOutcomeProps.() -> Unit) {
+    return child(FileValidationOutcome::class) {
         this.attrs(handler)
     }
 }
@@ -86,14 +87,13 @@ fun RBuilder.fileValidationResults(handler: FileValidationResultsProps.() -> Uni
 /**
  * CSS
  */
-object FileValidationResultsStyle : StyleSheet("FileValidationSummaryStyle", isStatic = true) {
+object FileValidationOutcomeStyle : StyleSheet("FileValidationOutcomeStyle", isStatic = true) {
     val parentContainer by css {
         display = Display.flex
         flexDirection = FlexDirection.column
         justifyContent = JustifyContent.start
         overflowY = Overflow.auto
         flexGrow = 1.0
-        padding(horizontal = 16.px)
         media(query = "(min-width: 1200px) and (orientation:landscape)", block = ruleSet {
             flexDirection = FlexDirection.row
         })
@@ -101,7 +101,11 @@ object FileValidationResultsStyle : StyleSheet("FileValidationSummaryStyle", isS
     val containerLeft by css {
         marginRight = 0.px
         marginBottom = 8.px
-        width = 100.pct
+        borderColor = BORDER_GRAY
+        borderStyle = BorderStyle.solid
+        borderWidth = 1.px
+
+        height = LinearDimension.fillAvailable
         media(query = "(min-width: 1200px) and (orientation:landscape)", block = ruleSet {
             marginBottom = 0.px
             marginRight = 8.px

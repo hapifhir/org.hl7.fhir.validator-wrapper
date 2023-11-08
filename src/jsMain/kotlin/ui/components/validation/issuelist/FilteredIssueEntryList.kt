@@ -33,9 +33,7 @@ class FilteredIssueEntryList : RComponent<FilteredIssueEntryListProps, FilteredI
             css {
                 +FilteredIssueEntryListStyle.entryListContainer
             }
-            heading {
-                text = props.polyglot.t("validation_results") + " (${state.messageFilter.determineNumberDisplayedIssues(props.validationOutcome.getMessages())})"
-            }
+
             issueFilterButtonBar {
                 polyglot = props.polyglot
                 messageFilter = state.messageFilter

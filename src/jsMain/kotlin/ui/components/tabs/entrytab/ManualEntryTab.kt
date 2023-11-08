@@ -13,10 +13,7 @@ import kotlinx.coroutines.withTimeout
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import mainScope
-import model.BundleValidationRule
-import model.CliContext
-import model.PackageInfo
-import model.ValidationOutcome
+import model.*
 import react.*
 import react.dom.attrs
 
@@ -24,13 +21,13 @@ import styled.*
 import ui.components.options.presetSelect
 import ui.components.tabs.heading
 
-import ui.components.validation.issuelist.filteredIssueEntryList
+import ui.components.validation.validationOutcomeContainer
 import utils.assembleRequest
 import utils.isJson
 import utils.isXml
 
 //TODO make this an intelligent value
-private const val VALIDATION_TIME_LIMIT =  60000L
+private const val VALIDATION_TIME_LIMIT =  90000L
 
 external interface ManualEntryTabProps : Props {
     var cliContext: CliContext
@@ -137,9 +134,14 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 }
             }
             props.validationOutcome?.let {
-                filteredIssueEntryList {
-                    polyglot = props.polyglot
-                    validationOutcome = props.validationOutcome!!
+                styledDiv {
+                    css {
+                        +ManualEntryTabStyle.resultsContainer
+                    }
+                    validationOutcomeContainer {
+                        polyglot = props.polyglot
+                        validationOutcome = props.validationOutcome!!
+                    }
                 }
             }
         }
@@ -174,8 +176,11 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     props.toggleValidationInProgress(false)
                 }
             } catch (e: TimeoutCancellationException) {
-                //TODO
-                println("Timeout ${e.message}")
+                setState {
+                    errorMessage = props.polyglot.t("manual_entry_timeout_exception")
+                    displayingError = true
+                }
+                props.toggleValidationInProgress(false)
             } catch (e: Exception) {
                 setState {
                     if (props.currentManuallyEnteredText.contains("Mark is super dorky")) {
@@ -220,6 +225,11 @@ object ManualEntryTabStyle : StyleSheet("ManualEntryTabStyle") {
         display = Display.inlineFlex
         flexDirection = FlexDirection.row
         alignItems = Align.center
+    }
+    val resultsContainer by css {
+        display = Display.flex
+        flexDirection = FlexDirection.column
+        minHeight = 600.px
     }
     val buttonBarDivider by css {
         width = 16.px

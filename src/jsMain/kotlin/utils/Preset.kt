@@ -24,9 +24,16 @@ val IPS_AU_IG = PackageInfo(
 
 val CDA_IG = PackageInfo(
     "hl7.cda.uv.core",
-    "2.1.0-draft1",
+    "2.0.0-sd-ballot",
     "5.0.0",
     "http://hl7.org/cda/stds/core/ImplementationGuide/hl7.cda.uv.core"
+)
+
+val CCDA_IG = PackageInfo(
+    "hl7.cda.us.ccda",
+    "current",
+    "5.0.0",
+    "http://hl7.org/fhir/us/ccda/ImplementationGuide/hl7.fhir.us.ccda"
 )
 
 val SQL_ON_FHIR_IG = PackageInfo(
@@ -65,6 +72,10 @@ val IPS_AU_CONTEXT = CliContext()
 val CDA_CONTEXT = CliContext()
     .setSv("5.0.0")
     .addIg(PackageInfo.igLookupString(CDA_IG))
+
+val CCDA_CONTEXT = CliContext()
+    .setSv("5.0.0")
+    .addIg(PackageInfo.igLookupString(CCDA_IG))
 
 val SQL_VIEW_CONTEXT = CliContext()
     .setSv("5.0.0")
@@ -113,8 +124,8 @@ enum class Preset(
     US_CCDA(
         "US_CDA",
         "preset_us_ccda",
-        CDA_CONTEXT,
-        setOf(CDA_IG),
+        CCDA_CONTEXT,
+        setOf(CCDA_IG),
         setOf(),
         setOf()
     ),

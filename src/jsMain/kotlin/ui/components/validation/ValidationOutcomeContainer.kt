@@ -11,43 +11,38 @@ import react.*
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
+import ui.components.tabs.heading
 import ui.components.validation.issuelist.issueFilterButtonBar
 
-external interface ValidationSummaryProps : Props {
+external interface ValidationOutcomeContainerProps : Props {
     var validationOutcome: ValidationOutcome
     var polyglot: Polyglot
     var onClose: () -> Unit
 }
 
-class ValidationSummaryState : State {
+class ValidationOutcomeContainerState : State {
     var messageFilter: MessageFilter = MessageFilter()
 }
 
-class ValidationSummary : RComponent<ValidationSummaryProps, ValidationSummaryState>() {
+class ValidationOutcomeContainer : RComponent<ValidationOutcomeContainerProps, ValidationOutcomeContainerState>() {
 
     init {
-        state = ValidationSummaryState()
+        state = ValidationOutcomeContainerState()
     }
 
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +ValidationSummaryStyle.mainContainer
-            }
+
             styledDiv {
                 css {
-                    +ValidationSummaryStyle.headerContainer
+                    +ValidationOutcomeContainerStyle.filterMenuContainer
                 }
-                validationSummaryHeader {
-                    filename = props.validationOutcome.getFileInfo().fileName
-                    onClose = {
-                        props.onClose()
+                heading {
+                    text = props.polyglot.t("validation_results") + " (${state.messageFilter.determineNumberDisplayedIssues(props.validationOutcome.getMessages())})"
+                }
+                styledDiv {
+                    css {
+                        width = 32.px
                     }
-                }
-            }
-            styledDiv {
-                css {
-                    +ValidationSummaryStyle.filterMenuContainer
                 }
                 issueFilterButtonBar {
                     polyglot = props.polyglot
@@ -61,22 +56,22 @@ class ValidationSummary : RComponent<ValidationSummaryProps, ValidationSummarySt
             }
             styledDiv {
                 css {
-                    +ValidationSummaryStyle.resultsDiv
+                    +ValidationOutcomeContainerStyle.resultsDiv
                 }
-                fileValidationResults {
+                fileValidationOutcome {
                     validationOutcome = props.validationOutcome
                     messageFilter = state.messageFilter
                 }
             }
         }
-    }
+
 }
 
 /**
  * React Component Builder
  */
-fun RBuilder.validationSummary(handler: ValidationSummaryProps.() -> Unit) {
-    return child(ValidationSummary::class) {
+fun RBuilder.validationOutcomeContainer(handler: ValidationOutcomeContainerProps.() -> Unit) {
+    return child(ValidationOutcomeContainer::class) {
         this.attrs(handler)
     }
 }
@@ -84,7 +79,7 @@ fun RBuilder.validationSummary(handler: ValidationSummaryProps.() -> Unit) {
 /**
  * CSS
  */
-object ValidationSummaryStyle : StyleSheet("ValidationSummaryStyle", isStatic = true) {
+object ValidationOutcomeContainerStyle : StyleSheet("ValidationOutcomeContainerStyle", isStatic = true) {
     val mainContainer by css {
         display = Display.flex
         flexDirection = FlexDirection.column
@@ -100,9 +95,8 @@ object ValidationSummaryStyle : StyleSheet("ValidationSummaryStyle", isStatic = 
     }
     val filterMenuContainer by css {
         display = Display.flex
-        flexDirection = FlexDirection.column
-        justifyContent = JustifyContent.center
-        padding(horizontal = 16.px)
+        flexDirection = FlexDirection.row
+        justifyContent = JustifyContent.left
     }
     val resultsDiv by css {
         display = Display.flex

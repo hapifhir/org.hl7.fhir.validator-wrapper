@@ -11,28 +11,28 @@ import react.*
 import react.dom.attrs
 import styled.*
 
-external interface ValidationSummaryHeaderProps : Props {
+external interface ValidationOutcomePopupHeaderProps : Props {
     var filename: String
     var onClose: () -> Unit
 }
 
-class ValidationSummaryHeader : RComponent<ValidationSummaryHeaderProps, State>() {
+class ValidationOutcomePopupHeader : RComponent<ValidationOutcomePopupHeaderProps, State>() {
 
     override fun RBuilder.render() {
         styledDiv {
             css {
-                +ValidationSummaryHeaderStyle.container
+                +ValidationOutcomePopupHeaderStyle.container
             }
             styledSpan {
                 css {
                     +TextStyle.tabSectionHeading
-                    +ValidationSummaryHeaderStyle.titleField
+                    +ValidationOutcomePopupHeaderStyle.titleField
                 }
                 +props.filename
             }
             styledImg {
                 css {
-                    +ValidationSummaryHeaderStyle.closeIcon
+                    +ValidationOutcomePopupHeaderStyle.closeIcon
                     hover {
                         backgroundColor = INACTIVE_GRAY
                     }
@@ -54,8 +54,8 @@ class ValidationSummaryHeader : RComponent<ValidationSummaryHeaderProps, State>(
 /**
  * React Component Builder
  */
-fun RBuilder.validationSummaryHeader(handler: ValidationSummaryHeaderProps.() -> Unit) {
-    return child(ValidationSummaryHeader::class) {
+fun RBuilder.validationOutcomePopupHeader(handler: ValidationOutcomePopupHeaderProps.() -> Unit) {
+    return child(ValidationOutcomePopupHeader::class) {
         this.attrs(handler)
     }
 }
@@ -63,7 +63,7 @@ fun RBuilder.validationSummaryHeader(handler: ValidationSummaryHeaderProps.() ->
 /**
  * CSS
  */
-object ValidationSummaryHeaderStyle : StyleSheet("ValidationSummaryHeaderStyle", isStatic = true) {
+object ValidationOutcomePopupHeaderStyle : StyleSheet("ValidationOutcomePopupHeaderStyle", isStatic = true) {
     val container by css {
         display = Display.flex
         flexDirection = FlexDirection.row

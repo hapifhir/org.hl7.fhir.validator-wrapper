@@ -6,6 +6,7 @@
   "manual_entry_place_holder" : "Enter Resource Manually...",
   "manual_entry_title" : "Code",
   "manual_entry_error" : "Please enter something to validate.",
+  "manual_entry_timeout_exception" : "Validation timed out. Please wait 30 seconds and try again.",
   "manual_entry_cannot_parse_exception" : "Cannot parse entered text as valid JSON/XML.",
   "validate_button" : "Validate",
   "upload_resources_heading" : "Upload Resources",
