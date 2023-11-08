@@ -37,11 +37,11 @@ class ValidationOutcomeContainer : RComponent<ValidationOutcomeContainerProps, V
                     +ValidationOutcomeContainerStyle.filterMenuContainer
                 }
                 heading {
-                    text = props.polyglot.t("validation_results") + " (${state.messageFilter.determineNumberDisplayedIssues(props.validationOutcome.getMessages())}):"
+                    text = props.polyglot.t("validation_results") + " (${state.messageFilter.determineNumberDisplayedIssues(props.validationOutcome.getMessages())})"
                 }
                 styledDiv {
                     css {
-                        width = 16.px
+                        width = 32.px
                     }
                 }
                 issueFilterButtonBar {

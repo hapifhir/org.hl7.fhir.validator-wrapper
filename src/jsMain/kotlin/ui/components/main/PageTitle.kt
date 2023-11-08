@@ -58,6 +58,6 @@ object PageTitleStyle : StyleSheet("PageTitleStyle", isStatic = true) {
         flexDirection = FlexDirection.column
     }
     val titleStyle by css {
-        paddingBottom = 18.px
+        paddingBottom = 4.px
     }
 }
