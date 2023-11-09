@@ -9,22 +9,23 @@ import constants.VALIDATOR_VERSION_ENDPOINT
 
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinext.js.asJsObject
 import io.ktor.client.call.*
+import io.ktor.client.statement.*
 import model.*
-
-import kotlinx.browser.window
 
 suspend fun sendValidationRequest(validationRequest: ValidationRequest): ValidationResponse {
     val myMap = js("{" +
             "\"txServer\":\"dummyServer\"" +
             "}")
-    println(myMap)
     kotlinx.browser.window.asDynamic().gtag("event", "validationEvent", myMap)
-    return jsonClient.post(urlString = endpoint + VALIDATION_ENDPOINT) {
+    val response = jsonClient.post(urlString = endpoint + VALIDATION_ENDPOINT) {
         contentType(ContentType.Application.Json)
         setBody(validationRequest)
-    }.body()
+    }
+    if (response.status != HttpStatusCode.OK) {
+        throw ValidationResponseException(response.status.value, response.bodyAsText())
+    }
+    return response.body()
 }
 
 suspend fun sendValidatorVersionRequest() : String {

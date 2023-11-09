@@ -23,6 +23,7 @@ import ui.components.tabs.heading
 
 import ui.components.validation.validationOutcomeContainer
 import utils.assembleRequest
+import utils.getJS
 import utils.isJson
 import utils.isXml
 
@@ -100,7 +101,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                         if (props.currentManuallyEnteredText.isNotEmpty()) {
                             validateEnteredText(props.currentManuallyEnteredText)
                         } else {
-                            val newErrorMessage = props.polyglot.t("manual_entry_error")
+                            val newErrorMessage = props.polyglot.t("manual_entry_empty_request_error")
                             setState {
                                 errorMessage = newErrorMessage
                                 displayingError = true
@@ -181,7 +182,16 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     displayingError = true
                 }
                 props.toggleValidationInProgress(false)
-            } catch (e: Exception) {
+            } catch (e : ValidationResponseException) {
+                setState {
+                    errorMessage = props.polyglot.t("manual_entry_validation_response_exception",
+                        getJS(arrayOf(Pair("httpResponseCode", e.httpStatusCode)))
+                    )
+                    displayingError = true
+                }
+                println("Exception ${e.message}")
+            }
+            catch (e: Exception) {
                 setState {
                     if (props.currentManuallyEnteredText.contains("Mark is super dorky")) {
                         ohShitYouDidIt = true
