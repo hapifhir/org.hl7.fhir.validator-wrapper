@@ -8,6 +8,8 @@
   "manual_entry_empty_request_error" : "Please enter something to validate.",
   "manual_entry_timeout_exception" : "Validation timed out. Please wait 30 seconds and try again.",
   "manual_entry_validation_response_exception" : "Error received from validation server: %{httpResponseCode}",
+  "manual_entry_error" : "Please enter something to validate.",
+  "manual_entry_timeout_exception" : "Validation timed out. Please wait 30 seconds and try again.",
   "manual_entry_cannot_parse_exception" : "Cannot parse entered text as valid JSON/XML.",
   "validate_button" : "Validate",
   "upload_resources_heading" : "Upload Resources",
