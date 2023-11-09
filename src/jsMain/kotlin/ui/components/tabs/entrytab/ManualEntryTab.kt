@@ -28,7 +28,7 @@ import utils.isJson
 import utils.isXml
 
 //TODO make this an intelligent value
-private const val VALIDATION_TIME_LIMIT =  90000L
+private const val VALIDATION_TIME_LIMIT =  120000L
 
 external interface ManualEntryTabProps : Props {
     var cliContext: CliContext
