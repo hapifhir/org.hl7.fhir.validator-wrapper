@@ -15,7 +15,6 @@ class ValidationControllerImpl : ValidationController, KoinComponent {
     private val validationServiceFactory by inject<ValidationServiceFactory>()
 
     override suspend fun validateRequest(validationRequest: ValidationRequest): ValidationResponse {
-
         return validationServiceFactory.getValidationService().validateSources(validationRequest)
     }
 
