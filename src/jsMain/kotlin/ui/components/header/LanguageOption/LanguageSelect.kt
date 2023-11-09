@@ -40,8 +40,10 @@ class LanguageSelect(props : LanguageSelectProps) : RComponent<LanguageSelectPro
                     +props.polyglot.t("language")
                 }
                 Select {
+
                     attrs {
                         label = ReactNode("Language")
+                        value = props.selectedLanguage.getLanguageCode().unsafeCast<Nothing?>()
                         onChange = { event, _ ->
                             val selectedLanguage = Language.getSelectedLanguage(event.target.value)
                             if (selectedLanguage != null) {

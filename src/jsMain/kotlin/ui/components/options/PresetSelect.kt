@@ -35,6 +35,7 @@ external interface PresetSelectProps : Props {
 
 class PresetSelectState : State {
     var snackbarOpen : String? = null
+    var preset : String = ""
 }
 
 class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
@@ -81,7 +82,8 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                         }
                         Select {
                             attrs {
-                                label = ReactNode("preset")
+                                label = ReactNode("Preset")
+                                value = "".unsafeCast<Nothing?>()
                                 onChange = { event, _ ->
                                     val selectedPreset = Preset.getSelectedPreset(event.target.value)
                                     if (selectedPreset != null) {
@@ -121,7 +123,12 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                     open = state.snackbarOpen != null
                     message = ReactNode(
                         props.polyglot.t("preset_notification",
-                            getJS(arrayOf(Pair("selectedPreset", props.polyglot.t(state.snackbarOpen.toString())))))
+                            getJS(arrayOf(Pair("selectedPreset",
+                                if (state.snackbarOpen != null)
+                                    props.polyglot.t(state.snackbarOpen.toString())
+                                else
+                                    "---"
+                            ))))
                     )
                     autoHideDuration=6000
                     onClose = { event, _ -> handleSnackBarClose() }
