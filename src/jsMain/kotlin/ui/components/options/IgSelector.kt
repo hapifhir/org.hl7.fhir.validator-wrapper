@@ -47,13 +47,17 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
             try {
                 val igResponse = sendIGVersionsRequest(igPackageName)
                 igResponse.packageInfo
+
             } catch (e : Exception) {
                mutableListOf()
             }
 
-            val registryPackages : MutableList<PackageInfo> = props.igList.filter{ it.id == igPackageName }.toMutableList();
-            val allPackages = (registryPackages + simplifierPackages).distinctBy{it.version}
-                .sortedBy{it.version}.reversed().toMutableList()
+
+
+            val registryPackages : MutableList<PackageInfo> = props.igList.filter{ it.id == igPackageName && it.version != null }.toMutableList();
+            val allPackages = (registryPackages + simplifierPackages + PackageInfo(id = igPackageName, fhirVersion = null, url = null, version = "current")).distinctBy{it.version}
+                .sortedWith(PackageInfo.VersionComparator()).reversed().toMutableList()
+
 
             setState {
                 packageVersions = allPackages.map { Pair(it, false) }.toMutableList()
@@ -96,6 +100,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                 val versions = state.packageVersions.filter { it.first.fhirVersionMatches(props.fhirVersion)}
                     .map{Pair(it.first.version ?: "", it.second)}
                     .toMutableList()
+
                 val versionSelected = versions.filter { it.second }.isNotEmpty()
                 styledSpan {
                     css {

@@ -2,6 +2,9 @@ package model
 
 import kotlinx.serialization.Serializable
 
+import kotlin.math.max
+
+
 @Serializable
 data class PackageInfo(
     var id: String? = null,
@@ -18,7 +21,7 @@ data class PackageInfo(
     fun fhirVersionMatches(fhirVersion: String): Boolean {
         this.fhirVersion?.let {
             return extractMajorMinor(this.fhirVersion!!) == extractMajorMinor(fhirVersion)
-        } ?: return false
+        } ?: return true
     }
 
     fun extractMajorMinor(fhirVersion: String): String {
@@ -33,6 +36,44 @@ data class PackageInfo(
             "${versions[0]}.${versions[1]}"
         } else {
             fhirVersion
+        }
+    }
+
+    class VersionComparator : Comparator<PackageInfo> {
+        override fun compare(a: PackageInfo, b: PackageInfo): Int {
+            if (a.version.equals("current")) {
+                return -1;
+            } else if (b.version.equals("current")) {
+                return 1;
+            }
+            if (a.version == null && b.version == null) {
+                return 0;
+            }
+            if (a.version == null && b.version != null) {
+                return -1;
+            }
+            if (b.version == null && a.version != null) {
+                return 1;
+            }
+            return try {
+                compare(a.version!!, b.version!!)
+            } catch (e : Exception) {
+                return a.version!!.compareTo(b.version!!)
+            }
+
+        }
+
+        fun compare(a : String, b: String) : Int{
+            val aParts: List<String> = a.split(".", "-")
+            val bParts: List<String> = b.split(".", "-")
+            val length = max(aParts.size.toDouble(), bParts.size.toDouble()).toInt()
+            for (i in 0 until length) {
+                val aPart = if (i < aParts.size) aParts[i].toInt() else 0
+                val bPart = if (i < bParts.size) bParts[i].toInt() else 0
+                if (aPart < bPart) return -1
+                if (aPart > bPart) return 1
+            }
+            return 0
         }
     }
 
