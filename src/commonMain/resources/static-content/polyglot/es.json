@@ -93,6 +93,7 @@
     "preset_fhir_resource" : "FHIR Resource -Spanish",
     "preset_ips" : "IPS Document -Spanish",
     "preset_ips_au" : "Australian IPS Document -Spanish",
+    "preset_ips_nz" : "New Zealand IPS Document -Spanish",
     "present_cda" : "CDA Document -Spanish",
     "preset_us_ccda" : "US CCDA Document -Spanish",
     "preset_sql_view": "SQL View Definition -Spanish",
