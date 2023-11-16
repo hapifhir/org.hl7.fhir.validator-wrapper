@@ -54,6 +54,7 @@ class ValidationOutcomePopup : RComponent<ValidationOutcomePopupProps, State>() 
                             onClose = {
                                 props.onClose()
                             }
+                            inPage = false
                         }
                     }
                 }
