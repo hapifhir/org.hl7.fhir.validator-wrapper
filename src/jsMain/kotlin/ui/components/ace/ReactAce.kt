@@ -23,5 +23,7 @@ external val aceEditor: ComponentClass<AceEditorProps>
     var defaultValue : String?
     var value : String?
     var setOptions : AceOptions
+
+    var onCursorChange : () -> Unit
 }
 

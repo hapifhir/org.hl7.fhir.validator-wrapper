@@ -1,6 +1,7 @@
 package ui.components.validation.codeissuedisplay
 
 import css.*
+import emotion.css.css
 import ui.components.ace.aceEditor
 import kotlinx.css.*
 
@@ -11,10 +12,13 @@ import model.ValidationMessage
 import model.ValidationOutcome
 import react.*
 import styled.StyleSheet
+import styled.css
+import styled.styledDiv
 import ui.components.ace.AceAnnotation
 import ui.components.ace.AceMarker
 import ui.components.ace.AceOptions
 import ui.components.ace.setAnnotations
+import ui.components.validation.FileValidationOutcomeStyle
 
 external interface CodeIssueDisplayProps : Props {
     var validationOutcome: ValidationOutcome
@@ -99,9 +103,19 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, State>() {
                 value = props.validationOutcome.getFileInfo().fileContent
                 setOptions = AceOptions(false)
                 markers = aceMarkers
+                onCursorChange = {  console.log("Heidi ho") }
             }
         }
-        
+
+        styledDiv {
+            css {
+                position = Position.absolute
+                zIndex = 1;
+                right = 16.px
+                bottom = 16.px
+            }
+            + "0:0"
+        }
     }
 }
 
