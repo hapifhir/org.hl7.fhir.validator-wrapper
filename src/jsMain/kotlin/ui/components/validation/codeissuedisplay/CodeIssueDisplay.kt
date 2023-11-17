@@ -18,7 +18,7 @@ import ui.components.ace.AceAnnotation
 import ui.components.ace.AceMarker
 import ui.components.ace.AceOptions
 import ui.components.ace.setAnnotations
-import ui.components.validation.FileValidationOutcomeStyle
+import ui.components.ace.getCurson
 
 external interface CodeIssueDisplayProps : Props {
     var validationOutcome: ValidationOutcome
@@ -103,7 +103,7 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, State>() {
                 value = props.validationOutcome.getFileInfo().fileContent
                 setOptions = AceOptions(false)
                 markers = aceMarkers
-                onCursorChange = {  console.log("Heidi ho") }
+                onCursorChange = {  getCurson(props.editorRef) }
             }
         }
 
