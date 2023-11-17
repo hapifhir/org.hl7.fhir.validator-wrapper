@@ -103,10 +103,17 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
     }
 
     // Validation Issue Entries
-    val issueLineAndType by css {
+    val issueType by css {
         fontFamily = FONT_FAMILY_CODE
         fontSize = 12.pt
         fontWeight = FontWeight.w600
+        color = TEXT_BLACK
+    }
+
+    val issueLineAndColumn by css {
+        fontFamily = FONT_FAMILY_CODE
+        fontSize = 10.pt
+        fontWeight = FontWeight.w300
         color = TEXT_BLACK
     }
 

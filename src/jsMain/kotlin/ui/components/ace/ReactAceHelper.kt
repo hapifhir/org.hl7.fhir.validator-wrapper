@@ -1,15 +1,11 @@
 package ui.components.ace
 
-import react.MutableRefObject
 import react.RefObject
 
-
-fun gotoLine(editorRef: RefObject<Nothing>, line: Int) {
-    editorRef.asDynamic().current.editor.gotoLine(line)
-}
-
-fun scrollToLine(editorRef: RefObject<Nothing>, line: Int) {
-    editorRef.asDynamic().current.editor.scrollToLine(line, true, true, null)
+fun scrollTo(editorRef: RefObject<Nothing>, row: Int, column:Int) {
+    editorRef.asDynamic().current.editor.gotoLine(row)
+    editorRef.asDynamic().current.editor.moveCursorTo(row - 1, column - 1)
+    editorRef.asDynamic().current.editor.centerSelection()
 }
 
 fun setAnnotations(editorRef: RefObject<Nothing>, aceAnnotations : Array<AceAnnotation>) {

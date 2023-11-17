@@ -5,6 +5,7 @@ import kotlinx.css.*
 import model.MessageFilter
 import model.ValidationMessage
 import model.ValidationOutcome
+import kotlinx.browser.window
 
 import react.*
 import styled.StyleSheet
@@ -16,6 +17,7 @@ import ui.components.validation.issuelist.issueEntryList
 external interface FileValidationOutcomeProps : Props {
     var validationOutcome: ValidationOutcome
     var messageFilter: MessageFilter
+    var inPage: Boolean
 }
 
 class FileValidationOutcomeState : State {
@@ -42,6 +44,12 @@ class FileValidationOutcome : RComponent<FileValidationOutcomeProps, FileValidat
             styledDiv {
                 css {
                     +FileValidationOutcomeStyle.containerLeft
+                    if (props.inPage) {
+                        +FileValidationOutcomeStyle.pageMinHeight
+                        +FileValidationOutcomeStyle.pageMaxHeight
+                    }
+                    else
+                        +FileValidationOutcomeStyle.parentMaxHeight
                 }
                 codeIssueDisplay {
                     validationOutcome = props.validationOutcome
@@ -58,6 +66,14 @@ class FileValidationOutcome : RComponent<FileValidationOutcomeProps, FileValidat
             styledDiv {
                 css {
                     +FileValidationOutcomeStyle.containerRight
+                     if (props.inPage) {
+                         +FileValidationOutcomeStyle.pageMaxHeight
+                     }
+                     else {
+                         +FileValidationOutcomeStyle.parentMaxHeight
+                         +FileValidationOutcomeStyle.parentMinHeight
+                     }
+
                 }
                 issueEntryList {
                     validationOutcome = props.validationOutcome
@@ -92,6 +108,7 @@ object FileValidationOutcomeStyle : StyleSheet("FileValidationOutcomeStyle", isS
         display = Display.flex
         flexDirection = FlexDirection.column
         justifyContent = JustifyContent.start
+
         overflowY = Overflow.auto
         flexGrow = 1.0
         media(query = "(min-width: 1200px) and (orientation:landscape)", block = ruleSet {
@@ -104,8 +121,8 @@ object FileValidationOutcomeStyle : StyleSheet("FileValidationOutcomeStyle", isS
         borderColor = BORDER_GRAY
         borderStyle = BorderStyle.solid
         borderWidth = 1.px
+        minHeight = 98.pct
 
-        height = LinearDimension.fillAvailable
         media(query = "(min-width: 1200px) and (orientation:landscape)", block = ruleSet {
             marginBottom = 0.px
             marginRight = 8.px
@@ -117,10 +134,29 @@ object FileValidationOutcomeStyle : StyleSheet("FileValidationOutcomeStyle", isS
         marginTop = 8.px
         width = 100.pct
         overflowY = Overflow.auto
+
+
         media(query = "(min-width: 1200px) and (orientation:landscape)", block = ruleSet {
             marginTop = 0.px
             marginLeft = 8.px
             width = 50.pct
         })
     }
+
+    val pageMaxHeight by css {
+        maxHeight = window.innerHeight.px - 96.px
+    }
+
+    val pageMinHeight by css {
+        minHeight = window.innerHeight.px - 96.px
+    }
+
+    val parentMinHeight by css {
+        minHeight = 98.pct
+    }
+
+    val parentMaxHeight by css {
+        maxHeight = 98.pct
+    }
+
 }

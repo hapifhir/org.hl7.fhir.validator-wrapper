@@ -9,8 +9,7 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledUl
-import ui.components.ace.scrollToLine
-import ui.components.ace.gotoLine
+import ui.components.ace.scrollTo
 
 external interface IssueEntryListProps : Props {
     var validationOutcome: ValidationOutcome
@@ -45,8 +44,7 @@ class IssueEntryList : RComponent<IssueEntryListProps, State>() {
                                 props.onHighlight?.let { it(highlighted, listOf(message)) }
                             }
                             onMouseDown = {
-                                scrollToLine(props.editorRef, message.getLine())
-                                gotoLine(props.editorRef, message.getLine())
+                                scrollTo(props.editorRef, message.getLine(), message.getCol())
                             }
                         }
                         if (filesIterator.hasNext()) {

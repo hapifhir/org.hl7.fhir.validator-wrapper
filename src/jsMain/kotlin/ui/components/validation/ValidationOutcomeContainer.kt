@@ -18,6 +18,7 @@ external interface ValidationOutcomeContainerProps : Props {
     var validationOutcome: ValidationOutcome
     var polyglot: Polyglot
     var onClose: () -> Unit
+    var inPage: Boolean
 }
 
 class ValidationOutcomeContainerState : State {
@@ -61,6 +62,7 @@ class ValidationOutcomeContainer : RComponent<ValidationOutcomeContainerProps, V
                 fileValidationOutcome {
                     validationOutcome = props.validationOutcome
                     messageFilter = state.messageFilter
+                    inPage = props.inPage
                 }
             }
         }

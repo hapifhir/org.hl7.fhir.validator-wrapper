@@ -14,6 +14,8 @@ import model.IssueSeverity
 import model.ValidationMessage
 import react.*
 import react.dom.attrs
+import react.dom.html.ReactHTML.div
+import react.dom.html.ReactHTML.span
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
@@ -64,12 +66,21 @@ class IssueEntry : RComponent<IssueEntryProps, State>() {
                     props.onMouseDown()
                 }
             }
-            styledSpan {
-                css {
-                    +IssueEntryStyle.levelAndLineNumber
-                    +TextStyle.issueLineAndType
-                }
-                +"${props.validationMessage.getLevel().display} Line: ${props.validationMessage.getLine()}"
+            span {
+
+                styledDiv {
+                    css {
+                        +IssueEntryStyle.levelAndLineNumber
+                        +TextStyle.issueType
+                    }
+                    + "${props.validationMessage.getLevel().display} " }
+                styledDiv {
+                    css {
+                        +IssueEntryStyle.levelAndLineNumber
+                        +TextStyle.issueLineAndColumn
+                    }
+                    + "Line: ${props.validationMessage.getLine()}, Col:${props.validationMessage.getCol()}" }
+
             }
             styledSpan {
                 css {

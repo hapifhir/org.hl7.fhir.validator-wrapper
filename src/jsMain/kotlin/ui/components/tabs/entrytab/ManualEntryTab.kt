@@ -142,6 +142,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     validationOutcomeContainer {
                         polyglot = props.polyglot
                         validationOutcome = props.validationOutcome!!
+                        inPage = true
                     }
                 }
             }
