@@ -1,10 +1,7 @@
 package reactredux.containers
 
 import Polyglot
-import model.BundleValidationRule
-import model.CliContext
-import model.PackageInfo
-import model.ValidationOutcome
+import model.*
 import react.ComponentClass
 import react.Props
 import react.invoke
@@ -21,6 +18,7 @@ import ui.components.tabs.entrytab.ManualEntryTabProps
 private interface ManualEntryTabStateProps : Props {
     var cliContext: CliContext
     var validationOutcome: ValidationOutcome?
+    var validationTime: ValidationTime?
     var currentManuallyEnteredText: String
     var validatingManualEntryInProgress: Boolean
     var polyglot: Polyglot
@@ -29,6 +27,7 @@ private interface ManualEntryTabStateProps : Props {
 
 private interface ManualEntryTabDispatchProps : Props {
     var setValidationOutcome: (ValidationOutcome) -> Unit
+    var setValidationTime: (ValidationTime) -> Unit
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
     var updateCliContext: (CliContext) -> Unit
@@ -44,13 +43,16 @@ val manualEntryTab: ComponentClass<Props> =
         { state, _ ->
             cliContext = state.validationContextSlice.cliContext
             validationOutcome = state.manualEntrySlice.validationOutcome
+            validationTime = state.manualEntrySlice.validationTime
             currentManuallyEnteredText = state.manualEntrySlice.currentManuallyEnteredText
             validatingManualEntryInProgress = state.manualEntrySlice.validatingManualEntryInProgress
+
             polyglot = state.localizationSlice.polyglotInstance
             sessionId = state.validationSessionSlice.sessionId
         },
         { dispatch, _ ->
             setValidationOutcome = { dispatch(ManualEntrySlice.AddManualEntryOutcome(it)) }
+            setValidationTime = { dispatch(ManualEntrySlice.SetManualEntryValidationTime(it))}
             toggleValidationInProgress = { dispatch(ManualEntrySlice.ToggleValidationInProgress(it)) }
             updateCurrentlyEnteredText = { dispatch(ManualEntrySlice.UpdateCurrentlyEnteredText(it)) }
             updateCliContext = {

@@ -7,14 +7,16 @@ actual class ValidationResponse actual constructor() {
 
     private var outcomes: List<ValidationOutcome> = listOf()
     private var sessionId: String = ""
+    private var validationTime: ValidationTime? = ValidationTime()
 
     constructor(outcomes: List<ValidationOutcome>) : this() {
         this.outcomes = outcomes
     }
 
-    constructor(outcomes: List<ValidationOutcome>, sessionId: String) : this() {
+    constructor(outcomes: List<ValidationOutcome>, sessionId: String, validationTime: ValidationTime) :this() {
         this.outcomes = outcomes
         this.sessionId = sessionId
+        this.validationTime = validationTime
     }
 
     actual fun getOutcomes(): List<ValidationOutcome> {
@@ -32,6 +34,15 @@ actual class ValidationResponse actual constructor() {
 
     actual fun setSessionId(sessionId: String): ValidationResponse {
         this.sessionId = sessionId
+        return this
+    }
+
+    actual fun getValidationTime(): ValidationTime? {
+        return  validationTime
+    }
+
+    actual fun setValidationTime(validationTime: ValidationTime?): ValidationResponse {
+       this.validationTime = validationTime
         return this
     }
 }

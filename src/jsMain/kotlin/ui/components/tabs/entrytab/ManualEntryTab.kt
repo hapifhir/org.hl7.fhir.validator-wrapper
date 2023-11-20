@@ -33,12 +33,14 @@ private const val VALIDATION_TIME_LIMIT =  120000L
 external interface ManualEntryTabProps : Props {
     var cliContext: CliContext
     var validationOutcome: ValidationOutcome?
+    var validationTime: ValidationTime?
     var currentManuallyEnteredText: String
     var validatingManualEntryInProgress: Boolean
     var polyglot: Polyglot
     var sessionId: String
 
     var setValidationOutcome: (ValidationOutcome) -> Unit
+    var setValidationTime: (ValidationTime?) -> Unit
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
     var updateCliContext: (CliContext) -> Unit
@@ -47,6 +49,7 @@ external interface ManualEntryTabProps : Props {
     var updateProfileSet: (Set<String>) -> Unit
     var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
     var setSessionId: (String) -> Unit
+
 }
 
 class ManualEntryTabState : State {
@@ -145,6 +148,14 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                         inPage = true
                     }
                 }
+                props.validationTime?.let {
+                    styledDiv {
+                        css {
+
+                        }
+                        +props.validationTime!!.getOverall().toString()
+                    }
+                }
             }
         }
     }
@@ -175,6 +186,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                             + "Issues ::\n" + returnedOutcome.first().getMessages()
                         .joinToString { "\n" })
                     props.setValidationOutcome(returnedOutcome.first())
+                    props.setValidationTime(validationResponse.getValidationTime())
                     props.toggleValidationInProgress(false)
                 }
             } catch (e: TimeoutCancellationException) {
