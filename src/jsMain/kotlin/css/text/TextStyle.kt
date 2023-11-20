@@ -117,6 +117,13 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
         color = TEXT_BLACK
     }
 
+    val editorLineAndCol by css {
+        fontFamily = FONT_FAMILY_CODE
+        fontSize = 10.pt
+        fontWeight = FontWeight.w300
+        color = LINE_NUMBER_GRAY
+    }
+
     val manualEntryFailMessage by css {
         fontFamily = FONT_FAMILY_MAIN
         fontSize = 12.pt

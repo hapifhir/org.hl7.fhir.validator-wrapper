@@ -1,6 +1,8 @@
 package ui.components.validation.codeissuedisplay
 
 import css.*
+import css.text.TextStyle
+import emotion.css.css
 import ui.components.ace.aceEditor
 import kotlinx.css.*
 
@@ -11,10 +13,14 @@ import model.ValidationMessage
 import model.ValidationOutcome
 import react.*
 import styled.StyleSheet
+import styled.css
+import styled.styledDiv
 import ui.components.ace.AceAnnotation
 import ui.components.ace.AceMarker
 import ui.components.ace.AceOptions
 import ui.components.ace.setAnnotations
+import ui.components.ace.getCurson
+import ui.components.buttons.ToggleButtonState
 
 external interface CodeIssueDisplayProps : Props {
     var validationOutcome: ValidationOutcome
@@ -22,6 +28,11 @@ external interface CodeIssueDisplayProps : Props {
     var highlightedMessages: List<ValidationMessage>
     var onHighlight: (Boolean, List<ValidationMessage>) -> Unit
     var editorRef:RefObject<Nothing>
+}
+
+class CodeIssueDisplayState : State {
+    var line: Int = 0
+    var col: Int = 0;
 }
 
 fun issueSeverityToAceAnnotation(issueSeverity: IssueSeverity): String {
@@ -51,8 +62,11 @@ fun fileTypeToAceMode(fileType : String?) : String {
     return fileType
 }
 
-class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, State>() {
+class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, CodeIssueDisplayState>() {
 
+    init {
+        state = CodeIssueDisplayState()
+    }
     /*
     This is here because the annotations set in the aceEditor props
     will get blown away when the text content changes. So, with every
@@ -99,9 +113,26 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, State>() {
                 value = props.validationOutcome.getFileInfo().fileContent
                 setOptions = AceOptions(false)
                 markers = aceMarkers
+                onCursorChange = {
+                    val cursor = getCurson(props.editorRef)
+                    setState {
+                        line = cursor.first
+                        col = cursor.second
+                    }
+                }
             }
         }
-        
+
+        styledDiv {
+            css {
+                position = Position.absolute
+                zIndex = 1;
+                right = 16.px
+                bottom = 16.px
+                +TextStyle.editorLineAndCol
+            }
+            + ((state.line + 1).toString() + ":" + (state.col + 1).toString())
+        }
     }
 }
 
