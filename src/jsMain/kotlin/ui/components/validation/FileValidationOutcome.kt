@@ -144,11 +144,11 @@ object FileValidationOutcomeStyle : StyleSheet("FileValidationOutcomeStyle", isS
     }
 
     val pageMaxHeight by css {
-        maxHeight = window.innerHeight.px - 96.px
+        maxHeight = window.innerHeight.px - 128.px
     }
 
     val pageMinHeight by css {
-        minHeight = window.innerHeight.px - 96.px
+        minHeight = window.innerHeight.px - 128.px
     }
 
     val parentMinHeight by css {

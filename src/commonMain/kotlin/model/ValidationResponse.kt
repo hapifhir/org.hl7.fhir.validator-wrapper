@@ -6,7 +6,7 @@ expect class ValidationResponse() {
     fun getSessionId(): String
     fun setSessionId(sessionId: String): ValidationResponse
 
-    fun getValidationTime(): ValidationTime?
+    fun getValidationTimes(): Map<String, ValidationTime>
 
-    fun setValidationTime(validationTime: ValidationTime?) : ValidationResponse
+    fun setValidationTimes(validationTimes: Map<String, ValidationTime>) : ValidationResponse
 }

@@ -2,6 +2,7 @@ package reactredux.slices
 
 import model.FileInfo
 import model.ValidationOutcome
+import model.ValidationTime
 import redux.RAction
 
 object UploadedResourceSlice {
@@ -9,12 +10,15 @@ object UploadedResourceSlice {
     data class State(
         val uploadInProgress: Boolean = false,
         val uploadedFiles: List<ValidationOutcome> = emptyList(),
-    )
+        val validationTimes: Map<String, ValidationTime> = emptyMap()
+        )
 
     data class UploadFile(val fileInfo: FileInfo) : RAction
     data class RemoveFile(val fileInfo: FileInfo) : RAction
     data class ToggleValidationInProgress(val validating: Boolean, val fileInfo: FileInfo) : RAction
     data class AddValidationOutcome(val outcome: ValidationOutcome) : RAction
+
+    data class AddValidationTime(val fileName: String, val validationTime: ValidationTime ) : RAction
     class ClearValidationOutcomes : RAction
 
     fun reducer(state: State = State(), action: RAction): State {
@@ -37,6 +41,9 @@ object UploadedResourceSlice {
                 }
             }.toList())
             is ClearValidationOutcomes -> state.copy(uploadedFiles = emptyList())
+            is AddValidationTime -> state.copy(
+                validationTimes = state.validationTimes.plus(Pair(action.fileName,action.validationTime))
+            )
             else -> {
                 state
             }

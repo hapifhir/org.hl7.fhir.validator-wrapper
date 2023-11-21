@@ -22,6 +22,7 @@ import utils.assembleRequest
 
 external interface FileUploadTabProps : Props {
     var uploadedFiles: List<ValidationOutcome>
+    var validationTimes: Map<String, ValidationTime>
     var cliContext: CliContext
     var sessionId: String
     var polyglot: Polyglot
@@ -30,6 +31,7 @@ external interface FileUploadTabProps : Props {
     var uploadFile: (FileInfo) -> Unit
     var toggleValidationInProgress: (Boolean, FileInfo) -> Unit
     var addValidationOutcome: (ValidationOutcome) -> Unit
+    var addValidationTime: (String, ValidationTime) -> Unit
 
     var updateCliContext: (CliContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
@@ -153,6 +155,9 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                 props.addValidationOutcome(outcome)
                 props.toggleValidationInProgress(true, outcome.getFileInfo())
             }
+            validationResponse.getValidationTimes().forEach { entry: Map.Entry<String, ValidationTime> ->  {
+                props.addValidationTime(entry.key, entry.value)
+            } }
         }
     }
 }

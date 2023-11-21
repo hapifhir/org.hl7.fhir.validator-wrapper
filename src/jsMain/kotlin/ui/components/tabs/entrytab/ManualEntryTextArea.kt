@@ -15,6 +15,7 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledTextarea
+import kotlinx.browser.window
 
 external interface ManualEntryTextAreaProps : Props {
     var currentText: String
@@ -68,7 +69,8 @@ object ManualEntryTextAreaStyle : StyleSheet("ManualEntryTextAreaStyle") {
         justifyContent = JustifyContent.stretch
         alignContent = Align.stretch
         overflowY = Overflow.auto
-        minHeight = 600.px
+        minHeight =  window.innerHeight.px - 128.px
+        maxHeight =  window.innerHeight.px - 128.px
         border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
     }
     val textArea by css {

@@ -5,37 +5,37 @@ import kotlinx.serialization.Serializable
 @Serializable
 actual class ValidationTime actual constructor() {
 
-    private var txTime : Long = 0
-    private var sdTime : Long = 0
-    private var loadTime : Long = 0
+    private var terminology : Long = 0
+    private var structureDefinition : Long = 0
+    private var resourceParse : Long = 0
     private var fhirPath : Long = 0
-    private var specTime : Long = 0
+    private var checkingSpecials : Long = 0
     private var overall : Long = 0
 
-    actual fun getTxTime(): Long {
-        return txTime;
+    actual fun getTerminology(): Long {
+        return terminology;
     }
 
-    actual fun setTxTime(txTime: Long): ValidationTime {
-       this.txTime = txTime
+    actual fun setTerminology(terminology: Long): ValidationTime {
+       this.terminology = terminology
         return this
     }
 
-    actual fun getSdTime(): Long {
-        return sdTime
+    actual fun getStructureDefinition(): Long {
+        return structureDefinition
     }
 
-    actual fun setSdTime(sdTime: Long): ValidationTime {
-        this.sdTime = sdTime
+    actual fun setStructureDefinition(structureDefinition: Long): ValidationTime {
+        this.structureDefinition = structureDefinition
         return this
     }
 
-    actual fun getLoadTime(): Long {
-        return this.loadTime
+    actual fun getResourceParse(): Long {
+        return this.resourceParse
     }
 
-    actual fun setLoadTime(loadTime: Long): ValidationTime {
-        this.loadTime = loadTime
+    actual fun setResourceParse(resourceParse: Long): ValidationTime {
+        this.resourceParse = resourceParse
         return this
     }
 
@@ -48,12 +48,12 @@ actual class ValidationTime actual constructor() {
         return this
     }
 
-    actual fun getSpecTime(): Long {
-       return this.specTime
+    actual fun getCheckingSpecials(): Long {
+       return this.checkingSpecials
     }
 
-    actual fun setSpecTime(specTime: Long): ValidationTime {
-       this.specTime = specTime
+    actual fun setCheckingSpecials(checkingSpecials: Long): ValidationTime {
+       this.checkingSpecials = checkingSpecials
         return this
     }
 
@@ -63,7 +63,6 @@ actual class ValidationTime actual constructor() {
 
     actual fun setOverall(overall: Long): ValidationTime {
         this.overall = overall
-        console.log("Overall time:" + overall)
         return this
     }
 }

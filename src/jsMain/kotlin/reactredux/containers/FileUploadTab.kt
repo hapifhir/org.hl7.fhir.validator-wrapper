@@ -16,6 +16,7 @@ import ui.components.tabs.uploadtab.FileUploadTab
 
 private interface FileUploadTabProps : Props {
     var uploadedFiles: List<ValidationOutcome>
+    var validationTimes : Map<String, ValidationTime>
     var cliContext: CliContext
     var sessionId: String
     var polyglot: Polyglot
@@ -27,6 +28,7 @@ private interface FileUploadTabDispatchProps : Props {
     var setSessionId: (String) -> Unit
     var toggleValidationInProgress: (Boolean, FileInfo) -> Unit
     var addValidationOutcome: (ValidationOutcome) -> Unit
+    var addValidationTime: (String, ValidationTime) -> Unit
 
     var updateCliContext: (CliContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
@@ -39,6 +41,7 @@ val fileUploadTab: ComponentClass<Props> =
     rConnect<AppState, RAction, WrapperAction, Props, FileUploadTabProps, FileUploadTabDispatchProps, FileUploadTabProps>(
         { state, _ ->
             uploadedFiles = state.uploadedResourceSlice.uploadedFiles
+            validationTimes = state.uploadedResourceSlice.validationTimes
             cliContext = state.validationContextSlice.cliContext
             sessionId = state.validationSessionSlice.sessionId
             polyglot = state.localizationSlice.polyglotInstance
@@ -52,6 +55,8 @@ val fileUploadTab: ComponentClass<Props> =
                     fileInfo))
             }
             addValidationOutcome = { dispatch(UploadedResourceSlice.AddValidationOutcome(it)) }
+            addValidationTime = { fileName: String, validationTime : ValidationTime ->
+                dispatch(UploadedResourceSlice.AddValidationTime(fileName, validationTime))}
             updateCliContext = {
                 dispatch(ValidationContextSlice.UpdateCliContext(it))
             }

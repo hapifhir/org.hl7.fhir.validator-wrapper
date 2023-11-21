@@ -22,6 +22,7 @@ import ui.components.options.presetSelect
 import ui.components.tabs.heading
 
 import ui.components.validation.validationOutcomeContainer
+import ui.components.validation.validationTimeSummary
 import utils.assembleRequest
 import utils.getJS
 import utils.isJson
@@ -149,12 +150,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     }
                 }
                 props.validationTime?.let {
-                    styledDiv {
-                        css {
-
-                        }
-                        +props.validationTime!!.getOverall().toString()
-                    }
+                    validationTimeSummary { validationTime = props.validationTime!! }
                 }
             }
         }
@@ -186,7 +182,8 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                             + "Issues ::\n" + returnedOutcome.first().getMessages()
                         .joinToString { "\n" })
                     props.setValidationOutcome(returnedOutcome.first())
-                    props.setValidationTime(validationResponse.getValidationTime())
+                    console.log("ValidationResponse.validationTimes: " + validationResponse.getValidationTimes())
+                    props.setValidationTime(if (validationResponse.getValidationTimes().isNotEmpty()) validationResponse.getValidationTimes().entries.first().value else null)
                     props.toggleValidationInProgress(false)
                 }
             } catch (e: TimeoutCancellationException) {
