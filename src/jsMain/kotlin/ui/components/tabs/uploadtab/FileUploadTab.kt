@@ -4,6 +4,7 @@ import Polyglot
 import api.sendValidationRequest
 import css.animation.FadeIn.fadeIn
 import css.const.WHITE
+import css.text.TextStyle
 import kotlinx.browser.document
 import kotlinx.coroutines.launch
 import kotlinx.css.*
@@ -18,6 +19,7 @@ import ui.components.options.presetSelect
 import ui.components.tabs.heading
 import ui.components.tabs.uploadtab.filelist.fileEntryList
 import ui.components.validation.validationOutcomePopup
+import ui.components.validation.validationTimeSummary
 import utils.assembleRequest
 
 external interface FileUploadTabProps : Props {
@@ -28,10 +30,12 @@ external interface FileUploadTabProps : Props {
     var polyglot: Polyglot
 
     var deleteFile: (FileInfo) -> Unit
+
     var uploadFile: (FileInfo) -> Unit
     var toggleValidationInProgress: (Boolean, FileInfo) -> Unit
     var addValidationOutcome: (ValidationOutcome) -> Unit
     var addValidationTime: (String, ValidationTime) -> Unit
+    var removeValidationTime: (String) -> Unit
 
     var updateCliContext: (CliContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
@@ -72,6 +76,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                 }
                 deleteFile = {
                     props.deleteFile(it.getFileInfo())
+                    props.removeValidationTime(it.getFileInfo().fileName)
                 }
             }
             styledDiv {
@@ -115,7 +120,34 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                     polyglot = props.polyglot
                 }
             }
-
+            if (props.validationTimes.isNotEmpty()) {
+                styledDiv {
+                    css {
+                        padding(16.px)
+                    }
+                    styledDiv {
+                        css {
+                            fontFamily = TextStyle.FONT_FAMILY_MAIN
+                            fontWeight = FontWeight.w600
+                            fontSize = 12.pt
+                            paddingBottom = 16.px
+                        }
+                        +props.polyglot.t("upload_validation_time_summaries")
+                    }
+                    styledDiv {
+                        css {
+                            paddingLeft = 16.px
+                        }
+                        for (validationTimeEntry in props.validationTimes.entries) {
+                            validationTimeSummary {
+                                prefix = validationTimeEntry.key
+                                validationTime = validationTimeEntry.value
+                                polyglot = props.polyglot
+                            }
+                        }
+                    }
+                }
+            }
             uploadFilesComponent {
                 onFileUpload = {
                     props.uploadFile(it)
@@ -155,9 +187,9 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                 props.addValidationOutcome(outcome)
                 props.toggleValidationInProgress(true, outcome.getFileInfo())
             }
-            validationResponse.getValidationTimes().forEach { entry: Map.Entry<String, ValidationTime> ->  {
+            validationResponse.getValidationTimes().forEach { entry: Map.Entry<String, ValidationTime> ->
                 props.addValidationTime(entry.key, entry.value)
-            } }
+             }
         }
     }
 }

@@ -11,7 +11,7 @@ object UploadedResourceSlice {
         val uploadInProgress: Boolean = false,
         val uploadedFiles: List<ValidationOutcome> = emptyList(),
         val validationTimes: Map<String, ValidationTime> = emptyMap()
-        )
+    )
 
     data class UploadFile(val fileInfo: FileInfo) : RAction
     data class RemoveFile(val fileInfo: FileInfo) : RAction
@@ -19,6 +19,9 @@ object UploadedResourceSlice {
     data class AddValidationOutcome(val outcome: ValidationOutcome) : RAction
 
     data class AddValidationTime(val fileName: String, val validationTime: ValidationTime ) : RAction
+
+    data class RemoveValidationTime(val fileName: String) : RAction
+
     class ClearValidationOutcomes : RAction
 
     fun reducer(state: State = State(), action: RAction): State {
@@ -27,14 +30,14 @@ object UploadedResourceSlice {
             is RemoveFile -> state.copy(uploadedFiles = state.uploadedFiles.filter { it.getFileInfo() != action.fileInfo }
                 .toList())
             is AddValidationOutcome -> state.copy(uploadedFiles = state.uploadedFiles.map {
-                if (it.getFileInfo().fileName == action.outcome.getFileInfo().fileName) {
+                if (it.getFileInfo().equals(action.outcome.getFileInfo())) {
                     action.outcome.setValidated(true)
                 } else {
                     it
                 }
             }.toList())
             is ToggleValidationInProgress -> state.copy(uploadedFiles = state.uploadedFiles.map {
-                if (it.getFileInfo().fileName == action.fileInfo.fileName) {
+                if (it.getFileInfo().equals(action.fileInfo)) {
                     it.setValidating(action.validating)
                 } else {
                     it
@@ -43,6 +46,9 @@ object UploadedResourceSlice {
             is ClearValidationOutcomes -> state.copy(uploadedFiles = emptyList())
             is AddValidationTime -> state.copy(
                 validationTimes = state.validationTimes.plus(Pair(action.fileName,action.validationTime))
+            )
+            is RemoveValidationTime -> state.copy(
+                validationTimes = state.validationTimes.minus(action.fileName)
             )
             else -> {
                 state

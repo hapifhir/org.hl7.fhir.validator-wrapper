@@ -6,17 +6,17 @@
   "manual_entry_place_holder" : "Enter Resource Manually...",
   "manual_entry_title" : "Code",
   "manual_entry_empty_request_error" : "Please enter something to validate.",
-  "manual_entry_timeout_exception" : "Validation timed out. Please wait 30 seconds and try again.",
   "manual_entry_validation_response_exception" : "Error received from validation server: %{httpResponseCode}",
-  "manual_entry_error" : "Please enter something to validate.",
   "manual_entry_timeout_exception" : "Validation timed out. Please wait 30 seconds and try again.",
   "manual_entry_cannot_parse_exception" : "Cannot parse entered text as valid JSON/XML.",
+  "manual_entry_validation_time" : "Validation Time Summary (ms):",
   "validate_button" : "Validate",
   "upload_resources_heading" : "Upload Resources",
   "upload_files_title" : "Uploaded Files",
   "upload_button" : "Upload",
   "upload_entry_view" : "View",
   "upload_entry_delete" : "Delete",
+  "upload_validation_time_summaries" : "Validation Time Summaries (ms):",
   "options_heading" : "Options",
   "appscreen_options_major" : "Validation Options",
   "appscreen_options_minor" : "Modify setting for validating resources.",
@@ -99,5 +99,6 @@
   "present_cda" : "CDA Document",
   "preset_us_ccda" : "US CCDA Document",
   "preset_sql_view": "SQL View Definition",
-  "language" : "Language"
+  "language" : "Language",
+  "validation_time_summary" : "Overall: %{overall} Terminology: %{terminology} StructureDefinition: %{structureDefinition} Resource Parse: %{resourceParse} FHIRPath: %{fhirPath} Checking Specials: %{checkingSpecials}"
 }

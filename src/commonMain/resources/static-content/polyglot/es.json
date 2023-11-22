@@ -6,15 +6,17 @@
     "manual_entry_place_holder": "Ingrese el recurso manualmente...",
     "manual_entry_title": "Código",
     "manual_entry_empty_request_error": "Por favor ingrese algo para validar.",
-    "manual_entry_cannot_parse_exception": "No se pudo analizar el texto ingresado como JSON o XML.",
     "manual_entry_validation_response_exception" : "Error received from validation server: %{httpResponseCode} -Spanish",
     "manual_entry_timeout_exception" : "Validation timed out. Please wait 30 seconds and try again. -Spanish",
+    "manual_entry_cannot_parse_exception": "No se pudo analizar el texto ingresado como JSON o XML.",
+    "manual_entry_validation_time" : "Validation Time Summary (ms):-Spanish",
     "validate_button": "Validar",
     "upload_resources_heading": "Cargar Recursos",
     "upload_files_title": "Cargar Archivos",
     "upload_button": "Cargar",
     "upload_entry_view": "Visualizar",
     "upload_entry_delete": "Borrar",
+    "upload_validation_time_summaries" : "Validation Time Summaries (ms): -Spanish",
     "options_heading": "Opciones",
     "appscreen_options_major": "Opciones de Validación",
     "appscreen_options_minor": "Modificar configuración para validar recursos.",
@@ -97,5 +99,6 @@
     "present_cda" : "CDA Document -Spanish",
     "preset_us_ccda" : "US CCDA Document -Spanish",
     "preset_sql_view": "SQL View Definition -Spanish",
-    "language": "Lenguaje"
+    "language": "Lenguaje",
+    "validation_time_summary" : "Overall: %{overall} Terminology: %{terminology} StructureDefinition: %{structureDefinition} Resource Parse: %{resourceParse} FHIRPath: %{fhirPath} Checking Specials: %{checkingSpecials} -Spanish"
 }

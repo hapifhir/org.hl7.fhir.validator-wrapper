@@ -45,4 +45,15 @@ actual class FileInfo actual constructor() {
     fun prettyPrint(): String {
         return "fileName:: ${fileName} \nfileType:: ${fileType}\nfileContent:: ${fileContent}"
     }
+
+    override fun hashCode() : Int {
+        return fileName.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is FileInfo) {
+            return false
+        }
+        return this.fileName.equals(other.fileName)
+    }
 }

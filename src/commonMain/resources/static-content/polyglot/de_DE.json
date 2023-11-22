@@ -6,15 +6,17 @@
   "manual_entry_place_holder" : "Ressource manuell eintragen...",
   "manual_entry_title" : "Code",
   "manual_entry_empty_request_error" : "Bitte geben Sie etwas zum Validieren an.",
-  "manual_entry_cannot_parse_exception" : "Der eingegebene Text kann nicht als gültiges JSON/XML geparst werden.",
   "manual_entry_validation_response_exception" : "Error received from validation server: %{httpResponseCode}-German",
   "manual_entry_timeout_exception" : "Validation timed out. Please wait 30 seconds and try again. -German",
+  "manual_entry_cannot_parse_exception" : "Der eingegebene Text kann nicht als gültiges JSON/XML geparst werden.",
+  "manual_entry_validation_time" : "Validation Time Summary (ms):-German",
   "validate_button" : "Validieren",
   "upload_resources_heading" : "Ressourcen Hochladen",
   "upload_files_title" : "Hochgeladene Dateien",
   "upload_button" : "Hochladen",
   "upload_entry_view" : "Ansicht",
   "upload_entry_delete" : "Löschen",
+  "upload_validation_time_summaries" : "Validation Time Summaries (ms): -German",
   "options_heading" : "Optionen",
   "appscreen_options_major" : "Validierungs Optionen",
   "appscreen_options_minor" : "Ändern Sie die Einstellung für die Validierung von Ressourcen.",
@@ -97,5 +99,6 @@
   "present_cda" : "CDA Document -German",
   "preset_us_ccda" : "US CCDA Document -German",
   "preset_sql_view": "SQL View Definition -German",
-  "language" : "Sprache"
+  "language" : "Sprache",
+  "validation_time_summary" : "Overall: %{overall} Terminology: %{terminology} StructureDefinition: %{structureDefinition} Resource Parse: %{resourceParse} FHIRPath: %{fhirPath} Checking Specials: %{checkingSpecials} -German"
 }

@@ -1,10 +1,8 @@
 package ui.components.validation
 
+import Polyglot
 import css.text.TextStyle
-import kotlinx.css.FontWeight
-import kotlinx.css.fontWeight
-import kotlinx.css.padding
-import kotlinx.css.px
+import kotlinx.css.*
 import model.ValidationTime
 import react.Props
 import react.RBuilder
@@ -15,9 +13,12 @@ import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledSpan
+import utils.getJS
 
 external interface ValidationTimeSummaryProps : Props {
+    var prefix: String?
     var validationTime: ValidationTime
+    var polyglot: Polyglot
 }
 
 private const val NANOS_TO_MILLIS = 1000000
@@ -31,33 +32,49 @@ class ValidationTimeSummary : RComponent<ValidationTimeSummaryProps, State>() {
         resourceParse: Long,
         fhirPath: Long,
         checkingSpecials: Long
-    ) : String {
-        return "Overall: ${overall}ms Terminology: ${terminology}ms StructureDefinition: ${structureDefinition}ms Resource Parse: ${resourceParse}ms FHIRPath: ${fhirPath} Checking Specials: ${checkingSpecials}"
-    }
-    override fun RBuilder.render() {
-        styledDiv {
-            css {
-                padding(16.px)
-            }
-            styledSpan {
-                css {
-                    +TextStyle.codeTextBase
-                    fontWeight = FontWeight.w600
-                }
-                + "Validation Time Summary: "
-            }
-            styledSpan {
-                css {
-                    +TextStyle.codeTextBase
-                }
-            + getSummaryString(
-                props.validationTime.getOverall() / NANOS_TO_MILLIS,
-                props.validationTime.getTerminology() / NANOS_TO_MILLIS,
-                props.validationTime.getStructureDefinition() / NANOS_TO_MILLIS,
-                props.validationTime.getResourceParse() / NANOS_TO_MILLIS,
-                props.validationTime.getFhirPath() / NANOS_TO_MILLIS,
-               props.validationTime.getCheckingSpecials() / NANOS_TO_MILLIS
+    ): String {
+        return props.polyglot.t(
+            "validation_time_summary",
+            getJS(
+                arrayOf(
+                    Pair("overall", overall),
+                    Pair("terminology", terminology),
+                    Pair("structureDefinition", structureDefinition),
+                    Pair("resourceParse", resourceParse),
+                    Pair("fhirPath", fhirPath),
+                    Pair("checkingSpecials", checkingSpecials)
+                )
             )
+        )
+    }
+
+    override fun RBuilder.render() {
+        div {
+            if (props.prefix != null) {
+                styledSpan {
+                    css {
+                        +TextStyle.codeTextBase
+                        fontSize = 10.pt
+                        fontWeight = FontWeight.w600
+                        paddingRight = 10.px
+                    }
+                    +props.prefix!!
+                }
+            }
+
+            styledSpan {
+                css {
+                    fontSize = 10.pt
+                    +TextStyle.codeTextBase
+                }
+                +getSummaryString(
+                    props.validationTime.getOverall() / NANOS_TO_MILLIS,
+                    props.validationTime.getTerminology() / NANOS_TO_MILLIS,
+                    props.validationTime.getStructureDefinition() / NANOS_TO_MILLIS,
+                    props.validationTime.getResourceParse() / NANOS_TO_MILLIS,
+                    props.validationTime.getFhirPath() / NANOS_TO_MILLIS,
+                    props.validationTime.getCheckingSpecials() / NANOS_TO_MILLIS
+                )
             }
         }
     }

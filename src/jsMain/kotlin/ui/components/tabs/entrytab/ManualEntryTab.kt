@@ -149,8 +149,17 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                         inPage = true
                     }
                 }
-                props.validationTime?.let {
-                    validationTimeSummary { validationTime = props.validationTime!! }
+                styledDiv {
+                    css {
+                        padding(16.px)
+                    }
+                    props.validationTime?.let {
+                        validationTimeSummary {
+                            prefix = props.polyglot.t("manual_entry_validation_time")
+                            validationTime = props.validationTime!!
+                            polyglot = props.polyglot
+                        }
+                    }
                 }
             }
         }
