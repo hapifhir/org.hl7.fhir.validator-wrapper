@@ -1,7 +1,7 @@
 package controller.validation
 
 import model.ValidationResponse
-import org.hl7.fhir.validation.cli.utils.VersionUtil
+import org.hl7.fhir.utilities.VersionUtil
 import org.hl7.fhir.validation.cli.model.ValidationRequest
 import org.hl7.fhir.validation.cli.services.ValidationService
 import org.koin.core.component.KoinComponent

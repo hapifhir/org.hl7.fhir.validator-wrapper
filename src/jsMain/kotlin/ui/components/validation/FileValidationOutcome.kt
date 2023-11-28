@@ -122,6 +122,7 @@ object FileValidationOutcomeStyle : StyleSheet("FileValidationOutcomeStyle", isS
         borderStyle = BorderStyle.solid
         borderWidth = 1.px
         minHeight = 98.pct
+        position = Position.relative
 
         media(query = "(min-width: 1200px) and (orientation:landscape)", block = ruleSet {
             marginBottom = 0.px
