@@ -9,24 +9,23 @@ private const val MIN_FREE_MEMORY = 250000000
 private const val SESSION_DEFAULT_DURATION: Long = 60
 
 class ValidationServiceFactoryImpl : ValidationServiceFactory {
-    private val sessionCacheDuration: Long
-    private var sessionCache: SessionCache 
     private var validationService: ValidationService
 
     init {
-        sessionCacheDuration = System.getenv("SESSION_CACHE_DURATION")?.toLong() ?: SESSION_DEFAULT_DURATION;
-        sessionCache = SessionCache(sessionCacheDuration, TimeUnit.MINUTES);
+        validationService = createValidationServiceInstance();
+    }
+
+     fun createValidationServiceInstance() : ValidationService {
+        val sessionCacheDuration = System.getenv("SESSION_CACHE_DURATION")?.toLong() ?: SESSION_DEFAULT_DURATION;
+        val sessionCache = SessionCache(sessionCacheDuration, TimeUnit.MINUTES);
         sessionCache.setExpirationAfterAccess(true);
-        validationService = ValidationService(sessionCache);
+        return ValidationService(sessionCache);
     }
    
     override fun getValidationService() : ValidationService {
-
         if (java.lang.Runtime.getRuntime().freeMemory() < MIN_FREE_MEMORY) {
             println("Free memory ${java.lang.Runtime.getRuntime().freeMemory()} is less than ${MIN_FREE_MEMORY}. Re-initializing validationService");
-            sessionCache = SessionCache(sessionCacheDuration, TimeUnit.MINUTES);
-            sessionCache.setExpirationAfterAccess(true);
-            validationService = ValidationService(sessionCache);
+            validationService = createValidationServiceInstance();
         }
         return validationService;
     }
