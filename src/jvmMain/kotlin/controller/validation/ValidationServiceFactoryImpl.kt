@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.hl7.fhir.validation.cli.services.ValidationService
 import org.hl7.fhir.validation.cli.services.SessionCache
+import org.hl7.fhir.validation.cli.services.PassiveExpiringSessionCache
 
 private const val MIN_FREE_MEMORY = 250000000
 private const val SESSION_DEFAULT_DURATION: Long = 60
@@ -17,8 +18,7 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
 
      fun createValidationServiceInstance() : ValidationService {
         val sessionCacheDuration = System.getenv("SESSION_CACHE_DURATION")?.toLong() ?: SESSION_DEFAULT_DURATION;
-        val sessionCache = SessionCache(sessionCacheDuration, TimeUnit.MINUTES);
-        sessionCache.setExpirationAfterAccess(true);
+        val sessionCache: SessionCache = PassiveExpiringSessionCache(sessionCacheDuration, TimeUnit.MINUTES).setExpirationAfterAccess(true);
         return ValidationService(sessionCache);
     }
    
