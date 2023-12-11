@@ -18,7 +18,7 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
 
      fun createValidationServiceInstance() : ValidationService {
         val sessionCacheDuration = System.getenv("SESSION_CACHE_DURATION")?.toLong() ?: SESSION_DEFAULT_DURATION;
-        val sessionCache: SessionCache = PassiveExpiringSessionCache(sessionCacheDuration, TimeUnit.MINUTES).setExpirationAfterAccess(true);
+        val sessionCache: SessionCache = PassiveExpiringSessionCache(sessionCacheDuration, TimeUnit.MINUTES).setResetExpirationAfterFetch(true);
         return ValidationService(sessionCache);
     }
    
