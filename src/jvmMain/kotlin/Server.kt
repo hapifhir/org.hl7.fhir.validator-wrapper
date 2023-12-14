@@ -10,6 +10,7 @@ import org.hl7.fhir.validation.ValidatorCli
 import org.hl7.fhir.validation.cli.utils.Params
 import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
+import utils.PackageCacheDownloaderRunnable
 import java.util.concurrent.TimeUnit
 
 private const val DEFAULT_ENVIRONMENT: String = "dev"
@@ -61,6 +62,13 @@ fun startServer(args: Array<String>) {
     val environment = System.getenv()["ENVIRONMENT"] ?: handleDefaultEnvironment()
     val config = extractConfig(environment, HoconApplicationConfig(ConfigFactory.load()))
 
+    val preloadCache = System.getenv()["PRELOAD_CACHE"] ?: "false"
+
+    if (preloadCache != null && preloadCache.equals("true")) {
+
+        Thread(PackageCacheDownloaderRunnable()).start();
+    }
+
     engine = embeddedServer(Jetty, host = config.host, port = config.port) {
         println("Starting instance in ${config.host}:${config.port}")
         module {
@@ -75,6 +83,7 @@ fun startServer(args: Array<String>) {
     }
 
     engine.start(wait = true)
+
 }
 
 /**
