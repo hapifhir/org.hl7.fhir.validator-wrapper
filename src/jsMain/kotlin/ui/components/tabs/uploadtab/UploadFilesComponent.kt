@@ -60,7 +60,7 @@ class UploadFilesComponent : RComponent<UploadFilesComponentProps, State>(), Fil
     override fun onLoadComplete(event: Event, fileLoadState: FileLoadState) {
         props.onFileUpload(FileInfo(fileName = fileLoadState.file.name,
             fileContent = fileLoadState.content,
-            fileType = fileLoadState.file.extension))
+            fileType = fileLoadState.file.extension.lowercase()))
     }
 
     override fun onLoadError(fileLoadState: FileLoadState) {
