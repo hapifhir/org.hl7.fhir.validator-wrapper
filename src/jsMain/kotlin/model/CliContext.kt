@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 actual class CliContext actual constructor() {
 
+    private var baseEngine: String? = null
     private var extensions : List<String> = listOf()
     private var doNative = false
     private var hintAboutNonMustSupport = false
@@ -33,6 +34,15 @@ actual class CliContext actual constructor() {
     init {
         sv = "4.0.1"
         locale = "en"
+    }
+
+    actual fun getBaseEngine() : String? {
+        return baseEngine;
+    }
+
+    actual fun setBaseEngine(baseEngine: String?): CliContext {
+        this.baseEngine = baseEngine
+        return this
     }
 
     actual fun isDoNative(): Boolean {

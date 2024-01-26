@@ -35,7 +35,6 @@ external interface PresetSelectProps : Props {
 
 class PresetSelectState : State {
     var snackbarOpen : String? = null
-    var preset : String = ""
 }
 
 class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
@@ -83,7 +82,7 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                         Select {
                             attrs {
                                 label = ReactNode("Preset")
-                                value = "".unsafeCast<Nothing?>()
+
                                 onChange = { event, _ ->
                                     val selectedPreset = Preset.getSelectedPreset(event.target.value)
                                     if (selectedPreset != null) {
@@ -107,11 +106,14 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                             }
 
                             Preset.values().forEach {
+
                                 MenuItem {
                                     attrs {
                                         value = it.key
+                                        selected = it.key.equals(props.cliContext.getBaseEngine())
                                     }
                                     +props.polyglot.t(it.polyglotKey)
+                                    console.log(it.key + " " + props.cliContext.getBaseEngine() + ":" + it.key.equals(props.cliContext.getBaseEngine() ))
                                 }
                             }
                         }

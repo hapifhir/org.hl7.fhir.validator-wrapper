@@ -2,6 +2,9 @@ package model
 
 expect class CliContext() {
 
+    fun getBaseEngine(): String?
+    fun setBaseEngine(baseEngine: String?) : CliContext
+
     fun isDoNative(): Boolean
     fun setDoNative(doNative: Boolean): CliContext
 

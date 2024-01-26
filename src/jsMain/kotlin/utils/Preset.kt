@@ -57,6 +57,7 @@ val IPS_AU_BUNDLE_PROFILE = "http://hl7.org.au/fhir/ips/StructureDefinition/Bund
 val IPS_NZ_BUNDLE_PROFILE = "https://standards.digital.health.nz/fhir/StructureDefinition/nzps-bundle"
 
 val IPS_CONTEXT = CliContext()
+    .setBaseEngine("IPS")
     .setSv("4.0.1")
     .addIg(PackageInfo.igLookupString(IPS_IG))
     .setExtensions(listOf(ANY_EXTENSION))
@@ -68,6 +69,7 @@ val IPS_CONTEXT = CliContext()
     ))
 
 val IPS_AU_CONTEXT = CliContext()
+    .setBaseEngine("IPS_AU")
     .setSv("4.0.1")
     .addIg(PackageInfo.igLookupString(IPS_AU_IG))
     .setExtensions(listOf(ANY_EXTENSION))
@@ -79,6 +81,7 @@ val IPS_AU_CONTEXT = CliContext()
     ))
 
 val IPS_NZ_CONTEXT = CliContext()
+    .setBaseEngine("IPS_NZ")
     .setSv("4.0.1")
     .addIg(PackageInfo.igLookupString(IPS_NZ_IG))
     .setExtensions(listOf(ANY_EXTENSION))
@@ -110,6 +113,14 @@ enum class Preset(
     val extensionSet: Set<String>,
     val profileSet: Set<String>
 ) {
+    CUSTOM(
+        "CUSTOM",
+        "preset_custom",
+        CliContext(),
+        setOf(),
+        setOf(),
+        setOf()
+    ),
     DEFAULT(
         "DEFAULT",
         "preset_fhir_resource",
