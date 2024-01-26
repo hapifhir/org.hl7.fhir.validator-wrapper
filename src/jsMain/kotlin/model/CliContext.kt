@@ -160,7 +160,7 @@ actual class CliContext actual constructor() {
         return this
     }
 
-    fun addIg(ig: String): CliContext {
+   actual fun addIg(ig: String): CliContext {
         this.igs += ig
         return this
     }

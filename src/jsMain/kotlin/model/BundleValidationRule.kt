@@ -1,8 +1,6 @@
 package model
 
-import kotlinx.js.Object
 import kotlinx.serialization.Serializable
-import utils.Preset
 
 @Serializable
 actual class BundleValidationRule actual constructor() {

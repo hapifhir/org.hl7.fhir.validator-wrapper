@@ -1,6 +1,7 @@
 package controller.validation
 
 import constants.ANY_EXTENSION
+import constants.Preset
 import model.PackageInfo
 import model.BundleValidationRule
 import java.util.concurrent.TimeUnit;
@@ -20,32 +21,25 @@ val IPS_IG = PackageInfo(
     "http://hl7.org/fhir/uv/ips/STU1.1"
 )
 
-val IPS_CONTEXT = CliContext()
-    .setBaseEngine("IPS")
-    .setSv("4.0.1")
-    .addIg(PackageInfo.igLookupString(IPS_IG))
-    .setExtensions(listOf(ANY_EXTENSION))
-    .setCheckIPSCodes(true)
-    .setBundleValidationRules(listOf(
-        BundleValidationRule()
-            .setRule("Composition:0")
-            .setProfile("http://hl7.org/fhir/uv/ips/StructureDefinition/Composition-uv-ips")
-    ))
+
 
 class ValidationServiceFactoryImpl : ValidationServiceFactory {
     private var validationService: ValidationService
 
     init {
-        System.out.println("ValidationServiceFactoryImpl.init")
         validationService = createValidationServiceInstance();
     }
 
      fun createValidationServiceInstance() : ValidationService {
-         System.out.println("createValidationServiceInstance")
          val sessionCacheDuration = System.getenv("SESSION_CACHE_DURATION")?.toLong() ?: SESSION_DEFAULT_DURATION;
         val sessionCache: SessionCache = PassiveExpiringSessionCache(sessionCacheDuration, TimeUnit.MINUTES).setResetExpirationAfterFetch(true);
         val validationService = ValidationService(sessionCache);
-         validationService.putBaseEngine("IPS", IPS_CONTEXT)
+         Preset.values().forEach {
+             if (it != Preset.CUSTOM) {
+                 println("Loading preset: " + it.key)
+                 validationService.putBaseEngine(it.key, it.cliContext)
+             }
+         }
          return validationService
     }
    

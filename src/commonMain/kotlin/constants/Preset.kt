@@ -1,12 +1,14 @@
-package utils
+package constants
 
 import model.CliContext
 import model.PackageInfo
 
-import constants.ANY_EXTENSION
 import model.BundleValidationRule
 
 val DEFAULT_CONTEXT = CliContext()
+    .setBaseEngine("DEFAULT")
+    .setSv("4.0.1")
+    .setLocale("en")
 
 val IPS_IG = PackageInfo(
     "hl7.fhir.uv.ips",
@@ -94,14 +96,17 @@ val IPS_NZ_CONTEXT = CliContext()
 
 
 val CDA_CONTEXT = CliContext()
+    .setBaseEngine("CDA")
     .setSv("5.0.0")
     .addIg(PackageInfo.igLookupString(CDA_IG))
 
 val CCDA_CONTEXT = CliContext()
+    .setBaseEngine("CCDA")
     .setSv("5.0.0")
     .addIg(PackageInfo.igLookupString(CCDA_IG))
 
 val SQL_VIEW_CONTEXT = CliContext()
+    .setBaseEngine("SQL_VIEW")
     .setSv("5.0.0")
     .addIg(PackageInfo.igLookupString(SQL_ON_FHIR_IG))
 

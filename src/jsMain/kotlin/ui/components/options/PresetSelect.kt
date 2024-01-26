@@ -11,14 +11,13 @@ import mainScope
 import model.BundleValidationRule
 import model.PackageInfo
 import mui.system.sx
-import popper.core.Placement
 import react.Props
 import react.ReactNode
 
 import styled.css
 import styled.styledDiv
 
-import utils.Preset
+import constants.Preset
 import utils.getJS
 
 

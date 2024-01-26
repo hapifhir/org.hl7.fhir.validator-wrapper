@@ -65,4 +65,7 @@ expect class CliContext() {
     fun setBundleValidationRules(bundleValidationRules: List<BundleValidationRule>) : CliContext
 
     fun getBundleValidationRules():List<BundleValidationRule>
+
+    fun addIg(ig: String): CliContext
+
 }
