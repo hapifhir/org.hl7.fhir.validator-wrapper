@@ -19,5 +19,17 @@ fun assembleRequest(cliContext: CliContext, file: FileInfo): ValidationRequest {
 }
 
 fun assembleRequest(cliContext: CliContext, files: List<FileInfo>): ValidationRequest {
-    return ValidationRequest(cliContext, files)
+    val assembledCliContext : CliContext= assembleCliContext(cliContext);
+    return ValidationRequest(assembledCliContext, files)
+}
+
+fun assembleCliContext(cliContext: CliContext): CliContext {
+    if (cliContext.getBaseEngine() == null) {
+        return cliContext
+    }
+    console.log("Building new CLI Context")
+    val baseEngineContext = CliContext()
+    baseEngineContext.setBaseEngine(cliContext.getBaseEngine())
+    baseEngineContext.setLocale(cliContext.getLanguageCode())
+    return baseEngineContext;
 }
