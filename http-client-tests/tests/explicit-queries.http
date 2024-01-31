@@ -1,0 +1,89 @@
+# These tests do validations using CliContext instances that are manually constructed
+# equivalents to those in commonMain/kotlin/constants/Preset
+
+# Conversely, the preset-queries.http tests will perform the same tests, but using
+# the baseEngine field of the CliContext to utilize the pre-built ValidationEngine
+# from the ValidationService
+
+
+
+### CDA
+# Check that a request with explicit IG settings returns an expected response
+POST {{host}}/validate
+Content-Type: application/json
+
+< ../resources/explicit-preset-requests/cda.json
+
+> {%
+    client.test("Validated Successfully", function() {
+        client.assert(response.status === 200, "Response status is not 201");
+    });
+    import { containsIssue } from "../utilities/assertions";
+    client.test("Issues are Correct", function() {
+        let issues = response.body.outcomes[0].issues
+
+        client.assert(issues.length === 7);
+    });
+%}
+
+
+### US-CDA
+# Check that a request with explicit IG settings returns an expected response
+POST {{host}}/validate
+Content-Type: application/json
+
+< ../resources/explicit-preset-requests/us-ccda.json
+
+> {%
+    client.test("Validated Successfully", function() {
+        client.assert(response.status === 200, "Response status is not 201");
+    });
+    import { containsIssue } from "../utilities/assertions";
+    client.test("Issues are Correct", function() {
+        let issues = response.body.outcomes[0].issues
+
+        client.assert(issues.length === 7);
+    });
+%}
+
+### IPS
+#
+POST {{host}}/validate
+Content-Type: application/json
+
+< ../resources/explicit-preset-requests/ips.json
+
+> {%
+    client.test("Validated Successfully", function() {
+        client.assert(response.status === 200, "Response status is not 201");
+    });
+    import { containsIssue } from "../utilities/assertions";
+    client.test("Issues are Correct", function() {
+        let issues = response.body.outcomes[0].issues
+        client.assert(issues.length === 32);
+        client.assert(containsIssue(issues, 1, 2, "The Snomed CT code 373270004 (Substance with penicillin structure and antibacterial mechanism of action) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
+        client.assert(containsIssue(issues, 1, 2, "The Snomed CT code 108774000 (Product containing anastrozole (medicinal product)) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
+    });
+%}
+
+
+### SQL-ON-FHIR
+# Check that a request with explicit IG settings returns an expected response
+POST {{host}}/validate
+Content-Type: application/json
+
+< ../resources/explicit-preset-requests/sql-on-fhir.json
+
+> {%
+    client.test("Validated Successfully", function() {
+        client.assert(response.status === 200, "Response status is not 201");
+    });
+    import { containsIssue } from "../utilities/assertions";
+    client.test("Issues are Correct", function() {
+        let issues = response.body.outcomes[0].issues
+        client.assert(issues.length === 3);
+        client.assert(containsIssue(issues, 20, 21, "The column 'use' appears to be a collection based on it's path. Collections are not supported in all execution contexts", "BUSINESSRULE", "WARNING"))
+        client.assert(containsIssue(issues, 24, 21, "The column 'city' appears to be a collection based on it's path. Collections are not supported in all execution contexts", "BUSINESSRULE", "WARNING"))
+        client.assert(containsIssue(issues, 28, 21, "The column 'zip' appears to be a collection based on it's path. Collections are not supported in all execution contexts", "BUSINESSRULE", "WARNING"))
+    });
+%}

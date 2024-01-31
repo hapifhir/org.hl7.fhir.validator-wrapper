@@ -1,0 +1,16 @@
+{
+  "cliContext": {
+    "sv": "5.0.0",
+    "igs": [
+      "hl7.cda.us.ccda#current"
+    ],
+    "locale": "en"
+  },
+  "filesToValidate": [
+    {
+      "fileName": "manually_entered_file.xml",
+      "fileContent": "<ClinicalDocument xmlns=\"urn:hl7-org:v3\" xmlns:sdtc=\"urn:hl7-org:sdtc\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"urn:hl7-org:v3-test CDA.xsd\">\n\t<templateId root=\"2.16.840.1.113883.3.27.1776\"/>\n\t<id extension=\"c266\" root=\"2.16.840.1.113883.19.4\"/>\n  <code code=\"X-34133-9\" displayName=\"SoEN\" sdtc:valueSet=\"2.16.840.1.113883.1.2.3.4.5.6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\"/>\n  <title>Episode Note</title>\n\n</ClinicalDocument>",
+      "fileType": null
+    }
+  ]
+}
