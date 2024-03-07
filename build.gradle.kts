@@ -101,6 +101,7 @@ kotlin {
                 implementation("io.ktor:ktor-events:${property("ktorVersion")}")
 
                 implementation("io.ktor:ktor-serialization-kotlinx-json:${property("ktorVersion")}")
+                implementation("io.ktor:ktor-serialization-kotlinx-xml:${property("ktorVersion")}")
 
                 implementation("io.ktor:ktor-serialization-gson:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-serialization-jackson:${property("ktorVersion")}")
