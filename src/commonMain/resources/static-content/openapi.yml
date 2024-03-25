@@ -61,6 +61,81 @@ paths:
                 title: validatorVersionOK
                 type: string
                 example: "5.6.39"
+  /convert:
+    post:
+      tags:
+        - Convert a Resource
+      description: "Converts a resource."
+      operationId: ConvertAResource
+      produces:
+        - application/json
+        - application/xml
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+          application/xml:
+            schema:
+              type: object
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: xml or json
+        - in: query
+          name: toType
+          schema:
+            type: string
+          description: xml or json
+        - in: query
+          name: version
+          schema:
+            type: string
+          description: source FHIR version
+        - in: query
+          name: toVersion
+          schema:
+            type: string
+          description: target FHIR version
+        - in: query
+          name: sessionId
+          schema:
+            type: string
+          description: sessionId to reuse cached validator
+        - in: header
+          name: Session-Id
+          schema:
+            type: string
+            format: uuid
+          description: sessionId to reuse cached validator
+      responses:
+        "200":
+          description: OK
+          headers:
+            Session-Id:
+              schema:
+                type: string
+                format: uuid
+              description: sessionId to reuse cached validator in consecutive calls
+        "400":
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                title: convertBadRequest
+                type: string
+                example: "Invalid toType parameter! Supported xml or json."
+        "500":
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                title: convertInternalServerError
+                type: string
+                example: "Internal server error."
   /ig:
     get:
       tags:

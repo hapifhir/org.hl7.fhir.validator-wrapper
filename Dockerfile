@@ -1,13 +1,6 @@
-# This line tells Docker to base an image on a pre-built image with Alpine Linux. You can use other images from OpenJDK
-# registry. Alpine Linux benefit is that the image is pretty small. We also select JRE-only image since we don't need
-# to compile code on the image, only run precompiled classes.
-FROM adoptopenjdk/openjdk11:alpine-jre
-
-# If for some reason you wish to use the full JDK, the following line can be used
-# FROM adoptopenjdk/openjdk11:alpine
-
-ARG PROJECT_VERSION
-RUN echo "Project version set to -> ${PROJECT_VERSION}"
+# This line tells Docker to base an image on a pre-built image with Alpine Linux. You can use other images from Amazon
+# Corretto registry. Alpine Linux benefit is that the image is pretty small.
+FROM amazoncorretto:11-alpine3.19
 
 ENV APPLICATION_USER ktor
 RUN adduser -D -g '' $APPLICATION_USER
@@ -18,7 +11,7 @@ RUN chown -R $APPLICATION_USER /app
 USER $APPLICATION_USER
 
 # These lines copy the packaged application into the Docker image and sets the working directory to where it was copied.
-COPY ./build/libs/validator-wrapper-jvm-${PROJECT_VERSION}.jar /app/validator-wrapper.jar
+COPY ./build/libs/validator-wrapper-jvm-*.jar /app/validator-wrapper.jar
 WORKDIR /app
 
 # Environment vars here

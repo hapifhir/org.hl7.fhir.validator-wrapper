@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
+import controller.conversion.conversionModule
 import controller.debug.debugModule
 import controller.ig.igModule
 import controller.terminology.terminologyModule
@@ -98,6 +99,7 @@ fun Application.setup() {
         versionModule()
         debugModule()
         validationModule()
+        conversionModule()
         terminologyModule()
         uptimeModule()
 

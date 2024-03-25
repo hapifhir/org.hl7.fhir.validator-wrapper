@@ -2,6 +2,8 @@ version: '3'
 services:
   validator:
     image: markiantorno/validator-wrapper
+    build:
+      context: .
     restart: always
     ports:
       - 3500:3500
