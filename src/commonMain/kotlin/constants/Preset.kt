@@ -142,6 +142,7 @@ enum class Preset(
         setOf(ANY_EXTENSION),
         setOf(IPS_BUNDLE_PROFILE)
     ),
+
     IPS_AU(
         "IPS_AU",
         "preset_ips_au",
@@ -181,8 +182,7 @@ enum class Preset(
         setOf(SQL_ON_FHIR_IG),
         setOf(),
         setOf()
-    )
-    ;
+    );
 
     companion object {
         fun getSelectedPreset(key: String?): Preset? {

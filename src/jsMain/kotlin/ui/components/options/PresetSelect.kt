@@ -1,6 +1,7 @@
 package ui.components.options
 
 import Polyglot
+import api.getValidationEngines
 import mui.material.*
 import react.*
 import csstype.px
@@ -18,6 +19,7 @@ import styled.css
 import styled.styledDiv
 
 import constants.Preset
+import utils.Language
 import utils.getJS
 
 
@@ -29,17 +31,25 @@ external interface PresetSelectProps : Props {
     var updateProfileSet: (Set<String>) -> Unit
     var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
     var setSessionId: (String) -> Unit
+    var language: Language
     var polyglot: Polyglot
 }
 
 class PresetSelectState : State {
     var snackbarOpen : String? = null
+    var validationEngines: Set<String> = emptySet()
 }
 
 class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
 
     init {
         state = PresetSelectState()
+        mainScope.launch {
+            val loadedValidationEngines = getValidationEngines()
+            setState {
+                validationEngines = loadedValidationEngines
+            }
+        }
     }
 
     fun handleSnackBarClose() {
@@ -86,7 +96,8 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                     val selectedPreset = Preset.getSelectedPreset(event.target.value)
                                     if (selectedPreset != null) {
                                         console.log("updating cli context for preset: " + event.target.value)
-                                        props.updateCliContext(selectedPreset.cliContext)
+                                        val cliContext = selectedPreset.cliContext.setLocale(props.language.getLanguageCode())
+                                        props.updateCliContext(cliContext)
                                         props.updateIgPackageInfoSet(selectedPreset.igPackageInfo)
                                         props.updateExtensionSet(selectedPreset.extensionSet)
                                         props.updateProfileSet(selectedPreset.profileSet)
@@ -105,14 +116,19 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                             }
 
                             Preset.values().forEach {
-
-                                MenuItem {
-                                    attrs {
-                                        value = it.key
-                                        selected = it.key.equals(props.cliContext.getBaseEngine())
+                                if (state.validationEngines.contains(it.key)) {
+                                    MenuItem {
+                                        attrs {
+                                            value = it.key
+                                            selected = it.key.equals(props.cliContext.getBaseEngine())
+                                        }
+                                        +props.polyglot.t(it.polyglotKey)
+                                        console.log(
+                                            it.key + " " + props.cliContext.getBaseEngine() + ":" + it.key.equals(
+                                                props.cliContext.getBaseEngine()
+                                            )
+                                        )
                                     }
-                                    +props.polyglot.t(it.polyglotKey)
-                                    console.log(it.key + " " + props.cliContext.getBaseEngine() + ":" + it.key.equals(props.cliContext.getBaseEngine() ))
                                 }
                             }
                         }

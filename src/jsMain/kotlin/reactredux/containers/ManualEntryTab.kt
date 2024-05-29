@@ -17,12 +17,14 @@ import redux.RAction
 import redux.WrapperAction
 import ui.components.tabs.entrytab.ManualEntryTab
 import ui.components.tabs.entrytab.ManualEntryTabProps
+import utils.Language
 
 private interface ManualEntryTabStateProps : Props {
     var cliContext: CliContext
     var validationOutcome: ValidationOutcome?
     var currentManuallyEnteredText: String
     var validatingManualEntryInProgress: Boolean
+    var language: Language
     var polyglot: Polyglot
     var sessionId: String
 }
@@ -46,6 +48,7 @@ val manualEntryTab: ComponentClass<Props> =
             validationOutcome = state.manualEntrySlice.validationOutcome
             currentManuallyEnteredText = state.manualEntrySlice.currentManuallyEnteredText
             validatingManualEntryInProgress = state.manualEntrySlice.validatingManualEntryInProgress
+            language = state.localizationSlice.selectedLanguage
             polyglot = state.localizationSlice.polyglotInstance
             sessionId = state.validationSessionSlice.sessionId
         },

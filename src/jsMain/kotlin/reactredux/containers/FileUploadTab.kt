@@ -13,11 +13,13 @@ import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
 import ui.components.tabs.uploadtab.FileUploadTab
+import utils.Language
 
 private interface FileUploadTabProps : Props {
     var uploadedFiles: List<ValidationOutcome>
     var cliContext: CliContext
     var sessionId: String
+    var language: Language
     var polyglot: Polyglot
 }
 
@@ -41,6 +43,7 @@ val fileUploadTab: ComponentClass<Props> =
             uploadedFiles = state.uploadedResourceSlice.uploadedFiles
             cliContext = state.validationContextSlice.cliContext
             sessionId = state.validationSessionSlice.sessionId
+            language = state.localizationSlice.selectedLanguage
             polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->

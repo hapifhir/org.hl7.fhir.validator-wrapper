@@ -23,10 +23,7 @@ import ui.components.options.presetSelect
 import ui.components.tabs.heading
 
 import ui.components.validation.validationOutcomeContainer
-import utils.assembleRequest
-import utils.getJS
-import utils.isJson
-import utils.isXml
+import utils.*
 
 //TODO make this an intelligent value
 private const val VALIDATION_TIME_LIMIT =  120000L
@@ -36,9 +33,9 @@ external interface ManualEntryTabProps : Props {
     var validationOutcome: ValidationOutcome?
     var currentManuallyEnteredText: String
     var validatingManualEntryInProgress: Boolean
+    var language: Language
     var polyglot: Polyglot
     var sessionId: String
-
     var setValidationOutcome: (ValidationOutcome) -> Unit
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
@@ -124,6 +121,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     updateProfileSet = props.updateProfileSet
                     updateBundleValidationRuleSet = props.updateBundleValidationRuleSet
                     setSessionId = props.setSessionId
+                    language = props.language
                     polyglot = props.polyglot
                 }
             }

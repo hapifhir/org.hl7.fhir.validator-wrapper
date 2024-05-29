@@ -1,11 +1,8 @@
 import api.ApiInjection
-import com.typesafe.config.ConfigFactory
 import controller.ControllersInjection
 import io.ktor.server.application.*
-import io.ktor.server.config.*
 import io.ktor.server.engine.*
 import io.ktor.server.jetty.*
-import io.ktor.util.*
 import org.hl7.fhir.validation.ValidatorCli
 import org.hl7.fhir.validation.cli.utils.Params
 import org.koin.dsl.module
@@ -13,7 +10,6 @@ import org.koin.ktor.plugin.Koin
 import utils.PackageCacheDownloaderRunnable
 import java.util.concurrent.TimeUnit
 
-private const val DEFAULT_ENVIRONMENT: String = "dev"
 private const val FULL_STACK_FLAG = "-startServer"
 private const val LOCAL_APP_FLAG = "-gui"
 
@@ -59,8 +55,8 @@ fun main(args: Array<String>) {
 }
 
 fun startServer(args: Array<String>) {
-    val environment = System.getenv()["ENVIRONMENT"] ?: handleDefaultEnvironment()
-    val config = extractConfig(environment, HoconApplicationConfig(ConfigFactory.load()))
+
+    val config = ValidatorApplicationConfig.config
 
     val preloadCache = System.getenv()["PRELOAD_CACHE"] ?: "false"
 
@@ -101,21 +97,5 @@ private fun runningAsDesktopApp(args: Array<String>): Boolean {
     return args.isNotEmpty() && Params.hasParam(args, LOCAL_APP_FLAG) && !Params.hasParam(args, FULL_STACK_FLAG)
 }
 
-data class Config(val host: String, val port: Int)
 
 
-fun extractConfig(environment: String, hoconConfig: HoconApplicationConfig): Config {
-    val hoconEnvironment = hoconConfig.config("ktor.deployment.$environment")
-    return Config(
-        hoconEnvironment.property("host").getString(),
-        Integer.parseInt(hoconEnvironment.property("port").getString()),
-    )
-}
-
-/**
- * Returns default environment.
- */
-fun handleDefaultEnvironment(): String {
-    println("Falling back to default environment 'dev'")
-    return DEFAULT_ENVIRONMENT
-}

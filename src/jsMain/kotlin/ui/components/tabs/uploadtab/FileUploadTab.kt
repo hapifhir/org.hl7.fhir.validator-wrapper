@@ -18,12 +18,14 @@ import ui.components.options.presetSelect
 import ui.components.tabs.heading
 import ui.components.tabs.uploadtab.filelist.fileEntryList
 import ui.components.validation.validationOutcomePopup
+import utils.Language
 import utils.assembleRequest
 
 external interface FileUploadTabProps : Props {
     var uploadedFiles: List<ValidationOutcome>
     var cliContext: CliContext
     var sessionId: String
+    var language: Language
     var polyglot: Polyglot
 
     var deleteFile: (FileInfo) -> Unit
@@ -110,6 +112,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                     updateProfileSet = props.updateProfileSet
                     updateBundleValidationRuleSet = props.updateBundleValidationRuleSet
                     setSessionId = props.setSessionId
+                    language = props.language
                     polyglot = props.polyglot
                 }
             }
