@@ -24,7 +24,7 @@ private interface AppStateProps : Props {
 private interface AppDispatchProps : Props {
     var fetchPolyglot: (String) -> Unit
     var setLanguage: (Language) -> Unit
-    var updateCliContext: (CliContext) -> Unit
+    var updateCliContext: (CliContext, Boolean) -> Unit
 }
 
 val app: ComponentClass<Props> =
@@ -37,6 +37,6 @@ val app: ComponentClass<Props> =
         { dispatch, _ ->
             fetchPolyglot = { dispatch(LocalizationSlice.fetchPolyglot(it)) }
             setLanguage = { dispatch(LocalizationSlice.SetLanguage(it)) }
-            updateCliContext = { dispatch(ValidationContextSlice.UpdateCliContext(it)) }
+            updateCliContext = { cliContext: CliContext, resetBaseEngine: Boolean -> dispatch(ValidationContextSlice.UpdateCliContext(cliContext, resetBaseEngine)) }
         }
     )(App::class.js.unsafeCast<ComponentClass<AppProps>>())

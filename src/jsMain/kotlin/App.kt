@@ -24,7 +24,7 @@ external interface AppProps : Props {
     var setLanguage: (Language) -> Unit
 
     var cliContext: CliContext
-    var updateCliContext: (CliContext) -> Unit
+    var updateCliContext: (CliContext, Boolean) -> Unit
 }
 
 val mainScope = MainScope()
@@ -36,7 +36,7 @@ fun languageSetup(props: AppProps) {
         if (selectedLanguage != null) {
             props.setLanguage(selectedLanguage)
             props.fetchPolyglot(selectedLanguage.getLanguageCode());
-            props.updateCliContext(props.cliContext.setLocale(selectedLanguage.getLanguageCode()))
+            props.updateCliContext(props.cliContext.setLocale(selectedLanguage.getLanguageCode()), false)
             break
         }
     }

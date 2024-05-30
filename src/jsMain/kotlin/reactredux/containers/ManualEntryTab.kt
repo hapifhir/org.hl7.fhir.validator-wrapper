@@ -56,20 +56,18 @@ val manualEntryTab: ComponentClass<Props> =
             setValidationOutcome = { dispatch(ManualEntrySlice.AddManualEntryOutcome(it)) }
             toggleValidationInProgress = { dispatch(ManualEntrySlice.ToggleValidationInProgress(it)) }
             updateCurrentlyEnteredText = { dispatch(ManualEntrySlice.UpdateCurrentlyEnteredText(it)) }
-            updateCliContext = {
-                dispatch(ValidationContextSlice.UpdateCliContext(it))
-            }
+            updateCliContext = {  dispatch(ValidationContextSlice.UpdateCliContext(it, false)) }
             updateIgPackageInfoSet = {
-                dispatch(ValidationContextSlice.UpdateIgPackageInfoSet(it))
+                dispatch(ValidationContextSlice.UpdateIgPackageInfoSet(it, false))
             }
             updateExtensionSet = {
-                dispatch(ValidationContextSlice.UpdateExtensionSet(it))
+                dispatch(ValidationContextSlice.UpdateExtensionSet(it, false))
             }
             updateProfileSet = {
-                dispatch(ValidationContextSlice.UpdateProfileSet(it))
+                dispatch(ValidationContextSlice.UpdateProfileSet(it, false))
             }
             updateBundleValidationRuleSet = {
-                dispatch(ValidationContextSlice.UpdateBundleValidationRuleSet(it))
+                dispatch(ValidationContextSlice.UpdateBundleValidationRuleSet(it, false))
             }
             setSessionId = { id: String -> dispatch(ValidationSessionSlice.SetSessionId(id)) }
         }

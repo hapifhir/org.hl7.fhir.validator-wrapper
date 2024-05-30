@@ -29,7 +29,7 @@ private interface HeaderDispatchProps : Props {
     var fetchPolyglot: (String) -> Unit
     var setPolyglot: (Polyglot) -> Unit
     var setLanguage: (Language) -> Unit
-    var updateCliContext: (CliContext) -> Unit
+    var updateCliContext: (CliContext, Boolean) -> Unit
 }
 
 val header: ComponentClass<Props> =
@@ -45,6 +45,6 @@ val header: ComponentClass<Props> =
             fetchPolyglot = { dispatch(LocalizationSlice.fetchPolyglot(it)) }
             setPolyglot = { dispatch(LocalizationSlice.SetPolyglot(it)) }
             setLanguage = { dispatch(LocalizationSlice.SetLanguage(it)) }
-            updateCliContext = { dispatch(ValidationContextSlice.UpdateCliContext(it)) }
+            updateCliContext = { cliContext: CliContext, resetBaseEngine: Boolean -> dispatch(ValidationContextSlice.UpdateCliContext(cliContext, resetBaseEngine)) }
         }
     )(Header::class.js.unsafeCast<ComponentClass<HeaderProps>>())

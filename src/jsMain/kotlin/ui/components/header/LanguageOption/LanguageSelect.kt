@@ -17,7 +17,7 @@ external interface LanguageSelectProps : Props {
     var selectedLanguage : Language
     var setLanguage: (Language) -> Unit
     var cliContext: CliContext
-    var updateCliContext: (CliContext) -> Unit
+    var updateCliContext: (CliContext, Boolean) -> Unit
 
 }
 
@@ -49,7 +49,7 @@ class LanguageSelect(props : LanguageSelectProps) : RComponent<LanguageSelectPro
                             if (selectedLanguage != null) {
                                 props.setLanguage(selectedLanguage)
                                 props.fetchPolyglot(selectedLanguage.getLanguageCode());
-                                props.updateCliContext(props.cliContext.setLocale(selectedLanguage.getLanguageCode()))
+                                props.updateCliContext(props.cliContext.setLocale(selectedLanguage.getLanguageCode()), false)
                             }
                         }
                     }

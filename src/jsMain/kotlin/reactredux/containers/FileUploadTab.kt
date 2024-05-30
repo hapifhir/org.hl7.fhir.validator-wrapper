@@ -30,7 +30,7 @@ private interface FileUploadTabDispatchProps : Props {
     var toggleValidationInProgress: (Boolean, FileInfo) -> Unit
     var addValidationOutcome: (ValidationOutcome) -> Unit
 
-    var updateCliContext: (CliContext) -> Unit
+    var updateCliContext: (CliContext, Boolean) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
     var updateProfileSet: (Set<String>)-> Unit
@@ -55,9 +55,7 @@ val fileUploadTab: ComponentClass<Props> =
                     fileInfo))
             }
             addValidationOutcome = { dispatch(UploadedResourceSlice.AddValidationOutcome(it)) }
-            updateCliContext = {
-                dispatch(ValidationContextSlice.UpdateCliContext(it))
-            }
+            updateCliContext = { cliContext: CliContext, resetBaseEngine: Boolean -> dispatch(ValidationContextSlice.UpdateCliContext(cliContext, resetBaseEngine)) }
             updateIgPackageInfoSet = {
                 dispatch(ValidationContextSlice.UpdateIgPackageInfoSet(it))
             }

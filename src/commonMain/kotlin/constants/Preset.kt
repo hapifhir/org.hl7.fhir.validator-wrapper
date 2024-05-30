@@ -101,7 +101,7 @@ val CDA_CONTEXT = CliContext()
     .addIg(PackageInfo.igLookupString(CDA_IG))
 
 val CCDA_CONTEXT = CliContext()
-    .setBaseEngine("CCDA")
+    .setBaseEngine("US_CCDA")
     .setSv("5.0.0")
     .addIg(PackageInfo.igLookupString(CCDA_IG))
 
@@ -168,7 +168,7 @@ enum class Preset(
         setOf()
     ),
     US_CCDA(
-        "US_CDA",
+        "US_CCDA",
         "preset_us_ccda",
         CCDA_CONTEXT,
         setOf(CCDA_IG),

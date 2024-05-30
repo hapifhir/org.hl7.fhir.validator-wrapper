@@ -65,7 +65,6 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                 display = Display.inlineFlex
                 flexDirection = FlexDirection.column
                 alignSelf = Align.center
-
             }
             Tooltip {
                 attrs {
@@ -89,14 +88,17 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                             +props.polyglot.t("preset_label")
                         }
                         Select {
+
                             attrs {
                                 label = ReactNode("Preset")
-
+                                value =  props.cliContext.getBaseEngine().unsafeCast<Nothing?>()
                                 onChange = { event, _ ->
                                     val selectedPreset = Preset.getSelectedPreset(event.target.value)
                                     if (selectedPreset != null) {
                                         console.log("updating cli context for preset: " + event.target.value)
-                                        val cliContext = selectedPreset.cliContext.setLocale(props.language.getLanguageCode())
+                                        console.log("updating cli context with base engine: " + selectedPreset.cliContext.getBaseEngine())
+
+                                        val cliContext = CliContext(selectedPreset.cliContext).setLocale(props.language.getLanguageCode())
                                         props.updateCliContext(cliContext)
                                         props.updateIgPackageInfoSet(selectedPreset.igPackageInfo)
                                         props.updateExtensionSet(selectedPreset.extensionSet)
@@ -120,7 +122,6 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                     MenuItem {
                                         attrs {
                                             value = it.key
-                                            selected = it.key.equals(props.cliContext.getBaseEngine())
                                         }
                                         +props.polyglot.t(it.polyglotKey)
                                         console.log(

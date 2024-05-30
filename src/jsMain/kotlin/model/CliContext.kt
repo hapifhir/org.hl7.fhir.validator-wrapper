@@ -36,6 +36,28 @@ actual class CliContext actual constructor() {
         locale = "en"
     }
 
+    constructor (cliContext : CliContext) : this() {
+        this.igs = cliContext.igs.toList()
+        this.baseEngine = cliContext.baseEngine
+        this.extensions = cliContext.extensions.toList()
+        this.doNative = cliContext.doNative
+        this.hintAboutNonMustSupport = cliContext.hintAboutNonMustSupport
+        this.assumeValidRestReferences = cliContext.assumeValidRestReferences
+        this.noExtensibleBindingMessages = cliContext.noExtensibleBindingMessages
+        this.showTimes = cliContext.showTimes
+        this.allowExampleUrls = cliContext.allowExampleUrls
+        this.txServer = cliContext.txServer
+        this.txLog = cliContext.txLog
+        this.txCache = cliContext.txCache
+        this.snomedCT = cliContext.snomedCT
+        this.targetVer = cliContext.targetVer
+        this.sv = cliContext.sv
+        this.profiles = cliContext.profiles.toList()
+        this.checkIPSCodes = cliContext.checkIPSCodes
+        this.bundleValidationRules = cliContext.bundleValidationRules.toList()
+        this.locale = cliContext.locale
+    }
+
     actual fun getBaseEngine() : String? {
         return baseEngine;
     }
@@ -247,4 +269,6 @@ actual class CliContext actual constructor() {
         this.bundleValidationRules = bundleValidationRules
         return this
     }
+
+
 }
