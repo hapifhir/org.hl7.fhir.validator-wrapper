@@ -1,59 +1,54 @@
-package controller.validation;
+package controller.validation
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import org.hl7.fhir.validation.ValidationEngine;
-import org.hl7.fhir.validation.cli.services.SessionCache;
+import com.google.common.cache.Cache
+import com.google.common.cache.CacheBuilder
+import org.hl7.fhir.validation.ValidationEngine
+import org.hl7.fhir.validation.cli.services.SessionCache
+import java.util.*
 
-import java.util.Set;
-import java.util.UUID;
+class GuavaSessionCache : SessionCache {
+    private val cache: Cache<String, ValidationEngine> = CacheBuilder.newBuilder().maximumSize(1).build()
 
-public class GuavaSessionCache implements SessionCache {
-
-    Cache<String, ValidationEngine> cache = CacheBuilder.newBuilder().maximumSize(3).build();
-
-    @Override
-    public String cacheSession(ValidationEngine validationEngine) {
-        String generatedId = generateID();
-        cache.put(generatedId, validationEngine);
-        return generatedId;
+    override fun cacheSession(validationEngine: ValidationEngine): String {
+        val generatedId = generateID()
+        cache.put(generatedId, validationEngine)
+        println("Cache size: " + cache.size())
+        return generatedId
     }
 
-    @Override
-    public String cacheSession(String sessionId, ValidationEngine validationEngine) {
-        if(sessionId == null) {
-            sessionId = cacheSession(validationEngine);
+    override fun cacheSession(sessionId: String?, validationEngine: ValidationEngine): String {
+        var sessionIdVar = sessionId
+        if (sessionIdVar == null) {
+            sessionIdVar = cacheSession(validationEngine)
         } else {
-            cache.put(sessionId, validationEngine);
+            cache.put(sessionIdVar, validationEngine)
+            println("Cache size: " + cache.size())
         }
-        return sessionId;
+        return sessionIdVar
     }
 
-    @Override
-    public boolean sessionExists(String sessionKey) {
-        return cache.getIfPresent(sessionKey) != null;
+    override fun sessionExists(sessionKey: String?): Boolean {
+       // if (sessionKey == null) {return false }
+        return cache.asMap().containsKey(sessionKey)
     }
 
-    @Override
-    public ValidationEngine removeSession(String s) {
-       return null;
+    override fun removeSession(s: String): ValidationEngine? {
+        return null
     }
 
-    @Override
-    public ValidationEngine fetchSessionValidatorEngine(String sessionKey) {
-        return cache.getIfPresent(sessionKey);
+    override fun fetchSessionValidatorEngine(sessionKey: String): ValidationEngine? {
+        return cache.getIfPresent(sessionKey)
     }
 
-    @Override
-    public Set<String> getSessionIds() {
-        return cache.asMap().keySet();
+    override fun getSessionIds(): Set<String> {
+        return cache.asMap().keys
     }
 
     /**
-     * Session ids generated internally are UUID {@link String}.
-     * @return A new {@link String} session id.
+     * Session ids generated internally are UUID [String].
+     * @return A new [String] session id.
      */
-    private String generateID() {
-        return UUID.randomUUID().toString();
+    private fun generateID(): String {
+        return UUID.randomUUID().toString()
     }
 }

@@ -122,6 +122,8 @@ kotlin {
                 implementation("ch.qos.logback:logback-classic:${property("logbackVersion")}")
                 implementation("org.litote.kmongo:kmongo-coroutine-serialization:${property("kmongoVersion")}")
                 implementation("no.tornado:tornadofx:${property("tornadoFXVersion")}")
+
+              //  implementation("com.google.guava:guava:10.0.1")
             }
         }
         val jvmTest by getting {
