@@ -11,7 +11,7 @@ class GuavaCacheTest {
     @Test
     fun `test happy path`() {
         val sessionCache: GuavaSessionCacheAdapter =
-            GuavaSessionCacheAdapter(2)
+            GuavaSessionCacheAdapter(2, 10)
         val sessionIds : Set<String> = sessionCache.getSessionIds();
         val engine1 : ValidationEngine = mockk()
         val sessionId1 = sessionCache.cacheSession(engine1);
