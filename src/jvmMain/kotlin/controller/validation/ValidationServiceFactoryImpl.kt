@@ -12,6 +12,7 @@ import kotlin.concurrent.thread
 
 
 private const val SESSION_DEFAULT_DURATION: Long = 60
+private const val SESSION_DEFAULT_SIZE: Long = 4
 
 
 class ValidationServiceFactoryImpl : ValidationServiceFactory {
@@ -23,9 +24,11 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
     }
 
     fun createValidationServiceInstance(): ValidationService {
-      //  val sessionCacheDuration = System.getenv("SESSION_CACHE_DURATION")?.toLong() ?: SESSION_DEFAULT_DURATION;
+        val sessionCacheDuration = System.getenv("SESSION_CACHE_DURATION")?.toLong() ?: SESSION_DEFAULT_DURATION;
+        val sessionCacheSize = System.getenv("SESSION_CACHE_SIZE")?.toLong() ?: SESSION_DEFAULT_SIZE
+
         val sessionCache: SessionCache =
-            GuavaSessionCache(4)
+            GuavaSessionCacheAdapter(sessionCacheSize, sessionCacheDuration)
         val validationService = ValidationService(sessionCache);
         thread {
         Preset.values().forEach {

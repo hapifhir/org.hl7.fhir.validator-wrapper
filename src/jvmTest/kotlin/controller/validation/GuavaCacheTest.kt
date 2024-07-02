@@ -1,13 +1,7 @@
 package controller.validation
 
-import instrumentation.ValidationInstrumentation.compareValidationResponses
-import instrumentation.ValidationInstrumentation.givenAValidationRequest
-import instrumentation.ValidationInstrumentation.givenAValidationResult
-import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
 import org.hl7.fhir.validation.ValidationEngine
-import org.hl7.fhir.validation.cli.services.SessionCache
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
@@ -16,8 +10,8 @@ class GuavaCacheTest {
 
     @Test
     fun `test happy path`() {
-        val sessionCache: GuavaSessionCache =
-            GuavaSessionCache(2)
+        val sessionCache: GuavaSessionCacheAdapter =
+            GuavaSessionCacheAdapter(2)
         val sessionIds : Set<String> = sessionCache.getSessionIds();
         val engine1 : ValidationEngine = mockk()
         val sessionId1 = sessionCache.cacheSession(engine1);

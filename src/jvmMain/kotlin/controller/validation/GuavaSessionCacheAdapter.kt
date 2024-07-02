@@ -5,9 +5,10 @@ import com.google.common.cache.CacheBuilder
 import org.hl7.fhir.validation.ValidationEngine
 import org.hl7.fhir.validation.cli.services.SessionCache
 import java.util.*
+import java.util.concurrent.TimeUnit
 
-class GuavaSessionCache(cacheSize : Long) : SessionCache {
-    private val cache: Cache<String, ValidationEngine> = CacheBuilder.newBuilder().maximumSize(cacheSize).build()
+class GuavaSessionCacheAdapter(cacheSize : Long, cacheDuration: Long) : SessionCache {
+    private val cache: Cache<String, ValidationEngine> = CacheBuilder.newBuilder().expireAfterAccess(cacheDuration, TimeUnit.MINUTES).maximumSize(cacheSize).build()
 
     override fun cacheSession(validationEngine: ValidationEngine): String {
         val generatedId = generateID()
