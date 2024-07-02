@@ -25,7 +25,7 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
     fun createValidationServiceInstance(): ValidationService {
       //  val sessionCacheDuration = System.getenv("SESSION_CACHE_DURATION")?.toLong() ?: SESSION_DEFAULT_DURATION;
         val sessionCache: SessionCache =
-            GuavaSessionCache()
+            GuavaSessionCache(4)
         val validationService = ValidationService(sessionCache);
         thread {
         Preset.values().forEach {

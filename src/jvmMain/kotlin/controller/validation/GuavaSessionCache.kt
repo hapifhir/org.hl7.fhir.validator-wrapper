@@ -6,8 +6,8 @@ import org.hl7.fhir.validation.ValidationEngine
 import org.hl7.fhir.validation.cli.services.SessionCache
 import java.util.*
 
-class GuavaSessionCache : SessionCache {
-    private val cache: Cache<String, ValidationEngine> = CacheBuilder.newBuilder().maximumSize(1).build()
+class GuavaSessionCache(cacheSize : Long) : SessionCache {
+    private val cache: Cache<String, ValidationEngine> = CacheBuilder.newBuilder().maximumSize(cacheSize).build()
 
     override fun cacheSession(validationEngine: ValidationEngine): String {
         val generatedId = generateID()
