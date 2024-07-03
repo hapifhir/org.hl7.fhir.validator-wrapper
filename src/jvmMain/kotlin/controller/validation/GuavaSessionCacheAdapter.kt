@@ -29,12 +29,7 @@ class GuavaSessionCacheAdapter(cacheSize : Long, cacheDuration: Long) : SessionC
     }
 
     override fun sessionExists(sessionKey: String?): Boolean {
-       // if (sessionKey == null) {return false }
         return cache.asMap().containsKey(sessionKey)
-    }
-
-    override fun removeSession(s: String): ValidationEngine? {
-        return null
     }
 
     override fun fetchSessionValidatorEngine(sessionKey: String): ValidationEngine? {
