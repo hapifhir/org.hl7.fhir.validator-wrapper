@@ -1,10 +1,7 @@
 {
   "cliContext": {
-    "sv": "5.0.0",
-    "igs": [
-      "hl7.cda.us.ccda#3.0.0-ballot"
-    ],
-    "locale": "en"
+      "baseEngine": "CDA",
+      "locale": "en"
   },
   "filesToValidate": [
     {

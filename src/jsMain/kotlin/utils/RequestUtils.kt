@@ -29,7 +29,11 @@ fun assembleCliContext(cliContext: CliContext): CliContext {
     }
     console.log("Building new CLI Context")
     val baseEngineContext = CliContext()
+
     baseEngineContext.setBaseEngine(cliContext.getBaseEngine())
+    for (profile in cliContext.getProfiles()) {
+        baseEngineContext.addProfile(profile)
+    }
     baseEngineContext.setLocale(cliContext.getLanguageCode())
     return baseEngineContext;
 }

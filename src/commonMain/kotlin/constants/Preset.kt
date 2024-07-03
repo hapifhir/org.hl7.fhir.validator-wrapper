@@ -33,14 +33,14 @@ val IPS_NZ_IG = PackageInfo(
 
 val CDA_IG = PackageInfo(
     "hl7.cda.uv.core",
-    "2.0.0-sd-ballot",
+    "2.0.0-sd-snapshot1",
     "5.0.0",
     "http://hl7.org/cda/stds/core/ImplementationGuide/hl7.cda.uv.core"
 )
 
 val CCDA_IG = PackageInfo(
     "hl7.cda.us.ccda",
-    "current",
+    "3.0.0-ballot",
     "5.0.0",
     "http://hl7.org/fhir/us/ccda/ImplementationGuide/hl7.fhir.us.ccda"
 )
@@ -86,6 +86,7 @@ val IPS_NZ_CONTEXT = CliContext()
     .setBaseEngine("IPS_NZ")
     .setSv("4.0.1")
     .addIg(PackageInfo.igLookupString(IPS_NZ_IG))
+    .setProfiles(listOf(IPS_NZ_BUNDLE_PROFILE))
     .setExtensions(listOf(ANY_EXTENSION))
     .setCheckIPSCodes(true)
     .setBundleValidationRules(listOf(

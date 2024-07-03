@@ -1,23 +1,10 @@
 {
   "cliContext": {
-    "extensions": [
-      "any"
-    ],
-    "sv": "4.0.1",
-    "igs": [
-      "tewhatuora.fhir.nzps#current"
-    ],
+    "baseEngine": "IPS_NZ",
+    "locale": "en",
     "profiles": [
       "https://standards.digital.health.nz/fhir/StructureDefinition/nzps-bundle"
-    ],
-    "checkIPSCodes": true,
-    "bundleValidationRules": [
-      {
-        "rule": "Composition:0",
-        "profile": "https://standards.digital.health.nz/fhir/StructureDefinition/nzps-composition"
-      }
-    ],
-    "locale": "en"
+    ]
   },
   "filesToValidate": [
     {

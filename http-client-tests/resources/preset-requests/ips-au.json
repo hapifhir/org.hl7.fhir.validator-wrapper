@@ -1,23 +1,10 @@
 {
   "cliContext": {
-    "extensions": [
-      "any"
-    ],
-    "sv": "4.0.1",
-    "igs": [
-      "hl7.fhir.uv.ips#1.1.0"
-    ],
+    "baseEngine": "IPS_AU",
+    "locale": "en",
     "profiles": [
-      "http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips"
-    ],
-    "checkIPSCodes": true,
-    "bundleValidationRules": [
-      {
-        "rule": "Composition:0",
-        "profile": "http://hl7.org/fhir/uv/ips/StructureDefinition/Composition-uv-ips"
-      }
-    ],
-    "locale": "en"
+      "http://hl7.org.au/fhir/ips/StructureDefinition/Bundle-au-ips"
+    ]
   },
   "filesToValidate": [
     {
