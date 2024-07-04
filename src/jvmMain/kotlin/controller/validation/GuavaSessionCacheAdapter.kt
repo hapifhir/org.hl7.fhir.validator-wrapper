@@ -40,6 +40,10 @@ class GuavaSessionCacheAdapter(cacheSize : Long, cacheDuration: Long) : SessionC
         return cache.asMap().keys
     }
 
+    override fun cleanUp() {
+        cache.cleanUp()
+    }
+
     /**
      * Session ids generated internally are UUID [String].
      * @return A new [String] session id.
