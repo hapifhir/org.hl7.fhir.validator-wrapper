@@ -1,5 +1,6 @@
 package controller.validation
 
+import model.AppVersion
 import model.ValidationResponse
 import org.hl7.fhir.utilities.VersionUtil
 import org.hl7.fhir.validation.cli.model.ValidationRequest
@@ -16,24 +17,17 @@ class ValidationControllerImpl : ValidationController, KoinComponent {
         return validationServiceFactory.getValidationService().validateSources(validationRequest)
     }
 
-    override suspend fun getValidatorVersion():String {
-        println(getWrapperVersion());
-        return VersionUtil.getVersion()
+    fun getWrapperVersion() : String {
+        val properties = Properties()
+        val inputStream = Thread.currentThread().contextClassLoader.getResourceAsStream("version.properties")
+        inputStream?.use {
+            properties.load(it)
+        }
+        return properties.getProperty("version.semver")
+
     }
 
-    fun getWrapperVersion(): String {
-        val properties = Properties()
-        try {
-            Thread.currentThread().contextClassLoader.getResourceAsStream("version.properties").use { inputStream ->
-                if (inputStream == null) {
-                    return "(file not found)"
-                }
-                properties.load(inputStream)
-                return properties.getProperty("version.semver")
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return "(error reading version)"
-        }
+    override suspend fun getAppVersion(): AppVersion {
+        return AppVersion(getWrapperVersion(), VersionUtil.getVersion())
     }
 }
