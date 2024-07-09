@@ -79,12 +79,17 @@ class ValidationControllerTest : BaseControllerTest() {
     fun `test happy path, validator version ValidationService`() {
         val prop = Properties().apply {
             load(FileInputStream(File("gradle.properties")))
+            load(FileInputStream(File("version.properties")))
         }
-        val version = prop.get("fhirCoreVersion")
+
+        val fhirCoreVersion = prop.get("fhirCoreVersion")
+        val wrapperVersion = prop.get("version.semver")
 
         runBlocking {
-            val response = validationController.getValidatorVersion()
-            assertEquals(expected = version, actual = response)
+            val response = validationController.getAppVersion()
+            assertEquals(expected = fhirCoreVersion, actual = response.coreVersion)
+            assertEquals(expected = wrapperVersion, actual = response.wrapperVersion)
+
         }
     }
 }

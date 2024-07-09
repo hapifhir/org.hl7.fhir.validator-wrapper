@@ -22,6 +22,7 @@ import io.ktor.server.testing.*
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
+import model.AppVersion
 import model.ValidationResponse
 import org.junit.jupiter.api.*
 import org.koin.dsl.module
@@ -156,7 +157,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
 
     @Test
     fun `test sending a request for validator version`() = withBaseTestApplication {
-        coEvery { validationController.getValidatorVersion() } returns "dummy.version"
+        coEvery { validationController.getAppVersion() } returns AppVersion("dummy.version.1", "dummy.version.2")
 
         val call = handleRequest(HttpMethod.Get, VALIDATOR_VERSION_ENDPOINT) {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
@@ -164,7 +165,9 @@ class ValidationRoutingTest : BaseRoutingTest() {
 
         with(call) {
             assertEquals(HttpStatusCode.OK, response.status())
-            assertEquals(quoteWrap("dummy.version"), response.content)
+            val appVersion = response.parseBody(AppVersion::class.java)
+            assertEquals("dummy.version.1", appVersion.wrapperVersion)
+            assertEquals("dummy.version.2", appVersion.coreVersion)
         }
     }
 }
