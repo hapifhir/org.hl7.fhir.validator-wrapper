@@ -21,7 +21,7 @@ external interface FooterProps : Props {
 
 class FooterState : State {
     var validatorVersion = "Unknown"
-    var wrapperVersion = "Unknown"
+    var validatorWrapperVersion = "Unknown"
 }
 
 class Footer : RComponent<FooterProps, FooterState>() {
@@ -32,8 +32,8 @@ class Footer : RComponent<FooterProps, FooterState>() {
             val validatorVersionResponse = sendValidatorVersionRequest()
             println(validatorVersionResponse)
             setState {
-                validatorVersion = validatorVersionResponse.coreVersion
-                wrapperVersion = validatorVersionResponse.wrapperVersion
+                validatorVersion = validatorVersionResponse.validatorVersion
+                validatorWrapperVersion = validatorVersionResponse.validatorVrapperVersion
             }
         }
     }
@@ -57,7 +57,7 @@ class Footer : RComponent<FooterProps, FooterState>() {
                     css {
                         +FooterStyle.footerTitleSmall
                     }
-                    + state.wrapperVersion
+                    + state.validatorWrapperVersion
                 }
                 styledSpan {
                     css {

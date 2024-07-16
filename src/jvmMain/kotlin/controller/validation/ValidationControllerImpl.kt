@@ -1,12 +1,11 @@
 package controller.validation
 
-import model.AppVersion
+import model.AppVersions
 import model.ValidationResponse
 import org.hl7.fhir.utilities.VersionUtil
 import org.hl7.fhir.validation.cli.model.ValidationRequest
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.io.IOException
 import java.util.*
 
 class ValidationControllerImpl : ValidationController, KoinComponent {
@@ -17,7 +16,7 @@ class ValidationControllerImpl : ValidationController, KoinComponent {
         return validationServiceFactory.getValidationService().validateSources(validationRequest)
     }
 
-    fun getWrapperVersion() : String {
+    private fun getValidatorWrapperVersion() : String {
         val properties = Properties()
         val inputStream = Thread.currentThread().contextClassLoader.getResourceAsStream("version.properties")
         inputStream?.use {
@@ -27,7 +26,7 @@ class ValidationControllerImpl : ValidationController, KoinComponent {
 
     }
 
-    override suspend fun getAppVersion(): AppVersion {
-        return AppVersion(getWrapperVersion(), VersionUtil.getVersion())
+    override suspend fun getAppVersion(): AppVersions {
+        return AppVersions(getValidatorWrapperVersion(), VersionUtil.getVersion())
     }
 }

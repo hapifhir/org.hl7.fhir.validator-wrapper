@@ -82,13 +82,13 @@ class ValidationControllerTest : BaseControllerTest() {
             load(FileInputStream(File("version.properties")))
         }
 
-        val fhirCoreVersion = prop.get("fhirCoreVersion")
-        val wrapperVersion = prop.get("version.semver")
+        val validatorVersion = prop.get("fhirCoreVersion")
+        val validatorWrapperVersion = prop.get("version.semver")
 
         runBlocking {
             val response = validationController.getAppVersion()
-            assertEquals(expected = fhirCoreVersion, actual = response.coreVersion)
-            assertEquals(expected = wrapperVersion, actual = response.wrapperVersion)
+            assertEquals(expected = validatorVersion, actual = response.validatorVersion)
+            assertEquals(expected = validatorWrapperVersion, actual = response.validatorVrapperVersion)
 
         }
     }
