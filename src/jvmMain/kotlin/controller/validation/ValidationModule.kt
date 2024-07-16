@@ -8,12 +8,10 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import model.FhirVersionsResponse
 import model.ValidationRequest
 import model.asString
 import org.koin.ktor.ext.inject
 import utils.badFileEntryExists
-import java.util.*
 
 const val DEBUG_NUMBER_FILES = "Received %d files to validate."
 const val NO_FILES_PROVIDED_MESSAGE = "No files for validation provided in request."
@@ -53,6 +51,6 @@ fun Route.validationModule() {
 
 
     get(VALIDATOR_VERSION_ENDPOINT) {
-        call.respond(HttpStatusCode.OK, validationController.getAppVersion())
+        call.respond(HttpStatusCode.OK, validationController.getAppVersions())
     }
 }

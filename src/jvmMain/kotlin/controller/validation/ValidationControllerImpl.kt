@@ -26,7 +26,7 @@ class ValidationControllerImpl : ValidationController, KoinComponent {
 
     }
 
-    override suspend fun getAppVersion(): AppVersions {
+    override suspend fun getAppVersions(): AppVersions {
         return AppVersions(getValidatorWrapperVersion(), VersionUtil.getVersion())
     }
 }

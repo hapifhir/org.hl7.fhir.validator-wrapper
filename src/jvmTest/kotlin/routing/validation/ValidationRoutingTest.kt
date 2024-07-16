@@ -156,7 +156,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
 
     @Test
     fun `test sending a request for validator version`() = withBaseTestApplication {
-        coEvery { validationController.getAppVersion() } returns AppVersions("dummy.version.1", "dummy.version.2")
+        coEvery { validationController.getAppVersions() } returns AppVersions("dummy.version.1", "dummy.version.2")
 
         val call = handleRequest(HttpMethod.Get, VALIDATOR_VERSION_ENDPOINT) {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())

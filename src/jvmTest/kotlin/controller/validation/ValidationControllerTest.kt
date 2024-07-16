@@ -86,7 +86,7 @@ class ValidationControllerTest : BaseControllerTest() {
         val validatorWrapperVersion = prop.get("version.semver")
 
         runBlocking {
-            val response = validationController.getAppVersion()
+            val response = validationController.getAppVersions()
             assertEquals(expected = validatorVersion, actual = response.validatorVersion)
             assertEquals(expected = validatorWrapperVersion, actual = response.validatorWrapperVersion)
 
