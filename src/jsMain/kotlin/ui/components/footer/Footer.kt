@@ -33,7 +33,7 @@ class Footer : RComponent<FooterProps, FooterState>() {
             println(validatorVersionResponse)
             setState {
                 validatorVersion = validatorVersionResponse.validatorVersion
-                validatorWrapperVersion = validatorVersionResponse.validatorVrapperVersion
+                validatorWrapperVersion = validatorVersionResponse.validatorWrapperVersion
             }
         }
     }

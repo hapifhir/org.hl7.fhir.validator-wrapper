@@ -165,7 +165,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
         with(call) {
             assertEquals(HttpStatusCode.OK, response.status())
             val appVersions = response.parseBody(AppVersions::class.java)
-            assertEquals("dummy.version.1", appVersions.validatorVrapperVersion)
+            assertEquals("dummy.version.1", appVersions.validatorWrapperVersion)
             assertEquals("dummy.version.2", appVersions.validatorVersion)
         }
     }

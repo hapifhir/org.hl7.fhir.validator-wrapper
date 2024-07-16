@@ -88,7 +88,7 @@ class ValidationControllerTest : BaseControllerTest() {
         runBlocking {
             val response = validationController.getAppVersion()
             assertEquals(expected = validatorVersion, actual = response.validatorVersion)
-            assertEquals(expected = validatorWrapperVersion, actual = response.validatorVrapperVersion)
+            assertEquals(expected = validatorWrapperVersion, actual = response.validatorWrapperVersion)
 
         }
     }
