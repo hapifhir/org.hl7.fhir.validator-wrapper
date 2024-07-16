@@ -2,7 +2,7 @@ openapi: "3.0.2"
 info:
   title: "Validator Wrapper API"
   description: "Official API documentations for the Validator Wrapper."
-  version: ""
+  version: "1.0.0"
   contact:
     name: "Validator Wrapper"
     url: "https://validator.fhir.org/"
@@ -56,11 +56,9 @@ paths:
         "200":
           description: OK
           content:
-            text/plain:
+            application/json:
               schema:
-                title: validatorVersionOK
-                type: string
-                example: "5.6.39"
+                $ref: "#/components/schemas/appVersion"
   /ig:
     get:
       tags:
@@ -410,4 +408,13 @@ components:
     packageServerStatus:
       type: boolean
       example: true
+    appVersion:
+      type: object
+      properties:
+        wrapperVersion:
+          type: string
+          example: "1.2.3"
+        coreVersion:
+          type: string
+          example: "1.2.3"
 

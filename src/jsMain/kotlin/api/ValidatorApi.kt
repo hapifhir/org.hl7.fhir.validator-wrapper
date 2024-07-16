@@ -28,7 +28,7 @@ suspend fun sendValidationRequest(validationRequest: ValidationRequest): Validat
     return response.body()
 }
 
-suspend fun sendValidatorVersionRequest() : String {
+suspend fun sendValidatorVersionRequest() : AppVersions {
     return jsonClient.get(urlString = endpoint + VALIDATOR_VERSION_ENDPOINT) {
         contentType(ContentType.Application.Json)
     }.body()
