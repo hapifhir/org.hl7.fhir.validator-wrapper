@@ -165,7 +165,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             props.toggleValidationInProgress(true)
             println("clicontext :: sv == ${cliContext.getSv()}, version == ${props.cliContext.getTargetVer()}, languageCode == ${props.cliContext.getLanguageCode()}")
             val request = assembleRequest(
-                cliContext = cliContext,
+                cliContext = CliContext(cliContext).setLocale(props.cliContext.getLanguageCode()),
                 fileName = generateFileName(fileContent),
                 fileContent = fileContent,
                 fileType = null

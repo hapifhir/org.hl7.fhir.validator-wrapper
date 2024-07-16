@@ -48,8 +48,9 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
     }
    
     override fun getValidationService() : ValidationService {
-        if (java.lang.Runtime.getRuntime().freeMemory() < ValidatorApplicationConfig.config.engineReloadThreshold) {
-            println("Free memory ${java.lang.Runtime.getRuntime().freeMemory()} is less than ${ValidatorApplicationConfig.config.engineReloadThreshold}. Re-initializing validationService");
+        val engineReloadThreshold = (System.getenv("ENGINE_RELOAD_THRESHOLD") ?: "250000000").toLong()
+        if (java.lang.Runtime.getRuntime().freeMemory() < engineReloadThreshold) {
+            println("Free memory ${java.lang.Runtime.getRuntime().freeMemory()} is less than ${engineReloadThreshold}. Re-initializing validationService");
             validationService = createValidationServiceInstance();
         }
         return validationService;

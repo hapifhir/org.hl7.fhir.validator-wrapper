@@ -24,8 +24,7 @@ class ValidatorApplicationConfig {
             val hoconEnvironment = hoconConfig.config("ktor.deployment.$environment")
             return Config(
                 hoconEnvironment.property("host").getString(),
-                Integer.parseInt(hoconEnvironment.property("port").getString()),
-                Integer.parseInt(hoconEnvironment.property("engineReloadThreshold").getString())
+                Integer.parseInt(hoconEnvironment.property("port").getString())
                 )
         }
         }

@@ -8,7 +8,6 @@ import model.BundleValidationRule
 val DEFAULT_CONTEXT = CliContext()
     .setBaseEngine("DEFAULT")
     .setSv("4.0.1")
-    .setLocale("en")
 
 val IPS_IG = PackageInfo(
     "hl7.fhir.uv.ips",
