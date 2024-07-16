@@ -30,6 +30,11 @@ repositories {
     }
 }
 
+tasks.register<Copy>("copySemver") {
+    from("version.properties")
+    into("src/jvmMain/resources/")
+}
+
 kotlin {
     jvm {
         compilations {
@@ -125,6 +130,7 @@ kotlin {
 
               //  implementation("com.google.guava:guava:10.0.1")
             }
+
         }
         val jvmTest by getting {
             dependencies {
@@ -249,6 +255,7 @@ tasks.getByName<Jar>("jvmJar") {
 
 tasks {
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        dependsOn("copySemver")
         kotlinOptions {
             jvmTarget = "11"
         }

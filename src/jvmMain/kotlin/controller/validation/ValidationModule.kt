@@ -9,7 +9,6 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import model.FhirVersionsResponse
 import model.ValidationRequest
 import model.asString
 import org.koin.ktor.ext.inject
@@ -50,8 +49,10 @@ fun Route.validationModule() {
         }
     }
 
+
+
     get(VALIDATOR_VERSION_ENDPOINT) {
-        call.respond(HttpStatusCode.OK, validationController.getValidatorVersion())
+        call.respond(HttpStatusCode.OK, validationController.getAppVersions())
     }
 
     get(VALIDATION_ENGINES_ENDPOINT) {
