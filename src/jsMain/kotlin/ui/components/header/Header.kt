@@ -37,7 +37,7 @@ external interface HeaderProps : Props {
     var setLanguage: (Language) -> Unit
 
     var cliContext: CliContext
-    var updateCliContext: (CliContext) -> Unit
+    var updateCliContext: (CliContext, Boolean) -> Unit
 }
 
 class HeaderState : State {

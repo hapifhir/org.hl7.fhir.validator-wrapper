@@ -13,11 +13,13 @@ import reactredux.store.AppState
 import redux.RAction
 import redux.WrapperAction
 import ui.components.tabs.uploadtab.FileUploadTab
+import utils.Language
 
 private interface FileUploadTabProps : Props {
     var uploadedFiles: List<ValidationOutcome>
     var cliContext: CliContext
     var sessionId: String
+    var language: Language
     var polyglot: Polyglot
 }
 
@@ -28,7 +30,7 @@ private interface FileUploadTabDispatchProps : Props {
     var toggleValidationInProgress: (Boolean, FileInfo) -> Unit
     var addValidationOutcome: (ValidationOutcome) -> Unit
 
-    var updateCliContext: (CliContext) -> Unit
+    var updateCliContext: (CliContext, Boolean) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
     var updateProfileSet: (Set<String>)-> Unit
@@ -41,6 +43,7 @@ val fileUploadTab: ComponentClass<Props> =
             uploadedFiles = state.uploadedResourceSlice.uploadedFiles
             cliContext = state.validationContextSlice.cliContext
             sessionId = state.validationSessionSlice.sessionId
+            language = state.localizationSlice.selectedLanguage
             polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->
@@ -52,9 +55,7 @@ val fileUploadTab: ComponentClass<Props> =
                     fileInfo))
             }
             addValidationOutcome = { dispatch(UploadedResourceSlice.AddValidationOutcome(it)) }
-            updateCliContext = {
-                dispatch(ValidationContextSlice.UpdateCliContext(it))
-            }
+            updateCliContext = { cliContext: CliContext, resetBaseEngine: Boolean -> dispatch(ValidationContextSlice.UpdateCliContext(cliContext, resetBaseEngine)) }
             updateIgPackageInfoSet = {
                 dispatch(ValidationContextSlice.UpdateIgPackageInfoSet(it))
             }

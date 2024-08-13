@@ -1,0 +1,13 @@
+{
+  "cliContext": {
+    "baseEngine": "SQL_VIEW",
+    "locale": "en"
+  },
+  "filesToValidate": [
+    {
+      "fileName": "manually_entered_file.json",
+      "fileContent": "{\n    \"resourceType\": \"http://hl7.org/fhir/uv/sql-on-fhir/StructureDefinition/ViewDefinition\",\n    \"select\": [\n      {\n        \"column\": [\n          {\n            \"path\": \"getResourceKey()\",\n            \"name\": \"patient_id\"\n          }\n        ]\n      },\n      {\n        \"column\": [\n          {\n            \"path\": \"line.join('\\n')\",\n            \"name\": \"street\",\n            \"description\": \"The full street address, including newlines if present.\"\n          },\n          {\n            \"path\": \"use\",\n            \"name\": \"use\"\n          },\n          {\n            \"path\": \"city\",\n            \"name\": \"city\"\n          },\n          {\n            \"path\": \"postalCode\",\n            \"name\": \"zip\"\n          }\n        ],\n        \"forEach\": \"address\"\n      }\n    ],\n    \"name\": \"patient_addresses\",\n    \"status\": \"draft\",\n    \"resource\": \"Patient\"\n  }",
+      "fileType": null
+    }
+  ]
+}

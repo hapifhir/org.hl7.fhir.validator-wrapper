@@ -29,4 +29,8 @@ class ValidationControllerImpl : ValidationController, KoinComponent {
     override suspend fun getAppVersions(): AppVersions {
         return AppVersions(getValidatorWrapperVersion(), VersionUtil.getVersion())
     }
+
+    override suspend fun getValidationEngines(): Set<String> {
+        return validationServiceFactory.getValidationService().baseEngineKeys;
+    }
 }

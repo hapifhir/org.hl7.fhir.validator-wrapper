@@ -1,0 +1,103 @@
+# These tests check that validation sessions are created and retrieved correctly
+
+### Initial default setting run #1
+# @name Session 1 Validation 1
+< {%
+    client.global.set("SESSION_1_VALIDATION_1_START_TIME", $timestamp);
+%}
+
+POST {{host}}/validate
+Content-Type: application/json
+
+< ../resources/session-requests/session_1_validation_1.json
+
+> {%
+    client.test("Validated Successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.global.set("SESSION_1_ID", response.body.sessionId);
+    client.log("session id: " + client.global.get("SESSION_1_ID"));
+    client.global.set("SESSION_1_VALIDATION_1_RESPONSE_BODY", response.body.outcomes[0].issues.toString());
+    client.global.set("SESSION_1_VALIDATION_1_TOTAL_TIME", ($timestamp - client.global.get("SESSION_1_VALIDATION_1_START_TIME")));
+
+%}
+
+### Initial default setting run #1
+# @name Session 2 Validation 1
+< {%
+    client.global.set("SESSION_2_VALIDATION_1_START_TIME", $timestamp);
+%}
+
+POST {{host}}/validate
+Content-Type: application/json
+
+< ../resources/session-requests/session_2_validation_1.json
+
+> {%
+    client.test("Validated Successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.global.set("SESSION_2_ID", response.body.sessionId);
+    client.log("session id: " + client.global.get("SESSION_2_ID"));
+    client.global.set("SESSION_2_VALIDATION_1_RESPONSE_BODY", response.body.outcomes[0].issues.toString());
+    client.global.set("SESSION_2_VALIDATION_1_TOTAL_TIME", ($timestamp - client.global.get("SESSION_2_VALIDATION_1_START_TIME")));
+
+%}
+
+### Initial default setting run #2
+# @name Session 1 Validation 2
+< {%
+    client.global.set("SESSION_1_VALIDATION_2_START_TIME", $timestamp);
+%}
+
+POST {{host}}/validate
+Content-Type: application/json
+
+< ../resources/session-requests/session_1_validation_2.json
+
+> {%
+    client.test("Validated Successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+    client.test("Session ID Maintained", function() {
+        client.assert(response.body.sessionId === client.global.get("SESSION_1_ID"));
+    });
+    client.test("Validation is faster", function() {
+        const DEFAULT_SESSION_2_TOTAL_TIME = ($timestamp - client.global.get("SESSION_1_VALIDATION_2_START_TIME"));
+        client.assert(client.global.get("SESSION_1_VALIDATION_2_START_TIME") > DEFAULT_SESSION_2_TOTAL_TIME);
+    });
+    client.test("Validation response is the same", function() {
+        client.assert(response.body.outcomes[0].issues.toString() === client.global.get("SESSION_1_VALIDATION_1_RESPONSE_BODY"));
+    });
+
+%}
+
+### Initial default setting run #2
+# @name Session 1 Validation 2
+< {%
+    client.global.set("SESSION_2_VALIDATION_2_START_TIME", $timestamp);
+%}
+
+POST {{host}}/validate
+Content-Type: application/json
+
+< ../resources/session-requests/session_2_validation_2.json
+
+> {%
+    client.test("Validated Successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+    client.test("Session ID Maintained", function() {
+        client.assert(response.body.sessionId === client.global.get("SESSION_2_ID"));
+    });
+    client.test("Validation is faster", function() {
+        const DEFAULT_SESSION_2_TOTAL_TIME = ($timestamp - client.global.get("SESSION_2_VALIDATION_2_START_TIME"));
+        client.assert(client.global.get("SESSION_2_VALIDATION_2_START_TIME") > DEFAULT_SESSION_2_TOTAL_TIME);
+    });
+    client.test("Validation response is the same", function() {
+        client.assert(response.body.outcomes[0].issues.toString() === client.global.get("SESSION_2_VALIDATION_1_RESPONSE_BODY"));
+    });
+
+%}

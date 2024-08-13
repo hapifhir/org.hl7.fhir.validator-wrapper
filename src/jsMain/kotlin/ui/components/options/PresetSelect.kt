@@ -1,6 +1,7 @@
 package ui.components.options
 
 import Polyglot
+import api.getValidationEngines
 import mui.material.*
 import react.*
 import csstype.px
@@ -11,14 +12,14 @@ import mainScope
 import model.BundleValidationRule
 import model.PackageInfo
 import mui.system.sx
-import popper.core.Placement
 import react.Props
 import react.ReactNode
 
 import styled.css
 import styled.styledDiv
 
-import utils.Preset
+import constants.Preset
+import utils.Language
 import utils.getJS
 
 
@@ -30,18 +31,25 @@ external interface PresetSelectProps : Props {
     var updateProfileSet: (Set<String>) -> Unit
     var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
     var setSessionId: (String) -> Unit
+    var language: Language
     var polyglot: Polyglot
 }
 
 class PresetSelectState : State {
     var snackbarOpen : String? = null
-    var preset : String = ""
+    var validationEngines: Set<String> = emptySet()
 }
 
 class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
 
     init {
         state = PresetSelectState()
+        mainScope.launch {
+            val loadedValidationEngines = getValidationEngines()
+            setState {
+                validationEngines = loadedValidationEngines
+            }
+        }
     }
 
     fun handleSnackBarClose() {
@@ -57,7 +65,6 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                 display = Display.inlineFlex
                 flexDirection = FlexDirection.column
                 alignSelf = Align.center
-
             }
             Tooltip {
                 attrs {
@@ -81,14 +88,18 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                             +props.polyglot.t("preset_label")
                         }
                         Select {
+
                             attrs {
                                 label = ReactNode("Preset")
-                                value = "".unsafeCast<Nothing?>()
+                                value =  props.cliContext.getBaseEngine().unsafeCast<Nothing?>()
                                 onChange = { event, _ ->
                                     val selectedPreset = Preset.getSelectedPreset(event.target.value)
                                     if (selectedPreset != null) {
                                         console.log("updating cli context for preset: " + event.target.value)
-                                        props.updateCliContext(selectedPreset.cliContext)
+                                        console.log("updating cli context with base engine: " + selectedPreset.cliContext.getBaseEngine())
+
+                                        val cliContext = CliContext(selectedPreset.cliContext).setLocale(props.language.getLanguageCode())
+                                        props.updateCliContext(cliContext)
                                         props.updateIgPackageInfoSet(selectedPreset.igPackageInfo)
                                         props.updateExtensionSet(selectedPreset.extensionSet)
                                         props.updateProfileSet(selectedPreset.profileSet)
@@ -107,11 +118,18 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                             }
 
                             Preset.values().forEach {
-                                MenuItem {
-                                    attrs {
-                                        value = it.key
+                                if (state.validationEngines.contains(it.key)) {
+                                    MenuItem {
+                                        attrs {
+                                            value = it.key
+                                        }
+                                        +props.polyglot.t(it.polyglotKey)
+                                        console.log(
+                                            it.key + " " + props.cliContext.getBaseEngine() + ":" + it.key.equals(
+                                                props.cliContext.getBaseEngine()
+                                            )
+                                        )
                                     }
-                                    +props.polyglot.t(it.polyglotKey)
                                 }
                             }
                         }

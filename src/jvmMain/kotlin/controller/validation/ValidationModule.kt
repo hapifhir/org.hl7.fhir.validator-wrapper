@@ -2,6 +2,7 @@ package controller.validation
 
 import constants.VALIDATION_ENDPOINT
 import constants.VALIDATOR_VERSION_ENDPOINT
+import constants.VALIDATION_ENGINES_ENDPOINT
 
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -52,5 +53,9 @@ fun Route.validationModule() {
 
     get(VALIDATOR_VERSION_ENDPOINT) {
         call.respond(HttpStatusCode.OK, validationController.getAppVersions())
+    }
+
+    get(VALIDATION_ENGINES_ENDPOINT) {
+        call.respond(HttpStatusCode.OK, validationController.getValidationEngines())
     }
 }

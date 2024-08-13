@@ -1,5 +1,6 @@
 package reactredux.slices
 
+import constants.Preset
 import model.BundleValidationRule
 import model.CliContext
 import model.PackageInfo
@@ -12,39 +13,52 @@ object ValidationContextSlice {
         val extensionSet: Set<String> = mutableSetOf(),
         val profileSet: Set<String> = mutableSetOf(),
         val bundleValidationRuleSet: Set<BundleValidationRule> = mutableSetOf(),
-        val cliContext: CliContext = CliContext()
+        val cliContext: CliContext = CliContext().setBaseEngine(Preset.DEFAULT.key)
     )
 
-    data class UpdateIgPackageInfoSet(val packageInfo: Set<PackageInfo>) : RAction
+    data class UpdateIgPackageInfoSet(val packageInfo: Set<PackageInfo>, val resetBaseEngine: Boolean = true) : RAction
 
-    data class UpdateCliContext(val cliContext: CliContext) : RAction
+    data class UpdateCliContext(val cliContext: CliContext, val resetBaseEngine : Boolean = true) : RAction
 
-    data class UpdateExtensionSet(val extensionSet: Set<String>) : RAction
+    data class UpdateExtensionSet(val extensionSet: Set<String>, val resetBaseEngine : Boolean = true) : RAction
 
-    data class UpdateProfileSet(val profileSet: Set<String>) : RAction
+    data class UpdateProfileSet(val profileSet: Set<String>, val resetBaseEngine : Boolean = true) : RAction
 
-    data class UpdateBundleValidationRuleSet(val bundleValidationRuleSet: Set<BundleValidationRule>) : RAction
+    data class UpdateBundleValidationRuleSet(val bundleValidationRuleSet: Set<BundleValidationRule>, val resetBaseEngine : Boolean = true) : RAction
+
+    private fun resetBaseEngine(cliContext: CliContext, resetBaseEngine: Boolean): CliContext {
+        return if (resetBaseEngine) cliContext.setBaseEngine(null) else cliContext
+    }
 
     fun reducer(state: State = State(), action: RAction): State {
         return when (action) {
             is UpdateIgPackageInfoSet -> state.copy(
                 igPackageInfoSet = action.packageInfo,
-                cliContext = state.cliContext.setIgs(action.packageInfo.map{PackageInfo.igLookupString(it)}.toList())
+                cliContext = resetBaseEngine(
+                    state.cliContext.setIgs(action.packageInfo.map{PackageInfo.igLookupString(it)}.toList()),
+                    action.resetBaseEngine)
+
             )
             is UpdateCliContext -> state.copy(
-                cliContext = action.cliContext
+                cliContext = resetBaseEngine(action.cliContext, action.resetBaseEngine)
             )
             is UpdateExtensionSet -> state.copy(
                 extensionSet = action.extensionSet,
-                cliContext = state.cliContext.setExtensions(action.extensionSet.toList())
+                cliContext =  resetBaseEngine(state.cliContext
+                    .setExtensions(action.extensionSet.toList())
+                    , action.resetBaseEngine)
             )
             is UpdateProfileSet -> state.copy(
                 profileSet = action.profileSet,
-                cliContext = state.cliContext.setProfiles(action.profileSet.toList())
+                cliContext =  resetBaseEngine(state.cliContext
+                    .setProfiles(action.profileSet.toList())
+                    , action.resetBaseEngine)
             )
             is UpdateBundleValidationRuleSet -> state.copy(
                 bundleValidationRuleSet = action.bundleValidationRuleSet,
-                cliContext = state.cliContext.setBundleValidationRules(action.bundleValidationRuleSet.toList())
+                cliContext =  resetBaseEngine(state.cliContext
+                    .setBundleValidationRules(action.bundleValidationRuleSet.toList())
+                    , action.resetBaseEngine)
             )
             else -> state
         }

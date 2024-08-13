@@ -15,7 +15,9 @@ object ApiInjection {
     private const val PACKAGE_CLIENT_ADDRESS = "https://packages.fhir.org"
 
     val koinBeans = module {
-        single<ValidationServiceFactory> { ValidationServiceFactoryImpl() }
+        single<ValidationServiceFactory>(createdAtStart = true) {
+
+            ValidationServiceFactoryImpl() }
         single<PackageClient> { PackageClient(PackageServer(PACKAGE_CLIENT_ADDRESS)) }
         single<TerminologyApi> { TerminologyApiImpl() }
         single<EndpointApi> { EndpointApiImpl() }

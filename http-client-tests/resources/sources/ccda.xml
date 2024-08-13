@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="CDA.xsl"?>
+<!--
+ Title:        Care Plan
+ Filename:     C-CDA_R2_Care_Plan.xml
+ Created by:   Lantana Consulting Group, LLC
+
+ $LastChangedDate: 2014-11-12 23:25:09 -0500 (Wed, 12 Nov 2014) $
+
+ ********************************************************
+ Disclaimer: This sample file contains representative data elements to represent a Care Plan.
+ The file depicts a fictional character's health data. Any resemblance to a real person is coincidental.
+ To illustrate as many data elements as possible, the clinical scenario may not be plausible.
+ The data in this sample file is not intended to represent real patients, people or clinical events.
+ This sample is designed to be used in conjunction with the C-CDA Clinical Notes Implementation Guide.
+ ********************************************************
+  -->
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:hl7-org:v3" xmlns:voc="urn:hl7-org:v3/voc" xmlns:sdtc="urn:hl7-org:sdtc">
+    <!-- ** CDA Header ** -->
+    <realmCode code="US"/>
+    <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+    <!-- US Realm Header -->
+    <templateId root="2.16.840.1.113883.10.20.22.1.1" extension="2023-05-01"/>
+    <!-- Care Plan -->
+    <templateId root="2.16.840.1.113883.10.20.22.1.15" extension="2015-08-01"/>
+    <id root="db734647-fc99-424c-a864-7e3cda82e703"/>
+    <code code="52521-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Overall Plan of Care/Advance Care Directives"/>
+    <title>Good Health Hospital Care Plan</title>
+    <effectiveTime value="201308201120-0800"/>
+    <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+    <languageCode code="en-US"/>
+    <!-- This document is the second document in the set (see setId for id for the set -->
+    <setId root="004bb033-b948-4f4c-b5bf-a8dbd7d8dd40"/>
+    <!-- See relatedDocument for the previous version in the set -->
+    <versionNumber value="2"/>
+    <!-- Patient (recordTarget) -->
+    <recordTarget>
+        <patientRole>
+            <id extension="444222222" root="2.16.840.1.113883.4.1"/>
+            <!-- Example Social Security Number using the actual SSN OID. -->
+            <addr use="HP">
+                <!-- HP is "primary home" from codeSystem 2.16.840.1.113883.5.1119 -->
+                <streetAddressLine>2222 Home Street</streetAddressLine>
+                <city>Beaverton</city>
+                <state>OR</state>
+                <postalCode>97867</postalCode>
+                <country>US</country>
+                <!-- US is "United States" from ISO 3166-1 Country Codes: 1.0.3166.1 -->
+            </addr>
+            <telecom value="tel:+1(555)555-2003" use="HP"/>
+            <!-- HP is "primary home" from HL7 AddressUse 2.16.840.1.113883.5.1119 -->
+            <patient>
+                <!-- The first name element represents what the patient is known as -->
+                <name use="L">
+                    <given>Eve</given>
+                    <!-- The "SP" is "Spouse" from HL7 Code System EntityNamePartQualifier 2.16.840.1.113883.5.43 -->
+                    <family qualifier="SP">Betterhalf</family>
+                </name>
+                <!-- The second name element represents another name associated with the patient -->
+                <name use="SRCH">
+                    <given>Eve</given>
+                    <!-- The "BR" is "Birth" from HL7 Code System EntityNamePartQualifier 2.16.840.1.113883.5.43 -->
+                    <family qualifier="BR">Everywoman</family>
+                </name>
+                <administrativeGenderCode code="F" displayName="Female" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender"/>
+                <!-- Date of birth need only be precise to the day -->
+                <birthTime value="19750501"/>
+                <maritalStatusCode code="M" displayName="Married" codeSystem="2.16.840.1.113883.5.2" codeSystemName="MaritalStatusCode"/>
+                <religiousAffiliationCode code="1013" displayName="Christian (non-Catholic, non-specific)" codeSystem="2.16.840.1.113883.5.1076" codeSystemName="HL7 Religious Affiliation"/>
+                <!-- CDC Race and Ethnicity code set contains the five minimum race and ethnicity categories defined by OMB Standards -->
+                <raceCode code="2106-3" displayName="White" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
+                <!-- The raceCode extension is only used if raceCode is valued -->
+                <sdtc:raceCode code="2076-8" displayName="Hawaiian or Other Pacific Islander" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
+                <ethnicGroupCode code="2186-5" displayName="Not Hispanic or Latino" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
+                <guardian>
+                    <code code="POWATT" displayName="Power of Attorney" codeSystem="2.16.840.1.113883.1.11.19830" codeSystemName="ResponsibleParty"/>
+                    <addr use="HP">
+                        <streetAddressLine>2222 Home Street</streetAddressLine>
+                        <city>Beaverton</city>
+                        <state>OR</state>
+                        <postalCode>97867</postalCode>
+                        <country>US</country>
+                    </addr>
+                    <telecom value="tel:+1(555)555-2008" use="MC"/>
+                    <guardianPerson>
+                        <name>
+                            <given>Boris</given>
+                            <given qualifier="CL">Bo</given>
+                            <family>Betterhalf</family>
+                        </name>
+                    </guardianPerson>
+                </guardian>
+                <birthplace>
+                    <place>
+                        <addr>
+                            <streetAddressLine>4444 Home Street</streetAddressLine>
+                            <city>Beaverton</city>
+                            <state>OR</state>
+                            <postalCode>97867</postalCode>
+                            <country>US</country>
+                        </addr>
+                    </place>
+                </birthplace>
+                <languageCommunication>
+                    <languageCode code="en"/>
+                    <modeCode code="ESP" displayName="Expressed spoken" codeSystem="2.16.840.1.113883.5.60" codeSystemName="LanguageAbilityMode"/>
+                    <proficiencyLevelCode code="G" displayName="Good" codeSystem="2.16.840.1.113883.5.61" codeSystemName="LanguageAbilityProficiency"/>
+                    <!-- Patient's preferred language -->
+                    <preferenceInd value="true"/>
+                </languageCommunication>
+            </patient>
+            <providerOrganization>
+                <id extension="219BX" root="2.16.840.1.113883.4.6"/>
+                <name>The DoctorsTogether Physician Group</name>
+                <telecom use="WP" value="tel:+1(555)555-5000"/>
+                <addr>
+                    <streetAddressLine>1007 Health Drive</streetAddressLine>
+                    <city>Portland</city>
+                    <state>OR</state>
+                    <postalCode>99123</postalCode>
+                    <country>US</country>
+                </addr>
+            </providerOrganization>
+        </patientRole>
+    </recordTarget>
+    <!-- Author -->
+    <author>
+        <time value="20130730"/>
+        <assignedAuthor>
+            <id root="20cf14fb-b65c-4c8c-a54d-b0cca834c18c"/>
+            <code code="163W00000X" codeSystem="2.16.840.1.113883.6.101" codeSystemName="Healthcare Provider Taxonomy (HIPAA)" displayName="Registered nurse"/>
+            <addr>
+                <streetAddressLine>1004 Healthcare Drive </streetAddressLine>
+                <city>Portland</city>
+                <state>OR</state>
+                <postalCode>99123</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="WP" value="tel:+1(555)555-1004"/>
+            <assignedPerson>
+                <name>
+                    <given>Nurse</given>
+                    <family>Nightingale</family>
+                    <suffix>RN</suffix>
+                </name>
+            </assignedPerson>
+            <representedOrganization>
+                <id root="2.16.840.1.113883.19.5"/>
+                <name>Good Health Hospital</name>
+            </representedOrganization>
+        </assignedAuthor>
+    </author>
+    <!-- Data Enterer -->
+    <dataEnterer>
+        <assignedEntity>
+            <id extension="333777777" root="2.16.840.1.113883.4.6"/>
+            <addr>
+                <streetAddressLine>1007 Healthcare Drive</streetAddressLine>
+                <city>Portland</city>
+                <state>OR</state>
+                <postalCode>99123</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="WP" value="tel:+1(555)-1050"/>
+            <assignedPerson>
+                <name>
+                    <given>Ellen</given>
+                    <family>Enter</family>
+                </name>
+            </assignedPerson>
+        </assignedEntity>
+    </dataEnterer>
+    <!-- Informant -->
+    <informant>
+        <assignedEntity>
+            <id extension="888888888" root="2.16.840.1.113883.19.5"/>
+            <addr>
+                <streetAddressLine>1007 Healthcare Drive</streetAddressLine>
+                <city>Portland</city>
+                <state>OR</state>
+                <postalCode>99123</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="WP" value="tel:+1(555)-1003"/>
+            <assignedPerson>
+                <name>
+                    <given>Harold</given>
+                    <family>Hippocrates</family>
+                    <suffix qualifier="AC">D.O.</suffix>
+                </name>
+            </assignedPerson>
+        </assignedEntity>
+    </informant>
+    <!-- Custodian -->
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization>
+                <id extension="321CX" root="2.16.840.1.113883.4.6"/>
+                <name>Good Health HIE</name>
+                <telecom use="WP" value="tel:+1(555)555-1009"/>
+                <addr use="WP">
+                    <streetAddressLine>1009 Healthcare Drive </streetAddressLine>
+                    <city>Portland</city>
+                    <state>OR</state>
+                    <postalCode>99123</postalCode>
+                    <country>US</country>
+                </addr>
+            </representedCustodianOrganization>
+        </assignedCustodian>
+    </custodian>
+    <informationRecipient>
+        <intendedRecipient>
+            <!-- Receiving Person Provider Id -->
+            <id root="a1cd2b74-c6de-44ee-b552-3adacb7983cc"/>
+            <!-- Receiving Medicare/Medicaid Provider Id-->
+            <id root="c72f64c2-b1db-444b-bbff-4d2e1d6bd659"/>
+            <!-- Receiving Person ID-->
+            <id root="fa883fee-b255-4465-8fb5-1d8135e39896"/>
+            <!-- Receiving Person Address-->
+            <addr>
+                <streetAddressLine>100 Better Health Rd.</streetAddressLine>
+                <city>Ann Arbor</city>
+                <state>MI</state>
+                <postalCode>97857</postalCode>
+                <country>US</country>
+            </addr>
+            <informationRecipient>
+                <!-- Receiving Person Name-->
+                <name>
+                    <given>Nurse</given>
+                    <family>Caresalot</family>
+                    <suffix>RN</suffix>
+                </name>
+            </informationRecipient>
+            <receivedOrganization>
+                <!-- Receiving Organization Id-->
+                <id root="c4c416a7-aeeb-4dcc-9662-ab836ff4d265"/>
+                <!-- Receiving Organization Provider ID (NPI) -->
+                <id root="ab47f3c4-1267-4b9e-9a29-e966b5a861c8"/>
+                <!-- Receiving Organization Name -->
+                <name>Better Health Hospital</name>
+                <!-- Receiving Organization Address -->
+                <addr>
+                    <streetAddressLine>100 Better Health Rd.</streetAddressLine>
+                    <city>Ann Arbor</city>
+                    <state>MI</state>
+                    <postalCode>97857</postalCode>
+                    <country>US</country>
+                </addr>
+                <!-- Receiving Care Setting Type Description: displayName.  Receiving Care Setting Type Code: code -->
+                <standardIndustryClassCode displayName="Long Term Care Hospital" code="282E00000X" codeSystem="2.16.840.1.114222.4.11.1066" codeSystemName="Healthcare Provider Taxonomy (HIPAA)"/>
+            </receivedOrganization>
+        </intendedRecipient>
+    </informationRecipient>
+    <!-- Legal Authenticator -->
+    <legalAuthenticator>
+        <time value="20130730"/>
+        <signatureCode code="S"/>
+        <sdtc:signatureText mediaType="text/xml" representation="B64">U2lnbmVkIGJ5IE51cnNlIE5pZ2h0aW5nYWxl</sdtc:signatureText>
+        <assignedEntity>
+            <id root="20cf14fb-b65c-4c8c-a54d-b0cca834c18c"/>
+            <code code="163W00000X" codeSystem="2.16.840.1.113883.6.101" displayName="Registered nurse"/>
+            <addr>
+                <streetAddressLine>1004 Healthcare Drive </streetAddressLine>
+                <city>Portland</city>
+                <state>OR</state>
+                <postalCode>99123</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom use="WP" value="tel:+1(555)555-1004"/>
+            <assignedPerson>
+                <name>
+                    <given>Nurse</given>
+                    <family>Nightingale</family>
+                    <suffix>RN</suffix>
+                </name>
+            </assignedPerson>
+            <representedOrganization>
+                <id root="2.16.840.1.113883.19.5"/>
+                <name>Good Health Hospital</name>
+                <!-- the orgnaization id and name -->
+            </representedOrganization>
+        </assignedEntity>
+    </legalAuthenticator>
+    <!-- This authenticator represents patient agreement or sign-off of the Care Plan-->
+    <authenticator>
+        <time value="20130802"/>
+        <signatureCode code="S"/>
+        <sdtc:signatureText mediaType="text/xml" representation="B64">U2lnbmVkIGJ5IEV2ZSBFdmVyeXdvbWFu</sdtc:signatureText>
+        <assignedEntity>
+            <id extension="444222222" root="2.16.840.1.113883.4.1"/>
+            <code code="ONESELF" displayName="Self" codeSystem="2.16.840.1.113883.5.111" codeSystemName="RoleCode"/>
+            <addr use="HP">
+                <!-- HP is "primary home" from codeSystem 2.16.840.1.113883.5.1119 -->
+                <streetAddressLine>2222 Home Street</streetAddressLine>
+                <city>Beaverton</city>
+                <state>OR</state>
+                <postalCode>97867</postalCode>
+                <country>US</country>
+                <!-- US is "United States" from ISO 3166-1 Country Codes: 1.0.3166.1 -->
+            </addr>
+            <telecom value="tel:+1(555)555-2003" use="HP"/>
+            <assignedPerson>
+                <name use="L">
+                    <given>Eve</given>
+                    <family qualifier="SP">Everywoman</family>
+                </name>
+            </assignedPerson>
+        </assignedEntity>
+    </authenticator>
+    <!-- This participant represents the person who reviewed the Care Plan. If the date in the time element is in the past, then this review has already taken place.
+         If the date in the time element is in the future, then this is the date of the next scheduled review. -->
+    <!-- This example shows a Care Plan Review that has already taken place -->
+    <participant typeCode="VRF">
+        <functionCode code="425268008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Review of Care Plan"/>
+        <time value="20130801"/>
+        <associatedEntity classCode="ASSIGNED">
+            <id root="20cf14fb-b65c-4c8c-a54d-b0cca834c18c"/>
+            <associatedPerson nullFlavor="NA" />
+        </associatedEntity>
+    </participant>
+    <!-- This participant represents the person who reviewed the Care Plan.   If the date in the time element is in the past, then this review has already taken place.
+  If the date in the time element is in the future,  then this is the date of the next scheduled review. -->
+    <!-- This example shows a Scheduled Care Plan Review that is in the future -->
+    <participant typeCode="VRF">
+        <functionCode code="425268008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Review of Care Plan"/>
+        <time value="20131001"/>
+        <associatedEntity classCode="ASSIGNED">
+            <id root="20cf14fb-b65c-4c8c-a54d-b0cca834c18c"/>
+            <code code="SELF" displayName="self" codeSystem="2.16.840.1.113883.5.111"/>
+            <associatedPerson nullFlavor="NA" />
+        </associatedEntity>
+    </participant>
+    <!-- This participant identifies individuals who support the patient such as a relative or caregiver -->
+    <participant typeCode="IND">
+        <!-- Emergency Contact  -->
+        <associatedEntity classCode="ECON">
+            <addr>
+                <streetAddressLine>17 Daws Rd.</streetAddressLine>
+                <city>Ann Arbor</city>
+                <state>MI</state>
+                <postalCode>97857</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom value="tel:(999)555-1212" use="WP"/>
+            <associatedPerson>
+                <name>
+                    <prefix>Mrs.</prefix>
+                    <given>Martha</given>
+                    <family>Jones</family>
+                </name>
+            </associatedPerson>
+        </associatedEntity>
+    </participant>
+    <!-- This participant identifies individuals who support the patient such as a relative or caregiver -->
+    <participant typeCode="IND">
+        <!-- Caregiver -->
+        <associatedEntity classCode="CAREGIVER">
+            <addr>
+                <streetAddressLine>17 Daws Rd.</streetAddressLine>
+                <city>Ann Arbor</city>
+                <state>MI</state>
+                <postalCode>97857</postalCode>
+                <country>US</country>
+            </addr>
+            <telecom value="tel:(999)555-1212" use="WP"/>
+            <associatedPerson>
+                <name>
+                    <prefix>Mrs.</prefix>
+                    <given>Martha</given>
+                    <family>Jones</family>
+                </name>
+            </associatedPerson>
+        </associatedEntity>
+    </participant>
+    <documentationOf>
+        <serviceEvent classCode="PCPR">
+            <effectiveTime>
+                <low value="20130720"/>
+                <high value="20130815"/>
+            </effectiveTime>
+            <!-- The performer(s) represents the healthcare providers involved in the current or historical care of the patient.
+                The patient’s key healthcare providers would be listed here which would include the primary physician and any
+                active consulting physicians, therapists, counselors, and care team members.  -->
+            <performer typeCode="PRF">
+                <time value="20130715223615-0800"/>
+                <assignedEntity>
+                    <id extension="5555555555" root="2.16.840.1.113883.4.6"/>
+                    <code code="207QA0505X" displayName="Adult Medicine" codeSystem="2.16.840.1.113883.6.101" codeSystemName="Healthcare Provider Taxonomy (HIPAA)"/>
+                    <addr>
+                        <streetAddressLine>1004 Healthcare Drive </streetAddressLine>
+                        <city>Portland</city>
+                        <state>OR</state>
+                        <postalCode>99123</postalCode>
+                        <country>US</country>
+                    </addr>
+                    <telecom use="WP" value="tel:+1(555)-1004"/>
+                    <assignedPerson>
+                        <name>
+                            <given>Patricia</given>
+                            <given qualifier="CL">Patty</given>
+                            <family>Primary</family>
+                            <suffix qualifier="AC">M.D.</suffix>
+                        </name>
+                    </assignedPerson>
+                </assignedEntity>
+            </performer>
+        </serviceEvent>
+    </documentationOf>
+    <!-- The Care Plan is continually evolving and dynamic. The Care Plan CDA instance
+     is NOT dynamic. Each time a Care Plan CDA is generated it represents a snapshot
+     in time of the Care Plan at that moment. Whenever a care provider or patient
+     generates a Care Plan, it should be noted through relatedDocument
+     whether the current Care Plan replaces or appends another Care Plan.
+     The relatedDocumentTypeCode indicates whether the current document is
+     an addendum to the ParentDocument (APND (append)) or the current document
+     is a replacement of the ParentDocument (RPLC (replace)). -->
+    <!-- This document is the second in a set - relatedDocument
+      describes the parent document-->
+    <relatedDocument typeCode="RPLC">
+        <parentDocument>
+            <id root="223769be-f6ee-4b04-a0ce-b56ae998c880"/>
+            <code code="CarePlan-x" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Care Plan"/>
+            <setId root="004bb033-b948-4f4c-b5bf-a8dbd7d8dd40"/>
+            <versionNumber value="1"/>
+        </parentDocument>
+    </relatedDocument>
+    <componentOf>
+        <encompassingEncounter>
+            <id extension="9937012" root="2.16.840.1.113883.19"/>
+            <code codeSystem="2.16.840.1.113883.5.4" code="IMP" displayName="Inpatient"/>
+            <!-- captures that this is an inpatient encounter -->
+            <effectiveTime>
+                <low value="20130615"/>
+                <!-- No high value - this patient is still in hospital -->
+            </effectiveTime>
+        </encompassingEncounter>
+    </componentOf>
+    <!--
+********************************************************
+CDA Body
+********************************************************
+-->
+    <component>
+        <structuredBody>
+            <!-- ***************** PROBLEM LIST *********************** -->
+            <component>
+                <!-- nullFlavor of NI indicates No Information.-->
+                <!-- Note this pattern may not validate with schematron but has been SDWG approved -->
+                <section nullFlavor="NI">
+                    <!-- conforms to Problems section with entries required -->
+                    <templateId root="2.16.840.1.113883.10.20.22.2.5.1" extension="2014-06-09"/>
+                    <code code="11450-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="PROBLEM LIST"/>
+                    <title>PROBLEMS</title>
+                    <text>No Information</text>
+                </section>
+            </component>
+        </structuredBody>
+    </component>
+</ClinicalDocument>

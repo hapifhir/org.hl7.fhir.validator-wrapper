@@ -2,6 +2,9 @@ package model
 
 expect class CliContext() {
 
+    fun getBaseEngine(): String?
+    fun setBaseEngine(baseEngine: String?) : CliContext
+
     fun isDoNative(): Boolean
     fun setDoNative(doNative: Boolean): CliContext
 
@@ -62,4 +65,7 @@ expect class CliContext() {
     fun setBundleValidationRules(bundleValidationRules: List<BundleValidationRule>) : CliContext
 
     fun getBundleValidationRules():List<BundleValidationRule>
+
+    fun addIg(ig: String): CliContext
+
 }

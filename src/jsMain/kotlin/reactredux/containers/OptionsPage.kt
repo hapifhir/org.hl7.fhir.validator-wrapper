@@ -46,9 +46,7 @@ val optionsPage: ComponentClass<Props> =
             polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->
-            updateCliContext = {
-                dispatch(ValidationContextSlice.UpdateCliContext(it))
-            }
+            updateCliContext = { dispatch(ValidationContextSlice.UpdateCliContext(it, true)) }
             updateIgPackageInfoSet = {
                 dispatch(ValidationContextSlice.UpdateIgPackageInfoSet(it))
             }

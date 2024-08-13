@@ -92,7 +92,7 @@
   "preset_label" : "Common Validation Options...",
   "preset_description" : "Click to automatically set options for common validation tasks",
   "preset_notification" : "Set to validate using %{selectedPreset}. Select the Options tab for more settings.",
-  "preset_fhir_resource" : "FHIR Resource",
+  "preset_fhir_resource" : "FHIR Resource (R4)",
   "preset_ips" : "IPS Document",
   "preset_ips_au" : "Australian IPS Document",
   "preset_ips_nz" : "New Zealand IPS Document",

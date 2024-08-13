@@ -2,6 +2,7 @@ package ui.components.tabs.entrytab
 
 import Polyglot
 import api.sendValidationRequest
+import constants.Preset
 
 import css.animation.FadeIn.fadeIn
 import css.const.BORDER_GRAY
@@ -22,10 +23,7 @@ import ui.components.options.presetSelect
 import ui.components.tabs.heading
 
 import ui.components.validation.validationOutcomeContainer
-import utils.assembleRequest
-import utils.getJS
-import utils.isJson
-import utils.isXml
+import utils.*
 
 //TODO make this an intelligent value
 private const val VALIDATION_TIME_LIMIT =  120000L
@@ -35,9 +33,9 @@ external interface ManualEntryTabProps : Props {
     var validationOutcome: ValidationOutcome?
     var currentManuallyEnteredText: String
     var validatingManualEntryInProgress: Boolean
+    var language: Language
     var polyglot: Polyglot
     var sessionId: String
-
     var setValidationOutcome: (ValidationOutcome) -> Unit
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
@@ -123,6 +121,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     updateProfileSet = props.updateProfileSet
                     updateBundleValidationRuleSet = props.updateBundleValidationRuleSet
                     setSessionId = props.setSessionId
+                    language = props.language
                     polyglot = props.polyglot
                 }
             }
@@ -154,59 +153,70 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             displayingError = false
             ohShitYouDidIt = false
         }
-        props.toggleValidationInProgress(true)
-        println("clicontext :: sv == ${props.cliContext.getSv()}, version == ${props.cliContext.getTargetVer()}, languageCode == ${props.cliContext.getLanguageCode()}")
-        val request = assembleRequest(
-            cliContext = props.cliContext,
-            fileName = generateFileName(fileContent),
-            fileContent = fileContent,
-            fileType = null
-        ).setSessionId(props.sessionId)
-        mainScope.launch {
-            try {
-                withTimeout(VALIDATION_TIME_LIMIT) {
-                    val validationResponse = sendValidationRequest(request)
-                    props.setSessionId(validationResponse.getSessionId())
-                    val returnedOutcome = validationResponse.getOutcomes().map { it.setValidated(true) }
-                    println("File validated\n"
-                            + "filename -> " + returnedOutcome.first().getFileInfo().fileName
-                            + "content -> " + returnedOutcome.first().getFileInfo().fileContent
-                            + "type -> " + returnedOutcome.first().getFileInfo().fileType
-                            + "Issues ::\n" + returnedOutcome.first().getMessages()
-                        .joinToString { "\n" })
-                    props.setValidationOutcome(returnedOutcome.first())
-                    props.toggleValidationInProgress(false)
-                }
-            } catch (e: TimeoutCancellationException) {
-                setState {
-                    errorMessage = props.polyglot.t("manual_entry_timeout_exception")
-                    displayingError = true
-                }
-                props.toggleValidationInProgress(false)
-            } catch (e : ValidationResponseException) {
-                setState {
-                    errorMessage = props.polyglot.t("manual_entry_validation_response_exception",
-                        getJS(arrayOf(Pair("httpResponseCode", e.httpStatusCode)))
-                    )
-                    displayingError = true
-                }
-                println("Exception ${e.message}")
-            }
-            catch (e: Exception) {
-                setState {
-                    if (props.currentManuallyEnteredText.contains("Mark is super dorky")) {
-                        ohShitYouDidIt = true
-                        props.updateCurrentlyEnteredText("Ken is super dorky.")
-                        errorMessage = "Never gonna give you up, never gonna let you down, never gonna run around..."
-                        displayingError = true
-                    } else {
-                        errorMessage = props.polyglot.t("manual_entry_cannot_parse_exception")
+        println("Attempting to validate with: " + props.cliContext.getBaseEngine())
+        val cliContext : CliContext? = if (props.cliContext.getBaseEngine() == null) {
+            println("Custom validation")
+            props.cliContext
+        } else {
+            println("Preset")
+            Preset.getSelectedPreset(props.cliContext.getBaseEngine())?.cliContext
+        }
+        if (cliContext != null) {
+            props.toggleValidationInProgress(true)
+            println("clicontext :: sv == ${cliContext.getSv()}, version == ${props.cliContext.getTargetVer()}, languageCode == ${props.cliContext.getLanguageCode()}")
+            val request = assembleRequest(
+                cliContext = CliContext(cliContext).setLocale(props.cliContext.getLanguageCode()),
+                fileName = generateFileName(fileContent),
+                fileContent = fileContent,
+                fileType = null
+            ).setSessionId(props.sessionId)
+            mainScope.launch {
+                try {
+                    withTimeout(VALIDATION_TIME_LIMIT) {
+                        val validationResponse = sendValidationRequest(request)
+                        props.setSessionId(validationResponse.getSessionId())
+                        val returnedOutcome = validationResponse.getOutcomes().map { it.setValidated(true) }
+                        println("File validated\n"
+                                + "filename -> " + returnedOutcome.first().getFileInfo().fileName
+                                + "content -> " + returnedOutcome.first().getFileInfo().fileContent
+                                + "type -> " + returnedOutcome.first().getFileInfo().fileType
+                                + "Issues ::\n" + returnedOutcome.first().getMessages()
+                            .joinToString { "\n" })
+                        props.setValidationOutcome(returnedOutcome.first())
+                        props.toggleValidationInProgress(false)
+                    }
+                } catch (e: TimeoutCancellationException) {
+                    setState {
+                        errorMessage = props.polyglot.t("manual_entry_timeout_exception")
                         displayingError = true
                     }
+                    props.toggleValidationInProgress(false)
+                } catch (e: ValidationResponseException) {
+                    setState {
+                        errorMessage = props.polyglot.t(
+                            "manual_entry_validation_response_exception",
+                            getJS(arrayOf(Pair("httpResponseCode", e.httpStatusCode)))
+                        )
+                        displayingError = true
+                    }
+                    println("Exception ${e.message}")
+                } catch (e: Exception) {
+                    setState {
+                        if (props.currentManuallyEnteredText.contains("Mark is super dorky")) {
+                            ohShitYouDidIt = true
+                            props.updateCurrentlyEnteredText("Ken is super dorky.")
+                            errorMessage =
+                                "Never gonna give you up, never gonna let you down, never gonna run around..."
+                            displayingError = true
+                        } else {
+                            errorMessage = props.polyglot.t("manual_entry_cannot_parse_exception")
+                            displayingError = true
+                        }
+                    }
+                    println("Exception ${e.message}")
+                } finally {
+                    props.toggleValidationInProgress(false)
                 }
-                println("Exception ${e.message}")
-            } finally {
-                props.toggleValidationInProgress(false)
             }
         }
     }

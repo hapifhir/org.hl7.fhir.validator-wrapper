@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 actual class CliContext actual constructor() {
 
+    private var baseEngine: String? = null
     private var extensions : List<String> = listOf()
     private var doNative = false
     private var hintAboutNonMustSupport = false
@@ -33,6 +34,37 @@ actual class CliContext actual constructor() {
     init {
         sv = "4.0.1"
         locale = "en"
+    }
+
+    constructor (cliContext : CliContext) : this() {
+        this.igs = cliContext.igs.toList()
+        this.baseEngine = cliContext.baseEngine
+        this.extensions = cliContext.extensions.toList()
+        this.doNative = cliContext.doNative
+        this.hintAboutNonMustSupport = cliContext.hintAboutNonMustSupport
+        this.assumeValidRestReferences = cliContext.assumeValidRestReferences
+        this.noExtensibleBindingMessages = cliContext.noExtensibleBindingMessages
+        this.showTimes = cliContext.showTimes
+        this.allowExampleUrls = cliContext.allowExampleUrls
+        this.txServer = cliContext.txServer
+        this.txLog = cliContext.txLog
+        this.txCache = cliContext.txCache
+        this.snomedCT = cliContext.snomedCT
+        this.targetVer = cliContext.targetVer
+        this.sv = cliContext.sv
+        this.profiles = cliContext.profiles.toList()
+        this.checkIPSCodes = cliContext.checkIPSCodes
+        this.bundleValidationRules = cliContext.bundleValidationRules.toList()
+        this.locale = cliContext.locale
+    }
+
+    actual fun getBaseEngine() : String? {
+        return baseEngine;
+    }
+
+    actual fun setBaseEngine(baseEngine: String?): CliContext {
+        this.baseEngine = baseEngine
+        return this
     }
 
     actual fun isDoNative(): Boolean {
@@ -150,7 +182,7 @@ actual class CliContext actual constructor() {
         return this
     }
 
-    fun addIg(ig: String): CliContext {
+   actual fun addIg(ig: String): CliContext {
         this.igs += ig
         return this
     }
@@ -237,4 +269,6 @@ actual class CliContext actual constructor() {
         this.bundleValidationRules = bundleValidationRules
         return this
     }
+
+
 }

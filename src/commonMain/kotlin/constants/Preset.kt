@@ -1,12 +1,13 @@
-package utils
+package constants
 
 import model.CliContext
 import model.PackageInfo
 
-import constants.ANY_EXTENSION
 import model.BundleValidationRule
 
 val DEFAULT_CONTEXT = CliContext()
+    .setBaseEngine("DEFAULT")
+    .setSv("4.0.1")
 
 val IPS_IG = PackageInfo(
     "hl7.fhir.uv.ips",
@@ -31,14 +32,14 @@ val IPS_NZ_IG = PackageInfo(
 
 val CDA_IG = PackageInfo(
     "hl7.cda.uv.core",
-    "2.0.0-sd-ballot",
+    "2.0.0-sd-snapshot1",
     "5.0.0",
     "http://hl7.org/cda/stds/core/ImplementationGuide/hl7.cda.uv.core"
 )
 
 val CCDA_IG = PackageInfo(
     "hl7.cda.us.ccda",
-    "current",
+    "3.0.0-ballot",
     "5.0.0",
     "http://hl7.org/fhir/us/ccda/ImplementationGuide/hl7.fhir.us.ccda"
 )
@@ -57,6 +58,7 @@ val IPS_AU_BUNDLE_PROFILE = "http://hl7.org.au/fhir/ips/StructureDefinition/Bund
 val IPS_NZ_BUNDLE_PROFILE = "https://standards.digital.health.nz/fhir/StructureDefinition/nzps-bundle"
 
 val IPS_CONTEXT = CliContext()
+    .setBaseEngine("IPS")
     .setSv("4.0.1")
     .addIg(PackageInfo.igLookupString(IPS_IG))
     .setExtensions(listOf(ANY_EXTENSION))
@@ -68,6 +70,7 @@ val IPS_CONTEXT = CliContext()
     ))
 
 val IPS_AU_CONTEXT = CliContext()
+    .setBaseEngine("IPS_AU")
     .setSv("4.0.1")
     .addIg(PackageInfo.igLookupString(IPS_AU_IG))
     .setExtensions(listOf(ANY_EXTENSION))
@@ -79,8 +82,10 @@ val IPS_AU_CONTEXT = CliContext()
     ))
 
 val IPS_NZ_CONTEXT = CliContext()
+    .setBaseEngine("IPS_NZ")
     .setSv("4.0.1")
     .addIg(PackageInfo.igLookupString(IPS_NZ_IG))
+    .setProfiles(listOf(IPS_NZ_BUNDLE_PROFILE))
     .setExtensions(listOf(ANY_EXTENSION))
     .setCheckIPSCodes(true)
     .setBundleValidationRules(listOf(
@@ -91,14 +96,17 @@ val IPS_NZ_CONTEXT = CliContext()
 
 
 val CDA_CONTEXT = CliContext()
+    .setBaseEngine("CDA")
     .setSv("5.0.0")
     .addIg(PackageInfo.igLookupString(CDA_IG))
 
 val CCDA_CONTEXT = CliContext()
+    .setBaseEngine("US_CCDA")
     .setSv("5.0.0")
     .addIg(PackageInfo.igLookupString(CCDA_IG))
 
 val SQL_VIEW_CONTEXT = CliContext()
+    .setBaseEngine("SQL_VIEW")
     .setSv("5.0.0")
     .addIg(PackageInfo.igLookupString(SQL_ON_FHIR_IG))
 
@@ -110,6 +118,14 @@ enum class Preset(
     val extensionSet: Set<String>,
     val profileSet: Set<String>
 ) {
+    CUSTOM(
+        "CUSTOM",
+        "preset_custom",
+        CliContext(),
+        setOf(),
+        setOf(),
+        setOf()
+    ),
     DEFAULT(
         "DEFAULT",
         "preset_fhir_resource",
@@ -126,6 +142,7 @@ enum class Preset(
         setOf(ANY_EXTENSION),
         setOf(IPS_BUNDLE_PROFILE)
     ),
+
     IPS_AU(
         "IPS_AU",
         "preset_ips_au",
@@ -151,7 +168,7 @@ enum class Preset(
         setOf()
     ),
     US_CCDA(
-        "US_CDA",
+        "US_CCDA",
         "preset_us_ccda",
         CCDA_CONTEXT,
         setOf(CCDA_IG),
@@ -165,8 +182,7 @@ enum class Preset(
         setOf(SQL_ON_FHIR_IG),
         setOf(),
         setOf()
-    )
-    ;
+    );
 
     companion object {
         fun getSelectedPreset(key: String?): Preset? {
