@@ -22,7 +22,7 @@ variables:
   currentImage: $(imageName)
   
 steps: 
-- task: Gradle@2
+- task: Gradle@3
   inputs:
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx8192m'
