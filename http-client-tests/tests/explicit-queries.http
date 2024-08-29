@@ -115,7 +115,7 @@ Content-Type: application/json
         client.assert(containsIssue(issues, 1, 2, "The Snomed CT code 373270004 (Substance with penicillin structure and antibacterial mechanism of action) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
         client.assert(containsIssue(issues, 1, 2, "The Snomed CT code 108774000 (Product containing anastrozole (medicinal product)) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
         client.assert(containsIssue(issues, 314, 4, "This element does not match any known slice defined in the profile http://hl7.org.au/fhir/ips/StructureDefinition/Bundle-au-ips|0.0.1 (this may not be a problem, but you should check that it's not intended to match a slice)", "INFORMATIONAL", "INFORMATION"))
-        client.assert(containsIssue(issues, 134, 8, "This element does not match any known slice defined in the profile http://hl7.org.au/fhir/core/StructureDefinition/au-core-patient|0.5.0-ci-build (this may not be a problem, but you should check that it's not intended to match a slice)", "INFORMATIONAL", "INFORMATION"))
+        client.assert(containsIssue(issues, 134, 8, "This element does not match any known slice defined in the profile http://hl7.org.au/fhir/core/StructureDefinition/au-core-patient|1.0.0-ci-build (this may not be a problem, but you should check that it's not intended to match a slice)", "INFORMATIONAL", "INFORMATION"))
     });
 %}
 
