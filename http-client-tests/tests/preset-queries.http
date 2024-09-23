@@ -156,7 +156,7 @@ Content-Type: application/json
     client.test("Issues are Correct", function() {
         let issues = response.body.outcomes[0].issues
         client.log("issues:" + issues.length)
-        client.assert(issues.length === 3);
+        client.assert(issues.length === 8);
         client.assert(containsIssue(issues, 20, 21, "The column 'use' appears to be a collection based on it's path. Collections are not supported in all execution contexts", "BUSINESSRULE", "WARNING"))
         client.assert(containsIssue(issues, 24, 21, "The column 'city' appears to be a collection based on it's path. Collections are not supported in all execution contexts", "BUSINESSRULE", "WARNING"))
         client.assert(containsIssue(issues, 28, 21, "The column 'zip' appears to be a collection based on it's path. Collections are not supported in all execution contexts", "BUSINESSRULE", "WARNING"))

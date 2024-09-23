@@ -79,6 +79,9 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:${property("kotlinxSerializationVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
+                // https://mvnrepository.com/artifact/org.fhir/ucum
+                implementation("org.fhir:ucum:1.0.8")
+
             }
         }
         val commonTest by getting {
@@ -87,6 +90,7 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
+
             }
         }
         val jvmMain by getting {
