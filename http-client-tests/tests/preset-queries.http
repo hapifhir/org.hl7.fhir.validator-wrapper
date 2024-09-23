@@ -22,7 +22,7 @@ Content-Type: application/json
         let issues = response.body.outcomes[0].issues
         client.log("issues:" + issues.length)
         client.assert(issues.length === 2);
-        client.assert(containsIssue(issues, 88, 12, "This element does not match any known slice defined in the profile http://hl7.org/fhir/StructureDefinition/bp|4.0.1 (this may not be a problem, but you should check that it's not intended to match a slice)", "INFORMATIONAL", "INFORMATION"));
+        client.assert(containsIssue(issues, 88, 12, "This element does not match any known slice defined in the profile http://hl7.org/fhir/StructureDefinition/bp|5.0.0 (this may not be a problem, but you should check that it's not intended to match a slice)", "INFORMATIONAL", "INFORMATION"));
     });
 %}
 

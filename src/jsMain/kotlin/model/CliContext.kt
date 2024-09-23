@@ -32,7 +32,7 @@ actual class CliContext actual constructor() {
 
     private var locale: String = ""
     init {
-        sv = "4.0.1"
+        sv = "5.0.0"
         locale = "en"
     }
 
