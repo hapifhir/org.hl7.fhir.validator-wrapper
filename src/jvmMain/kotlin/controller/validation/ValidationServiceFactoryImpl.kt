@@ -24,7 +24,9 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
     }
 
     fun createValidationServiceInstance(): ValidationService {
-        val sessionCacheDuration = System.getenv("SESSION_CACHE_DURATION")?.toLong() ?: SESSION_DEFAULT_DURATION;
+        var sessionCacheDuration = System.getenv("SESSION_CACHE_DURATION")?.toLong() ?: SESSION_DEFAULT_DURATION;
+        // negative values mean "never expire"
+        if (sessionCacheDuration < 0) sessionCacheDuration = Long.MAX_VALUE
         val sessionCacheSize = System.getenv("SESSION_CACHE_SIZE")?.toLong() ?: SESSION_DEFAULT_SIZE
 
         val sessionCache: SessionCache =
