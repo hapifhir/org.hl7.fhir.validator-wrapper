@@ -8,7 +8,11 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class GuavaSessionCacheAdapter(cacheSize : Long, cacheDuration: Long) : SessionCache {
-    private val cache: Cache<String, ValidationEngine> = CacheBuilder.newBuilder().expireAfterAccess(cacheDuration, TimeUnit.MINUTES).maximumSize(cacheSize).build()
+    private val cache: Cache<String, ValidationEngine> = if (cacheDuration > 0) {
+        CacheBuilder.newBuilder().expireAfterAccess(cacheDuration, TimeUnit.MINUTES).maximumSize(cacheSize).build()
+    } else {
+        CacheBuilder.newBuilder().maximumSize(cacheSize).build()
+    }
 
     override fun cacheSession(validationEngine: ValidationEngine): String {
         val generatedId = generateID()
