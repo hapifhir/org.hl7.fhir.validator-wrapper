@@ -1,5 +1,4 @@
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.SerializationFeature
+import io.ktor.serialization.gson.*
 import controller.debug.debugModule
 import controller.ig.igModule
 import controller.terminology.terminologyModule
@@ -85,14 +84,8 @@ fun Application.setup() {
     }
 
     install(ContentNegotiation) {
-        jackson {
-            enable(SerializationFeature.INDENT_OUTPUT)
-
-            /*
-             * Right now we need to ignore unknown fields because we take a very simplified version of many of the fhir
-             * model classes, and map them to classes across JVM/Common/JS.
-             */
-            configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        gson {
+            setPrettyPrinting()
         }
     }
 
