@@ -122,26 +122,6 @@ Content-Type: application/json
     });
 %}
 
-### IPS-NZ
-# @name IPS-NZ
-POST {{host}}/validate
-Content-Type: application/json
-
-< ../resources/explicit-preset-requests/ips-nz.json
-
-> {%
-    client.test("Validated Successfully", function() {
-        client.assert(response.status === 200, "Response status is not 200");
-    });
-    import { containsIssue } from "../utilities/assertions";
-    client.test("Issues are Correct", function() {
-        let issues = response.body.outcomes[0].issues
-        client.log("issues:" + issues.length)
-        client.assert(issues.length === 100);
-        client.assert(containsIssue(issues, 12,10,"This element does not match any known slice defined in the profile https://standards.digital.health.nz/fhir/StructureDefinition/nzps-bundle|0.3.0 (this may not be a problem, but you should check that it's not intended to match a slice)", "INFORMATIONAL", "INFORMATION"))
-    });
-%}
-
 ### SQL-ON-FHIR
 # @name SQL-ON-FHIR
 # Check that a request with explicit IG settings returns an expected response

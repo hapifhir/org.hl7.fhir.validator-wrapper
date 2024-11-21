@@ -21,12 +21,6 @@ Validating through CDA and CCDA will give slightly different results.
 
 This was taken directly from https://build.fhir.org/ig/HL7/fhir-ips/Bundle-bundle-minimal.json.html
 
-# iss-nz.json
-
-This was taken from the confluence page for the NZ IPS: https://confluence.hl7.org/display/HNZ/8.+NZ+Patient+Summary+%28NZPS%29+profiling+test+track?focusedCommentId=208470365
-
-Specifically downloaded from this link: https://terminz.azurewebsites.net/fhir/Patient/$summary?profile=http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips&identifier=https://standards.digital.health.nz/ns/nhi-id|ZKT9319&_format=json
-
 # sql-on-fhir
 
 This was taken directly from the simple example on https://build.fhir.org/ig/FHIR/sql-on-fhir-v2/ but with the additional
