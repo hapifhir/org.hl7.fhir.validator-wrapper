@@ -231,6 +231,7 @@ tasks.withType<Jar> {
 }
 
 tasks.named<Copy>("jvmProcessResources") {
+    dependsOn("copySemver")
     duplicatesStrategy = DuplicatesStrategy.WARN
 }
 
@@ -244,7 +245,8 @@ application {
 
 // include JS artifacts in any JAR we generate
 tasks.getByName<Jar>("jvmJar") {
-
+    dependsOn("jsBrowserDevelopmentWebpack")
+    dependsOn("jsBrowserProductionWebpack")
     val taskName = if (project.hasProperty("isProduction")) {
         "jsBrowserProductionWebpack"
     } else {
@@ -253,6 +255,14 @@ tasks.getByName<Jar>("jvmJar") {
     val webpackTask = tasks.getByName<KotlinWebpack>(taskName)
     dependsOn(webpackTask) // make sure JS gets compiled first
     from(File(webpackTask.destinationDirectory, webpackTask.outputFileName)) // bring output file along into the JAR
+}
+
+tasks.named("distZip").configure {
+    dependsOn("allMetadataJar", "jsJar")
+}
+
+tasks.named("distTar").configure {
+    dependsOn("allMetadataJar", "jsJar")
 }
 
 tasks {
