@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 plugins {
     // Make sure the version for multiplatform and plugin.serialization match kotlinVersion in gradle.properties
-    kotlin("multiplatform") version "1.6.21"
-    kotlin("plugin.serialization") version "1.6.21"
+    kotlin("multiplatform") version "1.8.20"
+    kotlin("plugin.serialization") version "1.8.20"
 
     id("org.hidetake.ssh") version "2.10.1"
     id("org.openjfx.javafxplugin") version "0.0.8"
@@ -39,7 +39,7 @@ kotlin {
     jvm {
         compilations {
             all {
-                kotlinOptions.jvmTarget = "11"
+                kotlinOptions.jvmTarget = "17"
             }
         }
         withJava()
@@ -49,21 +49,24 @@ kotlin {
             useJUnit()
         }
     }
-    js () {
+    js (IR) {
         useCommonJs()
         binaries.executable()
         browser {
             binaries.executable()
             webpackTask {
-                cssSupport.enabled = true
+                cssSupport {
+                    enabled.set(true)
+                }
             }
             runTask {
-                cssSupport.enabled = true
+                cssSupport {
+                    enabled.set(true)
+                }
             }
             testTask {
                 useKarma {
                     useChromeHeadless()
-                    webpackConfig.cssSupport.enabled = true
                 }
             }
         }
@@ -231,6 +234,7 @@ tasks.withType<Jar> {
 }
 
 tasks.named<Copy>("jvmProcessResources") {
+    dependsOn("copySemver")
     duplicatesStrategy = DuplicatesStrategy.WARN
 }
 
@@ -259,7 +263,7 @@ tasks {
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         dependsOn("copySemver")
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = "17"
         }
     }
 
