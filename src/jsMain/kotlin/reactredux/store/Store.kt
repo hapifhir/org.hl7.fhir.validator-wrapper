@@ -13,7 +13,8 @@ val myStore = createStore<AppState, RAction, dynamic>(
     compose(
         rThunk(),
         rEnhancer(),
-        js("if(window.__REDUX_DEVTOOLS_EXTENSION__ )window.__REDUX_DEVTOOLS_EXTENSION__ ();else(function(f){return f;});")
+        rThunk(),
+        js(code = "window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()")
     )
 )
 
