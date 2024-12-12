@@ -80,7 +80,7 @@ kotlin {
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
                 // https://mvnrepository.com/artifact/org.fhir/ucum
-                implementation("org.fhir:ucum:1.0.8")
+                implementation("org.fhir:ucum:1.0.9")
 
             }
         }
