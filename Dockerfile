@@ -9,11 +9,14 @@ FROM adoptopenjdk/openjdk11:alpine-jre
 ARG PROJECT_VERSION
 RUN echo "Project version set to -> ${PROJECT_VERSION}"
 
-ENV APPLICATION_USER ktor
+ENV APPLICATION_USER=ktor
 RUN adduser -D -g '' $APPLICATION_USER
 
 RUN mkdir /app
 RUN chown -R $APPLICATION_USER /app
+
+RUN mkdir /home/$APPLICATION_USER/.fhir
+RUN chown -R $APPLICATION_USER /home/$APPLICATION_USER/.fhir
 
 USER $APPLICATION_USER
 
@@ -22,7 +25,7 @@ COPY ./build/libs/validator-wrapper-jvm-${PROJECT_VERSION}.jar /app/validator-wr
 WORKDIR /app
 
 # Environment vars here
-ENV ENVIRONMENT prod
+ENV ENVIRONMENT=prod
 
 EXPOSE 3500
 
