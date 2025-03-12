@@ -5,7 +5,7 @@
     ],
     "sv": "4.0.1",
     "igs": [
-      "hl7.fhir.uv.ips#1.1.0"
+      "hl7.fhir.uv.ips#2.0.0"
     ],
     "profiles": [
       "http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips"
