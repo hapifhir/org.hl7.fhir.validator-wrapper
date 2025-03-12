@@ -81,7 +81,7 @@
   "footer_running_version" : "running validator v",
   "footer_github" : "view project on github",
   "footer_create_issue" : "log an issue with the team",
-  "footer_download_cli" : "download the latest cli",
+  "footer_download_cli" : "download this app as a CLI tool",
   "footer_doc" : "view the validator documentation",
   "footer_openapi" : "view the OpenAPI documentation",
   "validation_results" : "Results",
