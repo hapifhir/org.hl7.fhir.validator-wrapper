@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="basicsummary"/>
+    <meta>
+        <profile value="http://hl7.org.au/fhir/ps/StructureDefinition/au-ps-bundle"/>
+    </meta>
+    <language value="en-AU"/>
+    <identifier>
+        <system value="urn:ietf:rfc:3986"/>
+        <value value="urn:uuid:0bd27fed-5f11-4344-beeb-c3b78c00f604"/>
+    </identifier>
+    <type value="document"/>
+    <timestamp value="2025-02-05T19:33:11.0607701+10:00"/>
+    <entry>
+        <fullUrl value="urn:uuid:514af4c1-194d-48b4-8afe-7be09d3f895a"/>
+        <resource>
+            <Composition>
+                <id value="514af4c1-194d-48b4-8afe-7be09d3f895a"/>
+                <meta>
+                    <versionId value="1"/>
+                </meta>
+                <language value="en-AU"/>
+                <status value="final"/>
+                <type>
+                    <coding>
+                        <system value="http://loinc.org"/>
+                        <code value="60591-5"/>
+                        <display value="Patient summary Document"/>
+                    </coding>
+                </type>
+                <subject>
+                    <reference value="urn:uuid:9be88cc6-09e8-4dc6-b058-88676240dbc7"/>
+                </subject>
+                <date value="2025-02-03"/>
+                <author>
+                    <reference value="urn:uuid:463c2982-3759-4022-b40e-521bbe54d544"/>
+                </author>
+                <title value="International Patient Summary"/>
+                <custodian>
+                    <reference value="urn:uuid:70a756e3-20b3-4637-8601-a222983e295a"/>
+                </custodian>
+                <section>
+                    <title value="Active Problems"/>
+                    <code>
+                        <coding>
+                            <system value="http://loinc.org"/>
+                            <code value="11450-4"/>
+                            <display value="Problem list - Reported"/>
+                        </coding>
+                    </code>
+                    <text>
+                        <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml" lang="en-AU" xml:lang="en-AU">21/12/2024 No current problem or disability.</div>
+                    </text>
+                    <entry>
+                        <reference value="urn:uuid:310f1593-d610-4144-a6e8-1f823d955e0d"/>
+                    </entry>
+                </section>
+                <section>
+                    <title value="Active Allergies or Intolerances"/>
+                    <code>
+                        <coding>
+                            <system value="http://loinc.org"/>
+                            <code value="48765-2"/>
+                            <display value="Allergies and adverse reactions Document"/>
+                        </coding>
+                    </code>
+                    <text>
+                        <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml" lang="en-AU" xml:lang="en-AU">
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>Allergy, Intolerance, Substance</th>
+                                    <th>Onset</th>
+                                    <th>Recorded</th>
+                                    <th>Manifestation</th>
+                                    <th>Manifestation Severity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Intolerance to lactose</td>
+                                    <td>2022</td>
+                                    <td>14/03/2023</td>
+                                    <td>Abdominal pain, Abdominal bloating, Diarrhoea</td>
+                                    <td>Mild</td>
+                                </tr>
+                                <tr>
+                                    <td>Gluten intolerance</td>
+                                    <td>1999</td>
+                                    <td>12/01/2023</td>
+                                    <td>Fatigue</td>
+                                    <td>Mild</td>
+                                </tr>
+                                <tr>
+                                    <td>Chlorhexidine</td>
+                                    <td>12/01/2021</td>
+                                    <td>12/01/2023</td>
+                                    <td>Hives</td>
+                                    <td>Mild</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </text>
+                    <entry>
+                        <reference value="urn:uuid:ad6fb7b7-c76f-441e-88a5-9051e795db26"/>
+                    </entry>
+                    <entry>
+                        <reference value="urn:uuid:06ba95f5-345b-412d-aa66-99e354470015"/>
+                    </entry>
+                    <entry>
+                        <reference value="urn:uuid:d24db2d5-3400-4158-892c-d018acdeba09"/>
+                    </entry>
+                </section>
+                <section>
+                    <title value="Current Medicines"/>
+                    <code>
+                        <coding>
+                            <system value="http://loinc.org"/>
+                            <code value="10160-0"/>
+                            <display value="History of Medication use Narrative"/>
+                        </coding>
+                    </code>
+                    <text>
+                        <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml" lang="en-AU" xml:lang="en-AU">
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>Medicine</th>
+                                    <th>Directions</th>
+                                    <th>Date asserted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>Bisoprolol</b> 2.5mg tab</td>
+                                    <td>Take 1/2 tablet in the morning</td>
+                                    <td>05/01/2025</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </text>
+                    <entry>
+                        <reference value="urn:uuid:347e8435-cea1-4e94-9755-abb027926bb1"/>
+                    </entry>
+                </section>
+            </Composition>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:9be88cc6-09e8-4dc6-b058-88676240dbc7"/>
+        <resource>
+            <Patient>
+                <id value="9be88cc6-09e8-4dc6-b058-88676240dbc7"/>
+                <extension url="http://hl7.org/fhir/StructureDefinition/individual-genderIdentity">
+                    <extension url="value">
+                        <valueCodeableConcept>
+                            <coding>
+                                <system value="http://snomed.info/sct"/>
+                                <code value="446141000124107"/>
+                                <display value="Identifies as female gender"/>
+                            </coding>
+                        </valueCodeableConcept>
+                    </extension>
+                </extension>
+                <extension url="http://hl7.org/fhir/StructureDefinition/individual-pronouns">
+                    <extension url="value">
+                        <valueCodeableConcept>
+                            <coding>
+                                <system value="http://loinc.org"/>
+                                <code value="LA29519-8"/>
+                                <display value="she/her/her/hers/herself"/>
+                            </coding>
+                        </valueCodeableConcept>
+                    </extension>
+                </extension>
+                <identifier>
+                    <extension url="http://hl7.org.au/fhir/StructureDefinition/ihi-status">
+                        <valueCoding>
+                            <system value="https://healthterminologies.gov.au/fhir/CodeSystem/ihi-status-1"/>
+                            <code value="active"/>
+                        </valueCoding>
+                    </extension>
+                    <extension url="http://hl7.org.au/fhir/StructureDefinition/ihi-record-status">
+                        <valueCoding>
+                            <system value="https://healthterminologies.gov.au/fhir/CodeSystem/ihi-record-status-1"/>
+                            <code value="verified"/>
+                            <display value="verified"/>
+                        </valueCoding>
+                    </extension>
+                    <type>
+                        <coding>
+                            <system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+                            <code value="NI"/>
+                        </coding>
+                        <text value="IHI"/>
+                    </type>
+                    <system value="http://ns.electronichealth.net.au/id/hi/ihi/1.0"/>
+                    <value value="8003608333647261"/>
+                </identifier>
+                <name>
+                    <use value="usual"/>
+                    <family value="Banks"/>
+                    <given value="Mia"/>
+                    <given value="Leanne"/>
+                </name>
+                <telecom>
+                    <system value="phone"/>
+                    <value value="0270102724"/>
+                    <use value="work"/>
+                </telecom>
+                <telecom>
+                    <system value="phone"/>
+                    <value value="0491574632"/>
+                    <use value="mobile"/>
+                </telecom>
+                <telecom>
+                    <system value="phone"/>
+                    <value value="0270107520"/>
+                    <use value="home"/>
+                </telecom>
+                <telecom>
+                    <system value="email"/>
+                    <value value="mia.banks@myownpersonaldomain.com"/>
+                </telecom>
+                <telecom>
+                    <system value="phone"/>
+                    <value value="270107520"/>
+                    <use value="home"/>
+                </telecom>
+                <gender value="female"/>
+                <birthDate value="1983-08-25"/>
+                <address>
+                    <line value="50 Sebastien St"/>
+                    <city value="Minjary"/>
+                    <state value="NSW"/>
+                    <postalCode value="2720"/>
+                    <country value="AU"/>
+                </address>
+            </Patient>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:70a756e3-20b3-4637-8601-a222983e295a"/>
+        <resource>
+            <Organization>
+                <id value="70a756e3-20b3-4637-8601-a222983e295a"/>
+                <identifier>
+                    <type>
+                        <coding>
+                            <system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+                            <code value="XX"/>
+                        </coding>
+                        <text value="ABN"/>
+                    </type>
+                    <system value="http://hl7.org.au/id/abn"/>
+                    <value value="12345678901"/>
+                </identifier>
+                <type>
+                    <coding>
+                        <system value="http://snomed.info/sct"/>
+                        <code value="288565001"/>
+                        <display value="Medical centre"/>
+                    </coding>
+                    <text value="Medical Center"/>
+                </type>
+                <name value="Bobrester Medical Center"/>
+                <telecom>
+                    <system value="email"/>
+                    <value value="info@bobrestermedical.example.com"/>
+                    <use value="work"/>
+                </telecom>
+                <telecom>
+                    <system value="phone"/>
+                    <value value="(07) 5550 2427"/>
+                    <use value="work"/>
+                </telecom>
+                <address>
+                    <line value="87 Western Esp"/>
+                    <city value="Tindal RAAF"/>
+                    <state value="QLD"/>
+                    <postalCode value="4655"/>
+                    <country value="AU"/>
+                </address>
+            </Organization>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:463c2982-3759-4022-b40e-521bbe54d544"/>
+        <resource>
+            <PractitionerRole>
+                <id value="463c2982-3759-4022-b40e-521bbe54d544"/>
+                <identifier>
+                    <type>
+                        <coding>
+                            <system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+                            <code value="EI"/>
+                            <display value="Employee number"/>
+                        </coding>
+                        <text value="Employee Number"/>
+                    </type>
+                    <system value="http://ns.electronichealth.net.au/id/abn-scoped/service-provider-individual/1.0/12345678901"/>
+                    <value value="12345678"/>
+                    <assigner>
+                        <display value="Bobrester Medical Center"/>
+                    </assigner>
+                </identifier>
+                <practitioner>
+                    <reference value="urn:uuid:dce50472-2a94-47e6-9501-b52f0df0c813"/>
+                </practitioner>
+                <organization>
+                    <reference value="urn:uuid:70a756e3-20b3-4637-8601-a222983e295a"/>
+                </organization>
+                <code>
+                    <coding>
+                        <system value="http://snomed.info/sct"/>
+                        <code value="62247001"/>
+                    </coding>
+                    <coding>
+                        <system value="http://www.abs.gov.au/ausstats/abs@.nsf/mf/1220.0"/>
+                        <code value="253111"/>
+                    </coding>
+                    <text value="General Practitioner"/>
+                </code>
+                <telecom>
+                    <system value="phone"/>
+                    <value value="0491579760"/>
+                </telecom>
+                <telecom>
+                    <system value="email"/>
+                    <value value="drbob@bobrestermedical.example.com"/>
+                </telecom>
+            </PractitionerRole>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:dce50472-2a94-47e6-9501-b52f0df0c813"/>
+        <resource>
+            <Practitioner>
+                <id value="dce50472-2a94-47e6-9501-b52f0df0c813"/>
+                <name>
+                    <family value="Bobrester" />
+                    <given value="Bob" />
+                    <prefix value="Dr."/>
+                </name>
+            </Practitioner>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:ad6fb7b7-c76f-441e-88a5-9051e795db26"/>
+        <resource>
+            <AllergyIntolerance>
+                <id value="ad6fb7b7-c76f-441e-88a5-9051e795db26"/>
+                <clinicalStatus>
+                    <coding>
+                        <system value="http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"/>
+                        <code value="active"/>
+                        <display value="Active"/>
+                    </coding>
+                </clinicalStatus>
+                <verificationStatus>
+                    <coding>
+                        <system value="http://terminology.hl7.org/CodeSystem/allergyintolerance-verification"/>
+                        <code value="confirmed"/>
+                        <display value="Confirmed"/>
+                    </coding>
+                </verificationStatus>
+                <code>
+                    <coding>
+                        <system value="http://snomed.info/sct"/>
+                        <code value="782415009"/>
+                        <display value="Intolerance to lactose"/>
+                    </coding>
+                </code>
+                <patient>
+                    <reference value="urn:uuid:9be88cc6-09e8-4dc6-b058-88676240dbc7"/>
+                </patient>
+                <onsetDateTime value="2022"/>
+                <recordedDate value="2023-03-14"/>
+                <reaction>
+                    <manifestation>
+                        <coding>
+                            <system value="http://snomed.info/sct"/>
+                            <code value="21522001"/>
+                            <display value="Abdominal pain"/>
+                        </coding>
+                    </manifestation>
+                    <manifestation>
+                        <coding>
+                            <system value="http://snomed.info/sct"/>
+                            <code value="116289008"/>
+                            <display value="Abdominal bloating"/>
+                        </coding>
+                    </manifestation>
+                    <manifestation>
+                        <coding>
+                            <system value="http://snomed.info/sct"/>
+                            <code value="62315008"/>
+                            <display value="Diarrhoea"/>
+                        </coding>
+                    </manifestation>
+                    <severity value="mild"/>
+                </reaction>
+            </AllergyIntolerance>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:06ba95f5-345b-412d-aa66-99e354470015"/>
+        <resource>
+            <AllergyIntolerance>
+                <id value="06ba95f5-345b-412d-aa66-99e354470015"/>
+                <clinicalStatus>
+                    <coding>
+                        <system value="http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"/>
+                        <code value="active"/>
+                    </coding>
+                    <text value="Active"/>
+                </clinicalStatus>
+                <code>
+                    <coding>
+                        <system value="http://snomed.info/sct"/>
+                        <code value="1269424006"/>
+                    </coding>
+                    <text value="Gluten intolerance"/>
+                </code>
+                <patient>
+                    <reference value="urn:uuid:9be88cc6-09e8-4dc6-b058-88676240dbc7"/>
+                </patient>
+                <onsetDateTime value="1999"/>
+                <recordedDate value="2023-01-12"/>
+                <reaction>
+                    <substance>
+                        <coding>
+                            <system value="http://snomed.info/sct"/>
+                            <code value="89811004"/>
+                        </coding>
+                        <text value="Gluten"/>
+                    </substance>
+                    <manifestation>
+                        <coding>
+                            <system value="http://snomed.info/sct"/>
+                            <code value="84229001"/>
+                        </coding>
+                        <text value="Fatigue"/>
+                    </manifestation>
+                    <severity value="mild"/>
+                </reaction>
+            </AllergyIntolerance>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:d24db2d5-3400-4158-892c-d018acdeba09"/>
+        <resource>
+            <AllergyIntolerance>
+                <id value="d24db2d5-3400-4158-892c-d018acdeba09"/>
+                <clinicalStatus>
+                    <coding>
+                        <system value="http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"/>
+                        <code value="active"/>
+                    </coding>
+                    <text value="Active"/>
+                </clinicalStatus>
+                <code>
+                    <coding>
+                        <system value="http://snomed.info/sct"/>
+                        <code value="373568007"/>
+                    </coding>
+                    <text value="Chlorhexidine"/>
+                </code>
+                <patient>
+                    <reference value="urn:uuid:9be88cc6-09e8-4dc6-b058-88676240dbc7"/>
+                </patient>
+                <onsetDateTime value="2021-01-12"/>
+                <recordedDate value="2021-09-09"/>
+                <reaction>
+                    <substance>
+                        <coding>
+                            <system value="http://snomed.info/sct"/>
+                            <code value="373568007"/>
+                        </coding>
+                        <text value="Chlorhexidine"/>
+                    </substance>
+                    <manifestation>
+                        <coding>
+                            <system value="http://snomed.info/sct"/>
+                            <code value="247472004"/>
+                        </coding>
+                        <text value="Hives"/>
+                    </manifestation>
+                    <severity value="mild"/>
+                </reaction>
+            </AllergyIntolerance>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:347e8435-cea1-4e94-9755-abb027926bb1"/>
+        <resource>
+            <MedicationStatement xmlns="http://hl7.org/fhir">
+                <id value="347e8435-cea1-4e94-9755-abb027926bb1"/>
+                <contained>
+                    <Medication>
+                        <id value="penicillin"/>
+                        <code>
+                            <coding>
+                                <system value="http://snomed.info/sct"/>
+                                <code value="373270004"/>
+                                <display value="Substance with penicillin structure and antibacterial mechanism of action (substance)"/>
+                            </coding>
+                            <text value="Penicillin antibacterial"/>
+                        </code>
+                    </Medication>
+                </contained>
+                <status value="active"/>
+                <medicationReference>
+                    <reference value="#bisoprolol"/>
+                </medicationReference>
+                <subject>
+                    <reference value="urn:uuid:9be88cc6-09e8-4dc6-b058-88676240dbc7"/>
+                </subject>
+                <dateAsserted value="2025-01-05"/>
+                <dosage>
+                    <text value="1/2 tablet in the morning"/>
+                </dosage>
+            </MedicationStatement>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:310f1593-d610-4144-a6e8-1f823d955e0d"/>
+        <resource>
+            <Condition xmlns="http://hl7.org/fhir">
+                <id value="310f1593-d610-4144-a6e8-1f823d955e0d"/>
+                <clinicalStatus>
+                    <coding>
+                        <system value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
+                        <code value="active"/>
+                        <display value="Active"/>
+                    </coding>
+                </clinicalStatus>
+                <category>
+                    <coding>
+                        <system value="http://terminology.hl7.org/CodeSystem/condition-category"/>
+                        <code value="problem-list-item"/>
+                        <display value="Problem List Item"/>
+                    </coding>
+                </category>
+                <code>
+                    <coding>
+                        <system value="http://snomed.info/sct"/>
+                        <code value="160245001"/>
+                        <display value="No current problems or disability"/>
+                    </coding>
+                </code>
+                <subject>
+                    <reference value="urn:uuid:9be88cc6-09e8-4dc6-b058-88676240dbc7"/>
+                </subject>
+                <recordedDate value="2024-12-21"/>
+            </Condition>
+        </resource>
+    </entry>
+</Bundle>

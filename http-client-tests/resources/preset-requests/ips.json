@@ -1,10 +1,7 @@
 {
   "cliContext": {
     "baseEngine": "IPS",
-    "locale": "en",
-    "profiles": [
-      "http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips"
-    ]
+    "locale": "en"
   },
   "filesToValidate": [
     {
