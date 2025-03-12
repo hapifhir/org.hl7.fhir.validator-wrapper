@@ -79,7 +79,7 @@
   "footer_running_version" : "Validator Version v",
   "footer_github" : "Projekt auf Github ansehen",
   "footer_create_issue" : "Issue erstellen",
-  "footer_download_cli" : "download des neusten cli",
+  "footer_download_cli" : "download diese app als CLI-tool",
   "footer_doc" : "die Dokumentation des Validators anzeigen",
   "footer_openapi" : "die Dokumentation des OpenAPI anzeigen",
   "validation_results" : "Ergebnisse",
