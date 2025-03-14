@@ -18,19 +18,24 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
         val sessionCache: SessionCache = sessionCacheFactory.getSessionCache()
 
         val validationService = ValidationService(sessionCache);
-        thread {
-        Preset.values().forEach {
-            if (it != Preset.CUSTOM) {
-                println("Loading preset: " + it.key)
-                try {
-                    validationService.putBaseEngine(it.key, it.cliContext)
-                } catch (e: Exception) {
-                    println("Error loading preset: " + it.key)
-                    e.printStackTrace()
+        val loadPresets = System.getenv("LOAD_PRESETS")?.toBooleanStrictOrNull() ?: true
+        if (loadPresets) {
+            thread {
+            Preset.values().forEach {
+                if (it != Preset.CUSTOM) {
+                    println("Loading preset: " + it.key)
+                    try {
+                        validationService.putBaseEngine(it.key, it.cliContext)
+                    } catch (e: Exception) {
+                        println("Error loading preset: " + it.key)
+                        e.printStackTrace()
+                    }
+                    println("Preset loaded: " + it.key);
                 }
-                println("Preset loaded: " + it.key);
             }
-        }
+            }
+        } else {
+            println("Skipping preset loading as LOAD_PRESETS is set to false.")
         }
         return validationService
     }
