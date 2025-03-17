@@ -11,13 +11,13 @@ val DEFAULT_CONTEXT = CliContext()
 
 val IPS_IG = PackageInfo(
     "hl7.fhir.uv.ips",
-    "1.1.0",
+    "2.0.0",
     "4.0.1",
-    "http://hl7.org/fhir/uv/ips/STU1.1"
+    "http://hl7.org/fhir/uv/ips"
 )
 
 val IPS_AU_IG = PackageInfo(
-    "hl7.fhir.au.ips",
+    "hl7.fhir.au.ps",
     "current",
     "4.0.1",
     "http://hl7.org.au/fhir/ips/ImplementationGuide/hl7.fhir.au.ips"
@@ -46,7 +46,7 @@ val SQL_ON_FHIR_IG = PackageInfo(
 
 val IPS_BUNDLE_PROFILE = "http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips"
 
-val IPS_AU_BUNDLE_PROFILE = "http://hl7.org.au/fhir/ips/StructureDefinition/Bundle-au-ips"
+val IPS_AU_BUNDLE_PROFILE = "http://hl7.org.au/fhir/ps/StructureDefinition/au-ps-bundle"
 
 val IPS_CONTEXT = CliContext()
     .setBaseEngine("IPS")
@@ -69,7 +69,7 @@ val IPS_AU_CONTEXT = CliContext()
     .setBundleValidationRules(listOf(
         BundleValidationRule()
             .setRule("Composition:0")
-            .setProfile("http://hl7.org.au/fhir/ips/StructureDefinition/Composition-au-ips")
+            .setProfile("http://hl7.org.au/fhir/ps/StructureDefinition/au-ps-composition")
     ))
 
 val CDA_CONTEXT = CliContext()
