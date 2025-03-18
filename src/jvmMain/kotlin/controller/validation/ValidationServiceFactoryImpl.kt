@@ -2,13 +2,14 @@ package controller.validation
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import model.Preset
 import org.hl7.fhir.validation.cli.services.SessionCache
 import org.hl7.fhir.validation.cli.services.ValidationService
 import java.io.File
 import java.lang.reflect.Type
 import kotlin.concurrent.thread
-
+import model.Preset
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ValidationServiceFactoryImpl : ValidationServiceFactory {
     private var sessionCacheFactory: SessionCacheFactory
@@ -64,6 +65,10 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
             e.printStackTrace()
             return listOf()
         }
+    }
+
+    override fun getValidationPresets(): List<Preset> {
+        return Collections.unmodifiableList(presets)
     }
 
     override fun getValidationService() : ValidationService {

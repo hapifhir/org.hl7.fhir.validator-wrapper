@@ -1,8 +1,10 @@
 package ui.components.tabs.entrytab
 
 import Polyglot
+import api.getValidationEngines
+import api.getValidationPresets
 import api.sendValidationRequest
-import constants.Preset
+import model.Preset
 
 import css.animation.FadeIn.fadeIn
 import css.const.BORDER_GRAY
@@ -48,14 +50,20 @@ external interface ManualEntryTabProps : Props {
 }
 
 class ManualEntryTabState : State {
+    var validationPresets: List<Preset> = emptyList()
     var displayingError: Boolean = false
     var errorMessage: String = ""
-    var ohShitYouDidIt = false
 }
 
 class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
     init {
         state = ManualEntryTabState()
+        mainScope.launch {
+            val loadedValidationPresets = getValidationPresets()
+            setState {
+                validationPresets = loadedValidationPresets
+            }
+        }
     }
 
     override fun RBuilder.render() {
@@ -66,16 +74,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             heading {
                 text = props.polyglot.t("manual_entry_title")
             }
-            if (state.ohShitYouDidIt) {
-                styledIframe {
-                    css {
-                        +ManualEntryTabStyle.ken
-                    }
-                    attrs {
-                        src = "https://player.vimeo.com/video/148751763?autoplay=1&loop=1&autopause=0"
-                    }
-                }
-            } else {
+
                 manualEntryTextArea {
                     currentText = props.currentManuallyEnteredText
                     placeholderText = props.polyglot.t("manual_entry_place_holder")
@@ -88,7 +87,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                         }
                     }
                 }
-            }
+
             styledDiv {
                 css {
                     +ManualEntryTabStyle.buttonBar
@@ -149,17 +148,14 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
     }
 
     private fun validateEnteredText(fileContent: String) {
-        setState {
-            displayingError = false
-            ohShitYouDidIt = false
-        }
         println("Attempting to validate with: " + props.cliContext.getBaseEngine())
         val cliContext : CliContext? = if (props.cliContext.getBaseEngine() == null) {
             println("Custom validation")
             props.cliContext
         } else {
             println("Preset")
-            Preset.getSelectedPreset(props.cliContext.getBaseEngine())?.cliContext
+           //FIXME this should be using Redux
+            Preset.getSelectedPreset(props.cliContext.getBaseEngine(), state.validationPresets)?.cliContext
         }
         if (cliContext != null) {
             props.toggleValidationInProgress(true)
@@ -202,16 +198,8 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     println("Exception ${e.message}")
                 } catch (e: Exception) {
                     setState {
-                        if (props.currentManuallyEnteredText.contains("Mark is super dorky")) {
-                            ohShitYouDidIt = true
-                            props.updateCurrentlyEnteredText("Ken is super dorky.")
-                            errorMessage =
-                                "Never gonna give you up, never gonna let you down, never gonna run around..."
-                            displayingError = true
-                        } else {
-                            errorMessage = props.polyglot.t("manual_entry_cannot_parse_exception")
-                            displayingError = true
-                        }
+                        errorMessage = props.polyglot.t("manual_entry_cannot_parse_exception")
+                        displayingError = true
                     }
                     println("Exception ${e.message}")
                 } finally {

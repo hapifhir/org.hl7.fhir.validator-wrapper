@@ -2,6 +2,7 @@ package ui.components.options
 
 import Polyglot
 import api.getValidationEngines
+import api.getValidationPresets
 import mui.material.*
 import react.*
 import csstype.px
@@ -18,7 +19,7 @@ import react.ReactNode
 import styled.css
 import styled.styledDiv
 
-import constants.Preset
+import model.Preset
 import utils.Language
 import utils.getJS
 
@@ -38,6 +39,7 @@ external interface PresetSelectProps : Props {
 class PresetSelectState : State {
     var snackbarOpen : String? = null
     var validationEngines: Set<String> = emptySet()
+    var validationPresets: List<Preset> = emptyList()
 }
 
 class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
@@ -46,9 +48,13 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
         state = PresetSelectState()
         mainScope.launch {
             val loadedValidationEngines = getValidationEngines()
+            val loadedValidationPresets = getValidationPresets()
+
             setState {
                 validationEngines = loadedValidationEngines
+                validationPresets = loadedValidationPresets
             }
+
         }
     }
 
@@ -93,10 +99,8 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                 label = ReactNode("Preset")
                                 value =  props.cliContext.getBaseEngine().unsafeCast<Nothing?>()
                                 onChange = { event, _ ->
-                                    val selectedPreset = Preset.getSelectedPreset(event.target.value)
+                                    val selectedPreset = Preset.getSelectedPreset(event.target.value, state.validationPresets)
                                     if (selectedPreset != null) {
-                                        console.log("updating cli context for preset: " + event.target.value)
-                                        console.log("updating cli context with base engine: " + selectedPreset.cliContext.getBaseEngine())
 
                                         val cliContext = CliContext(selectedPreset.cliContext).setLocale(props.language.getLanguageCode())
                                         props.updateCliContext(cliContext)
@@ -117,7 +121,7 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
 
                             }
 
-                            Preset.values().forEach {
+                            state.validationPresets.forEach {
                                 if (state.validationEngines.contains(it.key)) {
                                     MenuItem {
                                         attrs {

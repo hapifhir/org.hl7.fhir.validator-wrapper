@@ -21,7 +21,7 @@ actual class CliContext actual constructor() {
     private var txCache: String = ""
     private var snomedCT = Snomed.INTL.code
     private var targetVer: String = ""
-    private var sv: String = ""
+    private var sv: String = "5.0.0"
 
     private var igs: List<String> = listOf()
     private var profiles: List<String> = listOf()
@@ -30,11 +30,7 @@ actual class CliContext actual constructor() {
 
     private var bundleValidationRules : List<BundleValidationRule> = listOf()
 
-    private var locale: String = ""
-    init {
-        sv = "5.0.0"
-        locale = "en"
-    }
+    private var locale: String = "en"
 
     constructor (cliContext : CliContext) : this() {
         this.igs = cliContext.igs.toList()

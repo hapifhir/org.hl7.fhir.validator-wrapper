@@ -1,6 +1,7 @@
 package controller.validation
 
 import model.AppVersions
+import model.Preset
 import model.ValidationResponse
 import org.hl7.fhir.utilities.VersionUtil
 import org.hl7.fhir.validation.cli.model.ValidationRequest
@@ -32,5 +33,9 @@ class ValidationControllerImpl : ValidationController, KoinComponent {
 
     override suspend fun getValidationEngines(): Set<String> {
         return validationServiceFactory.getValidationService().baseEngineKeys;
+    }
+
+    override suspend fun getValidationPresets(): List<Preset> {
+        return validationServiceFactory.getValidationPresets()
     }
 }

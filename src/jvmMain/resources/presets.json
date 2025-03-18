@@ -25,7 +25,7 @@
       "baseEngine": "IPS",
       "sv": "4.0.1",
       "igs": [
-        "hl7.fhir.uv.ips#1.1.0"
+        "hl7.fhir.uv.ips#2.0.0"
       ],
       "extensions": [
         "any"
@@ -40,9 +40,9 @@
     },
     "igPackageInfo": [{
       "id": "hl7.fhir.uv.ips",
-      "version": "1.1.0",
+      "version": "2.0.0",
       "fhirVersion": "4.0.1",
-      "url": "http://hl7.org/fhir/uv/ips/STU1.1"
+      "url": "http://hl7.org/fhir/uv/ips"
     }],
     "extensionSet": [
       "any"
@@ -58,7 +58,7 @@
       "baseEngine": "IPS_AU",
       "sv": "4.0.1",
       "igs": [
-        "hl7.fhir.au.ips#current"
+        "hl7.fhir.au.ps#current"
       ],
       "extensions": [
         "any"
@@ -67,21 +67,21 @@
       "bundleValidationRules": [
         {
           "rule": "Composition:0",
-          "profile": "http://hl7.org.au/fhir/ips/StructureDefinition/Composition-au-ips"
+          "profile": "http://hl7.org.au/fhir/ps/StructureDefinition/au-ps-composition"
         }
       ]
     },
     "igPackageInfo": [{
-      "id": "hl7.fhir.au.ips",
+      "id": "hl7.fhir.au.ps",
       "version": "current",
       "fhirVersion": "4.0.1",
-      "url": "http://hl7.org.au/fhir/ips/ImplementationGuide/hl7.fhir.au.ips"
+      "url": "http://hl7.org.au/fhir/ps/ImplementationGuide/hl7.fhir.au.ps"
     }],
     "extensionSet": [
       "any"
     ],
     "profileSet": [
-      "http://hl7.org.au/fhir/ips/StructureDefinition/Bundle-au-ips"
+      "http://hl7.org.au/fhir/ps/StructureDefinition/au-ps-bundle"
     ]
   },
   {
