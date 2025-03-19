@@ -66,6 +66,9 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
         }
     }
     override fun RBuilder.render() {
+        if (state.validationPresets.isEmpty()) {
+            return
+        }
         styledDiv {
             css {
                 display = Display.inlineFlex
@@ -118,7 +121,6 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                         props.setSessionId("")
                                     }
                                 }
-
                             }
 
                             state.validationPresets.forEach {
