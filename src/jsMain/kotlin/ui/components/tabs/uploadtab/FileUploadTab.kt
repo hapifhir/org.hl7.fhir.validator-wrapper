@@ -1,6 +1,7 @@
 package ui.components.tabs.uploadtab
 
 import Polyglot
+import api.getValidationPresets
 import api.sendValidationRequest
 import css.animation.FadeIn.fadeIn
 import css.const.WHITE
@@ -42,6 +43,7 @@ external interface FileUploadTabProps : Props {
 }
 
 class FileUploadTabState : State {
+    var validationPresets: List<Preset> = emptyList()
     var currentlyDisplayedValidationOutcome: ValidationOutcome? = null
 }
 
@@ -52,6 +54,12 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
 
     init {
         state = FileUploadTabState()
+        mainScope.launch {
+            val loadedValidationPresets = getValidationPresets()
+            setState {
+                validationPresets = loadedValidationPresets
+            }
+        }
     }
 
     override fun RBuilder.render() {
@@ -137,6 +145,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
     }
 
     private fun validateUploadedFiles() {
+        val cliContext: CliContext? = getCliContextFromBaseEngine()
         val request = assembleRequest(
             props.cliContext,
             props.uploadedFiles
@@ -158,6 +167,17 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
             }
         }
     }
+
+    private fun getCliContextFromBaseEngine(): CliContext? {
+        if (state.validationPresets.isEmpty() || props.cliContext.getBaseEngine() == null) {
+            console.info("Custom validation")
+            return props.cliContext
+        }
+        console.info("Preset")
+        //FIXME this should be using Redux
+        return Preset.getSelectedPreset(props.cliContext.getBaseEngine(), state.validationPresets)?.cliContext
+    }
+
 }
 
 /**
