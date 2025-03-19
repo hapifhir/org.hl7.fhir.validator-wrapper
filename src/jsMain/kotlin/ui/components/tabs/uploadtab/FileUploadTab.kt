@@ -145,10 +145,10 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
     }
 
     private fun validateUploadedFiles() {
-        val cliContext: CliContext? = getCliContextFromBaseEngine()
+        val cliContext: CliContext = Preset.getLocalizedCliContextFromPresets(props.cliContext, state.validationPresets) ?: return
         val request = assembleRequest(
-            props.cliContext,
-            props.uploadedFiles
+            cliContext = cliContext,
+            files = props.uploadedFiles
                 .filterNot(ValidationOutcome::isValidated)
                 .map(ValidationOutcome::getFileInfo)
                 .onEach {
@@ -167,17 +167,6 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
             }
         }
     }
-
-    private fun getCliContextFromBaseEngine(): CliContext? {
-        if (state.validationPresets.isEmpty() || props.cliContext.getBaseEngine() == null) {
-            console.info("Custom validation")
-            return props.cliContext
-        }
-        console.info("Preset")
-        //FIXME this should be using Redux
-        return Preset.getSelectedPreset(props.cliContext.getBaseEngine(), state.validationPresets)?.cliContext
-    }
-
 }
 
 /**

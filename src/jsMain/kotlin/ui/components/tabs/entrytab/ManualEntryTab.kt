@@ -149,12 +149,12 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
 
     private fun validateEnteredText(fileContent: String) {
         console.info("Attempting to validate with: " + props.cliContext.getBaseEngine())
-        val cliContext: CliContext? = getCliContextFromBaseEngine()
-        if (cliContext != null) {
-            props.toggleValidationInProgress(true)
+        val cliContext: CliContext = Preset.getLocalizedCliContextFromPresets(props.cliContext, state.validationPresets) ?: return
+
+        props.toggleValidationInProgress(true)
             console.info("clicontext :: sv == ${cliContext.getSv()}, version == ${props.cliContext.getTargetVer()}, languageCode == ${props.cliContext.getLanguageCode()}")
             val request = assembleRequest(
-                cliContext = CliContext(cliContext).setLocale(props.cliContext.getLanguageCode()),
+                cliContext = cliContext,
                 fileName = generateFileName(fileContent),
                 fileContent = fileContent,
                 fileType = null
@@ -199,17 +199,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     props.toggleValidationInProgress(false)
                 }
             }
-        }
-    }
 
-    private fun getCliContextFromBaseEngine(): CliContext? {
-        if (state.validationPresets.isEmpty() || props.cliContext.getBaseEngine() == null) {
-            console.info("Custom validation")
-            return props.cliContext
-        }
-        console.info("Preset")
-        //FIXME this should be using Redux
-        return Preset.getSelectedPreset(props.cliContext.getBaseEngine(), state.validationPresets)?.cliContext
     }
 
     private fun generateFileName(fileContent: String): String {

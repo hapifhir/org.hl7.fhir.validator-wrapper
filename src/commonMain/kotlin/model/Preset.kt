@@ -21,5 +21,18 @@ data class Preset (
             }
             return null
         }
+
+        fun getLocalizedCliContextFromPresets(cliContext: CliContext, presets: List<Preset>): CliContext? {
+            if (presets.isEmpty() || cliContext.getBaseEngine() == null) {
+                return cliContext
+            }
+            val presetCliContext = getSelectedPreset(cliContext.getBaseEngine(), presets)?.cliContext
+            if (presetCliContext != null) {
+                return CliContext()
+                    .setLocale(cliContext.getLanguageCode())
+                    .setBaseEngine(cliContext.getBaseEngine())
+            }
+            return presetCliContext
+        }
     }
 }
