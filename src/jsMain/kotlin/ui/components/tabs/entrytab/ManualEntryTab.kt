@@ -152,7 +152,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
         val cliContext: CliContext = Preset.getLocalizedCliContextFromPresets(props.cliContext, state.validationPresets) ?: return
 
         props.toggleValidationInProgress(true)
-            console.info("clicontext :: sv == ${cliContext.getSv()}, version == ${props.cliContext.getTargetVer()}, languageCode == ${props.cliContext.getLanguageCode()}")
+            console.info("cliContext :: sv == ${cliContext.getSv()}, version == ${props.cliContext.getTargetVer()}, languageCode == ${props.cliContext.getLanguageCode()}")
             val request = assembleRequest(
                 cliContext = cliContext,
                 fileName = generateFileName(fileContent),
