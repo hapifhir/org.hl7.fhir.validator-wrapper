@@ -56,10 +56,6 @@ fun Route.validationModule() {
         call.respond(HttpStatusCode.OK, validationController.getAppVersions())
     }
 
-    get(VALIDATION_ENGINES_ENDPOINT) {
-        call.respond(HttpStatusCode.OK, validationController.getValidationEngines())
-    }
-
     get(VALIDATION_PRESETS_ENDPOINT) {
         call.respond(HttpStatusCode.OK, validationController.getValidationPresets())
     }

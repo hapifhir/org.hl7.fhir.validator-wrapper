@@ -9,4 +9,5 @@ data class AppState(
     val uploadedResourceSlice: UploadedResourceSlice.State = UploadedResourceSlice.State(),
     val validationContextSlice: ValidationContextSlice.State = ValidationContextSlice.State(),
     val appScreenSlice: AppScreenSlice.State = AppScreenSlice.State(),
+    val presetsSlice: PresetsSlice.State = PresetsSlice.State()
 )

@@ -12,10 +12,6 @@ suspend fun isTerminologyServerUp(): Boolean {
     return jsonClient.get(urlString = endpoint + TX_SERVER_STATUS_ENDPOINT).body()
 }
 
-suspend fun getValidationEngines(): Set<String> {
-    return jsonClient.get(urlString = endpoint + VALIDATION_ENGINES_ENDPOINT).body()
-}
-
 suspend fun getValidationPresets(): List<Preset> {
     return jsonClient.get(urlString = endpoint + VALIDATION_PRESETS_ENDPOINT).body()
 }

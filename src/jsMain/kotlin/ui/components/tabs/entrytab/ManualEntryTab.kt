@@ -1,7 +1,6 @@
 package ui.components.tabs.entrytab
 
 import Polyglot
-import api.getValidationEngines
 import api.getValidationPresets
 import api.sendValidationRequest
 import model.Preset
@@ -18,7 +17,7 @@ import kotlinx.css.properties.border
 import mainScope
 import model.*
 import react.*
-import react.dom.attrs
+
 
 import styled.*
 import ui.components.options.presetSelect
@@ -47,10 +46,10 @@ external interface ManualEntryTabProps : Props {
     var updateProfileSet: (Set<String>) -> Unit
     var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
     var setSessionId: (String) -> Unit
+    var presets: List<Preset>
 }
 
 class ManualEntryTabState : State {
-    var validationPresets: List<Preset> = emptyList()
     var displayingError: Boolean = false
     var errorMessage: String = ""
 }
@@ -58,12 +57,6 @@ class ManualEntryTabState : State {
 class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
     init {
         state = ManualEntryTabState()
-        mainScope.launch {
-            val loadedValidationPresets = getValidationPresets()
-            setState {
-                validationPresets = loadedValidationPresets
-            }
-        }
     }
 
     override fun RBuilder.render() {
@@ -122,6 +115,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     setSessionId = props.setSessionId
                     language = props.language
                     polyglot = props.polyglot
+                    presets = props.presets
                 }
             }
             if (state.displayingError) {
@@ -149,7 +143,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
 
     private fun validateEnteredText(fileContent: String) {
         console.info("Attempting to validate with: " + props.cliContext.getBaseEngine())
-        val cliContext: CliContext = Preset.getLocalizedCliContextFromPresets(props.cliContext, state.validationPresets) ?: return
+        val cliContext: CliContext = Preset.getLocalizedCliContextFromPresets(props.cliContext, props.presets) ?: return
 
         props.toggleValidationInProgress(true)
             console.info("cliContext :: sv == ${cliContext.getSv()}, version == ${props.cliContext.getTargetVer()}, languageCode == ${props.cliContext.getLanguageCode()}")

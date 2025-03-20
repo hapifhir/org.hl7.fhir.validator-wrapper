@@ -15,7 +15,8 @@ fun combinedReducers() = combineReducersInferred(
         AppState::manualEntrySlice to ManualEntrySlice::reducer,
         AppState::uploadedResourceSlice to UploadedResourceSlice::reducer,
         AppState::validationContextSlice to ValidationContextSlice::reducer,
-        AppState::appScreenSlice to AppScreenSlice::reducer
+        AppState::appScreenSlice to AppScreenSlice::reducer,
+        AppState::presetsSlice to PresetsSlice::reducer
     )
 )
 

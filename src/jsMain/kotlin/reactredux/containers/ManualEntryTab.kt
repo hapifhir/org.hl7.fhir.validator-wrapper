@@ -1,10 +1,7 @@
 package reactredux.containers
 
 import Polyglot
-import model.BundleValidationRule
-import model.CliContext
-import model.PackageInfo
-import model.ValidationOutcome
+import model.*
 import react.ComponentClass
 import react.Props
 import react.invoke
@@ -27,6 +24,7 @@ private interface ManualEntryTabStateProps : Props {
     var language: Language
     var polyglot: Polyglot
     var sessionId: String
+    var presets: List<Preset>
 }
 
 private interface ManualEntryTabDispatchProps : Props {
@@ -51,6 +49,7 @@ val manualEntryTab: ComponentClass<Props> =
             language = state.localizationSlice.selectedLanguage
             polyglot = state.localizationSlice.polyglotInstance
             sessionId = state.validationSessionSlice.sessionId
+            presets = state.presetsSlice.presets
         },
         { dispatch, _ ->
             setValidationOutcome = { dispatch(ManualEntrySlice.AddManualEntryOutcome(it)) }
