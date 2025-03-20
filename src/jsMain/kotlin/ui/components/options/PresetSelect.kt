@@ -115,7 +115,7 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                         )
                                         mainScope.launch {
                                             setState {
-                                                snackbarOpen = selectedPreset.polyglotKey
+                                                snackbarOpen = selectedPreset.localizedLabels.get(props.language.code)
                                             }
                                         }
                                         props.setSessionId("")
@@ -129,7 +129,10 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                         attrs {
                                             value = it.key
                                         }
-                                        +props.polyglot.t(it.polyglotKey)
+                                        console.log(
+                                            it.localizedLabels.toString() + " " +props.language.code
+                                        )
+                                        +(if (it.localizedLabels.containsKey(props.language.code)) it.localizedLabels.get(props.language.code) else "No localized entry for " + it.key )!!
                                         console.log(
                                             it.key + " " + props.cliContext.getBaseEngine() + ":" + it.key.equals(
                                                 props.cliContext.getBaseEngine()

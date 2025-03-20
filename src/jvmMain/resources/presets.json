@@ -1,7 +1,11 @@
 [
   {
     "key": "CUSTOM",
-    "polyglotKey": "preset_custom",
+    "localizedLabels": {
+      "de_DE" : null,
+      "es": null,
+      "en": null
+    },
     "cliContext": {},
     "igPackageInfo": [],
     "extensionSet": [],
@@ -9,7 +13,11 @@
   },
   {
     "key": "DEFAULT",
-    "polyglotKey": "preset_fhir_resource",
+    "localizedLabels": {
+      "de_DE" : "FHIR Resource (R5) (de_DE)",
+      "es": "FHIR Resource (R5) (es)",
+      "en": "FHIR Resource (R5)"
+    },
     "cliContext": {
       "baseEngine": "DEFAULT",
       "sv": "5.0.0"
@@ -20,7 +28,11 @@
   },
   {
     "key": "IPS",
-    "polyglotKey": "preset_ips",
+    "localizedLabels": {
+      "de_DE" : "IPS Document (de_DE)",
+      "es": "IPS Document (es)",
+      "en": "IPS Document"
+    },
     "cliContext": {
       "baseEngine": "IPS",
       "sv": "4.0.1",
@@ -53,7 +65,11 @@
   },
   {
     "key": "IPS_AU",
-    "polyglotKey": "preset_ips_au",
+    "localizedLabels": {
+      "de_DE" : "Australian IPS Document (de_DE)",
+      "es": "Australian IPS Document (es)",
+      "en": "Australian IPS Document"
+    },
     "cliContext": {
       "baseEngine": "IPS_AU",
       "sv": "4.0.1",
@@ -86,7 +102,11 @@
   },
   {
     "key": "CDA",
-    "polyglotKey": "present_cda",
+    "localizedLabels": {
+      "de_DE" : "CDA Document (de_DE)",
+      "es": "CDA Document (es)",
+      "en": "CDA Document"
+    },
     "cliContext": {
       "baseEngine": "CDA",
       "sv": "5.0.0",
@@ -105,7 +125,11 @@
   },
   {
     "key": "US_CCDA",
-    "polyglotKey": "preset_us_ccda",
+    "localizedLabels": {
+      "de_DE" : "US CCDA Document (de_DE)",
+      "es": "US CCDA Document (es)",
+      "en": "US CCDA Document"
+    },
     "cliContext": {
       "baseEngine": "US_CCDA",
       "sv": "5.0.0",
@@ -124,7 +148,11 @@
   },
   {
     "key": "SQL_VIEW",
-    "polyglotKey": "preset_sql_view",
+    "localizedLabels": {
+      "de_DE" : "SQL View Definition (de_DE)",
+      "es": "SQL View Definition (es)",
+      "en": "SQL View Definition"
+    },
     "cliContext": {
       "baseEngine": "SQL_VIEW",
       "sv": "5.0.0",

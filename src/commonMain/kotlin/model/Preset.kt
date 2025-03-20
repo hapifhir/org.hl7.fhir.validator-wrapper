@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Preset (
     val key: String,
-    val polyglotKey: String,
+    val localizedLabels: Map<String, String>,
     @Contextual val cliContext: CliContext,
     val igPackageInfo: Set<PackageInfo>,
     val extensionSet: Set<String>,
