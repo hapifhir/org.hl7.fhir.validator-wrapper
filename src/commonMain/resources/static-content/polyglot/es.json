@@ -90,12 +90,5 @@
     "preset_label" : "Common Validation Options... -Spanish",
     "preset_description" : "Click to automatically set options for common validation tasks-Spanish",
     "preset_notification" : "Set to validate using %{selectedPreset}. Select the Options tab for more settings. -Spanish",
-    "preset_fhir_resource" : "FHIR Resource (R5) -Spanish",
-    "preset_ips" : "IPS Document -Spanish",
-    "preset_ips_au" : "Australian IPS Document -Spanish",
-    "preset_ips_nz" : "New Zealand IPS Document -Spanish",
-    "present_cda" : "CDA Document -Spanish",
-    "preset_us_ccda" : "US CCDA Document -Spanish",
-    "preset_sql_view": "SQL View Definition -Spanish",
     "language": "Lenguaje"
 }
