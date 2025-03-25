@@ -1,5 +1,7 @@
 package controller.validation
 
+import ValidationServiceConfig
+import ValidatorApplicationConfig
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.hl7.fhir.validation.cli.services.SessionCache
@@ -12,17 +14,17 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class ValidationServiceFactoryImpl : ValidationServiceFactory {
-    private var sessionCacheFactory: SessionCacheFactory
+    private val validationServiceConfig: ValidationServiceConfig = ValidatorApplicationConfig.validationServiceConfig
+    private var sessionCacheFactory: SessionCacheFactory = SessionCacheFactoryImpl()
     private var validationService: ValidationService
     private var presets: List<Preset>
 
     init {
-        sessionCacheFactory = SessionCacheFactoryImpl()
         presets = loadPresets();
         validationService = createValidationServiceInstance();
     }
 
-    fun createValidationServiceInstance(): ValidationService {
+    private fun createValidationServiceInstance(): ValidationService {
         val sessionCache: SessionCache = sessionCacheFactory.getSessionCache()
 
         val validationService = ValidationService(sessionCache);
@@ -43,19 +45,16 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
         return validationService
     }
 
-    fun loadPresets(): List<Preset> {
+    private fun loadPresets(): List<Preset> {
         try {
-            val presetFile: String? = System.getenv("VALIDATOR_PRESETS")
             val fileContent: String?
 
-            if (presetFile == null) {
+            if (validationServiceConfig.presetsFilePath.isNullOrEmpty()) {
                 // default to resources/presets.json
                 fileContent = this::class.java.classLoader.getResource("presets.json")?.readText()
-            } else if (presetFile.equals("false", ignoreCase = true)) {
-                return listOf()
             } else {
-                println("Attempting to load presets from $presetFile")
-                fileContent = File(presetFile).readText()
+                println("Attempting to load presets from ${validationServiceConfig.presetsFilePath}")
+                fileContent = File(validationServiceConfig.presetsFilePath).readText()
             }
 
             val presetListType: Type = object : TypeToken<ArrayList<Preset?>?>() {}.type
@@ -72,9 +71,12 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
     }
 
     override fun getValidationService() : ValidationService {
-        val engineReloadThreshold = (System.getenv("ENGINE_RELOAD_THRESHOLD") ?: "250000000").toLong()
-        if (java.lang.Runtime.getRuntime().freeMemory() < engineReloadThreshold) {
-            println("Free memory ${java.lang.Runtime.getRuntime().freeMemory()} is less than ${engineReloadThreshold}. Re-initializing validationService");
+        if (java.lang.Runtime.getRuntime().freeMemory() < validationServiceConfig.engineReloadThreshold) {
+            println(
+                "Free memory ${
+                    java.lang.Runtime.getRuntime().freeMemory()
+                } is less than ${validationServiceConfig.engineReloadThreshold}. Re-initializing validationService"
+            );
             validationService = createValidationServiceInstance();
         }
         return validationService;

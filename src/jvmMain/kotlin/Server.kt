@@ -56,7 +56,8 @@ fun main(args: Array<String>) {
 
 fun startServer(args: Array<String>) {
 
-    val config = ValidatorApplicationConfig.config
+    val ktorConfig = ValidatorApplicationConfig.ktorConfig
+
 
     val preloadCache = System.getenv()["PRELOAD_CACHE"] ?: "false"
 
@@ -65,8 +66,8 @@ fun startServer(args: Array<String>) {
         Thread(PackageCacheDownloaderRunnable()).start();
     }
 
-    engine = embeddedServer(Jetty, host = config.host, port = config.port) {
-        println("Starting instance in ${config.host}:${config.port}")
+    engine = embeddedServer(Jetty, host = ktorConfig.host, port = ktorConfig.port) {
+        println("Starting instance in ${ktorConfig.host}:${ktorConfig.port}")
         module {
             install(Koin) {
                 modules(
