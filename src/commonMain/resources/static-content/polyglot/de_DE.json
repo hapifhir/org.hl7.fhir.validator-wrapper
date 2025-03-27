@@ -90,12 +90,5 @@
   "preset_label" : "Common Validation Options... -German",
   "preset_description" : "Click to automatically set options for common validation tasks-German",
   "preset_notification" : "Set to validate using %{selectedPreset}. Select the Options tab for more settings. -German",
-  "preset_fhir_resource" : "FHIR Resource (R5) -German",
-  "preset_ips" : "IPS Document -German",
-  "preset_ips_au" : "Australian IPS Document -German",
-  "preset_ips_nz" : "New Zealand IPS Document -German",
-  "present_cda" : "CDA Document -German",
-  "preset_us_ccda" : "US CCDA Document -German",
-  "preset_sql_view": "SQL View Definition -German",
   "language" : "Sprache"
 }

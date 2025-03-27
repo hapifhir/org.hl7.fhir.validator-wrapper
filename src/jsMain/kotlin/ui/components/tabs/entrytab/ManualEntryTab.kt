@@ -1,8 +1,9 @@
 package ui.components.tabs.entrytab
 
 import Polyglot
+import api.getValidationPresets
 import api.sendValidationRequest
-import constants.Preset
+import model.Preset
 
 import css.animation.FadeIn.fadeIn
 import css.const.BORDER_GRAY
@@ -16,7 +17,7 @@ import kotlinx.css.properties.border
 import mainScope
 import model.*
 import react.*
-import react.dom.attrs
+
 
 import styled.*
 import ui.components.options.presetSelect
@@ -45,12 +46,12 @@ external interface ManualEntryTabProps : Props {
     var updateProfileSet: (Set<String>) -> Unit
     var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
     var setSessionId: (String) -> Unit
+    var presets: List<Preset>
 }
 
 class ManualEntryTabState : State {
     var displayingError: Boolean = false
     var errorMessage: String = ""
-    var ohShitYouDidIt = false
 }
 
 class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
@@ -66,16 +67,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
             heading {
                 text = props.polyglot.t("manual_entry_title")
             }
-            if (state.ohShitYouDidIt) {
-                styledIframe {
-                    css {
-                        +ManualEntryTabStyle.ken
-                    }
-                    attrs {
-                        src = "https://player.vimeo.com/video/148751763?autoplay=1&loop=1&autopause=0"
-                    }
-                }
-            } else {
+
                 manualEntryTextArea {
                     currentText = props.currentManuallyEnteredText
                     placeholderText = props.polyglot.t("manual_entry_place_holder")
@@ -88,7 +80,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                         }
                     }
                 }
-            }
+
             styledDiv {
                 css {
                     +ManualEntryTabStyle.buttonBar
@@ -123,6 +115,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     setSessionId = props.setSessionId
                     language = props.language
                     polyglot = props.polyglot
+                    presets = props.presets
                 }
             }
             if (state.displayingError) {
@@ -149,23 +142,13 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
     }
 
     private fun validateEnteredText(fileContent: String) {
-        setState {
-            displayingError = false
-            ohShitYouDidIt = false
-        }
-        println("Attempting to validate with: " + props.cliContext.getBaseEngine())
-        val cliContext : CliContext? = if (props.cliContext.getBaseEngine() == null) {
-            println("Custom validation")
-            props.cliContext
-        } else {
-            println("Preset")
-            Preset.getSelectedPreset(props.cliContext.getBaseEngine())?.cliContext
-        }
-        if (cliContext != null) {
-            props.toggleValidationInProgress(true)
-            println("clicontext :: sv == ${cliContext.getSv()}, version == ${props.cliContext.getTargetVer()}, languageCode == ${props.cliContext.getLanguageCode()}")
+        console.info("Attempting to validate with: " + props.cliContext.getBaseEngine())
+        val cliContext: CliContext = Preset.getLocalizedCliContextFromPresets(props.cliContext, props.presets) ?: return
+
+        props.toggleValidationInProgress(true)
+            console.info("cliContext :: sv == ${cliContext.getSv()}, version == ${props.cliContext.getTargetVer()}, languageCode == ${props.cliContext.getLanguageCode()}")
             val request = assembleRequest(
-                cliContext = CliContext(cliContext).setLocale(props.cliContext.getLanguageCode()),
+                cliContext = cliContext,
                 fileName = generateFileName(fileContent),
                 fileContent = fileContent,
                 fileType = null
@@ -176,7 +159,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                         val validationResponse = sendValidationRequest(request)
                         props.setSessionId(validationResponse.getSessionId())
                         val returnedOutcome = validationResponse.getOutcomes().map { it.setValidated(true) }
-                        println("File validated\n"
+                        console.info("File validated\n"
                                 + "filename -> " + returnedOutcome.first().getFileInfo().fileName
                                 + "content -> " + returnedOutcome.first().getFileInfo().fileContent
                                 + "type -> " + returnedOutcome.first().getFileInfo().fileType
@@ -202,23 +185,15 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     println("Exception ${e.message}")
                 } catch (e: Exception) {
                     setState {
-                        if (props.currentManuallyEnteredText.contains("Mark is super dorky")) {
-                            ohShitYouDidIt = true
-                            props.updateCurrentlyEnteredText("Ken is super dorky.")
-                            errorMessage =
-                                "Never gonna give you up, never gonna let you down, never gonna run around..."
-                            displayingError = true
-                        } else {
-                            errorMessage = props.polyglot.t("manual_entry_cannot_parse_exception")
-                            displayingError = true
-                        }
+                        errorMessage = props.polyglot.t("manual_entry_cannot_parse_exception")
+                        displayingError = true
                     }
                     println("Exception ${e.message}")
                 } finally {
                     props.toggleValidationInProgress(false)
                 }
             }
-        }
+
     }
 
     private fun generateFileName(fileContent: String): String {

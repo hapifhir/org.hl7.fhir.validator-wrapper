@@ -1,12 +1,14 @@
 package controller.validation
 
 import model.AppVersions
+import model.Preset
 import model.ValidationResponse
 import org.hl7.fhir.utilities.VersionUtil
 import org.hl7.fhir.validation.cli.model.ValidationRequest
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
+import java.util.stream.Collectors
 
 class ValidationControllerImpl : ValidationController, KoinComponent {
 
@@ -30,7 +32,10 @@ class ValidationControllerImpl : ValidationController, KoinComponent {
         return AppVersions(getValidatorWrapperVersion(), VersionUtil.getVersion())
     }
 
-    override suspend fun getValidationEngines(): Set<String> {
-        return validationServiceFactory.getValidationService().baseEngineKeys;
+    override suspend fun getValidationPresets(): List<Preset> {
+        val loadedPresets = validationServiceFactory.getValidationService().baseEngineKeys
+        return validationServiceFactory.getValidationPresets().stream()
+            .filter({preset -> loadedPresets.contains(preset.key) }).collect(Collectors.toList())
+
     }
 }

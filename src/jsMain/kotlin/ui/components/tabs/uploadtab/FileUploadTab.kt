@@ -1,6 +1,7 @@
 package ui.components.tabs.uploadtab
 
 import Polyglot
+import api.getValidationPresets
 import api.sendValidationRequest
 import css.animation.FadeIn.fadeIn
 import css.const.WHITE
@@ -39,6 +40,7 @@ external interface FileUploadTabProps : Props {
     var updateProfileSet: (Set<String>) -> Unit
     var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
     var setSessionId: (String) -> Unit
+    var presets: List<Preset>
 }
 
 class FileUploadTabState : State {
@@ -114,6 +116,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                     setSessionId = props.setSessionId
                     language = props.language
                     polyglot = props.polyglot
+                    presets = props.presets
                 }
             }
 
@@ -137,9 +140,10 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
     }
 
     private fun validateUploadedFiles() {
+        val cliContext: CliContext = Preset.getLocalizedCliContextFromPresets(props.cliContext, props.presets) ?: return
         val request = assembleRequest(
-            props.cliContext,
-            props.uploadedFiles
+            cliContext = cliContext,
+            files = props.uploadedFiles
                 .filterNot(ValidationOutcome::isValidated)
                 .map(ValidationOutcome::getFileInfo)
                 .onEach {

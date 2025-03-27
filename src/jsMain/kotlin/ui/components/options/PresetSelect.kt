@@ -1,7 +1,6 @@
 package ui.components.options
 
 import Polyglot
-import api.getValidationEngines
 import mui.material.*
 import react.*
 import csstype.px
@@ -18,7 +17,7 @@ import react.ReactNode
 import styled.css
 import styled.styledDiv
 
-import constants.Preset
+import model.Preset
 import utils.Language
 import utils.getJS
 
@@ -33,23 +32,17 @@ external interface PresetSelectProps : Props {
     var setSessionId: (String) -> Unit
     var language: Language
     var polyglot: Polyglot
+    var presets: List<Preset>
 }
 
 class PresetSelectState : State {
     var snackbarOpen : String? = null
-    var validationEngines: Set<String> = emptySet()
 }
 
 class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
 
     init {
         state = PresetSelectState()
-        mainScope.launch {
-            val loadedValidationEngines = getValidationEngines()
-            setState {
-                validationEngines = loadedValidationEngines
-            }
-        }
     }
 
     fun handleSnackBarClose() {
@@ -60,6 +53,9 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
         }
     }
     override fun RBuilder.render() {
+        if (props.presets.isEmpty()) {
+            return
+        }
         styledDiv {
             css {
                 display = Display.inlineFlex
@@ -93,10 +89,8 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                 label = ReactNode("Preset")
                                 value =  props.cliContext.getBaseEngine().unsafeCast<Nothing?>()
                                 onChange = { event, _ ->
-                                    val selectedPreset = Preset.getSelectedPreset(event.target.value)
+                                    val selectedPreset = Preset.getSelectedPreset(event.target.value, props.presets)
                                     if (selectedPreset != null) {
-                                        console.log("updating cli context for preset: " + event.target.value)
-                                        console.log("updating cli context with base engine: " + selectedPreset.cliContext.getBaseEngine())
 
                                         val cliContext = CliContext(selectedPreset.cliContext).setLocale(props.language.getLanguageCode())
                                         props.updateCliContext(cliContext)
@@ -108,28 +102,30 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                         )
                                         mainScope.launch {
                                             setState {
-                                                snackbarOpen = selectedPreset.polyglotKey
+                                                snackbarOpen = selectedPreset.localizedLabels.get(props.language.code)
                                             }
                                         }
                                         props.setSessionId("")
                                     }
                                 }
-
                             }
 
-                            Preset.values().forEach {
-                                if (state.validationEngines.contains(it.key)) {
+                            props.presets.forEach {
+
                                     MenuItem {
                                         attrs {
                                             value = it.key
                                         }
-                                        +props.polyglot.t(it.polyglotKey)
+                                        console.log(
+                                            it.localizedLabels.toString() + " " +props.language.code
+                                        )
+                                        +(if (it.localizedLabels.containsKey(props.language.code)) it.localizedLabels.get(props.language.code) else "No localized entry for " + it.key )!!
                                         console.log(
                                             it.key + " " + props.cliContext.getBaseEngine() + ":" + it.key.equals(
                                                 props.cliContext.getBaseEngine()
                                             )
                                         )
-                                    }
+
                                 }
                             }
                         }

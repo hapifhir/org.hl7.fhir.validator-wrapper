@@ -1,6 +1,6 @@
 package reactredux.slices
 
-import constants.Preset
+import model.Preset
 import model.BundleValidationRule
 import model.CliContext
 import model.PackageInfo
@@ -13,7 +13,7 @@ object ValidationContextSlice {
         val extensionSet: Set<String> = mutableSetOf(),
         val profileSet: Set<String> = mutableSetOf(),
         val bundleValidationRuleSet: Set<BundleValidationRule> = mutableSetOf(),
-        val cliContext: CliContext = CliContext().setBaseEngine(Preset.DEFAULT.key)
+        val cliContext: CliContext = CliContext().setBaseEngine("DEFAULT")
     )
 
     data class UpdateIgPackageInfoSet(val packageInfo: Set<PackageInfo>, val resetBaseEngine: Boolean = true) : RAction

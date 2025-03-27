@@ -1,34 +1,40 @@
+import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
+import io.ktor.server.application.*
 import io.ktor.server.config.*
+import java.io.File
 
-private const val DEFAULT_ENVIRONMENT: String = "dev"
 
 class ValidatorApplicationConfig {
 
     companion object {
-            val config = extractConfig(detectEnvironment(), HoconApplicationConfig(ConfigFactory.load()))
+        val configFilePath = System.getenv("VALIDATOR_CONFIG_FILE_PATH");
+        val configSource = if (configFilePath != null) {
+            ConfigFactory.parseFile(File(configFilePath)).withFallback(ConfigFactory.load())
+        } else {
+            ConfigFactory.load()
+        }
 
-            private fun detectEnvironment(): String {
-                return System.getenv()["ENVIRONMENT"] ?: handleDefaultEnvironment()
-            }
+        val ktorConfig = extractKtorConfig(HoconApplicationConfig(configSource))
+        val validationServiceConfig = extractValidationServiceConfig(configSource)
 
-            /**
-             * Returns default environment.
-             */
-            private fun handleDefaultEnvironment(): String {
-                println("Falling back to default environment 'dev'")
-                return DEFAULT_ENVIRONMENT
-            }
+        private fun extractValidationServiceConfig(config: Config): ValidationServiceConfig {
+            val validationServiceConfig = config.getConfig("validation-service")
+            return ValidationServiceConfig(
+                validationServiceConfig.getString("presets-file-path"),
+                validationServiceConfig.getInt("engine-reload-threshold")
+            )
+        }
 
-        private fun extractConfig(environment: String, hoconConfig: HoconApplicationConfig): Config {
+        private fun extractKtorConfig(hoconConfig: HoconApplicationConfig): KtorConfig {
+            val environment = hoconConfig.property("ktor.environment").getString()
             val hoconEnvironment = hoconConfig.config("ktor.deployment.$environment")
-            return Config(
+            return KtorConfig(
                 hoconEnvironment.property("host").getString(),
                 Integer.parseInt(hoconEnvironment.property("port").getString())
-                )
+            )
         }
-        }
-
+    }
 
 
 }

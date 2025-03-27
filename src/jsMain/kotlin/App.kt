@@ -23,13 +23,15 @@ external interface AppProps : Props {
     var fetchPolyglot:  (String) -> Unit
     var setLanguage: (Language) -> Unit
 
+    var fetchPresets: () -> Unit
+
     var cliContext: CliContext
     var updateCliContext: (CliContext, Boolean) -> Unit
 }
 
 val mainScope = MainScope()
 
-fun languageSetup(props: AppProps) {
+fun initLanguages(props: AppProps) {
     for (item in window.navigator.languages) {
         val prefix = item.substring(0, 2)
         var selectedLanguage = Language.getSelectedLanguage(prefix)
@@ -42,10 +44,15 @@ fun languageSetup(props: AppProps) {
     }
 }
 
+fun initPresets(props: AppProps) {
+   props.fetchPresets()
+}
+
 
 class App(props : AppProps) : RComponent<AppProps, State>() {
     init {
-        languageSetup(props)
+        initLanguages(props)
+        initPresets(props)
     }
     override fun RBuilder.render() {
 

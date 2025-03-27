@@ -3,6 +3,7 @@ package constants
 const val VALIDATION_ENDPOINT = "validate"
 const val VALIDATOR_VERSION_ENDPOINT = "validator/version"
 const val VALIDATION_ENGINES_ENDPOINT = "validator/engines"
+const val VALIDATION_PRESETS_ENDPOINT = "validator/presets"
 
 const val IG_ENDPOINT = "ig"
 const val IG_VERSIONS_ENDPOINT = "igVersions"
