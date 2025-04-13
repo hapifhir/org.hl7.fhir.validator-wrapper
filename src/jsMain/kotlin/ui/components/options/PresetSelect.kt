@@ -6,7 +6,7 @@ import react.*
 import csstype.px
 import kotlinx.coroutines.launch
 import kotlinx.css.*
-import model.CliContext
+import model.ValidationContext
 import mainScope
 import model.BundleValidationRule
 import model.PackageInfo
@@ -23,8 +23,8 @@ import utils.getJS
 
 
 external interface PresetSelectProps : Props {
-    var cliContext: CliContext
-    var updateCliContext: (CliContext) -> Unit
+    var validationContext: ValidationContext
+    var updateValidationContext: (ValidationContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
     var updateProfileSet: (Set<String>) -> Unit
@@ -87,18 +87,18 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
 
                             attrs {
                                 label = ReactNode("Preset")
-                                value =  props.cliContext.getBaseEngine().unsafeCast<Nothing?>()
+                                value =  props.validationContext.getBaseEngine().unsafeCast<Nothing?>()
                                 onChange = { event, _ ->
                                     val selectedPreset = Preset.getSelectedPreset(event.target.value, props.presets)
                                     if (selectedPreset != null) {
 
-                                        val cliContext = CliContext(selectedPreset.cliContext).setLocale(props.language.getLanguageCode())
-                                        props.updateCliContext(cliContext)
+                                        val validationContext = ValidationContext(selectedPreset.validationContext).setLocale(props.language.getLanguageCode())
+                                        props.updateValidationContext(validationContext)
                                         props.updateIgPackageInfoSet(selectedPreset.igPackageInfo)
                                         props.updateExtensionSet(selectedPreset.extensionSet)
                                         props.updateProfileSet(selectedPreset.profileSet)
                                         props.updateBundleValidationRuleSet(
-                                            selectedPreset.cliContext.getBundleValidationRules().toMutableSet()
+                                            selectedPreset.validationContext.getBundleValidationRules().toMutableSet()
                                         )
                                         mainScope.launch {
                                             setState {
@@ -121,8 +121,8 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                         )
                                         +(if (it.localizedLabels.containsKey(props.language.code)) it.localizedLabels.get(props.language.code) else "No localized entry for " + it.key )!!
                                         console.log(
-                                            it.key + " " + props.cliContext.getBaseEngine() + ":" + it.key.equals(
-                                                props.cliContext.getBaseEngine()
+                                            it.key + " " + props.validationContext.getBaseEngine() + ":" + it.key.equals(
+                                                props.validationContext.getBaseEngine()
                                             )
                                         )
 

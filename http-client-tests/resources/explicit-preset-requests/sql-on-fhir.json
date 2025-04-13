@@ -1,5 +1,5 @@
 {
-  "cliContext": {
+  "validationContext": {
     "sv": "5.0.0",
     "igs": [
       "hl7.fhir.uv.sql-on-fhir#current"

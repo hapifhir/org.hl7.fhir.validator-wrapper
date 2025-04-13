@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-actual class CliContext actual constructor() {
+actual class ValidationContext actual constructor() {
 
     private var baseEngine: String? = null
     private var extensions : List<String> = listOf()
@@ -32,33 +32,33 @@ actual class CliContext actual constructor() {
 
     private var locale: String = "en"
 
-    constructor (cliContext : CliContext) : this() {
-        this.igs = cliContext.igs.toList()
-        this.baseEngine = cliContext.baseEngine
-        this.extensions = cliContext.extensions.toList()
-        this.doNative = cliContext.doNative
-        this.hintAboutNonMustSupport = cliContext.hintAboutNonMustSupport
-        this.assumeValidRestReferences = cliContext.assumeValidRestReferences
-        this.noExtensibleBindingMessages = cliContext.noExtensibleBindingMessages
-        this.showTimes = cliContext.showTimes
-        this.allowExampleUrls = cliContext.allowExampleUrls
-        this.txServer = cliContext.txServer
-        this.txLog = cliContext.txLog
-        this.txCache = cliContext.txCache
-        this.snomedCT = cliContext.snomedCT
-        this.targetVer = cliContext.targetVer
-        this.sv = cliContext.sv
-        this.profiles = cliContext.profiles.toList()
-        this.checkIPSCodes = cliContext.checkIPSCodes
-        this.bundleValidationRules = cliContext.bundleValidationRules.toList()
-        this.locale = cliContext.locale
+    constructor (validationContext : ValidationContext) : this() {
+        this.igs = validationContext.igs.toList()
+        this.baseEngine = validationContext.baseEngine
+        this.extensions = validationContext.extensions.toList()
+        this.doNative = validationContext.doNative
+        this.hintAboutNonMustSupport = validationContext.hintAboutNonMustSupport
+        this.assumeValidRestReferences = validationContext.assumeValidRestReferences
+        this.noExtensibleBindingMessages = validationContext.noExtensibleBindingMessages
+        this.showTimes = validationContext.showTimes
+        this.allowExampleUrls = validationContext.allowExampleUrls
+        this.txServer = validationContext.txServer
+        this.txLog = validationContext.txLog
+        this.txCache = validationContext.txCache
+        this.snomedCT = validationContext.snomedCT
+        this.targetVer = validationContext.targetVer
+        this.sv = validationContext.sv
+        this.profiles = validationContext.profiles.toList()
+        this.checkIPSCodes = validationContext.checkIPSCodes
+        this.bundleValidationRules = validationContext.bundleValidationRules.toList()
+        this.locale = validationContext.locale
     }
 
     actual fun getBaseEngine() : String? {
         return baseEngine;
     }
 
-    actual fun setBaseEngine(baseEngine: String?): CliContext {
+    actual fun setBaseEngine(baseEngine: String?): ValidationContext {
         this.baseEngine = baseEngine
         return this
     }
@@ -67,7 +67,7 @@ actual class CliContext actual constructor() {
         return doNative
     }
 
-    actual fun setDoNative(doNative: Boolean): CliContext {
+    actual fun setDoNative(doNative: Boolean): ValidationContext {
         this.doNative = doNative
         return this
     }
@@ -76,7 +76,7 @@ actual class CliContext actual constructor() {
         return hintAboutNonMustSupport
     }
 
-    actual fun setHintAboutNonMustSupport(hintAboutNonMustSupport: Boolean): CliContext {
+    actual fun setHintAboutNonMustSupport(hintAboutNonMustSupport: Boolean): ValidationContext {
         this.hintAboutNonMustSupport = hintAboutNonMustSupport
         return this
     }
@@ -85,7 +85,7 @@ actual class CliContext actual constructor() {
         return assumeValidRestReferences
     }
 
-    actual fun setAssumeValidRestReferences(assumeValidRestReferences: Boolean): CliContext {
+    actual fun setAssumeValidRestReferences(assumeValidRestReferences: Boolean): ValidationContext {
         this.assumeValidRestReferences = assumeValidRestReferences
         return this
     }
@@ -94,7 +94,7 @@ actual class CliContext actual constructor() {
         return noExtensibleBindingMessages
     }
 
-    actual fun setNoExtensibleBindingMessages(noExtensibleBindingMessages: Boolean): CliContext {
+    actual fun setNoExtensibleBindingMessages(noExtensibleBindingMessages: Boolean): ValidationContext {
         this.noExtensibleBindingMessages = noExtensibleBindingMessages
         return this
     }
@@ -119,7 +119,7 @@ actual class CliContext actual constructor() {
         return txServer
     }
 
-    actual fun setTxServer(txServer: String): CliContext {
+    actual fun setTxServer(txServer: String): ValidationContext {
         this.txServer = txServer
         return this
     }
@@ -128,7 +128,7 @@ actual class CliContext actual constructor() {
         return txLog
     }
 
-    actual fun setTxLog(txLog: String): CliContext {
+    actual fun setTxLog(txLog: String): ValidationContext {
         this.txLog = txLog
         return this
     }
@@ -137,7 +137,7 @@ actual class CliContext actual constructor() {
         return txCache
     }
 
-    actual fun setTxCache(txCache: String): CliContext {
+    actual fun setTxCache(txCache: String): ValidationContext {
         this.txCache = txCache
         return this
     }
@@ -146,7 +146,7 @@ actual class CliContext actual constructor() {
         return snomedCT
     }
 
-    actual fun setSnomedCT(snomedCT: String): CliContext {
+    actual fun setSnomedCT(snomedCT: String): ValidationContext {
         this.snomedCT = snomedCT
         return this
     }
@@ -159,12 +159,12 @@ actual class CliContext actual constructor() {
         return sv
     }
 
-    actual fun setSv(sv: String): CliContext {
+    actual fun setSv(sv: String): ValidationContext {
         this.sv = sv
         return this
     }
 
-    actual fun setTargetVer(targetVer: String): CliContext {
+    actual fun setTargetVer(targetVer: String): ValidationContext {
         this.targetVer = targetVer
         return this
     }
@@ -173,17 +173,17 @@ actual class CliContext actual constructor() {
         return igs
     }
 
-    actual fun setIgs(igs: List<String>): CliContext {
+    actual fun setIgs(igs: List<String>): ValidationContext {
         this.igs = igs
         return this
     }
 
-   actual fun addIg(ig: String): CliContext {
+   actual fun addIg(ig: String): ValidationContext {
         this.igs += ig
         return this
     }
 
-    fun removeIg(ig: String): CliContext {
+    fun removeIg(ig: String): ValidationContext {
         if (this.igs.contains(ig)) {
             this.igs = this.igs.filterNot { it == ig }.toList()
         }
@@ -194,24 +194,24 @@ actual class CliContext actual constructor() {
         return profiles
     }
 
-    actual fun setProfiles(profiles: List<String>): CliContext {
+    actual fun setProfiles(profiles: List<String>): ValidationContext {
         this.profiles = profiles
         return this
     }
 
-    fun addProfile(profile: String): CliContext {
+    fun addProfile(profile: String): ValidationContext {
         this.profiles += profile
         return this
     }
 
-    fun removeProfile(profile: String): CliContext {
+    fun removeProfile(profile: String): ValidationContext {
         if (this.profiles.contains(profile)) {
             this.profiles = this.profiles.filterNot { it == profile }.toList()
         }
         return this
     }
 
-    actual fun setLocale(languageString: String): CliContext {
+    actual fun setLocale(languageString: String): ValidationContext {
         this.locale = languageString
         return this
     }
@@ -222,7 +222,7 @@ actual class CliContext actual constructor() {
     }
 
     fun prettyPrint() {
-        println("CliContext :: \n" +
+        println("ValidationContext :: \n" +
                 "doNative = ${doNative}\n" +
                 "hintAboutNonMustSupport = ${hintAboutNonMustSupport}\n" +
                 "assumeValidRestReferences = ${assumeValidRestReferences}\n" +
@@ -239,7 +239,7 @@ actual class CliContext actual constructor() {
         )
     }
 
-    actual fun setExtensions(extensions : List<String>) : CliContext {
+    actual fun setExtensions(extensions : List<String>) : ValidationContext {
         this.extensions = extensions
         return this
     }
@@ -248,7 +248,7 @@ actual class CliContext actual constructor() {
         return this.extensions
     }
 
-    actual fun setCheckIPSCodes(checkIPSCodes: Boolean): CliContext {
+    actual fun setCheckIPSCodes(checkIPSCodes: Boolean): ValidationContext {
         this.checkIPSCodes = checkIPSCodes;
         return this;
     }
@@ -261,7 +261,7 @@ actual class CliContext actual constructor() {
         return bundleValidationRules
     }
 
-    actual fun setBundleValidationRules(bundleValidationRules: List<BundleValidationRule>): CliContext {
+    actual fun setBundleValidationRules(bundleValidationRules: List<BundleValidationRule>): ValidationContext {
         this.bundleValidationRules = bundleValidationRules
         return this
     }

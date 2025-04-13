@@ -12,7 +12,7 @@ import ui.components.header.HeaderStyle
 import ui.components.main.sectionTitle
 import ui.components.tabs.tabLayout
 import kotlinx.browser.window
-import model.CliContext
+import model.ValidationContext
 import utils.Language
 
 
@@ -25,8 +25,8 @@ external interface AppProps : Props {
 
     var fetchPresets: () -> Unit
 
-    var cliContext: CliContext
-    var updateCliContext: (CliContext, Boolean) -> Unit
+    var validationContext: ValidationContext
+    var updateValidationContext: (ValidationContext, Boolean) -> Unit
 }
 
 val mainScope = MainScope()
@@ -38,7 +38,7 @@ fun initLanguages(props: AppProps) {
         if (selectedLanguage != null) {
             props.setLanguage(selectedLanguage)
             props.fetchPolyglot(selectedLanguage.getLanguageCode());
-            props.updateCliContext(props.cliContext.setLocale(selectedLanguage.getLanguageCode()), false)
+            props.updateValidationContext(props.validationContext.setLocale(selectedLanguage.getLanguageCode()), false)
             break
         }
     }

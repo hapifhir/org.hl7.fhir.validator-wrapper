@@ -24,7 +24,7 @@ import ui.components.header.SiteStatus.SiteState
 import ui.components.header.SiteStatus.siteStatus
 import ui.components.header.LanguageOption.languageSelect
 import utils.Language
-import model.CliContext
+import model.ValidationContext
 
 external interface HeaderProps : Props {
     var appScreen: AppScreen
@@ -36,8 +36,8 @@ external interface HeaderProps : Props {
     var setPolyglot: (Polyglot) -> Unit
     var setLanguage: (Language) -> Unit
 
-    var cliContext: CliContext
-    var updateCliContext: (CliContext, Boolean) -> Unit
+    var validationContext: ValidationContext
+    var updateValidationContext: (ValidationContext, Boolean) -> Unit
 }
 
 class HeaderState : State {
@@ -109,8 +109,8 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                         selectedLanguage = props.selectedLanguage
                         setLanguage = props.setLanguage
                         fetchPolyglot = props.fetchPolyglot
-                        cliContext = props.cliContext
-                        updateCliContext = props.updateCliContext
+                        validationContext = props.validationContext
+                        updateValidationContext = props.updateValidationContext
                     }
                 }
                 styledDiv {

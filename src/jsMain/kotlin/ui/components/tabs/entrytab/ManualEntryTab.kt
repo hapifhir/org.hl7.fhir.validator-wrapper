@@ -1,7 +1,6 @@
 package ui.components.tabs.entrytab
 
 import Polyglot
-import api.getValidationPresets
 import api.sendValidationRequest
 import model.Preset
 
@@ -30,7 +29,7 @@ import utils.*
 private const val VALIDATION_TIME_LIMIT =  120000L
 
 external interface ManualEntryTabProps : Props {
-    var cliContext: CliContext
+    var validationContext: ValidationContext
     var validationOutcome: ValidationOutcome?
     var currentManuallyEnteredText: String
     var validatingManualEntryInProgress: Boolean
@@ -40,7 +39,7 @@ external interface ManualEntryTabProps : Props {
     var setValidationOutcome: (ValidationOutcome) -> Unit
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
-    var updateCliContext: (CliContext) -> Unit
+    var updateValidationContext: (ValidationContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
     var updateProfileSet: (Set<String>) -> Unit
@@ -106,8 +105,8 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                     }
                 }
                 presetSelect{
-                    cliContext = props.cliContext
-                    updateCliContext = props.updateCliContext
+                    validationContext = props.validationContext
+                    updateValidationContext = props.updateValidationContext
                     updateIgPackageInfoSet = props.updateIgPackageInfoSet
                     updateExtensionSet = props.updateExtensionSet
                     updateProfileSet = props.updateProfileSet
@@ -142,13 +141,13 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
     }
 
     private fun validateEnteredText(fileContent: String) {
-        console.info("Attempting to validate with: " + props.cliContext.getBaseEngine())
-        val cliContext: CliContext = Preset.getLocalizedCliContextFromPresets(props.cliContext, props.presets) ?: return
+        console.info("Attempting to validate with: " + props.validationContext.getBaseEngine())
+        val validationContext: ValidationContext = Preset.getLocalizedValidationContextFromPresets(props.validationContext, props.presets) ?: return
 
         props.toggleValidationInProgress(true)
-            console.info("cliContext :: sv == ${cliContext.getSv()}, version == ${props.cliContext.getTargetVer()}, languageCode == ${props.cliContext.getLanguageCode()}")
+            console.info("validationContext :: sv == ${validationContext.getSv()}, version == ${props.validationContext.getTargetVer()}, languageCode == ${props.validationContext.getLanguageCode()}")
             val request = assembleRequest(
-                cliContext = cliContext,
+                validationContext = validationContext,
                 fileName = generateFileName(fileContent),
                 fileContent = fileContent,
                 fileType = null

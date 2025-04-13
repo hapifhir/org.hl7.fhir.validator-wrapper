@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class Preset (
     val key: String,
     val localizedLabels: Map<String, String>,
-    @Contextual val cliContext: CliContext,
+    @Contextual val validationContext: ValidationContext,
     val igPackageInfo: Set<PackageInfo>,
     val extensionSet: Set<String>,
     val profileSet: Set<String>
@@ -22,17 +22,17 @@ data class Preset (
             return null
         }
 
-        fun getLocalizedCliContextFromPresets(cliContext: CliContext, presets: List<Preset>): CliContext? {
-            if (presets.isEmpty() || cliContext.getBaseEngine() == null) {
-                return cliContext
+        fun getLocalizedValidationContextFromPresets(validationContext: ValidationContext, presets: List<Preset>): ValidationContext? {
+            if (presets.isEmpty() || validationContext.getBaseEngine() == null) {
+                return validationContext
             }
-            val presetCliContext = getSelectedPreset(cliContext.getBaseEngine(), presets)?.cliContext
-            if (presetCliContext != null) {
-                return CliContext()
-                    .setLocale(cliContext.getLanguageCode())
-                    .setBaseEngine(cliContext.getBaseEngine())
+            val presetValidationContext = getSelectedPreset(validationContext.getBaseEngine(), presets)?.validationContext
+            if (presetValidationContext != null) {
+                return ValidationContext()
+                    .setLocale(validationContext.getLanguageCode())
+                    .setBaseEngine(validationContext.getBaseEngine())
             }
-            return presetCliContext
+            return presetValidationContext
         }
     }
 }

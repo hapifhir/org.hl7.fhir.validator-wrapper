@@ -17,7 +17,7 @@ import ui.components.tabs.entrytab.ManualEntryTabProps
 import utils.Language
 
 private interface ManualEntryTabStateProps : Props {
-    var cliContext: CliContext
+    var validationContext: ValidationContext
     var validationOutcome: ValidationOutcome?
     var currentManuallyEnteredText: String
     var validatingManualEntryInProgress: Boolean
@@ -31,7 +31,7 @@ private interface ManualEntryTabDispatchProps : Props {
     var setValidationOutcome: (ValidationOutcome) -> Unit
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
-    var updateCliContext: (CliContext) -> Unit
+    var updateValidationContext: (ValidationContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
     var updateProfileSet: (Set<String>)-> Unit
@@ -42,7 +42,7 @@ private interface ManualEntryTabDispatchProps : Props {
 val manualEntryTab: ComponentClass<Props> =
     rConnect<AppState, RAction, WrapperAction, Props, ManualEntryTabStateProps, ManualEntryTabDispatchProps, ManualEntryTabProps>(
         { state, _ ->
-            cliContext = state.validationContextSlice.cliContext
+            validationContext = state.validationContextSlice.validationContext
             validationOutcome = state.manualEntrySlice.validationOutcome
             currentManuallyEnteredText = state.manualEntrySlice.currentManuallyEnteredText
             validatingManualEntryInProgress = state.manualEntrySlice.validatingManualEntryInProgress
@@ -55,7 +55,7 @@ val manualEntryTab: ComponentClass<Props> =
             setValidationOutcome = { dispatch(ManualEntrySlice.AddManualEntryOutcome(it)) }
             toggleValidationInProgress = { dispatch(ManualEntrySlice.ToggleValidationInProgress(it)) }
             updateCurrentlyEnteredText = { dispatch(ManualEntrySlice.UpdateCurrentlyEnteredText(it)) }
-            updateCliContext = {  dispatch(ValidationContextSlice.UpdateCliContext(it, false)) }
+            updateValidationContext = {  dispatch(ValidationContextSlice.UpdateValidationContext(it, false)) }
             updateIgPackageInfoSet = {
                 dispatch(ValidationContextSlice.UpdateIgPackageInfoSet(it, false))
             }

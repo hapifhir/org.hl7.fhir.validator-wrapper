@@ -12,7 +12,7 @@ import kotlinx.html.InputType
 import kotlinx.html.id
 import utils.getJS
 
-import model.CliContext
+import model.ValidationContext
 import org.w3c.dom.HTMLInputElement
 import react.dom.attrs
 import react.dom.defaultValue
@@ -22,8 +22,8 @@ import ui.components.options.menu.TextFieldEntryStyle
 external interface AddProfileProps : Props {
     var profileSet : MutableSet<String>
     var onUpdateProfileSet : (String, Boolean) -> Unit
-    var updateCliContext : (CliContext) -> Unit
-    var cliContext : CliContext
+    var updateValidationContext : (ValidationContext) -> Unit
+    var validationContext : ValidationContext
     var polyglot: Polyglot
 }
 

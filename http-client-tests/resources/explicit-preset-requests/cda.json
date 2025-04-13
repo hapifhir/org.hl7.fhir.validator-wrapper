@@ -1,5 +1,5 @@
 {
-  "cliContext": {
+  "validationContext": {
     "sv": "5.0.0",
     "igs": [
       "hl7.cda.uv.core#2.0.0-sd-snapshot1"

@@ -1,8 +1,8 @@
 package model
 
 expect class ValidationRequest() {
-    fun getCliContext(): CliContext
-    fun setCliContext(cliContext: CliContext): ValidationRequest
+    fun getValidationContext(): ValidationContext
+    fun setValidationContext(validationContext: ValidationContext): ValidationRequest
     fun getFilesToValidate(): List<FileInfo>
     fun setFilesToValidate(filesToValidate: List<FileInfo>): ValidationRequest
     fun getSessionId(): String

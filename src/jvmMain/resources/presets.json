@@ -6,7 +6,7 @@
       "es": null,
       "en": null
     },
-    "cliContext": {},
+    "validationContext": {},
     "igPackageInfo": [],
     "extensionSet": [],
     "profileSet": []
@@ -18,7 +18,7 @@
       "es": "FHIR Resource (R5) (es)",
       "en": "FHIR Resource (R5)"
     },
-    "cliContext": {
+    "validationContext": {
       "baseEngine": "DEFAULT",
       "sv": "5.0.0"
     },
@@ -33,7 +33,7 @@
       "es": "IPS Document (es)",
       "en": "IPS Document"
     },
-    "cliContext": {
+    "validationContext": {
       "baseEngine": "IPS",
       "sv": "4.0.1",
       "igs": [
@@ -70,7 +70,7 @@
       "es": "Australian IPS Document (es)",
       "en": "Australian IPS Document"
     },
-    "cliContext": {
+    "validationContext": {
       "baseEngine": "IPS_AU",
       "sv": "4.0.1",
       "igs": [
@@ -107,7 +107,7 @@
       "es": "CDA Document (es)",
       "en": "CDA Document"
     },
-    "cliContext": {
+    "validationContext": {
       "baseEngine": "CDA",
       "sv": "5.0.0",
       "igs": [
@@ -130,7 +130,7 @@
       "es": "US CCDA Document (es)",
       "en": "US CCDA Document"
     },
-    "cliContext": {
+    "validationContext": {
       "baseEngine": "US_CCDA",
       "sv": "5.0.0",
       "igs": [
@@ -153,7 +153,7 @@
       "es": "SQL View Definition (es)",
       "en": "SQL View Definition"
     },
-    "cliContext": {
+    "validationContext": {
       "baseEngine": "SQL_VIEW",
       "sv": "5.0.0",
       "igs": [

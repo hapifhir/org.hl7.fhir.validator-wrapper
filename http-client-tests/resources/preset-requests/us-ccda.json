@@ -1,5 +1,5 @@
 {
-  "cliContext": {
+  "validationContext": {
     "baseEngine": "US_CCDA",
     "locale": "en"
   },

@@ -4,7 +4,7 @@ import Polyglot
 import mui.material.*
 import react.*
 import csstype.px
-import model.CliContext
+import model.ValidationContext
 import mui.system.sx
 import react.Props
 import react.ReactNode
@@ -16,8 +16,8 @@ external interface LanguageSelectProps : Props {
     var fetchPolyglot: (String) -> Unit
     var selectedLanguage : Language
     var setLanguage: (Language) -> Unit
-    var cliContext: CliContext
-    var updateCliContext: (CliContext, Boolean) -> Unit
+    var validationContext: ValidationContext
+    var updateValidationContext: (ValidationContext, Boolean) -> Unit
 
 }
 
@@ -49,7 +49,7 @@ class LanguageSelect(props : LanguageSelectProps) : RComponent<LanguageSelectPro
                             if (selectedLanguage != null) {
                                 props.setLanguage(selectedLanguage)
                                 props.fetchPolyglot(selectedLanguage.getLanguageCode());
-                                props.updateCliContext(props.cliContext.setLocale(selectedLanguage.getLanguageCode()), false)
+                                props.updateValidationContext(props.validationContext.setLocale(selectedLanguage.getLanguageCode()), false)
                             }
                         }
                     }
