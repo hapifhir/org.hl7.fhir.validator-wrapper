@@ -4,7 +4,7 @@ import model.AppVersions
 import model.Preset
 import model.ValidationResponse
 import org.hl7.fhir.utilities.VersionUtil
-import org.hl7.fhir.validation.cli.model.ValidationRequest
+import org.hl7.fhir.validation.service.model.ValidationRequest
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*

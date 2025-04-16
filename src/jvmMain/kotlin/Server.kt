@@ -4,7 +4,7 @@ import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.jetty.*
 import org.hl7.fhir.validation.cli.ValidatorCli
-import org.hl7.fhir.validation.cli.utils.Params
+import org.hl7.fhir.validation.cli.param.Params
 import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
 import utils.PackageCacheDownloaderRunnable
@@ -46,7 +46,7 @@ var runningAsDesktopStandalone: Boolean = false
 fun main(args: Array<String>) {
     when {
         runningAsCli(args) -> {
-            org.hl7.fhir.validation.cli.ValidatorCli.main(args)
+            ValidatorCli.main(args)
         } else -> {
             runningAsDesktopStandalone = runningAsDesktopApp(args)
             startServer(args)

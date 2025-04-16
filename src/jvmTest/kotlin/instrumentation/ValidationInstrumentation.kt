@@ -2,7 +2,7 @@ package instrumentation
 
 import constants.FhirFormat
 import model.*
-import org.hl7.fhir.validation.cli.model.ValidationRequest
+import org.hl7.fhir.validation.service.model.ValidationRequest
 import kotlin.test.assertEquals
 
 object ValidationInstrumentation {

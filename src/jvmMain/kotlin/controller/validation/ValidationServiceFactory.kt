@@ -1,7 +1,7 @@
 package controller.validation
 
 import model.Preset
-import org.hl7.fhir.validation.cli.services.ValidationService
+import org.hl7.fhir.validation.service.ValidationService
 
 interface ValidationServiceFactory {
 

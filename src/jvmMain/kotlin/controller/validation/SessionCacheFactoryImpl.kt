@@ -1,7 +1,7 @@
 package controller.validation
 
-import org.hl7.fhir.validation.cli.services.PassiveExpiringSessionCache
-import org.hl7.fhir.validation.cli.services.SessionCache
+import org.hl7.fhir.validation.service.PassiveExpiringSessionCache
+import org.hl7.fhir.validation.service.SessionCache
 import java.util.concurrent.TimeUnit
 
 private const val SESSION_CACHE_DURATION_ENV_KEY = "SESSION_CACHE_DURATION"
@@ -40,7 +40,10 @@ class SessionCacheFactoryImpl : SessionCacheFactory {
             System.getenv(SESSION_CACHE_IMPLEMENTATION_ENV_KEY) ?: SESSION_DEFAULT_CACHE_IMPLEMENTATION;
         val sessionCache: SessionCache =
             if (sessionCacheImplementation == PASSIVE_EXPIRING_SESSION_CACHE_IMPLEMENTATION) {
-                PassiveExpiringSessionCache(sessionCacheDuration, TimeUnit.MINUTES).setResetExpirationAfterFetch(true);
+                PassiveExpiringSessionCache(
+                    sessionCacheDuration,
+                    TimeUnit.MINUTES
+                ).setResetExpirationAfterFetch(true);
             } else {
                 GuavaSessionCacheAdapter(sessionCacheSize, sessionCacheDuration)
             }
