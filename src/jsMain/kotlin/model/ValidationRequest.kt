@@ -23,6 +23,11 @@ actual class ValidationRequest actual constructor() {
         return this
     }
 
+    actual fun setCliContext(validationContext: ValidationContext): ValidationRequest {
+        this.validationContext = validationContext
+        return this
+    }
+
     actual fun getFilesToValidate(): List<FileInfo> {
         return filesToValidate
     }
