@@ -27,9 +27,9 @@ steps:
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx8192m'
     jdkArchitectureOption: 'x64'
-    tasks: 'build --debug'
+    tasks: 'build'
     publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
-    jdkVersionOption: 1.11
+    jdkVersionOption: 1.17
   displayName: 'gradle build'
