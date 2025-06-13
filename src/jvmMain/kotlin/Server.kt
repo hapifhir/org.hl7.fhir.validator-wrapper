@@ -3,8 +3,6 @@ import controller.ControllersInjection
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.jetty.*
-import org.hl7.fhir.validation.cli.ValidatorCli
-import org.hl7.fhir.validation.cli.param.Params
 import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
 import utils.PackageCacheDownloaderRunnable
@@ -34,30 +32,18 @@ var runningAsDesktopStandalone: Boolean = false
  * wrapped website should mimic all the same functionality of the full KotlinJS website as described in the first
  * option. Once the Chromium browser window is closed, the local Ktor server is stopped.
  *
- * **3. As the traditional validator clr:**
- *
- * Users can still execute this jar as done previously, from the command line and access all validator cli
- * functionality as detailed here: `https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator`
- *
  * **N.B.**
  * If you attempt to run this as both a full-stack server, and a locally hosted application, the full-stack server
  * takes priority, and the desktop version will not be booted.
  */
 fun main(args: Array<String>) {
-    when {
-        runningAsCli(args) -> {
-            ValidatorCli.main(args)
-        } else -> {
-            runningAsDesktopStandalone = runningAsDesktopApp(args)
-            startServer(args)
-        }
-    }
+    runningAsDesktopStandalone = runningAsDesktopApp(args)
+    startServer(args)
 }
 
 fun startServer(args: Array<String>) {
 
     val ktorConfig = ValidatorApplicationConfig.ktorConfig
-
 
     val preloadCache = System.getenv()["PRELOAD_CACHE"] ?: "false"
 
@@ -90,12 +76,10 @@ fun stopServer() {
     engine.stop(0, 5, TimeUnit.SECONDS)
 }
 
-private fun runningAsCli(args: Array<String>): Boolean {
-    return args.isNotEmpty() && !Params.hasParam(args, LOCAL_APP_FLAG) && !Params.hasParam(args, FULL_STACK_FLAG)
-}
+
 
 private fun runningAsDesktopApp(args: Array<String>): Boolean {
-    return args.isNotEmpty() && Params.hasParam(args, LOCAL_APP_FLAG) && !Params.hasParam(args, FULL_STACK_FLAG)
+    return args.isNotEmpty() && args.contains(LOCAL_APP_FLAG) && !args.contains(FULL_STACK_FLAG)
 }
 
 
