@@ -71,6 +71,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation("org.junit.jupiter:junit-jupiter:${property("junitVersion")}")
+                implementation("org.junit.jupiter:junit-jupiter-engine:${property("junitVersion")}")
+                implementation("org.junit.jupiter:junit-jupiter-api:${property("junitVersion")}")
+                implementation("org.junit.jupiter:junit-jupiter-params:${property("junitVersion")}")
+
+
                 implementation(kotlin("stdlib-common"))
                 implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
                 implementation("com.fasterxml.jackson.core:jackson-databind:${property("jacksonVersion")}")
@@ -150,11 +156,6 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
-                implementation("org.junit.jupiter:junit-jupiter:${property("junitVersion")}")
-                implementation("org.junit.jupiter:junit-jupiter-engine:${property("junitVersion")}")
-                implementation("org.junit.jupiter:junit-jupiter-api:${property("junitVersion")}")
-                implementation("org.junit.jupiter:junit-jupiter-params:${property("junitVersion")}")
-
                 implementation("io.ktor:ktor-server-tests:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-server-test-host:${property("ktorVersion")}")
                 implementation("io.mockk:mockk:${property("mockk_version")}")
@@ -165,6 +166,7 @@ kotlin {
         }
         val jsMain by getting {
             dependencies {
+
                 implementation("io.ktor:ktor-client-core:${property("ktorVersion")}")
 
                 implementation("io.ktor:ktor-client-js:${property("ktorVersion")}") //include http&websockets
