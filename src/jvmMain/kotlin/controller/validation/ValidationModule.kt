@@ -2,7 +2,6 @@ package controller.validation
 
 import constants.VALIDATION_ENDPOINT
 import constants.VALIDATOR_VERSION_ENDPOINT
-import constants.VALIDATION_ENGINES_ENDPOINT
 import constants.VALIDATION_PRESETS_ENDPOINT
 
 import io.ktor.http.*
@@ -26,7 +25,7 @@ fun Route.validationModule() {
     post(VALIDATION_ENDPOINT) {
         val logger = call.application.environment.log
         val request = call.receive<ValidationRequest>()
-        logger.info("Received Validation Request. FHIR Version: ${request.cliContext.sv} IGs: ${request.cliContext.igs} Memory (free/max): ${java.lang.Runtime.getRuntime().freeMemory()}/${java.lang.Runtime.getRuntime().maxMemory()}")
+        logger.info("Received Validation Request. FHIR Version: ${request.validationContext.sv} IGs: ${request.validationContext.igs} Memory (free/max): ${java.lang.Runtime.getRuntime().freeMemory()}/${java.lang.Runtime.getRuntime().maxMemory()}")
         logger.debug(DEBUG_NUMBER_FILES.format(request.filesToValidate.size))
         request.filesToValidate.forEachIndexed { index, file ->
             logger.debug("file [$index] ->\n${file.asString()}")

@@ -28,8 +28,8 @@ fun Application.module() {
     val started: (Application) -> Unit = {
         log.info("Application started: $it")
         if (runningAsDesktopStandalone) {
-            launchLocalApp()
-        }
+        launchLocalApp()
+    }
     }
     val stopping: (Application) -> Unit = { log.info("Application stopping: $it") }
     var stopped: (Application) -> Unit = {}

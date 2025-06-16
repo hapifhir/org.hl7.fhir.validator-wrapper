@@ -2,7 +2,7 @@ package model
 
 import constants.FhirFormat
 
-actual typealias FileInfo = org.hl7.fhir.validation.cli.model.FileInfo
+actual typealias FileInfo = org.hl7.fhir.validation.service.model.FileInfo
 
 fun FileInfo.asString(): String {
     return "\nFileName -> ${this.fileName}" +

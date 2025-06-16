@@ -4,7 +4,7 @@ import App
 import AppProps
 import Polyglot
 import model.AppScreen
-import model.CliContext
+import model.ValidationContext
 import model.Preset
 import react.*
 import react.redux.rConnect
@@ -21,14 +21,14 @@ private interface AppStateProps : Props {
     var polyglot: Polyglot
     var presets: List<Preset>
     var selectedLanguage: Language
-    var cliContext: CliContext
+    var validationContext: ValidationContext
 }
 
 private interface AppDispatchProps : Props {
     var fetchPolyglot: (String) -> Unit
     var fetchPresets: () -> Unit
     var setLanguage: (Language) -> Unit
-    var updateCliContext: (CliContext, Boolean) -> Unit
+    var updateValidationContext: (ValidationContext, Boolean) -> Unit
 }
 
 val app: ComponentClass<Props> =
@@ -37,12 +37,12 @@ val app: ComponentClass<Props> =
             appScreen = state.appScreenSlice.appScreen
             polyglot = state.localizationSlice.polyglotInstance
             presets = state.presetsSlice.presets
-            cliContext = state.validationContextSlice.cliContext
+            validationContext = state.validationContextSlice.validationContext
         },
         { dispatch, _ ->
             fetchPolyglot = { dispatch(LocalizationSlice.fetchPolyglot(it)) }
             fetchPresets = { dispatch(PresetsSlice.fetchPresets()) }
             setLanguage = { dispatch(LocalizationSlice.SetLanguage(it)) }
-            updateCliContext = { cliContext: CliContext, resetBaseEngine: Boolean -> dispatch(ValidationContextSlice.UpdateCliContext(cliContext, resetBaseEngine)) }
+            updateValidationContext = { validationContext: ValidationContext, resetBaseEngine: Boolean -> dispatch(ValidationContextSlice.UpdateValidationContext(validationContext, resetBaseEngine)) }
         }
     )(App::class.js.unsafeCast<ComponentClass<AppProps>>())

@@ -4,8 +4,8 @@ import ValidationServiceConfig
 import ValidatorApplicationConfig
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.hl7.fhir.validation.cli.services.SessionCache
-import org.hl7.fhir.validation.cli.services.ValidationService
+import org.hl7.fhir.validation.service.SessionCache
+import org.hl7.fhir.validation.service.ValidationService
 import java.io.File
 import java.lang.reflect.Type
 import kotlin.concurrent.thread
@@ -27,13 +27,14 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
     private fun createValidationServiceInstance(): ValidationService {
         val sessionCache: SessionCache = sessionCacheFactory.getSessionCache()
 
-        val validationService = ValidationService(sessionCache);
+        val validationService =
+            ValidationService(sessionCache);
         thread {
         presets.forEach {
             if (it.key != "CUSTOM") {
                 println("Loading preset: " + it.key)
                 try {
-                    validationService.putBaseEngine(it.key, it.cliContext)
+                    validationService.putBaseEngine(it.key, it.validationContext)
                 } catch (e: Exception) {
                     println("Error loading preset: " + it.key)
                     e.printStackTrace()

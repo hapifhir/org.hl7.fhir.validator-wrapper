@@ -1,7 +1,6 @@
 package ui.components.tabs.uploadtab
 
 import Polyglot
-import api.getValidationPresets
 import api.sendValidationRequest
 import css.animation.FadeIn.fadeIn
 import css.const.WHITE
@@ -24,7 +23,7 @@ import utils.assembleRequest
 
 external interface FileUploadTabProps : Props {
     var uploadedFiles: List<ValidationOutcome>
-    var cliContext: CliContext
+    var validationContext: ValidationContext
     var sessionId: String
     var language: Language
     var polyglot: Polyglot
@@ -34,7 +33,7 @@ external interface FileUploadTabProps : Props {
     var toggleValidationInProgress: (Boolean, FileInfo) -> Unit
     var addValidationOutcome: (ValidationOutcome) -> Unit
 
-    var updateCliContext: (CliContext) -> Unit
+    var updateValidationContext: (ValidationContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
     var updateProfileSet: (Set<String>) -> Unit
@@ -107,8 +106,8 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                 }
 
                 presetSelect{
-                    cliContext = props.cliContext
-                    updateCliContext = props.updateCliContext
+                    validationContext = props.validationContext
+                    updateValidationContext = props.updateValidationContext
                     updateIgPackageInfoSet = props.updateIgPackageInfoSet
                     updateExtensionSet = props.updateExtensionSet
                     updateProfileSet = props.updateProfileSet
@@ -140,9 +139,9 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
     }
 
     private fun validateUploadedFiles() {
-        val cliContext: CliContext = Preset.getLocalizedCliContextFromPresets(props.cliContext, props.presets) ?: return
+        val validationContext: ValidationContext = Preset.getLocalizedValidationContextFromPresets(props.validationContext, props.presets) ?: return
         val request = assembleRequest(
-            cliContext = cliContext,
+            validationContext = validationContext,
             files = props.uploadedFiles
                 .filterNot(ValidationOutcome::isValidated)
                 .map(ValidationOutcome::getFileInfo)

@@ -15,7 +15,7 @@ import kotlinx.html.id
 import model.BundleValidationRule
 import utils.getJS
 
-import model.CliContext
+import model.ValidationContext
 
 import mui.icons.material.InfoOutlined
 import mui.material.Tooltip
@@ -30,8 +30,8 @@ import styled.*
 external interface AddBundleValidationRuleProps : Props {
     var bundleValidationRuleSet : MutableSet<BundleValidationRule>
     var onUpdateBundleValidationRuleSet : (BundleValidationRule, Boolean) -> Unit
-    var updateCliContext : (CliContext) -> Unit
-    var cliContext : CliContext
+    var updateValidationContext : (ValidationContext) -> Unit
+    var validationContext : ValidationContext
     var polyglot: Polyglot
 }
 

@@ -14,7 +14,7 @@ import utils.getJS
 
 import constants.ANY_EXTENSION
 
-import model.CliContext
+import model.ValidationContext
 import org.w3c.dom.HTMLInputElement
 import react.dom.attrs
 import react.dom.defaultValue
@@ -25,8 +25,8 @@ import ui.components.options.menu.checkboxWithDetails
 external interface AddExtensionProps : Props {
     var extensionSet : MutableSet<String>
     var onUpdateExtensionSet : (String, Boolean) -> Unit
-    var updateCliContext : (CliContext) -> Unit
-    var cliContext : CliContext
+    var updateValidationContext : (ValidationContext) -> Unit
+    var validationContext : ValidationContext
     var onUpdateAnyExtension : (Boolean) -> Unit
     var polyglot: Polyglot
 }

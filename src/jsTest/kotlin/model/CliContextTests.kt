@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class CliContextTests {
+class ValidationContextTests {
 
 //    val testIg1 = "testIg1"
 //    val testIg2 = "testIg2"
@@ -12,24 +12,24 @@ class CliContextTests {
 //
 //    @Test
 //    fun addIgTest() {
-//        val cliContext = CliContext()
-//        assertTrue(cliContext.getIgs().isEmpty())
-//        cliContext.addIg(testIg1)
-//        assertTrue(cliContext.getIgs().contains(testIg1))
-//        cliContext.addIg(testIg2)
-//        assertTrue(cliContext.getIgs().contains(testIg1))
-//        assertTrue(cliContext.getIgs().contains(testIg2))
+//        val validationContext = ValidationContext()
+//        assertTrue(validationContext.getIgs().isEmpty())
+//        validationContext.addIg(testIg1)
+//        assertTrue(validationContext.getIgs().contains(testIg1))
+//        validationContext.addIg(testIg2)
+//        assertTrue(validationContext.getIgs().contains(testIg1))
+//        assertTrue(validationContext.getIgs().contains(testIg2))
 //    }
 //
 //    @Test
 //    fun removeIgTest() {
-//        val cliContext = CliContext()
-//        assertTrue(cliContext.getIgs().isEmpty())
-//        cliContext.addIg(testIg1)
-//        cliContext.addIg(testIg2)
-//        cliContext.removeIg(testIg1)
-//        assertFalse(cliContext.getIgs().contains(testIg1))
-//        assertTrue(cliContext.getIgs().contains(testIg2))
+//        val validationContext = ValidationContext()
+//        assertTrue(validationContext.getIgs().isEmpty())
+//        validationContext.addIg(testIg1)
+//        validationContext.addIg(testIg2)
+//        validationContext.removeIg(testIg1)
+//        assertFalse(validationContext.getIgs().contains(testIg1))
+//        assertTrue(validationContext.getIgs().contains(testIg2))
 //    }
 
 }

@@ -78,19 +78,21 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${property("kotlinxSerializationVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:${property("kotlinxSerializationVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
+
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
                 // https://mvnrepository.com/artifact/org.fhir/ucum
                 implementation("org.fhir:ucum:1.0.9")
 
             }
+
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
-                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
 
+                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
             }
         }
         val jvmMain by getting {
@@ -131,6 +133,8 @@ kotlin {
                 implementation("ch.qos.logback:logback-classic:${property("logbackVersion")}")
                 implementation("org.litote.kmongo:kmongo-coroutine-serialization:${property("kmongoVersion")}")
                 implementation("no.tornado:tornadofx:${property("tornadoFXVersion")}")
+
+
             }
 
         }

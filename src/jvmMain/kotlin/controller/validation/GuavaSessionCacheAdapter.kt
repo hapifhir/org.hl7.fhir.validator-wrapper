@@ -3,11 +3,12 @@ package controller.validation
 import com.google.common.cache.Cache
 import com.google.common.cache.CacheBuilder
 import org.hl7.fhir.validation.ValidationEngine
-import org.hl7.fhir.validation.cli.services.SessionCache
+import org.hl7.fhir.validation.service.SessionCache
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class GuavaSessionCacheAdapter(cacheSize : Long, cacheDuration: Long) : SessionCache {
+class GuavaSessionCacheAdapter(cacheSize : Long, cacheDuration: Long) :
+    SessionCache {
     private val cache: Cache<String, ValidationEngine>;
     init {
         val cacheBuilder = CacheBuilder.newBuilder()

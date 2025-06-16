@@ -2,7 +2,7 @@ package reactredux.containers
 
 import Polyglot
 import model.BundleValidationRule
-import model.CliContext
+import model.ValidationContext
 import model.PackageInfo
 import react.ComponentClass
 import react.Props
@@ -17,7 +17,7 @@ import ui.components.options.OptionsPage
 import ui.components.options.OptionsPageProps
 
 private interface OptionsPageStateProps : Props {
-    var cliContext: CliContext
+    var validationContext: ValidationContext
     var igPackageInfoSet: Set<PackageInfo>
     var extensionSet: Set<String>
     var profileSet: Set<String>
@@ -26,7 +26,7 @@ private interface OptionsPageStateProps : Props {
 }
 
 private interface OptionsPageDispatchProps : Props {
-    var updateCliContext: (CliContext) -> Unit
+    var updateValidationContext: (ValidationContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
     var setSessionId: (String) -> Unit
@@ -38,7 +38,7 @@ private interface OptionsPageDispatchProps : Props {
 val optionsPage: ComponentClass<Props> =
     rConnect<AppState, RAction, WrapperAction, Props, OptionsPageStateProps, OptionsPageDispatchProps, OptionsPageProps>(
         { state, _ ->
-            cliContext = state.validationContextSlice.cliContext
+            validationContext = state.validationContextSlice.validationContext
             igPackageInfoSet = state.validationContextSlice.igPackageInfoSet
             extensionSet = state.validationContextSlice.extensionSet
             profileSet = state.validationContextSlice.profileSet
@@ -46,7 +46,7 @@ val optionsPage: ComponentClass<Props> =
             polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->
-            updateCliContext = { dispatch(ValidationContextSlice.UpdateCliContext(it, true)) }
+            updateValidationContext = { dispatch(ValidationContextSlice.UpdateValidationContext(it, true)) }
             updateIgPackageInfoSet = {
                 dispatch(ValidationContextSlice.UpdateIgPackageInfoSet(it))
             }

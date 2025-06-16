@@ -1,23 +1,23 @@
 package utils
 
 import constants.FhirFormat
-import model.CliContext
+import model.ValidationContext
 import model.FileInfo
 import model.ValidationRequest
 
 fun assembleRequest(
-    cliContext: CliContext,
+    validationContext: ValidationContext,
     fileName: String,
     fileContent: String,
     fileType: FhirFormat?,
 ): ValidationRequest {
-    return assembleRequest(cliContext, FileInfo(fileName, fileContent, if (fileType == null) null else fileType.code))
+    return assembleRequest(validationContext, FileInfo(fileName, fileContent, if (fileType == null) null else fileType.code))
 }
 
-fun assembleRequest(cliContext: CliContext, file: FileInfo): ValidationRequest {
-    return assembleRequest(cliContext, listOf(file))
+fun assembleRequest(validationContext: ValidationContext, file: FileInfo): ValidationRequest {
+    return assembleRequest(validationContext, listOf(file))
 }
 
-fun assembleRequest(cliContext: CliContext, files: List<FileInfo>): ValidationRequest {
-    return ValidationRequest(cliContext, files)
+fun assembleRequest(validationContext: ValidationContext, files: List<FileInfo>): ValidationRequest {
+    return ValidationRequest(validationContext, files)
 }

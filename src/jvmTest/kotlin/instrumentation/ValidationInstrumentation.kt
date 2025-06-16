@@ -2,7 +2,7 @@ package instrumentation
 
 import constants.FhirFormat
 import model.*
-import org.hl7.fhir.validation.cli.model.ValidationRequest
+import org.hl7.fhir.validation.service.model.ValidationRequest
 import kotlin.test.assertEquals
 
 object ValidationInstrumentation {
@@ -22,16 +22,16 @@ object ValidationInstrumentation {
         val listOfFiles = mutableListOf(FileInfo().setFileName("DUMMY_NAME")
             .setFileType(FhirFormat.JSON.code)
             .setFileContent("DUMMY_CONTENT"))
-        return ValidationRequest().setCliContext(CliContext()).setFilesToValidate(listOfFiles).setSessionId("DUMMY_SESSION_ID")
+        return ValidationRequest().setValidationContext(ValidationContext()).setFilesToValidate(listOfFiles).setSessionId("DUMMY_SESSION_ID")
     }
 
     fun givenAValidationRequestWithNoFiles(): ValidationRequest {
         val listOfFiles = mutableListOf<FileInfo>()
-        return ValidationRequest().setCliContext(CliContext()).setFilesToValidate(listOfFiles).setSessionId("DUMMY_SESSION_ID")
+        return ValidationRequest().setValidationContext(ValidationContext()).setFilesToValidate(listOfFiles).setSessionId("DUMMY_SESSION_ID")
     }
 
     fun givenAValidationRequestWithNullListOfFiles(): ValidationRequest {
-        return ValidationRequest().setCliContext(CliContext()).setFilesToValidate(null).setSessionId("DUMMY_SESSION_ID")
+        return ValidationRequest().setValidationContext(ValidationContext()).setFilesToValidate(null).setSessionId("DUMMY_SESSION_ID")
     }
 
     fun givenAValidationRequestWithABadFileType(): ValidationRequest {
@@ -39,7 +39,7 @@ object ValidationInstrumentation {
             FileInfo().setFileName("DUMMY_NAME").setFileType(FhirFormat.JSON.code).setFileContent("DUMMY_CONTENT"),
             FileInfo().setFileName("DUMMY_NAME").setFileType(".xcode").setFileContent("DUMMY_CONTENT")
         )
-        return ValidationRequest().setCliContext(CliContext()).setFilesToValidate(listOfFiles).setSessionId("DUMMY_SESSION_ID")
+        return ValidationRequest().setValidationContext(ValidationContext()).setFilesToValidate(listOfFiles).setSessionId("DUMMY_SESSION_ID")
     }
 
     fun givenAValidationRequestWithABadFileName(): ValidationRequest {
@@ -47,7 +47,7 @@ object ValidationInstrumentation {
             FileInfo().setFileName("DUMMY_NAME").setFileType(FhirFormat.JSON.code).setFileContent("DUMMY_CONTENT"),
             FileInfo().setFileName("").setFileType(FhirFormat.XML.code).setFileContent("DUMMY_CONTENT")
         )
-        return ValidationRequest().setCliContext(CliContext()).setFilesToValidate(listOfFiles).setSessionId("DUMMY_SESSION_ID")
+        return ValidationRequest().setValidationContext(ValidationContext()).setFilesToValidate(listOfFiles).setSessionId("DUMMY_SESSION_ID")
     }
 
     fun givenAValidationResult(numOutcomes: Int, numMessages: Int): ValidationResponse {

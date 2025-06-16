@@ -5,21 +5,26 @@ import kotlinx.serialization.Serializable
 @Serializable
 actual class ValidationRequest actual constructor() {
 
-    private var cliContext: CliContext = CliContext()
+    private var validationContext: ValidationContext = ValidationContext()
     private var filesToValidate: List<FileInfo> = listOf()
     private var sessionId: String = ""
 
-    constructor(cliContext: CliContext, filesToValidate: List<FileInfo>) : this() {
-        this.cliContext = cliContext
+    constructor(validationContext: ValidationContext, filesToValidate: List<FileInfo>) : this() {
+        this.validationContext = validationContext
         this.filesToValidate = filesToValidate
     }
 
-    actual fun getCliContext(): CliContext {
-        return cliContext
+    actual fun getValidationContext(): ValidationContext {
+        return validationContext
     }
 
-    actual fun setCliContext(cliContext: CliContext): ValidationRequest {
-        this.cliContext = cliContext
+    actual fun setValidationContext(validationContext: ValidationContext): ValidationRequest {
+        this.validationContext = validationContext
+        return this
+    }
+
+    actual fun setCliContext(validationContext: ValidationContext): ValidationRequest {
+        this.validationContext = validationContext
         return this
     }
 

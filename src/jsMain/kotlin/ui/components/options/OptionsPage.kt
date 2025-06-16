@@ -12,7 +12,7 @@ import kotlinx.css.*
 import kotlinx.css.properties.border
 import mainScope
 import model.BundleValidationRule
-import model.CliContext
+import model.ValidationContext
 import model.PackageInfo
 import react.*
 import styled.StyleSheet
@@ -26,9 +26,9 @@ import ui.components.tabs.heading
 private const val TERMINOLOGY_CHECK_TIME_LIMIT = 20000L
 
 external interface OptionsPageProps : Props {
-    var cliContext: CliContext
+    var validationContext: ValidationContext
     var igPackageInfoSet: Set<PackageInfo>
-    var updateCliContext: (CliContext) -> Unit
+    var updateValidationContext: (ValidationContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var extensionSet: Set<String>
     var updateExtensionSet: (Set<String>) -> Unit
@@ -58,17 +58,17 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 igList = igResponse.packageInfo
                 igPackageNameList = getPackageNames(igResponse.packageInfo)
                 fhirVersionsList = versionsResponse.versions
-                    .map { Pair(it, props.cliContext.getSv() == it) }
+                    .map { Pair(it, props.validationContext.getSv() == it) }
                     .toMutableList()
                 snomedVersionList = Snomed.values()
-                    .map { Pair("${it.name} - ${it.code}", props.cliContext.getSnomedCTCode() == it.code) }
+                    .map { Pair("${it.name} - ${it.code}", props.validationContext.getSnomedCTCode() == it.code) }
                     .toMutableList()
             }
         }
     }
 
-    private fun updateCliContext(cliContext: CliContext) {
-        props.updateCliContext(cliContext)
+    private fun updateValidationContext(validationContext: ValidationContext) {
+        props.updateValidationContext(validationContext)
         props.setSessionId("");
     }
 
@@ -93,10 +93,10 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 checkboxWithDetails {
                     name = props.polyglot.t("options_flags_do_native_title")
                     description = props.polyglot.t("options_flags_do_native_description")
-                    selected = props.cliContext.isDoNative()
+                    selected = props.validationContext.isDoNative()
                     hasDescription = true
                     onChange = {
-                       updateCliContext(props.cliContext.setDoNative(it))
+                       updateValidationContext(props.validationContext.setDoNative(it))
                     }
                 }
                 styledDiv {
@@ -107,10 +107,10 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 checkboxWithDetails {
                     name = props.polyglot.t("options_flags_must_support_title")
                     description = props.polyglot.t("options_flags_must_support_description")
-                    selected = props.cliContext.isHintAboutNonMustSupport()
+                    selected = props.validationContext.isHintAboutNonMustSupport()
                     hasDescription = true
                     onChange = {
-                        updateCliContext(props.cliContext.setHintAboutNonMustSupport(it))
+                        updateValidationContext(props.validationContext.setHintAboutNonMustSupport(it))
                     }
                 }
                 styledDiv {
@@ -121,10 +121,10 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 checkboxWithDetails {
                     name = props.polyglot.t("options_flags_valid_reference_title")
                     description = props.polyglot.t("options_flags_valid_reference_description")
-                    selected = props.cliContext.isAssumeValidRestReferences()
+                    selected = props.validationContext.isAssumeValidRestReferences()
                     hasDescription = true
                     onChange = {
-                        updateCliContext(props.cliContext.setAssumeValidRestReferences(it))
+                        updateValidationContext(props.validationContext.setAssumeValidRestReferences(it))
                     }
                 }
                 styledDiv {
@@ -135,10 +135,10 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 checkboxWithDetails {
                     name = props.polyglot.t("options_flags_binding_warnings_title")
                     description = props.polyglot.t("options_flags_binding_warnings_description")
-                    selected = props.cliContext.isNoExtensibleBindingMessages()
+                    selected = props.validationContext.isNoExtensibleBindingMessages()
                     hasDescription = true
                     onChange = {
-                        updateCliContext(props.cliContext.setNoExtensibleBindingMessages(it))
+                        updateValidationContext(props.validationContext.setNoExtensibleBindingMessages(it))
                     }
                 }
                 styledDiv {
@@ -149,11 +149,11 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 checkboxWithDetails {
                     name = props.polyglot.t("options_flags_show_times_title")
                     description = props.polyglot.t("options_flags_show_times_description")
-                    selected = props.cliContext.isShowTimes()
+                    selected = props.validationContext.isShowTimes()
                     hasDescription = true
                     onChange = {
-                        props.cliContext.setShowTimes(it)
-                        updateCliContext(props.cliContext)
+                        props.validationContext.setShowTimes(it)
+                        updateValidationContext(props.validationContext)
                     }
                 }
                 styledDiv {
@@ -164,11 +164,11 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 checkboxWithDetails {
                     name = props.polyglot.t("options_flags_allow_example_title")
                     description = props.polyglot.t("options_flags_allow_example_description")
-                    selected = props.cliContext.isAllowExampleUrls()
+                    selected = props.validationContext.isAllowExampleUrls()
                     hasDescription = true
                     onChange = {
-                        props.cliContext.setAllowExampleUrls(it)
-                        updateCliContext(props.cliContext)
+                        props.validationContext.setAllowExampleUrls(it)
+                        updateValidationContext(props.validationContext)
                     }
                 }
                 styledDiv {
@@ -179,11 +179,11 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 checkboxWithDetails {
                     name = props.polyglot.t("options_flags_check_ips_codes_title")
                     description = props.polyglot.t("options_flags_check_ips_codes_description")
-                    selected = props.cliContext.isCheckIPSCodes()
+                    selected = props.validationContext.isCheckIPSCodes()
                     hasDescription = true
                     onChange = {
-                        props.cliContext.setCheckIPSCodes(it)
-                        updateCliContext(props.cliContext)
+                        props.validationContext.setCheckIPSCodes(it)
+                        updateValidationContext(props.validationContext)
                     }
                 }
             }
@@ -200,8 +200,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     itemList = state.fhirVersionsList
                     onItemSelected = { version ->
                         setState {
-                            props.cliContext.setTargetVer(version)
-                            props.cliContext.setSv(version)
+                            props.validationContext.setTargetVer(version)
+                            props.validationContext.setSv(version)
                             state.fhirVersionsList.forEach {
                                 fhirVersionsList[fhirVersionsList.indexOf(it)] =
                                     when (it.first) {
@@ -209,7 +209,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                         else -> it.copy(second = false)
                                     }
                             }
-                            updateCliContext(props.cliContext)
+                            updateValidationContext(props.validationContext)
                         }
                     }
                 }
@@ -223,7 +223,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 igSelector {
                     polyglot = props.polyglot
-                    fhirVersion = props.cliContext.getSv()
+                    fhirVersion = props.validationContext.getSv()
                     igList = state.igList
                     igPackageNameList = state.igPackageNameList
                     onUpdatePackageName = {igPackageName, selected ->
@@ -262,8 +262,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 addProfile {
                     polyglot = props.polyglot
                     profileSet = props.profileSet.toMutableSet()
-                    updateCliContext = updateCliContext
-                    cliContext = cliContext
+                    updateValidationContext = updateValidationContext
+                    validationContext = validationContext
                     onUpdateProfileSet = { profile, delete ->
                         val newProfileSet = if (delete) {
                             profileSet.minus(profile).toMutableSet()
@@ -285,8 +285,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 addExtension {
                     polyglot = props.polyglot
                     extensionSet = props.extensionSet.toMutableSet()
-                    updateCliContext = updateCliContext
-                    cliContext = cliContext
+                    updateValidationContext = updateValidationContext
+                    validationContext = validationContext
                     onUpdateExtensionSet = { extensionUrl, delete ->
                         val newExtensionSet = if (delete) {
                             extensionSet.minus(extensionUrl).toMutableSet()
@@ -315,8 +315,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 addBundleValidationRule {
                     polyglot = props.polyglot
                     bundleValidationRuleSet = props.bundleValidationRuleSet.toMutableSet()
-                    updateCliContext = updateCliContext
-                    cliContext = cliContext
+                    updateValidationContext = updateValidationContext
+                    validationContext = validationContext
                     onUpdateBundleValidationRuleSet = { rule, delete ->
                         val bundleValidationRuleSet = props.bundleValidationRuleSet.toMutableSet()
                         val newBundleValidationRuleSet = if (delete) {
@@ -344,7 +344,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     heading = props.polyglot.t("options_settings_snomed_title")
                     onItemSelected = { version ->
                         setState {
-                            props.cliContext.setSnomedCT(version.replace("[^0-9]".toRegex(), ""))
+                            props.validationContext.setSnomedCT(version.replace("[^0-9]".toRegex(), ""))
                             state.snomedVersionList.forEach {
                                 snomedVersionList[snomedVersionList.indexOf(it)] =
                                     when (it.first) {
@@ -352,7 +352,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                         else -> it.copy(second = false)
                                     }
                             }
-                            updateCliContext(props.cliContext)
+                            updateValidationContext(props.validationContext)
                         }
                     }
                 }
@@ -363,7 +363,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 }
                 textEntryField {
                     buttonLabel = props.polyglot.t("options_settings_tm_verify")
-                    currentEntry = props.cliContext.getTxServer()
+                    currentEntry = props.validationContext.getTxServer()
                     explanation = props.polyglot.t("options_settings_tm_description")
                     heading = props.polyglot.t("options_settings_tm_title")
                     textFieldId = "terminology_server_entry"
@@ -372,7 +372,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         GlobalScope.async {
                             val txServerOutcome = async { checkTxServer(url) }
                             if (txServerOutcome.await()) {
-                                updateCliContext(props.cliContext.setTxServer(url))
+                                updateValidationContext(props.validationContext.setTxServer(url))
                                 true
                             } else {
                                 false
@@ -399,7 +399,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
             withTimeout(TERMINOLOGY_CHECK_TIME_LIMIT) {
                 val response = validateTxServer(txUrl)
                 if (response.validTxServer) {
-                    updateCliContext(props.cliContext.setTxServer(response.url))
+                    updateValidationContext(props.validationContext.setTxServer(response.url))
                     validTxServer = true
                 }
             }
