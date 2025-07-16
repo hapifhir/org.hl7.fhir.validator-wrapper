@@ -251,6 +251,11 @@ components:
               items:
                 type: string
               description: "A list of published implementation guides to validate against. [[more...]](https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator#UsingtheFHIRValidator-Validatingagainstanimplementationguide)"
+            profiles:
+                type: array
+                items:
+                    type: string
+                description: "A list of canonical URLs of profiles to validate against."
             locale:
               type: string
               enum:
@@ -261,6 +266,7 @@ components:
           example:
             sv: "4.0.1"
             igs: [ "hl7.fhir.us.core#4.0.0" ]
+            profiles: [ "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"]
             locale: "en"
         filesToValidate:
           type: array
