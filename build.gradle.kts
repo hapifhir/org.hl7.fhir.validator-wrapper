@@ -262,6 +262,7 @@ tasks.getByName<Jar>("jvmJar") {
 }
 
 tasks.named("distZip").configure {
+    setProperty("zip64", true)
     dependsOn("allMetadataJar", "jsJar")
 }
 
