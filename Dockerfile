@@ -1,7 +1,7 @@
 # This line tells Docker to base an image on a pre-built image with Alpine Linux. You can use other images from OpenJDK
 # registry. Alpine Linux benefit is that the image is pretty small. We also select JRE-only image since we don't need
 # to compile code on the image, only run precompiled classes.
-FROM adoptopenjdk/openjdk11:alpine-jre
+FROM adoptopenjdk/openjdk17:alpine-jre
 
 # If for some reason you wish to use the full JDK, the following line can be used
 # FROM adoptopenjdk/openjdk11:alpine

@@ -39,7 +39,7 @@ kotlin {
     jvm {
         compilations {
             all {
-                kotlinOptions.jvmTarget = "11"
+                kotlinOptions.jvmTarget = "17"
             }
         }
         withJava()
@@ -274,7 +274,7 @@ tasks {
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         dependsOn("copySemver")
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = "17"
         }
     }
 

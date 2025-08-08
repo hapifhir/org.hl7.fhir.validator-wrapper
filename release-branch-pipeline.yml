@@ -22,7 +22,7 @@ steps:
 
 - task: JavaToolInstaller@0
   inputs:
-    versionSpec: '11'
+    versionSpec: '17'
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'PreInstalled'
 
@@ -33,7 +33,7 @@ steps:
     publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
-    jdkVersionOption: 1.11
+    jdkVersionOption: 1.17
   displayName: 'gradle build'
 
 # We need the project version to tag the docker image correctly.
