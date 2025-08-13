@@ -141,6 +141,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
     private fun validateUploadedFiles() {
         val validationContext: ValidationContext = Preset.getLocalizedValidationContextFromPresets(props.validationContext, props.presets) ?: return
         val request = assembleRequest(
+            validationEngineSettings = ValidationEngineSettings(), //FIXME build actual validationEngineSettings
             validationContext = validationContext,
             files = props.uploadedFiles
                 .filterNot(ValidationOutcome::isValidated)

@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 data class Preset (
     val key: String,
     val localizedLabels: Map<String, String>,
+    @Contextual val validationEngineSettings: ValidationEngineSettings,
     @Contextual val validationContext: ValidationContext,
     val igPackageInfo: Set<PackageInfo>,
     val extensionSet: Set<String>,

@@ -34,7 +34,7 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
             if (it.key != "CUSTOM") {
                 println("Loading preset: " + it.key)
                 try {
-                    validationService.putBaseEngine(it.key, it.validationContext)
+                    validationService.putBaseEngine(it.key, it.validationEngineSettings, it.validationContext)
                 } catch (e: Exception) {
                     println("Error loading preset: " + it.key)
                     e.printStackTrace()

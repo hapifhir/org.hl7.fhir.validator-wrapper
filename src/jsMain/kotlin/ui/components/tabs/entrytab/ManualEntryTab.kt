@@ -147,6 +147,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
         props.toggleValidationInProgress(true)
             console.info("validationContext :: sv == ${validationContext.getSv()}, version == ${props.validationContext.getTargetVer()}, languageCode == ${props.validationContext.getLanguageCode()}")
             val request = assembleRequest(
+                validationEngineSettings = ValidationEngineSettings(), //FIXME build actual validationEngineSettings
                 validationContext = validationContext,
                 fileName = generateFileName(fileContent),
                 fileContent = fileContent,

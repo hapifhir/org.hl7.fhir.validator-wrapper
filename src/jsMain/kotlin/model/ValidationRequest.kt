@@ -5,13 +5,21 @@ import kotlinx.serialization.Serializable
 @Serializable
 actual class ValidationRequest actual constructor() {
 
+    private var validationEngineSettings: ValidationEngineSettings = ValidationEngineSettings()
     private var validationContext: ValidationContext = ValidationContext()
     private var filesToValidate: List<FileInfo> = listOf()
     private var sessionId: String = ""
 
-    constructor(validationContext: ValidationContext, filesToValidate: List<FileInfo>) : this() {
+    constructor(validationEngineSettings: ValidationEngineSettings, validationContext: ValidationContext, filesToValidate: List<FileInfo>) : this() {
+        this.validationEngineSettings = validationEngineSettings
         this.validationContext = validationContext
         this.filesToValidate = filesToValidate
+    }
+
+    actual fun getValidationEngineSettings(): ValidationEngineSettings = validationEngineSettings
+    actual fun setValidationEngineSettings(validationEngineSettings: ValidationEngineSettings): ValidationRequest {
+        this.validationEngineSettings = validationEngineSettings
+        return this
     }
 
     actual fun getValidationContext(): ValidationContext {
