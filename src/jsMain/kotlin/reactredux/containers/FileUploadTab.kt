@@ -17,6 +17,7 @@ import utils.Language
 
 private interface FileUploadTabProps : Props {
     var uploadedFiles: List<ValidationOutcome>
+    var validationEngineSettings: ValidationEngineSettings
     var validationContext: ValidationContext
     var sessionId: String
     var language: Language
@@ -30,7 +31,7 @@ private interface FileUploadTabDispatchProps : Props {
     var setSessionId: (String) -> Unit
     var toggleValidationInProgress: (Boolean, FileInfo) -> Unit
     var addValidationOutcome: (ValidationOutcome) -> Unit
-
+    var updateValidationEngineSettings: (ValidationEngineSettings) -> Unit
     var updateValidationContext: (ValidationContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
@@ -42,6 +43,7 @@ val fileUploadTab: ComponentClass<Props> =
     rConnect<AppState, RAction, WrapperAction, Props, FileUploadTabProps, FileUploadTabDispatchProps, FileUploadTabProps>(
         { state, _ ->
             uploadedFiles = state.uploadedResourceSlice.uploadedFiles
+            validationEngineSettings = state.validationContextSlice.validationEngineSettings
             validationContext = state.validationContextSlice.validationContext
             sessionId = state.validationSessionSlice.sessionId
             language = state.localizationSlice.selectedLanguage
@@ -57,6 +59,7 @@ val fileUploadTab: ComponentClass<Props> =
                     fileInfo))
             }
             addValidationOutcome = { dispatch(UploadedResourceSlice.AddValidationOutcome(it)) }
+            updateValidationEngineSettings = { dispatch(ValidationContextSlice.UpdateValidationEngineSettings(it, false)) }
             updateValidationContext = { dispatch(ValidationContextSlice.UpdateValidationContext(it, false)) }
             updateIgPackageInfoSet = {
                 dispatch(ValidationContextSlice.UpdateIgPackageInfoSet(it, false))

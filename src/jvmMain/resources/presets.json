@@ -6,6 +6,7 @@
       "es": null,
       "en": null
     },
+    "validationEngineSettings" : {},
     "validationContext": {},
     "igPackageInfo": [],
     "extensionSet": [],
@@ -17,6 +18,10 @@
       "de_DE" : "FHIR Resource (R5) (de_DE)",
       "es": "FHIR Resource (R5) (es)",
       "en": "FHIR Resource (R5)"
+    },
+    "validationEngineSettings" : {
+      "baseEngine": "DEFAULT",
+      "sv": "5.0.0"
     },
     "validationContext": {
       "baseEngine": "DEFAULT",
@@ -32,6 +37,10 @@
       "de_DE" : "IPS Document (de_DE)",
       "es": "IPS Document (es)",
       "en": "IPS Document"
+    },
+    "validationEngineSettings" : {
+        "baseEngine": "IPS",
+        "sv": "4.0.1"
     },
     "validationContext": {
       "baseEngine": "IPS",
@@ -70,6 +79,10 @@
       "es": "Australian IPS Document (es)",
       "en": "Australian IPS Document"
     },
+    "validationEngineSettings" : {
+      "baseEngine": "IPS_AU",
+      "sv": "4.0.1"
+    },
     "validationContext": {
       "baseEngine": "IPS_AU",
       "sv": "4.0.1",
@@ -107,6 +120,10 @@
       "es": "CDA Document (es)",
       "en": "CDA Document"
     },
+    "validationEngineSettings" : {
+      "baseEngine": "CDA",
+      "sv": "5.0.0"
+    },
     "validationContext": {
       "baseEngine": "CDA",
       "sv": "5.0.0",
@@ -130,6 +147,10 @@
       "es": "US CCDA Document (es)",
       "en": "US CCDA Document"
     },
+    "validationEngineSettings" : {
+      "baseEngine": "US_CCDA",
+      "sv": "5.0.0"
+    },
     "validationContext": {
       "baseEngine": "US_CCDA",
       "sv": "5.0.0",
@@ -152,6 +173,10 @@
       "de_DE" : "SQL View Definition (de_DE)",
       "es": "SQL View Definition (es)",
       "en": "SQL View Definition"
+    },
+    "validationEngineSettings" : {
+      "baseEngine": "SQL_VIEW",
+      "sv": "5.0.0"
     },
     "validationContext": {
       "baseEngine": "SQL_VIEW",

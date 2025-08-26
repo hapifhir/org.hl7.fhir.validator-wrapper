@@ -3,6 +3,7 @@ package reactredux.slices
 import model.BundleValidationRule
 import model.ValidationContext
 import model.PackageInfo
+import model.ValidationEngineSettings
 import redux.RAction
 
 object ValidationContextSlice {
@@ -12,10 +13,13 @@ object ValidationContextSlice {
         val extensionSet: Set<String> = mutableSetOf(),
         val profileSet: Set<String> = mutableSetOf(),
         val bundleValidationRuleSet: Set<BundleValidationRule> = mutableSetOf(),
+        val validationEngineSettings: ValidationEngineSettings = ValidationEngineSettings().setBaseEngine("DEFAULT"),
         val validationContext: ValidationContext = ValidationContext().setBaseEngine("DEFAULT")
     )
 
     data class UpdateIgPackageInfoSet(val packageInfo: Set<PackageInfo>, val resetBaseEngine: Boolean = true) : RAction
+
+    data class UpdateValidationEngineSettings(val validationEngineSettings: ValidationEngineSettings, val resetBaseEngine : Boolean = true) : RAction
 
     data class UpdateValidationContext(val validationContext: ValidationContext, val resetBaseEngine : Boolean = true) : RAction
 
@@ -26,7 +30,7 @@ object ValidationContextSlice {
     data class UpdateBundleValidationRuleSet(val bundleValidationRuleSet: Set<BundleValidationRule>, val resetBaseEngine : Boolean = true) : RAction
 
     private fun resetBaseEngine(validationContext: ValidationContext, resetBaseEngine: Boolean): ValidationContext {
-        return if (resetBaseEngine) validationContext.setBaseEngine(null) else validationContext
+        return if (resetBaseEngine) validationContext.setBaseEngine(null) else validationContext //FIXME apply to validationEngineSettings
     }
 
     fun reducer(state: State = State(), action: RAction): State {
@@ -37,6 +41,10 @@ object ValidationContextSlice {
                     state.validationContext.setIgs(action.packageInfo.map{PackageInfo.igLookupString(it)}.toList()),
                     action.resetBaseEngine)
 
+            )
+            is UpdateValidationEngineSettings -> state.copy(
+                validationEngineSettings = action.validationEngineSettings,
+                //FIXME reset base engine? call?
             )
             is UpdateValidationContext -> state.copy(
                 validationContext = resetBaseEngine(action.validationContext, action.resetBaseEngine)

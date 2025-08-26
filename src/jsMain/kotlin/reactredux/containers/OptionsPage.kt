@@ -4,6 +4,7 @@ import Polyglot
 import model.BundleValidationRule
 import model.ValidationContext
 import model.PackageInfo
+import model.ValidationEngineSettings
 import react.ComponentClass
 import react.Props
 import react.invoke
@@ -17,6 +18,7 @@ import ui.components.options.OptionsPage
 import ui.components.options.OptionsPageProps
 
 private interface OptionsPageStateProps : Props {
+    var validationEngineSettings: ValidationEngineSettings
     var validationContext: ValidationContext
     var igPackageInfoSet: Set<PackageInfo>
     var extensionSet: Set<String>
@@ -26,6 +28,7 @@ private interface OptionsPageStateProps : Props {
 }
 
 private interface OptionsPageDispatchProps : Props {
+    var updateValidationEngineSettings: (ValidationEngineSettings) -> Unit
     var updateValidationContext: (ValidationContext) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
@@ -38,6 +41,7 @@ private interface OptionsPageDispatchProps : Props {
 val optionsPage: ComponentClass<Props> =
     rConnect<AppState, RAction, WrapperAction, Props, OptionsPageStateProps, OptionsPageDispatchProps, OptionsPageProps>(
         { state, _ ->
+            validationEngineSettings = state.validationContextSlice.validationEngineSettings
             validationContext = state.validationContextSlice.validationContext
             igPackageInfoSet = state.validationContextSlice.igPackageInfoSet
             extensionSet = state.validationContextSlice.extensionSet
@@ -46,6 +50,7 @@ val optionsPage: ComponentClass<Props> =
             polyglot = state.localizationSlice.polyglotInstance
         },
         { dispatch, _ ->
+            updateValidationEngineSettings = { dispatch(ValidationContextSlice.UpdateValidationEngineSettings(it, true)) }
             updateValidationContext = { dispatch(ValidationContextSlice.UpdateValidationContext(it, true)) }
             updateIgPackageInfoSet = {
                 dispatch(ValidationContextSlice.UpdateIgPackageInfoSet(it))
