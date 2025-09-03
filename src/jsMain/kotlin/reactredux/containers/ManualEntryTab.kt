@@ -44,8 +44,8 @@ private interface ManualEntryTabDispatchProps : Props {
 val manualEntryTab: ComponentClass<Props> =
     rConnect<AppState, RAction, WrapperAction, Props, ManualEntryTabStateProps, ManualEntryTabDispatchProps, ManualEntryTabProps>(
         { state, _ ->
-            validationEngineSettings = state.validationContextSlice.validationEngineSettings
             validationContext = state.validationContextSlice.validationContext
+            validationEngineSettings = state.validationContextSlice.validationEngineSettings
             validationOutcome = state.manualEntrySlice.validationOutcome
             currentManuallyEnteredText = state.manualEntrySlice.currentManuallyEnteredText
             validatingManualEntryInProgress = state.manualEntrySlice.validatingManualEntryInProgress

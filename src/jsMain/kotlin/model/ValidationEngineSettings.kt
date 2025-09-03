@@ -25,4 +25,8 @@ actual class ValidationEngineSettings actual constructor() {
         this.baseEngine = baseEngine
         return this
     }
+    constructor (validationEngineSettings : ValidationEngineSettings) : this() {
+        this.baseEngine = validationEngineSettings.baseEngine
+        this.doNative = validationEngineSettings.doNative
+    }
 }

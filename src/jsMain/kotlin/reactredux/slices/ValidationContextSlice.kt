@@ -29,6 +29,10 @@ object ValidationContextSlice {
 
     data class UpdateBundleValidationRuleSet(val bundleValidationRuleSet: Set<BundleValidationRule>, val resetBaseEngine : Boolean = true) : RAction
 
+    private fun resetBaseEngine(validationEngineSettings: ValidationEngineSettings, resetBaseEngine: Boolean): ValidationEngineSettings {
+        return if (resetBaseEngine) validationEngineSettings.setBaseEngine(null) else validationEngineSettings //FIXME apply to validationEngineSettings
+    }
+
     private fun resetBaseEngine(validationContext: ValidationContext, resetBaseEngine: Boolean): ValidationContext {
         return if (resetBaseEngine) validationContext.setBaseEngine(null) else validationContext //FIXME apply to validationEngineSettings
     }
@@ -39,11 +43,15 @@ object ValidationContextSlice {
                 igPackageInfoSet = action.packageInfo,
                 validationContext = resetBaseEngine(
                     state.validationContext.setIgs(action.packageInfo.map{PackageInfo.igLookupString(it)}.toList()),
-                    action.resetBaseEngine)
-
+                    action.resetBaseEngine),
+                validationEngineSettings = resetBaseEngine(
+                    //FIXME set IGs
+                    state.validationEngineSettings,
+                    action.resetBaseEngine
+                )
             )
             is UpdateValidationEngineSettings -> state.copy(
-                validationEngineSettings = action.validationEngineSettings,
+                validationEngineSettings = resetBaseEngine(action.validationEngineSettings, action.resetBaseEngine)
                 //FIXME reset base engine? call?
             )
             is UpdateValidationContext -> state.copy(
@@ -53,19 +61,35 @@ object ValidationContextSlice {
                 extensionSet = action.extensionSet,
                 validationContext =  resetBaseEngine(state.validationContext
                     .setExtensions(action.extensionSet.toList())
-                    , action.resetBaseEngine)
+                    , action.resetBaseEngine),
+                validationEngineSettings = resetBaseEngine(
+                    //FIXME set extensionSet
+                    state.validationEngineSettings,
+                    action.resetBaseEngine
+                )
+
             )
             is UpdateProfileSet -> state.copy(
                 profileSet = action.profileSet,
                 validationContext =  resetBaseEngine(state.validationContext
                     .setProfiles(action.profileSet.toList())
-                    , action.resetBaseEngine)
+                    , action.resetBaseEngine),
+                validationEngineSettings = resetBaseEngine(
+                    //FIXME set profile set
+                    state.validationEngineSettings,
+                    action.resetBaseEngine
+                )
             )
             is UpdateBundleValidationRuleSet -> state.copy(
                 bundleValidationRuleSet = action.bundleValidationRuleSet,
                 validationContext =  resetBaseEngine(state.validationContext
                     .setBundleValidationRules(action.bundleValidationRuleSet.toList())
-                    , action.resetBaseEngine)
+                    , action.resetBaseEngine),
+                validationEngineSettings = resetBaseEngine(
+                    //FIXME set bundleValidationRules
+                    state.validationEngineSettings,
+                    action.resetBaseEngine
+                )
             )
             else -> state
         }

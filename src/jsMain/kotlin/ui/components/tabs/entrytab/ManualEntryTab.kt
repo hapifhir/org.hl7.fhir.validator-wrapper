@@ -30,6 +30,7 @@ private const val VALIDATION_TIME_LIMIT =  120000L
 
 external interface ManualEntryTabProps : Props {
     var validationContext: ValidationContext
+    var validationEngineSettings: ValidationEngineSettings
     var validationOutcome: ValidationOutcome?
     var currentManuallyEnteredText: String
     var validatingManualEntryInProgress: Boolean
@@ -40,6 +41,7 @@ external interface ManualEntryTabProps : Props {
     var toggleValidationInProgress: (Boolean) -> Unit
     var updateCurrentlyEnteredText: (String) -> Unit
     var updateValidationContext: (ValidationContext) -> Unit
+    var updateValidationEngineSettings: (ValidationEngineSettings) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
     var updateProfileSet: (Set<String>) -> Unit
@@ -106,7 +108,9 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 }
                 presetSelect{
                     validationContext = props.validationContext
+                    validationEngineSettings = props.validationEngineSettings
                     updateValidationContext = props.updateValidationContext
+                    updateValidationEngineSettings = props.updateValidationEngineSettings
                     updateIgPackageInfoSet = props.updateIgPackageInfoSet
                     updateExtensionSet = props.updateExtensionSet
                     updateProfileSet = props.updateProfileSet
@@ -143,11 +147,11 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
     private fun validateEnteredText(fileContent: String) {
         console.info("Attempting to validate with: " + props.validationContext.getBaseEngine())
         val validationContext: ValidationContext = Preset.getLocalizedValidationContextFromPresets(props.validationContext, props.presets) ?: return
-
+        val validationEngineSettings: ValidationEngineSettings = Preset.getLocalizedValidationEngineSettingsFromPresets(props.validationEngineSettings, props.presets) ?: return
         props.toggleValidationInProgress(true)
             console.info("validationContext :: sv == ${validationContext.getSv()}, version == ${props.validationContext.getTargetVer()}, languageCode == ${props.validationContext.getLanguageCode()}")
             val request = assembleRequest(
-                validationEngineSettings = ValidationEngineSettings(), //FIXME build actual validationEngineSettings
+                validationEngineSettings = validationEngineSettings,
                 validationContext = validationContext,
                 fileName = generateFileName(fileContent),
                 fileContent = fileContent,

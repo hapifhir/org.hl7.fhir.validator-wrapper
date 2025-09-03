@@ -14,6 +14,7 @@ import mainScope
 import model.BundleValidationRule
 import model.ValidationContext
 import model.PackageInfo
+import model.ValidationEngineSettings
 import react.*
 import styled.StyleSheet
 import styled.css
@@ -27,8 +28,10 @@ private const val TERMINOLOGY_CHECK_TIME_LIMIT = 20000L
 
 external interface OptionsPageProps : Props {
     var validationContext: ValidationContext
+    var validationEngineSettings: ValidationEngineSettings
     var igPackageInfoSet: Set<PackageInfo>
     var updateValidationContext: (ValidationContext) -> Unit
+    var updateValidationEngineSettings : (ValidationEngineSettings) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var extensionSet: Set<String>
     var updateExtensionSet: (Set<String>) -> Unit
@@ -72,6 +75,11 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
         props.setSessionId("");
     }
 
+    private fun updateValidationEngineSettings(validationEngineSettings: ValidationEngineSettings) {
+        props.updateValidationEngineSettings(validationEngineSettings)
+        props.setSessionId("");
+    }
+
     private fun updateExtensionSet(newExtensionSet: MutableSet<String>) {
         props.updateExtensionSet(newExtensionSet)
         props.setSessionId("");
@@ -93,10 +101,11 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 checkboxWithDetails {
                     name = props.polyglot.t("options_flags_do_native_title")
                     description = props.polyglot.t("options_flags_do_native_description")
-                    selected = props.validationContext.isDoNative()
+                    selected = props.validationEngineSettings.isDoNative()
                     hasDescription = true
                     onChange = {
-                       updateValidationContext(props.validationContext.setDoNative(it))
+                        //updateValidationContext(props.validationContext)
+                        updateValidationEngineSettings(props.validationEngineSettings.setDoNative(it))
                     }
                 }
                 styledDiv {

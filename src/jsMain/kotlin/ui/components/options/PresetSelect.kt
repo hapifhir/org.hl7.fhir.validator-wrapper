@@ -6,10 +6,8 @@ import react.*
 import csstype.px
 import kotlinx.coroutines.launch
 import kotlinx.css.*
-import model.ValidationContext
 import mainScope
-import model.BundleValidationRule
-import model.PackageInfo
+import model.*
 import mui.system.sx
 import react.Props
 import react.ReactNode
@@ -17,14 +15,15 @@ import react.ReactNode
 import styled.css
 import styled.styledDiv
 
-import model.Preset
 import utils.Language
 import utils.getJS
 
 
 external interface PresetSelectProps : Props {
     var validationContext: ValidationContext
+    var validationEngineSettings: ValidationEngineSettings
     var updateValidationContext: (ValidationContext) -> Unit
+    var updateValidationEngineSettings: (ValidationEngineSettings) -> Unit
     var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
     var updateExtensionSet: (Set<String>) -> Unit
     var updateProfileSet: (Set<String>) -> Unit
@@ -87,13 +86,17 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
 
                             attrs {
                                 label = ReactNode("Preset")
-                                value =  props.validationContext.getBaseEngine().unsafeCast<Nothing?>()
+                                value =  props.validationEngineSettings.getBaseEngine().unsafeCast<Nothing?>()
                                 onChange = { event, _ ->
                                     val selectedPreset = Preset.getSelectedPreset(event.target.value, props.presets)
                                     if (selectedPreset != null) {
 
                                         val validationContext = ValidationContext(selectedPreset.validationContext).setLocale(props.language.getLanguageCode())
+                                        val validationEngineSettings = ValidationEngineSettings(selectedPreset.validationEngineSettings)
+                                            //FIXME set locale
+                                            //.setLocale(props.language.getLanguageCode())
                                         props.updateValidationContext(validationContext)
+                                        props.updateValidationEngineSettings(validationEngineSettings)
                                         props.updateIgPackageInfoSet(selectedPreset.igPackageInfo)
                                         props.updateExtensionSet(selectedPreset.extensionSet)
                                         props.updateProfileSet(selectedPreset.profileSet)

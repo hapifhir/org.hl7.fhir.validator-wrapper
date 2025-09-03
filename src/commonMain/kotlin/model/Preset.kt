@@ -35,5 +35,19 @@ data class Preset (
             }
             return presetValidationContext
         }
+
+        fun getLocalizedValidationEngineSettingsFromPresets(validationEngineSettings: ValidationEngineSettings, presets: List<Preset>): ValidationEngineSettings? {
+            if (presets.isEmpty() || validationEngineSettings.getBaseEngine() == null) {
+                return validationEngineSettings
+            }
+            val presetValidationEngineSettings = getSelectedPreset(validationEngineSettings.getBaseEngine(), presets)?.validationEngineSettings
+            if (presetValidationEngineSettings != null) {
+                return ValidationEngineSettings()
+                    //FIXME set locale
+                    //.setLocale(validationContext.getLanguageCode())
+                    .setBaseEngine(validationEngineSettings.getBaseEngine())
+            }
+            return presetValidationEngineSettings
+        }
     }
 }
