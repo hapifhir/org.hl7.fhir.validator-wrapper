@@ -46,7 +46,7 @@
       "baseEngine": "IPS",
       "sv": "4.0.1",
       "igs": [
-        "hl7.fhir.uv.ips#2.0.0"
+        "hl7.fhir.uv.ips#2.0.0-ballot"
       ],
       "extensions": [
         "any"
@@ -61,7 +61,7 @@
     },
     "igPackageInfo": [{
       "id": "hl7.fhir.uv.ips",
-      "version": "2.0.0",
+      "version": "2.0.0-ballot",
       "fhirVersion": "4.0.1",
       "url": "http://hl7.org/fhir/uv/ips"
     }],

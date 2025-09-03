@@ -79,7 +79,7 @@
     "footer_running_version": "corriendo validador v",
     "footer_github": "ver proyecto en github",
     "footer_create_issue": "registrar un problema con el equipo",
-    "footer_download_cli": "descargar esta aplicación como una linea de comandos",
+    "footer_download_app": "descargar esta aplicación",
     "footer_doc": "ver la documentación del validador",
     "footer_openapi" : "ver la documentación del OpenAPI",
     "validation_results": "Resultados",

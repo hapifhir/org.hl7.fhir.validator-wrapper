@@ -82,9 +82,9 @@ class Footer : RComponent<FooterProps, FooterState>() {
                 }
                 footerLineItem {
                     href =
-                        "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/releases/latest/download/validator_cli.jar"
+                        "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/releases/latest/download/validator-wrapper.jar"
                     icon = "images/download_white.png"
-                    label = props.polyglot.t("footer_download_cli")
+                    label = props.polyglot.t("footer_download_app")
                 }
             }
             styledDiv {
