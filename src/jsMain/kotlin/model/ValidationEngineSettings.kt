@@ -1,5 +1,6 @@
 package model
 
+import constants.Snomed
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -25,6 +26,18 @@ actual class ValidationEngineSettings actual constructor() {
         this.baseEngine = baseEngine
         return this
     }
+
+    private var snomedCT = Snomed.INTL.code
+
+    actual fun getSnomedCTCode(): String {
+        return snomedCT
+    }
+
+    actual fun setSnomedCT(snomedCT: String): ValidationEngineSettings {
+        this.snomedCT = snomedCT
+        return this
+    }
+
     constructor (validationEngineSettings : ValidationEngineSettings) : this() {
         this.baseEngine = validationEngineSettings.baseEngine
         this.doNative = validationEngineSettings.doNative

@@ -353,7 +353,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                     heading = props.polyglot.t("options_settings_snomed_title")
                     onItemSelected = { version ->
                         setState {
-                            props.validationContext.setSnomedCT(version.replace("[^0-9]".toRegex(), ""))
+                            props.validationEngineSettings.setSnomedCT(version.replace("[^0-9]".toRegex(), ""))
                             state.snomedVersionList.forEach {
                                 snomedVersionList[snomedVersionList.indexOf(it)] =
                                     when (it.first) {
@@ -361,7 +361,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                         else -> it.copy(second = false)
                                     }
                             }
-                            updateValidationContext(props.validationContext)
+                            updateValidationEngineSettings(props.validationEngineSettings)
                         }
                     }
                 }
