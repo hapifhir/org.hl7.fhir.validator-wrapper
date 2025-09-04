@@ -51,19 +51,15 @@ expect class ValidationContext() {
     fun setAllowExampleUrls(allowExampleUrls:Boolean)
 
     fun setLocale(languageString: String) : ValidationContext
-
     fun getLanguageCode() : String
 
     fun setExtensions(extensions: List<String>) : ValidationContext
-
     fun getExtensions() : List<String>
 
     fun setCheckIPSCodes(checkIPSCodes : Boolean) : ValidationContext
-
     fun isCheckIPSCodes() : Boolean
 
     fun setBundleValidationRules(bundleValidationRules: List<BundleValidationRule>) : ValidationContext
-
     fun getBundleValidationRules():List<BundleValidationRule>
 
     fun addIg(ig: String): ValidationContext
