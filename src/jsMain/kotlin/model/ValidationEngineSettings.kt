@@ -38,6 +38,17 @@ actual class ValidationEngineSettings actual constructor() {
         return this
     }
 
+    private var hintAboutNonMustSupport = false
+
+    actual fun isHintAboutNonMustSupport(): Boolean {
+        return hintAboutNonMustSupport
+    }
+
+    actual fun setHintAboutNonMustSupport(hintAboutNonMustSupport: Boolean): ValidationEngineSettings {
+        this.hintAboutNonMustSupport = hintAboutNonMustSupport
+        return this
+    }
+
     constructor (validationEngineSettings : ValidationEngineSettings) : this() {
         this.baseEngine = validationEngineSettings.baseEngine
         this.doNative = validationEngineSettings.doNative

@@ -116,10 +116,10 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 checkboxWithDetails {
                     name = props.polyglot.t("options_flags_must_support_title")
                     description = props.polyglot.t("options_flags_must_support_description")
-                    selected = props.validationContext.isHintAboutNonMustSupport()
+                    selected = props.validationEngineSettings.isHintAboutNonMustSupport()
                     hasDescription = true
                     onChange = {
-                        updateValidationContext(props.validationContext.setHintAboutNonMustSupport(it))
+                        updateValidationEngineSettings(props.validationEngineSettings.setHintAboutNonMustSupport(it))
                     }
                 }
                 styledDiv {

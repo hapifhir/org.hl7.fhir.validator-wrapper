@@ -12,4 +12,7 @@ expect class ValidationEngineSettings() {
     fun getSnomedCTCode(): String
     fun setSnomedCT(snomedCT: String): ValidationEngineSettings
 
+    fun isHintAboutNonMustSupport(): Boolean
+    fun setHintAboutNonMustSupport(hintAboutNonMustSupport: Boolean): ValidationEngineSettings
+
 }
