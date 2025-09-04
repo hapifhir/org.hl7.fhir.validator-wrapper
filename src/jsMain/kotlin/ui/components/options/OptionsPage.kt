@@ -130,10 +130,10 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 checkboxWithDetails {
                     name = props.polyglot.t("options_flags_valid_reference_title")
                     description = props.polyglot.t("options_flags_valid_reference_description")
-                    selected = props.validationContext.isAssumeValidRestReferences()
+                    selected = props.validationEngineSettings.isAssumeValidRestReferences()
                     hasDescription = true
                     onChange = {
-                        updateValidationContext(props.validationContext.setAssumeValidRestReferences(it))
+                        updateValidationEngineSettings(props.validationEngineSettings.setAssumeValidRestReferences(it))
                     }
                 }
                 styledDiv {

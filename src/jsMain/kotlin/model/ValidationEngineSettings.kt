@@ -49,6 +49,17 @@ actual class ValidationEngineSettings actual constructor() {
         return this
     }
 
+    private var assumeValidRestReferences = false
+
+    actual fun isAssumeValidRestReferences(): Boolean {
+        return assumeValidRestReferences
+    }
+
+    actual fun setAssumeValidRestReferences(assumeValidRestReferences: Boolean): ValidationEngineSettings {
+        this.assumeValidRestReferences = assumeValidRestReferences
+        return this
+    }
+
     constructor (validationEngineSettings : ValidationEngineSettings) : this() {
         this.baseEngine = validationEngineSettings.baseEngine
         this.doNative = validationEngineSettings.doNative

@@ -15,4 +15,7 @@ expect class ValidationEngineSettings() {
     fun isHintAboutNonMustSupport(): Boolean
     fun setHintAboutNonMustSupport(hintAboutNonMustSupport: Boolean): ValidationEngineSettings
 
+    fun isAssumeValidRestReferences(): Boolean
+    fun setAssumeValidRestReferences(assumeValidRestReferences: Boolean): ValidationEngineSettings
+
 }
