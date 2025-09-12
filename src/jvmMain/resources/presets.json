@@ -157,14 +157,14 @@
       "baseEngine": "SQL_VIEW",
       "sv": "5.0.0",
       "igs": [
-        "hl7.fhir.uv.sql-on-fhir#current"
+        "org.sql-on-fhir.ig#current"
       ]
     },
     "igPackageInfo": [{
-      "id": "hl7.fhir.uv.sql-on-fhir",
+      "id": "org.sql-on-fhir.ig",
       "version": "current",
       "fhirVersion": "5.0.0",
-      "url": "http://hl7.org/fhir/uv/sql-on-fhir/ImplementationGuide/hl7.fhir.uv.sql-on-fhir"
+      "url": "https://sql-on-fhir.org/ig/ImplementationGuide/org.sql-on-fhir.ig"
     }],
     "extensionSet": [],
     "profileSet": []
