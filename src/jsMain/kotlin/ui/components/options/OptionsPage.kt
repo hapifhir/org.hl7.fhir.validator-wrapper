@@ -144,10 +144,10 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                 checkboxWithDetails {
                     name = props.polyglot.t("options_flags_binding_warnings_title")
                     description = props.polyglot.t("options_flags_binding_warnings_description")
-                    selected = props.validationContext.isNoExtensibleBindingMessages()
+                    selected = props.validationEngineSettings.isNoExtensibleBindingMessages()
                     hasDescription = true
                     onChange = {
-                        updateValidationContext(props.validationContext.setNoExtensibleBindingMessages(it))
+                        updateValidationEngineSettings(props.validationEngineSettings.setNoExtensibleBindingMessages(it))
                     }
                 }
                 styledDiv {

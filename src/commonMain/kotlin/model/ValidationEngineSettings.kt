@@ -18,4 +18,7 @@ expect class ValidationEngineSettings() {
     fun isAssumeValidRestReferences(): Boolean
     fun setAssumeValidRestReferences(assumeValidRestReferences: Boolean): ValidationEngineSettings
 
+    fun isNoExtensibleBindingMessages(): Boolean
+    fun setNoExtensibleBindingMessages(noExtensibleBindingMessages: Boolean): ValidationEngineSettings
+
 }

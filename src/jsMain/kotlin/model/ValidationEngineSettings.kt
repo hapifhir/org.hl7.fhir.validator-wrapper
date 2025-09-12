@@ -7,6 +7,16 @@ import kotlinx.serialization.Serializable
 actual class ValidationEngineSettings actual constructor() {
 
     private var baseEngine: String? = null
+
+    actual fun getBaseEngine(): String? {
+        return baseEngine
+    }
+
+    actual fun setBaseEngine(baseEngine: String?): ValidationEngineSettings {
+        this.baseEngine = baseEngine
+        return this
+    }
+
     private var doNative = false
 
     actual fun isDoNative(): Boolean {
@@ -15,15 +25,6 @@ actual class ValidationEngineSettings actual constructor() {
 
     actual fun setDoNative(doNative: Boolean): ValidationEngineSettings {
         this.doNative = doNative
-        return this
-    }
-
-    actual fun getBaseEngine(): String? {
-       return baseEngine
-    }
-
-    actual fun setBaseEngine(baseEngine: String?): ValidationEngineSettings {
-        this.baseEngine = baseEngine
         return this
     }
 
@@ -60,8 +61,24 @@ actual class ValidationEngineSettings actual constructor() {
         return this
     }
 
+    private var noExtensibleBindingMessages = false
+
+    actual fun isNoExtensibleBindingMessages(): Boolean {
+        return noExtensibleBindingMessages
+    }
+
+    actual fun setNoExtensibleBindingMessages(noExtensibleBindingMessages: Boolean): ValidationEngineSettings {
+        this.noExtensibleBindingMessages = noExtensibleBindingMessages
+        return this
+    }
+
     constructor (validationEngineSettings : ValidationEngineSettings) : this() {
         this.baseEngine = validationEngineSettings.baseEngine
         this.doNative = validationEngineSettings.doNative
+        this.snomedCT = validationEngineSettings.snomedCT
+        this.hintAboutNonMustSupport = validationEngineSettings.hintAboutNonMustSupport
+        this.assumeValidRestReferences = validationEngineSettings.assumeValidRestReferences
+        this.noExtensibleBindingMessages = validationEngineSettings.noExtensibleBindingMessages
     }
+
 }
