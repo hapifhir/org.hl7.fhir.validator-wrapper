@@ -23,8 +23,8 @@ This was taken directly from https://build.fhir.org/ig/HL7/fhir-ips/Bundle-bundl
 
 # sql-on-fhir
 
-This was taken directly from the simple example on https://build.fhir.org/ig/FHIR/sql-on-fhir-v2/ but with the additional
-structure and fields required to make it a valid resource.
+This was taken directly from this example: https://build.fhir.org/ig/FHIR/sql-on-fhir-v2/Binary-PatientAddresses.html
+
 
 
 
