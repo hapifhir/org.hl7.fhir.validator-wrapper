@@ -1,5 +1,5 @@
 
-# These tests do validations using CliContext instances that use the presents in
+# These tests do validations using CliContext instances that use the presets in
 # commonMain/kotlin/constants/Preset
 
 # Conversely, the preset-queries.http tests will perform the same tests, but using
@@ -28,7 +28,6 @@ Content-Type: application/json
 
 ### CDA
 # @name CDA
-# This example is compo
 POST {{host}}/validate
 Content-Type: application/json
 
@@ -43,16 +42,15 @@ Content-Type: application/json
     client.test("Issues are Correct", function () {
         let issues = response.body.outcomes[0].issues
         client.log("issues:" + issues.length)
-        client.assert(issues.length === 10);
-        client.assert(containsIssue(issues, 20, 24, "Binding for path ClinicalDocument.realmCode[0] in profile StructureDefinition[http://hl7.org/cda/stds/core/StructureDefinition/ClinicalDocument|2.0.0-sd-snapshot1] has no source, so can't be checked", "CODEINVALID", "INFORMATION"))
+        client.assert(issues.length === 9);
+        client.assert(containsIssue(issues, 20, 24, "Binding for path ClinicalDocument.realmCode[0] in profile StructureDefinition[http://hl7.org/cda/stds/core/StructureDefinition/ClinicalDocument|2.0.1-sd] has no source, so can't be checked", "CODEINVALID", "INFORMATION"))
         client.assert(containsIssue(issues, 251, 184, "The OID '2.16.840.1.114222.4.11.1066' is not known, so the code can't be validated", "CODEINVALID", "WARNING"))
     });
 %}
 
 
-### US-CDA
-# @name US-CDA
-# Check that a request with explicit IG settings returns an expected response
+### US-CCDA
+# @name US-CCDA
 POST {{host}}/validate
 Content-Type: application/json
 
@@ -66,8 +64,8 @@ Content-Type: application/json
     client.test("Issues are Correct", function() {
         let issues = response.body.outcomes[0].issues
         client.log("issues:" + issues.length)
-        client.assert(issues.length === 10)
-        client.assert(containsIssue(issues, 20, 24, "Binding for path ClinicalDocument.realmCode[0] in profile StructureDefinition[http://hl7.org/cda/stds/core/StructureDefinition/ClinicalDocument|2.0.0-sd-snapshot1] has no source, so can't be checked", "CODEINVALID", "INFORMATION"))
+        client.assert(issues.length === 9)
+        client.assert(containsIssue(issues, 20, 24, "Binding for path ClinicalDocument.realmCode[0] in profile StructureDefinition[http://hl7.org/cda/stds/core/StructureDefinition/ClinicalDocument|2.0.1-sd] has no source, so can't be checked", "CODEINVALID", "INFORMATION"))
         client.assert(!containsIssue(issues, 251, 184, "The OID '2.16.840.1.113883.1.11.19830' is not known, so the code can't be validated", "CODEINVALID", "WARNING"))
     })
 %}
@@ -87,7 +85,7 @@ Content-Type: application/json
     client.test("Issues are Correct", function() {
         let issues = response.body.outcomes[0].issues
         client.log("issues:" + issues.length)
-        client.assert(issues.length === 37);
+        client.assert(issues.length === 38);
         client.assert(containsIssue(issues, 1, 2, "The Snomed CT code 373270004 (Substance with penicillin structure and antibacterial mechanism of action) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
         client.assert(containsIssue(issues, 1, 2, "The Snomed CT code 108774000 (Product containing anastrozole (medicinal product)) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
 
@@ -112,7 +110,7 @@ Content-Type: application/json
     client.test("Issues are Correct", function() {
         let issues = response.body.outcomes[0].issues
         client.log("issues:" + issues.length)
-        client.assert(issues.length === 70);
+        client.assert(issues.length === 71);
         client.assert(containsIssue(issues, 2, 37, "The Snomed CT code 373270004 (Substance with penicillin structure and antibacterial mechanism of action) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
         client.assert(containsIssue(issues, 144, 28, "This element does not match any known slice defined in the profile http://hl7.org.au/fhir/ps/StructureDefinition/au-ps-composition|0.5.0-cibuild (this may not be a problem, but you should check that it's not intended to match a slice)", "INFORMATIONAL", "INFORMATION"))
     });
@@ -120,7 +118,6 @@ Content-Type: application/json
 
 ### SQL-ON-FHIR
 # @name SQL-ON-FHIR
-# Check that a request with explicit IG settings returns an expected response
 POST {{host}}/validate
 Content-Type: application/json
 

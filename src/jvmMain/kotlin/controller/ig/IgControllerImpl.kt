@@ -33,7 +33,7 @@ class IgControllerImpl : IgController, KoinComponent {
         val packageInfoList: MutableList<PackageInfo> = mutableListOf()
 
         SIMPLIFIER_VERSIONS.forEach {
-            val packageList = packageClient.search(igPackageName, null, it, true)
+            val packageList = packageClient.search(igPackageName, null, it, true, null)
             packageList?.map {
                 PackageInfo(id = it.id, version = null, fhirVersion = null, url = null)
             }?.toMutableList()?.forEach({
