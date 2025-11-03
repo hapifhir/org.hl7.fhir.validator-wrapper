@@ -18,7 +18,7 @@ expect class ValidationContext() {
     fun setNoExtensibleBindingMessages(noExtensibleBindingMessages: Boolean): ValidationContext
 
     fun isShowTimes(): Boolean
-    fun setShowTimes(showTimes: Boolean)
+    fun setShowTimes(showTimes: Boolean) : ValidationContext
 
     fun getTxServer(): String
     fun setTxServer(txServer: String): ValidationContext
@@ -48,7 +48,7 @@ expect class ValidationContext() {
     fun setSv(sv: String): ValidationContext
 
     fun isAllowExampleUrls() : Boolean
-    fun setAllowExampleUrls(allowExampleUrls:Boolean)
+    fun setAllowExampleUrls(allowExampleUrls:Boolean) : ValidationContext
 
     fun setLocale(languageString: String) : ValidationContext
 

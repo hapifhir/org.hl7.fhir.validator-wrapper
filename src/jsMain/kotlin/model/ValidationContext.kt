@@ -103,16 +103,18 @@ actual class ValidationContext actual constructor() {
         return showTimes
     }
 
-    actual fun setShowTimes(showTimes: Boolean) {
+    actual fun setShowTimes(showTimes: Boolean) : ValidationContext {
         this.showTimes = showTimes
+        return this;
     }
 
     actual fun isAllowExampleUrls(): Boolean {
         return allowExampleUrls
     }
 
-    actual fun setAllowExampleUrls(allowExampleUrls : Boolean) {
+    actual fun setAllowExampleUrls(allowExampleUrls : Boolean) : ValidationContext {
         this.allowExampleUrls = allowExampleUrls
+        return this
     }
 
     actual fun getTxServer(): String {

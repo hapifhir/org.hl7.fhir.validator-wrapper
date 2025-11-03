@@ -111,12 +111,12 @@
       "baseEngine": "CDA",
       "sv": "5.0.0",
       "igs": [
-        "hl7.cda.uv.core#2.0.0-sd-snapshot1"
+        "hl7.cda.uv.core#2.0.1-sd"
       ]
     },
     "igPackageInfo": [{
       "id": "hl7.cda.uv.core",
-      "version": "2.0.0-sd-snapshot1",
+      "version": "2.0.1-sd",
       "fhirVersion": "5.0.0",
       "url": "http://hl7.org/cda/stds/core/ImplementationGuide/hl7.cda.uv.core"
     }],
@@ -134,12 +134,12 @@
       "baseEngine": "US_CCDA",
       "sv": "5.0.0",
       "igs": [
-        "hl7.cda.us.ccda#3.0.0-ballot"
+        "hl7.cda.us.ccda#4.0.0"
       ]
     },
     "igPackageInfo": [{
       "id": "hl7.cda.us.ccda",
-      "version": "3.0.0-ballot",
+      "version": "4.0.0",
       "fhirVersion": "5.0.0",
       "url": "http://hl7.org/fhir/us/ccda/ImplementationGuide/hl7.fhir.us.ccda"
     }],

@@ -2,7 +2,7 @@
   "validationContext": {
     "sv": "5.0.0",
     "igs": [
-      "hl7.cda.us.ccda#3.0.0-ballot"
+      "hl7.cda.us.ccda#4.0.0"
     ],
     "locale": "en"
   },

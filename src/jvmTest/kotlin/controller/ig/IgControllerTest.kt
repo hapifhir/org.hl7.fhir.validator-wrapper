@@ -89,9 +89,9 @@ class IgControllerTest : BaseControllerTest() {
         val resultingPackageInfoListR4 = givenAProcessedListOfValidPackageInfoR4()
 
 
-        coEvery { igPackageClient.search(any(), any(), eq("DSTU2"), any()) } returns igPackageInfoListDSTU2
-        coEvery { igPackageClient.search(any(), any(), eq("STU3"), any()) } returns igPackageInfoListSTU3
-        coEvery { igPackageClient.search(any(), any(), eq("R4"), any()) } returns igPackageInfoListR4
+        coEvery { igPackageClient.search(any(), any(), eq("DSTU2"), any(), any()) } returns igPackageInfoListDSTU2
+        coEvery { igPackageClient.search(any(), any(), eq("STU3"), any(), any()) } returns igPackageInfoListSTU3
+        coEvery { igPackageClient.search(any(), any(), eq("R4"), any(), any()) } returns igPackageInfoListR4
 
         runBlocking {
             val response = igController.listIgsFromSimplifier()
@@ -104,9 +104,9 @@ class IgControllerTest : BaseControllerTest() {
     fun `test ig controller returns empty list on null return from simplifier`() {
         val nullIgPackageInfoList = givenANullReturnedListOfPackageInfo()
 
-        coEvery { igPackageClient.search(any(), any(), eq("DSTU2"), any()) } returns nullIgPackageInfoList
-        coEvery { igPackageClient.search(any(), any(), eq("STU3"), any()) } returns nullIgPackageInfoList
-        coEvery { igPackageClient.search(any(), any(), eq("R4"), any()) } returns nullIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("DSTU2"), any(), any()) } returns nullIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("STU3"), any(), any()) } returns nullIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("R4"), any(), any()) } returns nullIgPackageInfoList
 
         runBlocking {
             val response = igController.listIgsFromSimplifier()
@@ -118,9 +118,9 @@ class IgControllerTest : BaseControllerTest() {
     fun `test ig controller returns empty list on empty list return from simplifier`() {
         val emptyIgPackageInfoList = givenAnEmptyReturnedListOfPackageInfo()
 
-        coEvery { igPackageClient.search(any(), any(), eq("DSTU2"), any()) } returns emptyIgPackageInfoList
-        coEvery { igPackageClient.search(any(), any(), eq("STU3"), any()) } returns emptyIgPackageInfoList
-        coEvery { igPackageClient.search(any(), any(), eq("R4"), any()) } returns emptyIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("DSTU2"), any(), any()) } returns emptyIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("STU3"), any(), any()) } returns emptyIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("R4"), any(), any()) } returns emptyIgPackageInfoList
 
         runBlocking {
             val response = igController.listIgsFromSimplifier()
