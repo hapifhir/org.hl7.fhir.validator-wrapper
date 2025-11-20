@@ -1,28 +1,16 @@
 import constants.VERSIONS_ENDPOINT
-import controller.uptime.uptimeModule
 import controller.version.VersionController
 import controller.version.versionModule
 import instrumentation.VersionsInstrumentation.givenAListOfSupportedVersions
 import io.ktor.client.request.*
 import io.ktor.http.*
-import io.ktor.serialization.gson.*
-import io.ktor.server.application.*
-import io.ktor.server.config.*
-import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.routing.*
-import io.ktor.server.testing.*
 import io.mockk.coEvery
 import io.mockk.mockk
 import model.FhirVersionsResponse
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.koin.core.KoinApplication
-import org.koin.core.context.GlobalContext.stopKoin
-import org.koin.core.context.startKoin
 import org.koin.core.module.Module
-import org.koin.dsl.module
 import kotlin.test.assertEquals
 
 //FIXME remove me after all deprecated withTestApplication tests are removed
@@ -40,32 +28,17 @@ class SanityCheckRoutingTest : BaseRoutingTest() {
     }
 
     @Test
-    fun `when requesting requesting to check a terminology server, return valid terminology response body`() =
-        testApplication {
-            environment {
-                developmentMode = false
-                config = MapApplicationConfig()
-            }
+    fun `when requesting requesting to check a terminology server, return valid terminology response body`() = testApplication {
+        val versionResponse = givenAListOfSupportedVersions()
+        coEvery { versionController.listSupportedVersions() } returns versionResponse
 
-            application {
-                install(ContentNegotiation) {
-                    gson { }
-                }
-                routing {
-                    getRoutingModules()
-                }
-            }
-
-            val versionResponse = givenAListOfSupportedVersions()
-            coEvery { versionController.listSupportedVersions() } returns versionResponse
-
-            val response = client.get(VERSIONS_ENDPOINT) {
-                contentType(ContentType.Application.Json)
-            }
-            val responseBody = response.parseBody(FhirVersionsResponse::class.java)
-            assertEquals(HttpStatusCode.OK, response.status)
-            Assertions.assertIterableEquals(versionResponse, responseBody.versions)
+        val response = client.get(VERSIONS_ENDPOINT) {
+            contentType(ContentType.Application.Json)
         }
+        val responseBody = response.parseBody(FhirVersionsResponse::class.java)
+        assertEquals(HttpStatusCode.OK, response.status)
+        Assertions.assertIterableEquals(versionResponse, responseBody.versions)
+    }
 
 
 
