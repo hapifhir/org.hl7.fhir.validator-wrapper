@@ -6,7 +6,6 @@ import controller.validation.INVALID_FILE_MESSAGE
 import controller.validation.NO_FILES_PROVIDED_MESSAGE
 import controller.validation.ValidationController
 import controller.validation.validationModule
-import instrumentation.ValidationInstrumentation
 import instrumentation.ValidationInstrumentation.compareValidationResponses
 import instrumentation.ValidationInstrumentation.givenAValidationRequest
 import instrumentation.ValidationInstrumentation.givenAValidationRequestWithABadFileName
@@ -14,41 +13,29 @@ import instrumentation.ValidationInstrumentation.givenAValidationRequestWithABad
 import instrumentation.ValidationInstrumentation.givenAValidationRequestWithNoFiles
 import instrumentation.ValidationInstrumentation.givenAValidationRequestWithNullListOfFiles
 import instrumentation.ValidationInstrumentation.givenAValidationResult
-import io.ktor.server.application.*
+import instrumentation.ValidationInstrumentation.givenAnInternalValidatorError
+import io.ktor.client.request.*
 import io.ktor.http.*
-import io.ktor.http.ContentType
 import io.ktor.server.routing.*
-import io.ktor.server.testing.*
 import io.mockk.coEvery
 import io.mockk.mockk
 import model.AppVersions
-import model.ValidationResponse
-import org.junit.jupiter.api.*
-import org.koin.dsl.module
+import org.hl7.fhir.validation.service.model.ValidationResponse
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.koin.core.module.Module
 import routing.BaseRoutingTest
-import kotlin.test.assertEquals
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ValidationRoutingTest : BaseRoutingTest() {
 
     private val validationController: ValidationController = mockk()
 
-    @BeforeAll
-    fun setup() {
-        koinModules = module {
-            single { validationController }
-        }
-
-        moduleList = {
-            install(Routing) {
-                validationModule()
-            }
-        }
+    override fun Module.getKoinModules() {
+        single<ValidationController> { validationController }
     }
 
-    @BeforeEach
-    fun clearMocks() {
-        io.mockk.clearMocks(validationController)
+    override fun Routing.getRoutingModules() {
+        validationModule()
     }
 
     @Test
@@ -57,116 +44,101 @@ class ValidationRoutingTest : BaseRoutingTest() {
         val validationResponse = givenAValidationResult(10, 10)
         coEvery { validationController.validateRequest(any()) } returns validationResponse
 
-        val call = handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
-            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+        val response = client.post(VALIDATION_ENDPOINT) {
+            contentType(ContentType.Application.Json)
             setBody(toJsonBody(validationRequest))
         }
 
-        with(call) {
-            assertEquals(HttpStatusCode.OK, response.status())
-            val responseBody = response.parseBody(ValidationResponse::class.java)
-            compareValidationResponses(validationResponse, responseBody)
-        }
+        assertEquals(HttpStatusCode.OK, response.status)
+        val responseBody = response.parseBody(ValidationResponse::class.java)
+        compareValidationResponses(validationResponse, responseBody)
     }
 
     @Test
     fun `test internal exception from validation service results in internal server error`() = withBaseTestApplication {
         val validationRequest = givenAValidationRequest()
-        val internalError = ValidationInstrumentation.givenAnInternalValidatorError()
+        val internalError = givenAnInternalValidatorError()
         coEvery { validationController.validateRequest(any()) } throws internalError
 
-        val call = handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
-            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+        val response = client.post(VALIDATION_ENDPOINT) {
+            contentType(ContentType.Application.Json)
             setBody(toJsonBody(validationRequest))
         }
 
-        with(call) {
-            assertEquals(HttpStatusCode.InternalServerError, response.status())
-            assertEquals(quoteWrap(internalError.localizedMessage), response.content)
-        }
+        assertEquals(HttpStatusCode.InternalServerError, response.status)
+        assertEquals(internalError.localizedMessage, response.parseBody(String::class.java))
     }
 
     @Test
     fun `test sending a request containing no files results in bad request returned`() = withBaseTestApplication {
         val validationRequest = givenAValidationRequestWithNoFiles()
-        val internalError = ValidationInstrumentation.givenAnInternalValidatorError()
+        val internalError = givenAnInternalValidatorError()
         coEvery { validationController.validateRequest(any()) } throws internalError
 
-        val call = handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
-            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+        val response = client.post(VALIDATION_ENDPOINT) {
+            contentType(ContentType.Application.Json)
             setBody(toJsonBody(validationRequest))
         }
 
-        with(call) {
-            assertEquals(HttpStatusCode.BadRequest, response.status())
-            assertEquals(quoteWrap(NO_FILES_PROVIDED_MESSAGE), response.content)
-        }
+        assertEquals(HttpStatusCode.BadRequest, response.status)
+        assertEquals(NO_FILES_PROVIDED_MESSAGE, response.parseBody(String::class.java))
     }
 
     @Test
     fun `test sending a request containing null results in bad request returned`() = withBaseTestApplication {
         val validationRequest = givenAValidationRequestWithNullListOfFiles()
-        val internalError = ValidationInstrumentation.givenAnInternalValidatorError()
+        val internalError = givenAnInternalValidatorError()
         coEvery { validationController.validateRequest(any()) } throws internalError
 
-        val call = handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
-            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+        val response = client.post(VALIDATION_ENDPOINT) {
+            contentType(ContentType.Application.Json)
             setBody(toJsonBody(validationRequest))
         }
 
-        with(call) {
-            assertEquals(HttpStatusCode.BadRequest, response.status())
-            assertEquals(quoteWrap(NO_FILES_PROVIDED_MESSAGE), response.content)
-        }
+        assertEquals(HttpStatusCode.BadRequest, response.status)
+        assertEquals(NO_FILES_PROVIDED_MESSAGE, response.parseBody(String::class.java))
     }
 
     @Test
     fun `test sending a request containing a bad filetype results in bad request returned`() = withBaseTestApplication {
         val validationRequest = givenAValidationRequestWithABadFileType()
-        val internalError = ValidationInstrumentation.givenAnInternalValidatorError()
+        val internalError = givenAnInternalValidatorError()
         coEvery { validationController.validateRequest(any()) } throws internalError
 
-        val call = handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
-            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+        val response = client.post(VALIDATION_ENDPOINT) {
+            contentType(ContentType.Application.Json)
             setBody(toJsonBody(validationRequest))
         }
 
-        with(call) {
-            assertEquals(HttpStatusCode.BadRequest, response.status())
-            assertEquals(quoteWrap(INVALID_FILE_MESSAGE), response.content)
-        }
+        assertEquals(HttpStatusCode.BadRequest, response.status)
+        assertEquals(INVALID_FILE_MESSAGE, response.parseBody(String::class.java))
     }
-
     @Test
     fun `test sending a request containing a bad filename results in bad request returned`() = withBaseTestApplication {
         val validationRequest = givenAValidationRequestWithABadFileName()
-        val internalError = ValidationInstrumentation.givenAnInternalValidatorError()
+        val internalError = givenAnInternalValidatorError()
         coEvery { validationController.validateRequest(any()) } throws internalError
 
-        val call = handleRequest(HttpMethod.Post, VALIDATION_ENDPOINT) {
-            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+        val response = client.post(VALIDATION_ENDPOINT) {
+            contentType(ContentType.Application.Json)
             setBody(toJsonBody(validationRequest))
         }
 
-        with(call) {
-            assertEquals(HttpStatusCode.BadRequest, response.status())
-            assertEquals(quoteWrap(INVALID_FILE_MESSAGE), response.content)
-        }
+        assertEquals(HttpStatusCode.BadRequest, response.status)
+        assertEquals(INVALID_FILE_MESSAGE, response.parseBody(String::class.java))
     }
 
     @Test
     fun `test sending a request for validator version`() = withBaseTestApplication {
         coEvery { validationController.getAppVersions() } returns AppVersions("dummy.version.1", "dummy.version.2")
 
-        val call = handleRequest(HttpMethod.Get, VALIDATOR_VERSION_ENDPOINT) {
-            addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+        val response = client.get(VALIDATOR_VERSION_ENDPOINT) {
+            contentType(ContentType.Application.Json)
         }
 
-        with(call) {
-            assertEquals(HttpStatusCode.OK, response.status())
-            val appVersions = response.parseBody(AppVersions::class.java)
-            assertEquals("dummy.version.1", appVersions.validatorWrapperVersion)
-            assertEquals("dummy.version.2", appVersions.validatorVersion)
-        }
+        assertEquals(HttpStatusCode.OK, response.status)
+        val appVersions = response.parseBody(AppVersions::class.java)
+        assertEquals("dummy.version.1", appVersions.validatorWrapperVersion)
+        assertEquals("dummy.version.2", appVersions.validatorVersion)
     }
 }
