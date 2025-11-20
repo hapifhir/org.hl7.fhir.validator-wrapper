@@ -1,11 +1,9 @@
-import com.google.gson.Gson
 import constants.VERSIONS_ENDPOINT
+import controller.uptime.uptimeModule
 import controller.version.VersionController
 import controller.version.versionModule
 import instrumentation.VersionsInstrumentation.givenAListOfSupportedVersions
-import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
@@ -16,37 +14,29 @@ import io.ktor.server.testing.*
 import io.mockk.coEvery
 import io.mockk.mockk
 import model.FhirVersionsResponse
-import model.TerminologyServerResponse
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.koin.core.KoinApplication
 import org.koin.core.context.GlobalContext.stopKoin
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 import org.koin.dsl.module
 import kotlin.test.assertEquals
 
 //FIXME remove me after all deprecated withTestApplication tests are removed
-class SanityCheckRoutingTest {
-
-    private val gson = Gson()
+class SanityCheckRoutingTest : BaseRoutingTest() {
 
     private val versionController: VersionController = mockk()
 
-    @BeforeEach
-    fun setup() {
-        startKoin {
-            modules(
-                module {
-                    single<VersionController> { versionController }
-                }
-            )
-        }
+    override fun Module.getKoinModules() {
+        single<VersionController> { versionController }
     }
 
-    @AfterEach
-    fun tearDown() {
-        stopKoin()
+    override fun Routing.getRoutingModules() {
+        versionModule()
+        // uptimeModule() just add more
     }
 
     @Test
@@ -62,7 +52,7 @@ class SanityCheckRoutingTest {
                     gson { }
                 }
                 routing {
-                    versionModule()
+                    getRoutingModules()
                 }
             }
 
@@ -77,7 +67,7 @@ class SanityCheckRoutingTest {
             Assertions.assertIterableEquals(versionResponse, responseBody.versions)
         }
 
-    suspend fun <R> HttpResponse.parseBody(clazz: Class<R>): R {
-        return gson.fromJson(body<String>(), clazz)
-    }
+
+
+
 }
