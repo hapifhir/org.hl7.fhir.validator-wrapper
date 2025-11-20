@@ -1,22 +1,11 @@
 package controller.uptime
 
-import api.terminogy.TerminologyApi
-import api.uptime.EndpointApi
-import constants.IG_ENDPOINT
 import constants.PACKAGES_SERVER_STATUS_ENDPOINT
-import constants.TERMINOLOGY_ENDPOINT
 import constants.TX_SERVER_STATUS_ENDPOINT
-import controller.ig.NO_IGS_RETURNED
-
-import io.ktor.client.plugins.*
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import model.IGResponse
-import model.TerminologyServerRequest
-import model.TerminologyServerResponse
 import org.koin.ktor.ext.inject
 
 const val TX_DOWN = "Terminology server is down."

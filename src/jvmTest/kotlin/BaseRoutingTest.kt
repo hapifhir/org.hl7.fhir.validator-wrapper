@@ -37,6 +37,8 @@ abstract class BaseRoutingTest {
 
     protected abstract fun Module.getKoinModules()
 
+    fun toJsonBody(obj: Any): String = gson.toJson(obj)
+
     suspend fun <R> HttpResponse.parseBody(clazz: Class<R>): R {
         return gson.fromJson(body<String>(), clazz)
     }
