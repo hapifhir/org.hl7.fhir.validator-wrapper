@@ -48,7 +48,7 @@ class TerminologyRoutingTest: BaseRoutingTest() {
         }
 
         assertEquals(HttpStatusCode.OK, response.status)
-        val responseBody = response.parseBody(model.TerminologyServerResponse::class.java)
+        val responseBody = response.parseBody(TerminologyServerResponse::class.java)
         Assertions.assertEquals(url, responseBody.url)
         Assertions.assertEquals(true, responseBody.validTxServer)
     }
