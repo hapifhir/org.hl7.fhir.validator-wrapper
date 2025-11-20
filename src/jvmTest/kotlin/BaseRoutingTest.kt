@@ -56,7 +56,6 @@ abstract class BaseRoutingTest {
                     getRoutingModules()
                 }
             }
-
             test()
         }
     }
