@@ -39,7 +39,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
     }
 
     @Test
-    fun `when requesting validation with a valid request, return validation response body`() = withTestApplication {
+    fun `when requesting validation with a valid request, return validation response body`() = withBaseTestApplication {
         val validationRequest = givenAValidationRequest()
         val validationResponse = givenAValidationResult(10, 10)
         coEvery { validationController.validateRequest(any()) } returns validationResponse
@@ -55,7 +55,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
     }
 
     @Test
-    fun `test internal exception from validation service results in internal server error`() = withTestApplication {
+    fun `test internal exception from validation service results in internal server error`() = withBaseTestApplication {
         val validationRequest = givenAValidationRequest()
         val internalError = givenAnInternalValidatorError()
         coEvery { validationController.validateRequest(any()) } throws internalError
@@ -70,7 +70,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
     }
 
     @Test
-    fun `test sending a request containing no files results in bad request returned`() = withTestApplication {
+    fun `test sending a request containing no files results in bad request returned`() = withBaseTestApplication {
         val validationRequest = givenAValidationRequestWithNoFiles()
         val internalError = givenAnInternalValidatorError()
         coEvery { validationController.validateRequest(any()) } throws internalError
@@ -85,7 +85,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
     }
 
     @Test
-    fun `test sending a request containing null results in bad request returned`() = withTestApplication {
+    fun `test sending a request containing null results in bad request returned`() = withBaseTestApplication {
         val validationRequest = givenAValidationRequestWithNullListOfFiles()
         val internalError = givenAnInternalValidatorError()
         coEvery { validationController.validateRequest(any()) } throws internalError
@@ -100,7 +100,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
     }
 
     @Test
-    fun `test sending a request containing a bad filetype results in bad request returned`() = withTestApplication {
+    fun `test sending a request containing a bad filetype results in bad request returned`() = withBaseTestApplication {
         val validationRequest = givenAValidationRequestWithABadFileType()
         val internalError = givenAnInternalValidatorError()
         coEvery { validationController.validateRequest(any()) } throws internalError
@@ -114,7 +114,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
         assertEquals(INVALID_FILE_MESSAGE, response.parseBody(String::class.java))
     }
     @Test
-    fun `test sending a request containing a bad filename results in bad request returned`() = withTestApplication {
+    fun `test sending a request containing a bad filename results in bad request returned`() = withBaseTestApplication {
         val validationRequest = givenAValidationRequestWithABadFileName()
         val internalError = givenAnInternalValidatorError()
         coEvery { validationController.validateRequest(any()) } throws internalError
@@ -129,7 +129,7 @@ class ValidationRoutingTest : BaseRoutingTest() {
     }
 
     @Test
-    fun `test sending a request for validator version`() = withTestApplication {
+    fun `test sending a request for validator version`() = withBaseTestApplication {
         coEvery { validationController.getAppVersions() } returns AppVersions("dummy.version.1", "dummy.version.2")
 
         val response = client.get(VALIDATOR_VERSION_ENDPOINT) {

@@ -36,7 +36,7 @@ class TerminologyRoutingTest: BaseRoutingTest() {
     }
 
     @Test
-    fun `when requesting requesting to check a terminology server, return valid terminology response body` () = withTestApplication {
+    fun `when requesting requesting to check a terminology server, return valid terminology response body` () = withBaseTestApplication {
         val url = givenATerminologyServerUrl()
         val terminologyServerRequest = TerminologyServerRequest(url = url)
         coEvery { terminologyApi.getCapabilityStatement(any()) } returns givenAValidCapabilityStatement()
@@ -55,7 +55,7 @@ class TerminologyRoutingTest: BaseRoutingTest() {
 
     @Test
     fun `when requesting to check bad terminology server, response with bad terminology is returned`() =
-    withTestApplication {
+    withBaseTestApplication {
         val url = givenATerminologyServerUrl()
         val terminologyServerRequest = TerminologyServerRequest(url = url)
         coEvery { terminologyApi.getCapabilityStatement(any()) } returns givenAnInvalidCapabilityStatement()

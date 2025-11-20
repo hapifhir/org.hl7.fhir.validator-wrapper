@@ -19,7 +19,7 @@ import org.koin.dsl.module
 abstract class BaseRoutingTest {
 
     private val gson = Gson()
-    
+
     @BeforeEach
     fun setup() {
         stopKoin() // Just in case some other test didn't
@@ -46,11 +46,15 @@ abstract class BaseRoutingTest {
         return gson.fromJson(body<String>(), clazz)
     }
 
-    protected fun withTestApplication(test: suspend ApplicationTestBuilder.() -> Unit) {
-        io.ktor.server.testing.testApplication {
+    /**
+     * Sets up a testApplication with gson content negotiation and whatever koin or routing modules the implementing
+     * test class has in its getRoutingModules() and .getKoinModules() methods.
+     */
+    protected fun withBaseTestApplication(test: suspend ApplicationTestBuilder.() -> Unit) {
+        testApplication {
             environment {
                 developmentMode = false
-                config = MapApplicationConfig()
+                config = MapApplicationConfig() // don't configure from application.conf
             }
 
             application {

@@ -33,7 +33,7 @@ class IgRoutingTest: BaseRoutingTest() {
     }
 
     @Test
-    fun `when requesting requesting list of valid igs, return ig response body`() = withTestApplication {
+    fun `when requesting requesting list of valid igs, return ig response body`() = withBaseTestApplication {
         val igResponseA = givenAListOfValidIgUrlsA()
         val igResponseB = givenAListOfValidIgUrlsB()
         coEvery { igController.listIgsFromRegistry() } returns igResponseA
@@ -50,7 +50,7 @@ class IgRoutingTest: BaseRoutingTest() {
     }
 
     @Test
-    fun `when requesting requesting list of valid igs using a partial name, return ig response body`() = withTestApplication {
+    fun `when requesting requesting list of valid igs using a partial name, return ig response body`() = withBaseTestApplication {
         val igResponseA = givenAListOfValidIgUrlsA()
         val igResponseB = givenAListOfValidIgUrlsB()
         coEvery { igController.listIgsFromRegistry() } returns igResponseA
@@ -66,7 +66,7 @@ class IgRoutingTest: BaseRoutingTest() {
     }
 
     @Test
-    fun `when service provides a list containing 0 items, an internal server error code is returned`() = withTestApplication {
+    fun `when service provides a list containing 0 items, an internal server error code is returned`() = withBaseTestApplication {
         val igResponseA = givenAnEmptyListOfIgUrls()
         val igResponseB = givenAnEmptyListOfIgUrls()
         coEvery { igController.listIgsFromRegistry() } returns igResponseA
@@ -81,7 +81,7 @@ class IgRoutingTest: BaseRoutingTest() {
     }
 
     @Test
-    fun `when requesting requesting list of valid igs for ig versions, return ig response body`() = withTestApplication {
+    fun `when requesting requesting list of valid igs for ig versions, return ig response body`() = withBaseTestApplication {
         val igResponseA = givenAListOfValidIgUrlsA()
 
         coEvery { igController.listIgVersionsFromSimplifier(eq("dummy.package")) } returns igResponseA
@@ -96,7 +96,7 @@ class IgRoutingTest: BaseRoutingTest() {
     }
 
     @Test
-    fun `when service provides a list containing 0 items for ig versions, an internal server error code is returned`() = withTestApplication {
+    fun `when service provides a list containing 0 items for ig versions, an internal server error code is returned`() = withBaseTestApplication {
         val igResponseA = givenAnEmptyListOfIgUrls()
 
         coEvery { igController.listIgVersionsFromSimplifier(eq("dummy.package")) } returns igResponseA

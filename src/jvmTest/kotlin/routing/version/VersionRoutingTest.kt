@@ -33,7 +33,7 @@ class VersionRoutingTest : BaseRoutingTest() {
     }
 
     @Test
-    fun `when requesting requesting to check a terminology server, return valid terminology response body`() = withTestApplication {
+    fun `when requesting requesting to check a terminology server, return valid terminology response body`() = withBaseTestApplication {
         val versionResponse = givenAListOfSupportedVersions()
         coEvery { versionController.listSupportedVersions() } returns versionResponse
 
@@ -46,7 +46,7 @@ class VersionRoutingTest : BaseRoutingTest() {
     }
 
     @Test
-    fun `when requesting requesting list of supported versions, return internal server error if list is size empty`() = withTestApplication {
+    fun `when requesting requesting list of supported versions, return internal server error if list is size empty`() = withBaseTestApplication {
         val versionResponse = givenAnEmptyListOfSupportedVersions()
         coEvery { versionController.listSupportedVersions() } returns versionResponse
 
