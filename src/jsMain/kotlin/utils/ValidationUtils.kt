@@ -14,6 +14,7 @@ fun getHighestIssueSeverity(validationMessages: List<ValidationMessage>): IssueS
             IssueSeverity.WARNING -> warning = true
             IssueSeverity.ERROR -> error = true
             IssueSeverity.FATAL -> return IssueSeverity.FATAL
+            else -> {}
         }
     }
 
