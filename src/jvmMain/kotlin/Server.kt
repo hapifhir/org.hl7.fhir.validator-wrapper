@@ -47,8 +47,7 @@ fun startServer(args: Array<String>) {
 
     val preloadCache = System.getenv()["PRELOAD_CACHE"] ?: "false"
 
-    if (preloadCache != null && preloadCache.equals("true")) {
-
+    if (preloadCache.equals("true")) {
         Thread(PackageCacheDownloaderRunnable()).start();
     }
 
