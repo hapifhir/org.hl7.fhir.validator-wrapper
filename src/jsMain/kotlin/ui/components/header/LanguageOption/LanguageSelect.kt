@@ -3,7 +3,7 @@ package ui.components.header.LanguageOption
 import Polyglot
 import mui.material.*
 import react.*
-import csstype.px
+import web.cssom.px
 import model.ValidationContext
 import mui.system.sx
 import react.Props

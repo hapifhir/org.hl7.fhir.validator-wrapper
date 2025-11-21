@@ -3,7 +3,7 @@ package ui.components.options
 import Polyglot
 import mui.material.*
 import react.*
-import csstype.px
+import web.cssom.px
 import kotlinx.coroutines.launch
 import kotlinx.css.*
 import model.ValidationContext

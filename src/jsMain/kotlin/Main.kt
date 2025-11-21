@@ -1,5 +1,6 @@
 import css.GlobalStyles
-import kotlinx.browser.document
+//import kotlinx.browser.document
+import web.dom.document
 import react.create
 import react.dom.client.createRoot
 
