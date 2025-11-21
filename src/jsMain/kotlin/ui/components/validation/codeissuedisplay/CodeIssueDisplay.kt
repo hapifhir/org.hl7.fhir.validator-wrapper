@@ -94,7 +94,7 @@ class CodeIssueDisplay : RComponent<CodeIssueDisplayProps, CodeIssueDisplayState
                 0,
                 message.getLine(),
                 0,
-                issueSeverityToAceCSSClasses(message.getLevel(), props.highlightedMessages.contains(message) == true),
+                issueSeverityToAceCSSClasses(message.getLevel(), props.highlightedMessages.contains(message)),
                 "line",
                 true
             )
