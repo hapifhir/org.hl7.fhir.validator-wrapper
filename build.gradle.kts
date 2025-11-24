@@ -49,16 +49,17 @@ kotlin {
         binaries.executable()
         browser {
             binaries.executable()
-            commonWebpackConfig {
+            webpackTask {
                 cssSupport {
-                    // Use this for Kotlin 1.8.0+
                     enabled.set(true)
                 }
             }
             testTask {
                 useKarma {
                     useChromeHeadless()
-                   // webpackConfig.cssSupport.enabled = true
+                    webpackConfig.cssSupport {
+                        enabled.set(true)
+                    }
                 }
             }
         }
