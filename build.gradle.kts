@@ -54,6 +54,11 @@ kotlin {
                     enabled.set(true)
                 }
             }
+            runTask {
+                cssSupport {
+                    enabled.set(true)
+                }
+            }
             testTask {
                 useKarma {
                     useChromeHeadless()
