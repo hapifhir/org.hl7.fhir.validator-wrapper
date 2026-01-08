@@ -8,8 +8,9 @@ import kotlinx.css.properties.*
 import kotlinx.html.js.onClickFunction
 import react.*
 import react.dom.attrs
-import reactredux.containers.fileUploadTab
-import reactredux.containers.manualEntryTab
+import model.ValidationContext
+import ui.components.tabs.entrytab.ManualEntryTab
+import ui.components.tabs.uploadtab.FileUploadTab
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
@@ -96,9 +97,46 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                     +TabBarStyle.tabBodyContainer
                 }
                 if (state.tabStates[0].active) {
-                    manualEntryTab {}
+                    child(ManualEntryTab::class) {
+                        attrs.validationContext = ValidationContext().setBaseEngine("DEFAULT")
+                        attrs.validationOutcome = null
+                        attrs.currentManuallyEnteredText = ""
+                        attrs.validatingManualEntryInProgress = false
+                        attrs.language = utils.Language.ENGLISH
+                        attrs.polyglot = props.polyglot
+                        attrs.sessionId = ""
+                        attrs.presets = emptyList()
+                        // All callbacks as no-ops
+                        attrs.setValidationOutcome = {}
+                        attrs.toggleValidationInProgress = {}
+                        attrs.updateCurrentlyEnteredText = {}
+                        attrs.updateValidationContext = {}
+                        attrs.updateIgPackageInfoSet = {}
+                        attrs.updateExtensionSet = {}
+                        attrs.updateProfileSet = {}
+                        attrs.updateBundleValidationRuleSet = {}
+                        attrs.setSessionId = {}
+                    }
                 } else {
-                    fileUploadTab {}
+                    child(FileUploadTab::class) {
+                        attrs.uploadedFiles = emptyList()
+                        attrs.validationContext = ValidationContext().setBaseEngine("DEFAULT")
+                        attrs.sessionId = ""
+                        attrs.language = utils.Language.ENGLISH
+                        attrs.polyglot = props.polyglot
+                        attrs.presets = emptyList()
+                        // All callbacks as no-ops
+                        attrs.deleteFile = {}
+                        attrs.uploadFile = {}
+                        attrs.toggleValidationInProgress = { _, _ -> }
+                        attrs.addValidationOutcome = {}
+                        attrs.updateValidationContext = {}
+                        attrs.updateIgPackageInfoSet = {}
+                        attrs.updateExtensionSet = {}
+                        attrs.updateProfileSet = {}
+                        attrs.updateBundleValidationRuleSet = {}
+                        attrs.setSessionId = {}
+                    }
                 }
             }
         }

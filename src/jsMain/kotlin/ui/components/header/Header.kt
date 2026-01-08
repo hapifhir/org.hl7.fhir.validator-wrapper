@@ -3,6 +3,7 @@ package ui.components.header
 import Polyglot
 import api.isPackagesServerUp
 import api.isTerminologyServerUp
+import context.AppScreenContext
 import css.const.HEADER_SHADOW
 import css.const.HIGHLIGHT_GRAY
 import css.const.WHITE
@@ -68,62 +69,66 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
     }
 
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +HeaderStyle.headerContainer
-                if (state.currentScroll > 0) {
-                    boxShadow(color = HEADER_SHADOW, offsetX = 0.px, offsetY = 10.px, blurRadius = 10.px)
-                }
-            }
-            styledImg(src = "images/fhir-logo.png") {
-                css {
-                    +HeaderStyle.headerImage
-                }
-            }
+        AppScreenContext.Consumer { contextValue ->
             styledDiv {
                 css {
-                    +HeaderStyle.headerButtonsContainer
+                    +HeaderStyle.headerContainer
+                    if (state.currentScroll > 0) {
+                        boxShadow(color = HEADER_SHADOW, offsetX = 0.px, offsetY = 10.px, blurRadius = 10.px)
+                    }
                 }
-                AppScreen.values().forEach { screen ->
-                    headerTabButton {
-                        name = screen.name
-                        label = props.polyglot.t(screen.polyglotKey)
-                        selected = props.appScreen == screen
-                        onSelected = { buttonName ->
-                            AppScreen.fromDisplay(buttonName)?.let { it -> props.setScreen(it) }
+                styledImg(src = "images/fhir-logo.png") {
+                    css {
+                        +HeaderStyle.headerImage
+                    }
+                }
+                styledDiv {
+                    css {
+                        +HeaderStyle.headerButtonsContainer
+                    }
+                    AppScreen.values().forEach { screen ->
+                        headerTabButton {
+                            name = screen.name
+                            label = props.polyglot.t(screen.polyglotKey)
+                            selected = props.appScreen == screen
+                            onSelected = { buttonName ->
+                                AppScreen.fromDisplay(buttonName)?.let { it ->
+                                    contextValue.setAppScreen(it)
+                                }
+                            }
                         }
                     }
                 }
-            }
 
-            styledDiv {
-                css {
-                    +HeaderStyle.sideOptions
-                }
                 styledDiv {
                     css {
-                        +HeaderStyle.languageOptionDiv
+                        +HeaderStyle.sideOptions
                     }
-                    languageSelect{
-                        polyglot = props.polyglot
-                        selectedLanguage = props.selectedLanguage
-                        setLanguage = props.setLanguage
-                        fetchPolyglot = props.fetchPolyglot
-                        validationContext = props.validationContext
-                        updateValidationContext = props.updateValidationContext
+                    styledDiv {
+                        css {
+                            +HeaderStyle.languageOptionDiv
+                        }
+                        languageSelect{
+                            polyglot = props.polyglot
+                            selectedLanguage = props.selectedLanguage
+                            setLanguage = props.setLanguage
+                            fetchPolyglot = props.fetchPolyglot
+                            validationContext = props.validationContext
+                            updateValidationContext = props.updateValidationContext
+                        }
                     }
-                }
-                styledDiv {
-                    css {
-                        +HeaderStyle.siteStatusDiv
-                    }
-                    siteStatus {
-                        label = "tx.fhir.org"
-                        status = state.terminologyServerState
-                    }
-                    siteStatus {
-                        label = "packages2.fhir.org"
-                        status = state.packageServerState
+                    styledDiv {
+                        css {
+                            +HeaderStyle.siteStatusDiv
+                        }
+                        siteStatus {
+                            label = "tx.fhir.org"
+                            status = state.terminologyServerState
+                        }
+                        siteStatus {
+                            label = "packages2.fhir.org"
+                            status = state.packageServerState
+                        }
                     }
                 }
             }

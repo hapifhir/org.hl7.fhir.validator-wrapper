@@ -1,94 +1,134 @@
+import Polyglot
+import api.getPolyglotPhrases
+import api.getValidationPresets
+import context.AppScreenContext
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import kotlinx.css.*
+import kotlinx.serialization.json.JsonPrimitive
 import model.AppScreen
+import model.Preset
+import model.ValidationContext
 import react.*
-import reactredux.containers.optionsPage
-import reactredux.containers.header
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import ui.components.footer.footer
+import ui.components.header.Header
 import ui.components.header.HeaderStyle
 import ui.components.main.sectionTitle
+import ui.components.options.OptionsPage
 import ui.components.tabs.tabLayout
-import kotlinx.browser.window
-import model.ValidationContext
 import utils.Language
-
-
-external interface AppProps : Props {
-    var appScreen: AppScreen
-    var polyglot: Polyglot
-
-    var fetchPolyglot:  (String) -> Unit
-    var setLanguage: (Language) -> Unit
-
-    var fetchPresets: () -> Unit
-
-    var validationContext: ValidationContext
-    var updateValidationContext: (ValidationContext, Boolean) -> Unit
-}
+import utils.getJS
 
 val mainScope = MainScope()
 
-fun initLanguages(props: AppProps) {
-    for (item in window.navigator.languages) {
-        val prefix = item.substring(0, 2)
-        var selectedLanguage = Language.getSelectedLanguage(prefix)
-        if (selectedLanguage != null) {
-            props.setLanguage(selectedLanguage)
-            props.fetchPolyglot(selectedLanguage.getLanguageCode());
-            props.updateValidationContext(props.validationContext.setLocale(selectedLanguage.getLanguageCode()), false)
-            break
+class AppState : State {
+    var polyglot: Polyglot = Polyglot()
+    var presets: List<Preset> = emptyList()
+}
+
+class App : RComponent<Props, AppState>() {
+
+    init {
+        state = AppState()
+
+        // Fetch polyglot on mount (English only)
+        mainScope.launch {
+            try {
+                val phrases = getPolyglotPhrases("en")
+                val phrasePairs: Array<Pair<String, Any?>> = phrases.entries.map {
+                    Pair(it.key, (it.value as JsonPrimitive).content)
+                }.toTypedArray()
+
+                val polyglotInstance = Polyglot()
+                polyglotInstance.locale("en")
+                polyglotInstance.extend(getJS(phrasePairs))
+                setState {
+                    polyglot = polyglotInstance
+                }
+            } catch (e: Exception) {
+                console.error("Failed to fetch polyglot phrases", e)
+            }
+        }
+
+        // Fetch presets on mount
+        mainScope.launch {
+            try {
+                val fetchedPresets = getValidationPresets()
+                setState {
+                    presets = fetchedPresets
+                }
+            } catch (e: Exception) {
+                console.error("Failed to fetch presets", e)
+            }
         }
     }
-}
 
-fun initPresets(props: AppProps) {
-   props.fetchPresets()
-}
-
-
-class App(props : AppProps) : RComponent<AppProps, State>() {
-    init {
-        initLanguages(props)
-        initPresets(props)
-    }
     override fun RBuilder.render() {
+        AppScreenContext.Consumer { contextValue ->
+            val appScreen = contextValue.appScreen
 
-        styledDiv {
-            css {
-                +LandingPageStyle.mainDiv
-            }
-            header {}
             styledDiv {
                 css {
-                    paddingTop = HeaderStyle.HEADER_HEIGHT
-                    display = Display.flex
-                    flexDirection = FlexDirection.column
-                    flex(flexGrow = 1.0, flexShrink = 1.0, flexBasis = FlexBasis.auto)
+                    +LandingPageStyle.mainDiv
                 }
-                when (props.appScreen) {
-                    AppScreen.VALIDATOR -> {
-                        sectionTitle {
-                            majorText = props.polyglot.t("appscreen_validator_major")
-                            minorText = props.polyglot.t("appscreen_validator_minor")
+
+                child(Header::class) {
+                    attrs.appScreen = appScreen
+                    attrs.polyglot = state.polyglot
+                    attrs.selectedLanguage = Language.ENGLISH
+                    attrs.setScreen = {} // no-op (Header will use context directly)
+                    attrs.fetchPolyglot = {} // no-op
+                    attrs.setPolyglot = {} // no-op
+                    attrs.setLanguage = {} // no-op
+                    attrs.validationContext = ValidationContext().setBaseEngine("DEFAULT")
+                    attrs.updateValidationContext = { _, _ -> } // no-op
+                }
+
+                styledDiv {
+                    css {
+                        paddingTop = HeaderStyle.HEADER_HEIGHT
+                        display = Display.flex
+                        flexDirection = FlexDirection.column
+                        flex(flexGrow = 1.0, flexShrink = 1.0, flexBasis = FlexBasis.auto)
+                    }
+                    when (appScreen) {
+                        AppScreen.VALIDATOR -> {
+                            sectionTitle {
+                                majorText = state.polyglot.t("appscreen_validator_major")
+                                minorText = state.polyglot.t("appscreen_validator_minor")
+                            }
+                            tabLayout {
+                                polyglot = state.polyglot
+                            }
                         }
-                        tabLayout {
-                            polyglot = props.polyglot
+                        AppScreen.SETTINGS -> {
+                            sectionTitle {
+                                majorText = state.polyglot.t("appscreen_options_major")
+                                minorText = state.polyglot.t("appscreen_options_minor")
+                            }
+                            child(OptionsPage::class) {
+                                attrs.validationContext = ValidationContext().setBaseEngine("DEFAULT")
+                                attrs.igPackageInfoSet = emptySet()
+                                attrs.extensionSet = emptySet()
+                                attrs.profileSet = emptySet()
+                                attrs.bundleValidationRuleSet = emptySet()
+                                attrs.polyglot = state.polyglot
+                                attrs.updateValidationContext = {} // no-op
+                                attrs.updateIgPackageInfoSet = {} // no-op
+                                attrs.updateExtensionSet = {} // no-op
+                                attrs.setSessionId = {} // no-op
+                                attrs.updateProfileSet = {} // no-op
+                                attrs.updateBundleValidationRuleSet = {} // no-op
+                            }
                         }
                     }
-                    AppScreen.SETTINGS -> {
-                        sectionTitle {
-                            majorText = props.polyglot.t("appscreen_options_major")
-                            minorText = props.polyglot.t("appscreen_options_minor")
-                        }
-                        optionsPage {}
-                    }
                 }
-            }
-            footer {
-                polyglot = props.polyglot
+                footer {
+                    polyglot = state.polyglot
+                }
             }
         }
     }
@@ -104,4 +144,3 @@ object LandingPageStyle : StyleSheet("LandingPageStyle", isStatic = true) {
         height = 100.vh
     }
 }
-
