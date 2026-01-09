@@ -1,6 +1,7 @@
 package ui.components.header.LanguageOption
 
 import Polyglot
+import context.LocalizationContext
 import mui.material.*
 import react.*
 import csstype.*
@@ -14,9 +15,7 @@ import utils.Language
 
 external interface LanguageSelectProps : Props {
     var polyglot: Polyglot
-    var fetchPolyglot: (String) -> Unit
     var selectedLanguage : Language
-    var setLanguage: (Language) -> Unit
     var validationContext: ValidationContext
     var updateValidationContext: (ValidationContext, Boolean) -> Unit
 
@@ -26,52 +25,55 @@ class LanguageSelect(props : LanguageSelectProps) : RComponent<LanguageSelectPro
     init {
     }
     override fun RBuilder.render() {
-        Box {
-            attrs{
-                sx{
-                    minWidth = 120.px
+        LocalizationContext.Consumer { localizationContext ->
+            Box {
+                attrs{
+                    sx{
+                        minWidth = 120.px
+                    }
                 }
-            }
-            FormControl {
-                attrs {
-                    fullWidth = true
-                    size = Size.small
-                }
-                InputLabel {
-                    +props.polyglot.t("language")
-                }
-                Select {
-
+                FormControl {
                     attrs {
-                        label = ReactNode("Language")
-                        value = props.selectedLanguage.getLanguageCode().unsafeCast<Nothing?>()
-                        onChange = { event, _ ->
-                            val selectedLanguage = Language.getSelectedLanguage(event.target.value)
-                            if (selectedLanguage != null) {
-                                props.setLanguage(selectedLanguage)
-                                props.fetchPolyglot(selectedLanguage.getLanguageCode());
-                                props.updateValidationContext(props.validationContext.setLocale(selectedLanguage.getLanguageCode()), false)
+                        fullWidth = true
+                        size = Size.small
+                    }
+                    InputLabel {
+                        +props.polyglot.t("language")
+                    }
+                    Select {
+
+                        attrs {
+                            label = ReactNode("Language")
+                            value = props.selectedLanguage.getLanguageCode().unsafeCast<Nothing?>()
+                            onChange = { event, _ ->
+                                val selectedLanguage = Language.getSelectedLanguage(event.target.value)
+                                if (selectedLanguage != null) {
+                                    // Call context to update language (handles polyglot fetching)
+                                    localizationContext?.setLanguage?.invoke(selectedLanguage)
+                                    // Update ValidationContext locale
+                                    props.updateValidationContext(props.validationContext.setLocale(selectedLanguage.getLanguageCode()), false)
+                                }
                             }
                         }
-                    }
 
-                    MenuItem {
-                        attrs {
-                            value = Language.ENGLISH.getLanguageCode()
+                        MenuItem {
+                            attrs {
+                                value = Language.ENGLISH.getLanguageCode()
+                            }
+                            +Language.ENGLISH.display
                         }
-                        +Language.ENGLISH.display
-                    }
-                    MenuItem {
-                        attrs {
-                            value = Language.GERMAN.getLanguageCode()
+                        MenuItem {
+                            attrs {
+                                value = Language.GERMAN.getLanguageCode()
+                            }
+                            +Language.GERMAN.display
                         }
-                        +Language.GERMAN.display
-                    }
-                    MenuItem {
-                        attrs {
-                            value = Language.SPANISH.getLanguageCode()
+                        MenuItem {
+                            attrs {
+                                value = Language.SPANISH.getLanguageCode()
+                            }
+                            +Language.SPANISH.display
                         }
-                        +Language.SPANISH.display
                     }
                 }
             }

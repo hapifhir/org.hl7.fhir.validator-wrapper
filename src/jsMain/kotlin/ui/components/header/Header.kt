@@ -115,8 +115,6 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>() {
                         languageSelect{
                             polyglot = props.polyglot
                             selectedLanguage = props.selectedLanguage
-                            setLanguage = props.setLanguage
-                            fetchPolyglot = props.fetchPolyglot
                             validationContext = props.validationContext
                             updateValidationContext = props.updateValidationContext
                         }
