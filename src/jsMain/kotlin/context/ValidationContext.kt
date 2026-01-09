@@ -21,7 +21,7 @@ external interface ValidationContextValue {
     var bundleValidationRuleSet: Set<BundleValidationRule>
 
     // Callbacks
-    var updateValidationContext: (ValidationContext) -> Unit
+    var updateValidationContext: (ValidationContext, Boolean) -> Unit
     var setSessionId: (String) -> Unit
     var updateManualEntryText: (String) -> Unit
     var setManualValidationOutcome: (ValidationOutcome) -> Unit
@@ -30,10 +30,10 @@ external interface ValidationContextValue {
     var deleteFile: (FileInfo) -> Unit
     var addValidationOutcome: (ValidationOutcome) -> Unit
     var toggleFileValidationInProgress: (Boolean, FileInfo) -> Unit
-    var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
-    var updateExtensionSet: (Set<String>) -> Unit
-    var updateProfileSet: (Set<String>) -> Unit
-    var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
+    var updateIgPackageInfoSet: (Set<PackageInfo>, Boolean) -> Unit
+    var updateExtensionSet: (Set<String>, Boolean) -> Unit
+    var updateProfileSet: (Set<String>, Boolean) -> Unit
+    var updateBundleValidationRuleSet: (Set<BundleValidationRule>, Boolean) -> Unit
 }
 
 val ValidationContext = createContext<ValidationContextValue>()
@@ -83,8 +83,9 @@ class ValidationProvider : RComponent<ValidationProviderProps, ValidationProvide
 
     override fun RBuilder.render() {
         // Create callback functions
-        val updateValidationContext: (model.ValidationContext) -> Unit = { ctx ->
-            setState { validationContext = ctx }
+        val updateValidationContext: (model.ValidationContext, Boolean) -> Unit = { ctx, resetBaseEngine ->
+            val finalCtx = if (resetBaseEngine) ctx.setBaseEngine(null) else ctx
+            setState { validationContext = finalCtx }
         }
 
         val setSessionId: (String) -> Unit = { id ->
@@ -144,20 +145,40 @@ class ValidationProvider : RComponent<ValidationProviderProps, ValidationProvide
             }
         }
 
-        val updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit = { set ->
-            setState { igPackageInfoSet = set }
+        val updateIgPackageInfoSet: (Set<PackageInfo>, Boolean) -> Unit = { set, resetBaseEngine ->
+            setState {
+                igPackageInfoSet = set
+                if (resetBaseEngine) {
+                    validationContext = validationContext.setBaseEngine(null)
+                }
+            }
         }
 
-        val updateExtensionSet: (Set<String>) -> Unit = { set ->
-            setState { extensionSet = set }
+        val updateExtensionSet: (Set<String>, Boolean) -> Unit = { set, resetBaseEngine ->
+            setState {
+                extensionSet = set
+                if (resetBaseEngine) {
+                    validationContext = validationContext.setBaseEngine(null)
+                }
+            }
         }
 
-        val updateProfileSet: (Set<String>) -> Unit = { set ->
-            setState { profileSet = set }
+        val updateProfileSet: (Set<String>, Boolean) -> Unit = { set, resetBaseEngine ->
+            setState {
+                profileSet = set
+                if (resetBaseEngine) {
+                    validationContext = validationContext.setBaseEngine(null)
+                }
+            }
         }
 
-        val updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit = { set ->
-            setState { bundleValidationRuleSet = set }
+        val updateBundleValidationRuleSet: (Set<BundleValidationRule>, Boolean) -> Unit = { set, resetBaseEngine ->
+            setState {
+                bundleValidationRuleSet = set
+                if (resetBaseEngine) {
+                    validationContext = validationContext.setBaseEngine(null)
+                }
+            }
         }
 
         // Create context value

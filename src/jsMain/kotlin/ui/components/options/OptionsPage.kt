@@ -28,14 +28,14 @@ private const val TERMINOLOGY_CHECK_TIME_LIMIT = 20000L
 external interface OptionsPageProps : Props {
     var validationContext: ValidationContext
     var igPackageInfoSet: Set<PackageInfo>
-    var updateValidationContext: (ValidationContext) -> Unit
-    var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
+    var updateValidationContext: (ValidationContext, Boolean) -> Unit
+    var updateIgPackageInfoSet: (Set<PackageInfo>, Boolean) -> Unit
     var extensionSet: Set<String>
-    var updateExtensionSet: (Set<String>) -> Unit
+    var updateExtensionSet: (Set<String>, Boolean) -> Unit
     var profileSet: Set<String>
-    var updateProfileSet: (Set<String>) -> Unit
+    var updateProfileSet: (Set<String>, Boolean) -> Unit
     var bundleValidationRuleSet : Set<BundleValidationRule>
-    var updateBundleValidationRuleSet : (Set<BundleValidationRule>) -> Unit
+    var updateBundleValidationRuleSet : (Set<BundleValidationRule>, Boolean) -> Unit
     var polyglot: Polyglot
     var setSessionId: (String) -> Unit
 }
@@ -68,12 +68,12 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
     }
 
     private fun updateValidationContext(validationContext: ValidationContext) {
-        props.updateValidationContext(validationContext)
+        props.updateValidationContext(validationContext, true)
         props.setSessionId("");
     }
 
     private fun updateExtensionSet(newExtensionSet: MutableSet<String>) {
-        props.updateExtensionSet(newExtensionSet)
+        props.updateExtensionSet(newExtensionSet, true)
         props.setSessionId("");
     }
 
@@ -238,7 +238,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         } else {
                             selectedIgSet.minus(igPackageInfo).toMutableSet()
                         }
-                        props.updateIgPackageInfoSet(newSelectedIgSet)
+                        props.updateIgPackageInfoSet(newSelectedIgSet, true)
                         props.setSessionId("")
                     }
                     onFilterStringChange = { partialIgName ->
@@ -270,7 +270,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         } else {
                             profileSet.plus(profile).toMutableSet()
                         }
-                        props.updateProfileSet(newProfileSet)
+                        props.updateProfileSet(newProfileSet, true)
                         props.setSessionId("")
                     }
                 }
@@ -324,7 +324,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                         } else {
                             bundleValidationRuleSet.plus(rule).toMutableSet()
                         }
-                        props.updateBundleValidationRuleSet(newBundleValidationRuleSet)
+                        props.updateBundleValidationRuleSet(newBundleValidationRuleSet, true)
                         props.setSessionId("")
                     }
                 }

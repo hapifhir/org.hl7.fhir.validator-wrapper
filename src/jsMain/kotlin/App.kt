@@ -44,8 +44,8 @@ class App : RComponent<Props, State>() {
                         attrs.setLanguage = {} // no-op
                         attrs.validationContext = validationContext?.validationContext
                             ?: ValidationContext().setBaseEngine("DEFAULT")
-                        attrs.updateValidationContext = { ctx, _ ->
-                            validationContext?.updateValidationContext?.invoke(ctx)
+                        attrs.updateValidationContext = { ctx, resetBaseEngine ->
+                            validationContext?.updateValidationContext?.invoke(ctx, resetBaseEngine)
                         }
                     }
 
@@ -79,23 +79,23 @@ class App : RComponent<Props, State>() {
                                     attrs.profileSet = validationContext?.profileSet ?: emptySet()
                                     attrs.bundleValidationRuleSet = validationContext?.bundleValidationRuleSet ?: emptySet()
                                     attrs.polyglot = polyglot
-                                    attrs.updateValidationContext = { context ->
-                                        validationContext?.updateValidationContext?.invoke(context)
+                                    attrs.updateValidationContext = { context, resetBaseEngine ->
+                                        validationContext?.updateValidationContext?.invoke(context, resetBaseEngine)
                                     }
-                                    attrs.updateIgPackageInfoSet = { set ->
-                                        validationContext?.updateIgPackageInfoSet?.invoke(set)
+                                    attrs.updateIgPackageInfoSet = { set, resetBaseEngine ->
+                                        validationContext?.updateIgPackageInfoSet?.invoke(set, resetBaseEngine)
                                     }
-                                    attrs.updateExtensionSet = { set ->
-                                        validationContext?.updateExtensionSet?.invoke(set)
+                                    attrs.updateExtensionSet = { set, resetBaseEngine ->
+                                        validationContext?.updateExtensionSet?.invoke(set, resetBaseEngine)
                                     }
                                     attrs.setSessionId = { id ->
                                         validationContext?.setSessionId?.invoke(id)
                                     }
-                                    attrs.updateProfileSet = { set ->
-                                        validationContext?.updateProfileSet?.invoke(set)
+                                    attrs.updateProfileSet = { set, resetBaseEngine ->
+                                        validationContext?.updateProfileSet?.invoke(set, resetBaseEngine)
                                     }
-                                    attrs.updateBundleValidationRuleSet = { set ->
-                                        validationContext?.updateBundleValidationRuleSet?.invoke(set)
+                                    attrs.updateBundleValidationRuleSet = { set, resetBaseEngine ->
+                                        validationContext?.updateBundleValidationRuleSet?.invoke(set, resetBaseEngine)
                                     }
                                 }
                             }

@@ -25,11 +25,11 @@ import utils.getJS
 
 external interface PresetSelectProps : Props {
     var validationContext: ValidationContext
-    var updateValidationContext: (ValidationContext) -> Unit
-    var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
-    var updateExtensionSet: (Set<String>) -> Unit
-    var updateProfileSet: (Set<String>) -> Unit
-    var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
+    var updateValidationContext: (ValidationContext, Boolean) -> Unit
+    var updateIgPackageInfoSet: (Set<PackageInfo>, Boolean) -> Unit
+    var updateExtensionSet: (Set<String>, Boolean) -> Unit
+    var updateProfileSet: (Set<String>, Boolean) -> Unit
+    var updateBundleValidationRuleSet: (Set<BundleValidationRule>, Boolean) -> Unit
     var setSessionId: (String) -> Unit
     var language: Language
     var polyglot: Polyglot
@@ -94,12 +94,13 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                     if (selectedPreset != null) {
 
                                         val validationContext = ValidationContext(selectedPreset.validationContext).setLocale(props.language.getLanguageCode())
-                                        props.updateValidationContext(validationContext)
-                                        props.updateIgPackageInfoSet(selectedPreset.igPackageInfo)
-                                        props.updateExtensionSet(selectedPreset.extensionSet)
-                                        props.updateProfileSet(selectedPreset.profileSet)
+                                        props.updateValidationContext(validationContext, false)
+                                        props.updateIgPackageInfoSet(selectedPreset.igPackageInfo, false)
+                                        props.updateExtensionSet(selectedPreset.extensionSet, false)
+                                        props.updateProfileSet(selectedPreset.profileSet, false)
                                         props.updateBundleValidationRuleSet(
-                                            selectedPreset.validationContext.getBundleValidationRules().toMutableSet()
+                                            selectedPreset.validationContext.getBundleValidationRules().toMutableSet(),
+                                            false
                                         )
                                         mainScope.launch {
                                             setState {

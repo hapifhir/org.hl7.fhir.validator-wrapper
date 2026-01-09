@@ -108,20 +108,20 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                         presetSelect {
                             this.validationContext = validationContext?.validationContext
                                 ?: ValidationContext().setBaseEngine("DEFAULT")
-                            updateValidationContext = { ctx ->
-                                validationContext?.updateValidationContext?.invoke(ctx)
+                            updateValidationContext = { ctx, resetBaseEngine ->
+                                validationContext?.updateValidationContext?.invoke(ctx, resetBaseEngine)
                             }
-                            updateIgPackageInfoSet = { set ->
-                                validationContext?.updateIgPackageInfoSet?.invoke(set)
+                            updateIgPackageInfoSet = { set, resetBaseEngine ->
+                                validationContext?.updateIgPackageInfoSet?.invoke(set, resetBaseEngine)
                             }
-                            updateExtensionSet = { set ->
-                                validationContext?.updateExtensionSet?.invoke(set)
+                            updateExtensionSet = { set, resetBaseEngine ->
+                                validationContext?.updateExtensionSet?.invoke(set, resetBaseEngine)
                             }
-                            updateProfileSet = { set ->
-                                validationContext?.updateProfileSet?.invoke(set)
+                            updateProfileSet = { set, resetBaseEngine ->
+                                validationContext?.updateProfileSet?.invoke(set, resetBaseEngine)
                             }
-                            updateBundleValidationRuleSet = { set ->
-                                validationContext?.updateBundleValidationRuleSet?.invoke(set)
+                            updateBundleValidationRuleSet = { set, resetBaseEngine ->
+                                validationContext?.updateBundleValidationRuleSet?.invoke(set, resetBaseEngine)
                             }
                             setSessionId = { id ->
                                 validationContext?.setSessionId?.invoke(id)
