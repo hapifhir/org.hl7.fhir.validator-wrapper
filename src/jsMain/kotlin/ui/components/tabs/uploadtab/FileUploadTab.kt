@@ -4,12 +4,12 @@ import Polyglot
 import api.sendValidationRequest
 import css.animation.FadeIn.fadeIn
 import css.const.WHITE
-import kotlinx.browser.document
+import web.dom.document
 import kotlinx.coroutines.launch
 import kotlinx.css.*
 import mainScope
 import model.*
-import org.w3c.dom.HTMLInputElement
+import web.html.HTMLInputElement
 import react.*
 import styled.StyleSheet
 import styled.css

@@ -7,8 +7,8 @@ import css.const.WHITE
 import kotlinx.css.*
 import kotlinx.css.properties.*
 import kotlinx.html.InputType
-import kotlinx.html.js.onChangeFunction
-import org.w3c.dom.HTMLInputElement
+import kotlinx.html.js.*
+import web.html.HTMLInputElement
 import react.*
 import react.dom.attrs
 import styled.*

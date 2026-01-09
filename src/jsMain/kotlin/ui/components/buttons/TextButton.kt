@@ -7,6 +7,8 @@ import kotlinx.css.properties.border
 import kotlinx.html.js.onClickFunction
 import react.*
 import react.dom.attrs
+import react.dom.events.MouseEvent
+import web.html.HTMLDivElement
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv

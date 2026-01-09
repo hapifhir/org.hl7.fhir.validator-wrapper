@@ -7,13 +7,13 @@ import css.text.TextStyle
 import kotlinx.css.*
 import react.*
 import ui.components.buttons.imageButton
-import kotlinx.browser.document
+import web.dom.document
 import kotlinx.html.InputType
 import kotlinx.html.id
 import utils.getJS
 
 import model.ValidationContext
-import org.w3c.dom.HTMLInputElement
+import web.html.HTMLInputElement
 import react.dom.attrs
 import react.dom.defaultValue
 import styled.*

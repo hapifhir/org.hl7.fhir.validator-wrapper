@@ -68,7 +68,7 @@ class App : RComponent<Props, AppState>() {
 
     override fun RBuilder.render() {
         AppScreenContext.Consumer { contextValue ->
-            val appScreen = contextValue.appScreen
+            val appScreen = contextValue?.appScreen ?: AppScreen.VALIDATOR
 
             styledDiv {
                 css {

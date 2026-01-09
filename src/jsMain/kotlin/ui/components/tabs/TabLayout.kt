@@ -4,8 +4,8 @@ import Polyglot
 import css.const.*
 import css.text.TextStyle
 import kotlinx.css.*
-import kotlinx.css.properties.*
 import kotlinx.html.js.onClickFunction
+import kotlinx.css.properties.*
 import react.*
 import react.dom.attrs
 import model.ValidationContext

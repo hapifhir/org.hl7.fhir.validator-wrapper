@@ -2,7 +2,22 @@
   "permissions": {
     "allow": [
       "Bash(./gradlew compileKotlinJs:*)",
-      "Bash(./gradlew clean build:*)"
+      "Bash(./gradlew clean build:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(./gradlew clean)",
+      "Bash(./gradlew build:*)",
+      "Bash(cat:*)",
+      "WebSearch",
+      "Bash(grep:*)",
+      "Bash(./gradlew jvmTest:*)",
+      "Bash(./gradlew run)",
+      "Bash(./gradlew:*)",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__chrome-devtools__click",
+      "mcp__chrome-devtools__list_console_messages"
     ]
   }
 }

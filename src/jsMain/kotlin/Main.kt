@@ -1,6 +1,6 @@
 import context.AppScreenProvider
 import css.GlobalStyles
-import kotlinx.browser.document
+import web.dom.document
 import react.*
 import react.dom.client.createRoot
 

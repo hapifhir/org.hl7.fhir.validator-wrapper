@@ -7,15 +7,15 @@ import context.AppScreenContext
 import css.const.HEADER_SHADOW
 import css.const.HIGHLIGHT_GRAY
 import css.const.WHITE
-import kotlinx.browser.document
+import web.dom.document
+import web.window.window
 import kotlinx.coroutines.launch
 import kotlinx.css.*
 import kotlinx.css.properties.borderBottom
 import kotlinx.css.properties.boxShadow
 import mainScope
 import model.AppScreen
-import org.w3c.dom.events.Event
-import org.w3c.dom.events.EventListener
+import web.events.Event
 import react.*
 import styled.StyleSheet
 import styled.css
@@ -47,11 +47,15 @@ class HeaderState : State {
     var packageServerState = SiteState.IN_PROGESS
 }
 
-class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), EventListener {
+class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>() {
 
     init {
         state = HeaderState()
-        document.addEventListener(type = "scroll", callback = this)
+        window.onscroll = {
+            setState {
+                currentScroll = document.documentElement?.scrollTop ?: 0.0
+            }
+        }
         mainScope.launch {
             val terminologyServerUp = isTerminologyServerUp()
             val packageServerUp = isPackagesServerUp()
@@ -92,8 +96,8 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
                             label = props.polyglot.t(screen.polyglotKey)
                             selected = props.appScreen == screen
                             onSelected = { buttonName ->
-                                AppScreen.fromDisplay(buttonName)?.let { it ->
-                                    contextValue.setAppScreen(it)
+                                AppScreen.fromDisplay(buttonName)?.let { screen ->
+                                    contextValue?.setAppScreen?.invoke(screen)
                                 }
                             }
                         }
@@ -135,11 +139,6 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
         }
     }
 
-    override fun handleEvent(event: Event) {
-        setState {
-            currentScroll = document.documentElement?.scrollTop!!
-        }
-    }
 }
 
 /**

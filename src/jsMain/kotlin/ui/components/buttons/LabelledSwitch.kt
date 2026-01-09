@@ -8,8 +8,7 @@ import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.css.properties.*
 import kotlinx.html.InputType
-import kotlinx.html.js.onChangeFunction
-import org.w3c.dom.HTMLInputElement
+import web.html.HTMLInputElement
 import react.*
 import styled.*
 import ui.components.options.menu.CHECKBOX_CHANGE
