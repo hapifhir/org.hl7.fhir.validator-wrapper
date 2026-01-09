@@ -167,9 +167,6 @@ kotlin {
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-router-dom")
 
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-redux")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-react-redux")
-
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-mui")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-mui-icons")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-emotion")
