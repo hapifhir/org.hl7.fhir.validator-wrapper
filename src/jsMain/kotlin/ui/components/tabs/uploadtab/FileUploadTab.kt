@@ -2,6 +2,7 @@ package ui.components.tabs.uploadtab
 
 import Polyglot
 import api.sendValidationRequest
+import context.LocalizationContext
 import css.animation.FadeIn.fadeIn
 import css.const.WHITE
 import web.dom.document
@@ -22,24 +23,7 @@ import utils.Language
 import utils.assembleRequest
 
 external interface FileUploadTabProps : Props {
-    var uploadedFiles: List<ValidationOutcome>
-    var validationContext: ValidationContext
-    var sessionId: String
-    var language: Language
     var polyglot: Polyglot
-
-    var deleteFile: (FileInfo) -> Unit
-    var uploadFile: (FileInfo) -> Unit
-    var toggleValidationInProgress: (Boolean, FileInfo) -> Unit
-    var addValidationOutcome: (ValidationOutcome) -> Unit
-
-    var updateValidationContext: (ValidationContext) -> Unit
-    var updateIgPackageInfoSet: (Set<PackageInfo>) -> Unit
-    var updateExtensionSet: (Set<String>) -> Unit
-    var updateProfileSet: (Set<String>) -> Unit
-    var updateBundleValidationRuleSet: (Set<BundleValidationRule>) -> Unit
-    var setSessionId: (String) -> Unit
-    var presets: List<Preset>
 }
 
 class FileUploadTabState : State {
@@ -56,81 +40,112 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
     }
 
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +FileUploadTabStyle.tabContent
-            }
-            heading {
-                text =  props.polyglot.t("upload_files_title") +  " (${props.uploadedFiles.size})"
-            }
-            fileEntryList {
-                polyglot = props.polyglot
-                validationOutcomes = props.uploadedFiles
-                viewFile = { outcomeToView ->
-                    setState {
-                        currentlyDisplayedValidationOutcome = outcomeToView
-                    }
-                }
-                deleteFile = {
-                    props.deleteFile(it.getFileInfo())
-                }
-            }
-            styledDiv {
-                css {
-                    +FileUploadTabStyle.buttonBarContainer
-                }
-                fileUploadButton {
-                    polyglot = props.polyglot
-                    onUploadRequested = {
-                        (document.getElementById(FILE_UPLOAD_ELEMENT_ID) as HTMLInputElement).click()
-                    }
-                }
+        context.ValidationContext.Consumer { validationContext ->
+            LocalizationContext.Consumer { localizationContext ->
+                val language = localizationContext?.selectedLanguage ?: Language.ENGLISH
+                val uploadedFiles = validationContext?.uploadedFiles ?: emptyList()
 
                 styledDiv {
                     css {
-                        +FileUploadTabStyle.buttonBarDivider
+                        +FileUploadTabStyle.tabContent
                     }
-                }
-
-                fileValidateButton {
-                    polyglot = props.polyglot
-                    onValidateRequested = {
-                        validateUploadedFiles()
+                    heading {
+                        text = props.polyglot.t("upload_files_title") + " (${uploadedFiles.size})"
                     }
-                }
-
-                styledDiv{
-                    css {
-                        +FileUploadTabStyle.buttonBarDivider
+                    fileEntryList {
+                        polyglot = props.polyglot
+                        validationOutcomes = uploadedFiles
+                        viewFile = { outcomeToView ->
+                            setState {
+                                currentlyDisplayedValidationOutcome = outcomeToView
+                            }
+                        }
+                        deleteFile = {
+                            validationContext?.deleteFile?.invoke(it.getFileInfo())
+                        }
                     }
-                }
+                    styledDiv {
+                        css {
+                            +FileUploadTabStyle.buttonBarContainer
+                        }
+                        fileUploadButton {
+                            polyglot = props.polyglot
+                            onUploadRequested = {
+                                (document.getElementById(FILE_UPLOAD_ELEMENT_ID) as HTMLInputElement).click()
+                            }
+                        }
 
-                presetSelect{
-                    validationContext = props.validationContext
-                    updateValidationContext = props.updateValidationContext
-                    updateIgPackageInfoSet = props.updateIgPackageInfoSet
-                    updateExtensionSet = props.updateExtensionSet
-                    updateProfileSet = props.updateProfileSet
-                    updateBundleValidationRuleSet = props.updateBundleValidationRuleSet
-                    setSessionId = props.setSessionId
-                    language = props.language
-                    polyglot = props.polyglot
-                    presets = props.presets
-                }
-            }
+                        styledDiv {
+                            css {
+                                +FileUploadTabStyle.buttonBarDivider
+                            }
+                        }
 
-            uploadFilesComponent {
-                onFileUpload = {
-                    props.uploadFile(it)
-                }
-            }
-            state.currentlyDisplayedValidationOutcome?.let {
-                validationOutcomePopup {
-                    polyglot = props.polyglot
-                    validationOutcome = state.currentlyDisplayedValidationOutcome!!
-                    onClose = {
-                        setState {
-                            currentlyDisplayedValidationOutcome = null
+                        fileValidateButton {
+                            polyglot = props.polyglot
+                            onValidateRequested = {
+                                validateUploadedFiles(
+                                    validationContext?.validationContext
+                                        ?: ValidationContext().setBaseEngine("DEFAULT"),
+                                    validationContext?.sessionId ?: "",
+                                    uploadedFiles,
+                                    validationContext?.presets ?: emptyList(),
+                                    { id -> validationContext?.setSessionId?.invoke(id) },
+                                    { outcome -> validationContext?.addValidationOutcome?.invoke(outcome) },
+                                    { inProgress, fileInfo ->
+                                        validationContext?.toggleFileValidationInProgress?.invoke(inProgress, fileInfo)
+                                    }
+                                )
+                            }
+                        }
+
+                        styledDiv {
+                            css {
+                                +FileUploadTabStyle.buttonBarDivider
+                            }
+                        }
+
+                        presetSelect {
+                            this.validationContext = validationContext?.validationContext
+                                ?: ValidationContext().setBaseEngine("DEFAULT")
+                            updateValidationContext = { ctx ->
+                                validationContext?.updateValidationContext?.invoke(ctx)
+                            }
+                            updateIgPackageInfoSet = { set ->
+                                validationContext?.updateIgPackageInfoSet?.invoke(set)
+                            }
+                            updateExtensionSet = { set ->
+                                validationContext?.updateExtensionSet?.invoke(set)
+                            }
+                            updateProfileSet = { set ->
+                                validationContext?.updateProfileSet?.invoke(set)
+                            }
+                            updateBundleValidationRuleSet = { set ->
+                                validationContext?.updateBundleValidationRuleSet?.invoke(set)
+                            }
+                            setSessionId = { id ->
+                                validationContext?.setSessionId?.invoke(id)
+                            }
+                            this.language = language
+                            polyglot = props.polyglot
+                            presets = validationContext?.presets ?: emptyList()
+                        }
+                    }
+
+                    uploadFilesComponent {
+                        onFileUpload = {
+                            validationContext?.uploadFile?.invoke(it)
+                        }
+                    }
+                    state.currentlyDisplayedValidationOutcome?.let {
+                        validationOutcomePopup {
+                            polyglot = props.polyglot
+                            validationOutcome = state.currentlyDisplayedValidationOutcome!!
+                            onClose = {
+                                setState {
+                                    currentlyDisplayedValidationOutcome = null
+                                }
+                            }
                         }
                     }
                 }
@@ -138,26 +153,34 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
         }
     }
 
-    private fun validateUploadedFiles() {
-        val validationContext: ValidationContext = Preset.getLocalizedValidationContextFromPresets(props.validationContext, props.presets) ?: return
+    private fun validateUploadedFiles(
+        validationContext: ValidationContext,
+        sessionId: String,
+        uploadedFiles: List<ValidationOutcome>,
+        presets: List<Preset>,
+        setSessionId: (String) -> Unit,
+        addValidationOutcome: (ValidationOutcome) -> Unit,
+        toggleValidationInProgress: (Boolean, FileInfo) -> Unit
+    ) {
+        val localizedValidationContext: ValidationContext = Preset.getLocalizedValidationContextFromPresets(validationContext, presets) ?: return
         val request = assembleRequest(
-            validationContext = validationContext,
-            files = props.uploadedFiles
+            validationContext = localizedValidationContext,
+            files = uploadedFiles
                 .filterNot(ValidationOutcome::isValidated)
                 .map(ValidationOutcome::getFileInfo)
                 .onEach {
-                    props.toggleValidationInProgress(true, it)
+                    toggleValidationInProgress(true, it)
                 }
         )
-        if (props.sessionId.isNotBlank()) {
-            request.setSessionId(props.sessionId)
+        if (sessionId.isNotBlank()) {
+            request.setSessionId(sessionId)
         }
         mainScope.launch {
             val validationResponse = sendValidationRequest(request)
-            if (validationResponse.getSessionId().isNotEmpty()) props.setSessionId(validationResponse.getSessionId())
+            if (validationResponse.getSessionId().isNotEmpty()) setSessionId(validationResponse.getSessionId())
             validationResponse.getOutcomes().forEach { outcome ->
-                props.addValidationOutcome(outcome)
-                props.toggleValidationInProgress(true, outcome.getFileInfo())
+                addValidationOutcome(outcome)
+                toggleValidationInProgress(true, outcome.getFileInfo())
             }
         }
     }

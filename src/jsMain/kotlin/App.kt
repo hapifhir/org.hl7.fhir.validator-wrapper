@@ -1,12 +1,9 @@
 import Polyglot
-import api.getValidationPresets
 import context.AppScreenContext
 import context.LocalizationContext
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import kotlinx.css.*
 import model.AppScreen
-import model.Preset
 import model.ValidationContext
 import react.*
 import styled.StyleSheet
@@ -22,38 +19,12 @@ import utils.Language
 
 val mainScope = MainScope()
 
-class AppState : State {
-    var presets: List<Preset> = emptyList()
-    var validationContext: ValidationContext = ValidationContext().setBaseEngine("DEFAULT")
-}
-
-class App : RComponent<Props, AppState>() {
-
-    init {
-        state = AppState()
-
-        // Fetch presets on mount
-        mainScope.launch {
-            try {
-                val fetchedPresets = getValidationPresets()
-                setState {
-                    presets = fetchedPresets
-                }
-            } catch (e: Exception) {
-                console.error("Failed to fetch presets", e)
-            }
-        }
-    }
-
-    private fun updateValidationContext(context: ValidationContext, resetBaseEngine: Boolean) {
-        setState {
-            validationContext = context
-        }
-    }
+class App : RComponent<Props, State>() {
 
     override fun RBuilder.render() {
         AppScreenContext.Consumer { screenContext ->
             LocalizationContext.Consumer { localizationContext ->
+                context.ValidationContext.Consumer { validationContext ->
                 val appScreen = screenContext?.appScreen ?: AppScreen.VALIDATOR
                 val polyglot = localizationContext?.polyglot ?: Polyglot()
                 val selectedLanguage = localizationContext?.selectedLanguage ?: Language.ENGLISH
@@ -71,8 +42,11 @@ class App : RComponent<Props, AppState>() {
                         attrs.fetchPolyglot = {} // no-op
                         attrs.setPolyglot = {} // no-op
                         attrs.setLanguage = {} // no-op
-                        attrs.validationContext = state.validationContext
-                        attrs.updateValidationContext = ::updateValidationContext
+                        attrs.validationContext = validationContext?.validationContext
+                            ?: ValidationContext().setBaseEngine("DEFAULT")
+                        attrs.updateValidationContext = { ctx, _ ->
+                            validationContext?.updateValidationContext?.invoke(ctx)
+                        }
                     }
 
                     styledDiv {
@@ -98,18 +72,31 @@ class App : RComponent<Props, AppState>() {
                                     minorText = polyglot.t("appscreen_options_minor")
                                 }
                                 child(OptionsPage::class) {
-                                    attrs.validationContext = state.validationContext
-                                    attrs.igPackageInfoSet = emptySet()
-                                    attrs.extensionSet = emptySet()
-                                    attrs.profileSet = emptySet()
-                                    attrs.bundleValidationRuleSet = emptySet()
+                                    attrs.validationContext = validationContext?.validationContext
+                                        ?: ValidationContext().setBaseEngine("DEFAULT")
+                                    attrs.igPackageInfoSet = validationContext?.igPackageInfoSet ?: emptySet()
+                                    attrs.extensionSet = validationContext?.extensionSet ?: emptySet()
+                                    attrs.profileSet = validationContext?.profileSet ?: emptySet()
+                                    attrs.bundleValidationRuleSet = validationContext?.bundleValidationRuleSet ?: emptySet()
                                     attrs.polyglot = polyglot
-                                    attrs.updateValidationContext = { context -> updateValidationContext(context, false) }
-                                    attrs.updateIgPackageInfoSet = {} // no-op
-                                    attrs.updateExtensionSet = {} // no-op
-                                    attrs.setSessionId = {} // no-op
-                                    attrs.updateProfileSet = {} // no-op
-                                    attrs.updateBundleValidationRuleSet = {} // no-op
+                                    attrs.updateValidationContext = { context ->
+                                        validationContext?.updateValidationContext?.invoke(context)
+                                    }
+                                    attrs.updateIgPackageInfoSet = { set ->
+                                        validationContext?.updateIgPackageInfoSet?.invoke(set)
+                                    }
+                                    attrs.updateExtensionSet = { set ->
+                                        validationContext?.updateExtensionSet?.invoke(set)
+                                    }
+                                    attrs.setSessionId = { id ->
+                                        validationContext?.setSessionId?.invoke(id)
+                                    }
+                                    attrs.updateProfileSet = { set ->
+                                        validationContext?.updateProfileSet?.invoke(set)
+                                    }
+                                    attrs.updateBundleValidationRuleSet = { set ->
+                                        validationContext?.updateBundleValidationRuleSet?.invoke(set)
+                                    }
                                 }
                             }
                         }
@@ -117,6 +104,7 @@ class App : RComponent<Props, AppState>() {
                     footer {
                         this.polyglot = polyglot
                     }
+                }
                 }
             }
         }

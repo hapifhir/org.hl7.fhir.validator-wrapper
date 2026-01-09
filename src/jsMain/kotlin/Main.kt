@@ -1,5 +1,6 @@
 import context.AppScreenProvider
 import context.LocalizationProvider
+import context.ValidationProvider
 import css.GlobalStyles
 import web.dom.document
 import react.*
@@ -22,7 +23,11 @@ fun main() {
             createElement(
                 LocalizationProvider::class.js.unsafeCast<ElementType<PropsWithChildren>>(),
                 js("{}"),
-                createElement(App::class.js.unsafeCast<ElementType<Props>>(), js("{}"))
+                createElement(
+                    ValidationProvider::class.js.unsafeCast<ElementType<PropsWithChildren>>(),
+                    js("{}"),
+                    createElement(App::class.js.unsafeCast<ElementType<Props>>(), js("{}"))
+                )
             )
         )
     )

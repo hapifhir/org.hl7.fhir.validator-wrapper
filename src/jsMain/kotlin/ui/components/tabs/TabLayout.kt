@@ -98,44 +98,11 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                 }
                 if (state.tabStates[0].active) {
                     child(ManualEntryTab::class) {
-                        attrs.validationContext = ValidationContext().setBaseEngine("DEFAULT")
-                        attrs.validationOutcome = null
-                        attrs.currentManuallyEnteredText = ""
-                        attrs.validatingManualEntryInProgress = false
-                        attrs.language = utils.Language.ENGLISH
                         attrs.polyglot = props.polyglot
-                        attrs.sessionId = ""
-                        attrs.presets = emptyList()
-                        // All callbacks as no-ops
-                        attrs.setValidationOutcome = {}
-                        attrs.toggleValidationInProgress = {}
-                        attrs.updateCurrentlyEnteredText = {}
-                        attrs.updateValidationContext = {}
-                        attrs.updateIgPackageInfoSet = {}
-                        attrs.updateExtensionSet = {}
-                        attrs.updateProfileSet = {}
-                        attrs.updateBundleValidationRuleSet = {}
-                        attrs.setSessionId = {}
                     }
                 } else {
                     child(FileUploadTab::class) {
-                        attrs.uploadedFiles = emptyList()
-                        attrs.validationContext = ValidationContext().setBaseEngine("DEFAULT")
-                        attrs.sessionId = ""
-                        attrs.language = utils.Language.ENGLISH
                         attrs.polyglot = props.polyglot
-                        attrs.presets = emptyList()
-                        // All callbacks as no-ops
-                        attrs.deleteFile = {}
-                        attrs.uploadFile = {}
-                        attrs.toggleValidationInProgress = { _, _ -> }
-                        attrs.addValidationOutcome = {}
-                        attrs.updateValidationContext = {}
-                        attrs.updateIgPackageInfoSet = {}
-                        attrs.updateExtensionSet = {}
-                        attrs.updateProfileSet = {}
-                        attrs.updateBundleValidationRuleSet = {}
-                        attrs.setSessionId = {}
                     }
                 }
             }

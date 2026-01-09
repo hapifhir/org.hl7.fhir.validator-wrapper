@@ -20,10 +20,7 @@ external interface LocalizationContextValue {
 
 val LocalizationContext = createContext<LocalizationContextValue>()
 
-external interface LocalizationProviderProps : PropsWithChildren {
-    var validationContext: ValidationContext?
-    var updateValidationContext: ((ValidationContext, Boolean) -> Unit)?
-}
+external interface LocalizationProviderProps : PropsWithChildren
 
 class LocalizationProviderState : State {
     var polyglot: Polyglot = Polyglot()
@@ -78,14 +75,6 @@ class LocalizationProvider : RComponent<LocalizationProviderProps, LocalizationP
                 setState {
                     polyglot = newPolyglot
                     isLoading = false
-                }
-
-                // Update ValidationContext if provided
-                props.validationContext?.let { ctx ->
-                    props.updateValidationContext?.invoke(
-                        ctx.setLocale(language.getLanguageCode()),
-                        false
-                    )
                 }
             } catch (e: Exception) {
                 console.error("Failed to fetch polyglot phrases", e)
