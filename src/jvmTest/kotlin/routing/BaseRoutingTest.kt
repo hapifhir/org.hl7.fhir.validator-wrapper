@@ -1,6 +1,8 @@
 package routing
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.Strictness
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
 import io.ktor.serialization.gson.*
@@ -42,7 +44,12 @@ abstract class BaseRoutingTest {
 
     fun toJsonBody(obj: Any): String = gson.toJson(obj)
 
+
     suspend fun <R> HttpResponse.parseBody(clazz: Class<R>): R {
+        // Special case; GSON used to handle standalone strings as JSON strings, but no longer does
+        if (clazz.isAssignableFrom(String::class.java)) {
+            return body<String>() as R
+        }
         return gson.fromJson(body<String>(), clazz)
     }
 
