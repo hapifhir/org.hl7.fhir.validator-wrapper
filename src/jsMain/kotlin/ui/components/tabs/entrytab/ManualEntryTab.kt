@@ -84,6 +84,10 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                                             ?: ValidationContext().setBaseEngine("DEFAULT"),
                                         validationContext?.sessionId ?: "",
                                         validationContext?.presets ?: emptyList(),
+                                        validationContext?.igPackageInfoSet ?: emptySet(),
+                                        validationContext?.profileSet ?: emptySet(),
+                                        validationContext?.extensionSet ?: emptySet(),
+                                        validationContext?.bundleValidationRuleSet ?: emptySet(),
                                         { id -> validationContext?.setSessionId?.invoke(id) },
                                         { outcome -> validationContext?.setManualValidationOutcome?.invoke(outcome) },
                                         { inProgress -> validationContext?.toggleManualValidationInProgress?.invoke(inProgress) }
@@ -159,17 +163,28 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
         validationContext: ValidationContext,
         sessionId: String,
         presets: List<Preset>,
+        igPackageInfoSet: Set<PackageInfo>,
+        profileSet: Set<String>,
+        extensionSet: Set<String>,
+        bundleValidationRuleSet: Set<BundleValidationRule>,
         setSessionId: (String) -> Unit,
         setValidationOutcome: (ValidationOutcome) -> Unit,
         toggleValidationInProgress: (Boolean) -> Unit
     ) {
         console.info("Attempting to validate with: " + validationContext.getBaseEngine())
-        val localizedValidationContext: ValidationContext = Preset.getLocalizedValidationContextFromPresets(validationContext, presets) ?: return
+        val completeValidationContext: ValidationContext = buildCompleteValidationContext(
+            baseContext = validationContext,
+            igPackageInfoSet = igPackageInfoSet,
+            profileSet = profileSet,
+            extensionSet = extensionSet,
+            bundleValidationRuleSet = bundleValidationRuleSet,
+            presets = presets
+        )
 
         toggleValidationInProgress(true)
-        console.info("validationContext :: sv == ${localizedValidationContext.getSv()}, version == ${validationContext.getTargetVer()}, languageCode == ${validationContext.getLanguageCode()}")
+        console.info("validationContext :: sv == ${completeValidationContext.getSv()}, version == ${validationContext.getTargetVer()}, languageCode == ${validationContext.getLanguageCode()}")
         val request = assembleRequest(
-            validationContext = localizedValidationContext,
+            validationContext = completeValidationContext,
             fileName = generateFileName(fileContent),
             fileContent = fileContent,
             fileType = null

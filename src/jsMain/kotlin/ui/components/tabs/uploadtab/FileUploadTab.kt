@@ -21,6 +21,7 @@ import ui.components.tabs.uploadtab.filelist.fileEntryList
 import ui.components.validation.validationOutcomePopup
 import utils.Language
 import utils.assembleRequest
+import utils.buildCompleteValidationContext
 
 external interface FileUploadTabProps : Props {
     var polyglot: Polyglot
@@ -90,6 +91,10 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                                     validationContext?.sessionId ?: "",
                                     uploadedFiles,
                                     validationContext?.presets ?: emptyList(),
+                                    validationContext?.igPackageInfoSet ?: emptySet(),
+                                    validationContext?.profileSet ?: emptySet(),
+                                    validationContext?.extensionSet ?: emptySet(),
+                                    validationContext?.bundleValidationRuleSet ?: emptySet(),
                                     { id -> validationContext?.setSessionId?.invoke(id) },
                                     { outcome -> validationContext?.addValidationOutcome?.invoke(outcome) },
                                     { inProgress, fileInfo ->
@@ -158,13 +163,24 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
         sessionId: String,
         uploadedFiles: List<ValidationOutcome>,
         presets: List<Preset>,
+        igPackageInfoSet: Set<PackageInfo>,
+        profileSet: Set<String>,
+        extensionSet: Set<String>,
+        bundleValidationRuleSet: Set<BundleValidationRule>,
         setSessionId: (String) -> Unit,
         addValidationOutcome: (ValidationOutcome) -> Unit,
         toggleValidationInProgress: (Boolean, FileInfo) -> Unit
     ) {
-        val localizedValidationContext: ValidationContext = Preset.getLocalizedValidationContextFromPresets(validationContext, presets) ?: return
+        val completeValidationContext: ValidationContext = buildCompleteValidationContext(
+            baseContext = validationContext,
+            igPackageInfoSet = igPackageInfoSet,
+            profileSet = profileSet,
+            extensionSet = extensionSet,
+            bundleValidationRuleSet = bundleValidationRuleSet,
+            presets = presets
+        )
         val request = assembleRequest(
-            validationContext = localizedValidationContext,
+            validationContext = completeValidationContext,
             files = uploadedFiles
                 .filterNot(ValidationOutcome::isValidated)
                 .map(ValidationOutcome::getFileInfo)
