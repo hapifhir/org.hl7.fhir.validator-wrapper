@@ -5,7 +5,7 @@ import css.const.BORDER_GRAY
 import css.const.HL7_RED
 import css.const.WHITE
 import css.text.TextStyle
-import kotlinx.browser.document
+import web.dom.document
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ import kotlinx.css.properties.border
 import kotlinx.html.InputType
 import kotlinx.html.id
 import kotlinx.html.js.onChangeFunction
-import org.w3c.dom.HTMLInputElement
+import web.html.HTMLInputElement
 import react.*
 import react.dom.attrs
 import react.dom.defaultValue

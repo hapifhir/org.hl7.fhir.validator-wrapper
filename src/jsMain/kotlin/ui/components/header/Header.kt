@@ -3,18 +3,19 @@ package ui.components.header
 import Polyglot
 import api.isPackagesServerUp
 import api.isTerminologyServerUp
+import context.AppScreenContext
 import css.const.HEADER_SHADOW
 import css.const.HIGHLIGHT_GRAY
 import css.const.WHITE
-import kotlinx.browser.document
+import web.dom.document
+import web.window.window
 import kotlinx.coroutines.launch
 import kotlinx.css.*
 import kotlinx.css.properties.borderBottom
 import kotlinx.css.properties.boxShadow
 import mainScope
 import model.AppScreen
-import org.w3c.dom.events.Event
-import org.w3c.dom.events.EventListener
+import web.events.Event
 import react.*
 import styled.StyleSheet
 import styled.css
@@ -46,11 +47,15 @@ class HeaderState : State {
     var packageServerState = SiteState.IN_PROGESS
 }
 
-class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), EventListener {
+class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>() {
 
     init {
         state = HeaderState()
-        document.addEventListener(type = "scroll", callback = this)
+        window.onscroll = {
+            setState {
+                currentScroll = document.documentElement?.scrollTop ?: 0.0
+            }
+        }
         mainScope.launch {
             val terminologyServerUp = isTerminologyServerUp()
             val packageServerUp = isPackagesServerUp()
@@ -68,73 +73,70 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>(), Even
     }
 
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +HeaderStyle.headerContainer
-                if (state.currentScroll > 0) {
-                    boxShadow(color = HEADER_SHADOW, offsetX = 0.px, offsetY = 10.px, blurRadius = 10.px)
-                }
-            }
-            styledImg(src = "images/fhir-logo.png") {
-                css {
-                    +HeaderStyle.headerImage
-                }
-            }
+        AppScreenContext.Consumer { contextValue ->
             styledDiv {
                 css {
-                    +HeaderStyle.headerButtonsContainer
+                    +HeaderStyle.headerContainer
+                    if (state.currentScroll > 0) {
+                        boxShadow(color = HEADER_SHADOW, offsetX = 0.px, offsetY = 10.px, blurRadius = 10.px)
+                    }
                 }
-                AppScreen.values().forEach { screen ->
-                    headerTabButton {
-                        name = screen.name
-                        label = props.polyglot.t(screen.polyglotKey)
-                        selected = props.appScreen == screen
-                        onSelected = { buttonName ->
-                            AppScreen.fromDisplay(buttonName)?.let { it -> props.setScreen(it) }
+                styledImg(src = "images/fhir-logo.png") {
+                    css {
+                        +HeaderStyle.headerImage
+                    }
+                }
+                styledDiv {
+                    css {
+                        +HeaderStyle.headerButtonsContainer
+                    }
+                    AppScreen.values().forEach { screen ->
+                        headerTabButton {
+                            name = screen.name
+                            label = props.polyglot.t(screen.polyglotKey)
+                            selected = props.appScreen == screen
+                            onSelected = { buttonName ->
+                                AppScreen.fromDisplay(buttonName)?.let { screen ->
+                                    contextValue?.setAppScreen?.invoke(screen)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                styledDiv {
+                    css {
+                        +HeaderStyle.sideOptions
+                    }
+                    styledDiv {
+                        css {
+                            +HeaderStyle.languageOptionDiv
+                        }
+                        languageSelect{
+                            polyglot = props.polyglot
+                            selectedLanguage = props.selectedLanguage
+                            validationContext = props.validationContext
+                            updateValidationContext = props.updateValidationContext
+                        }
+                    }
+                    styledDiv {
+                        css {
+                            +HeaderStyle.siteStatusDiv
+                        }
+                        siteStatus {
+                            label = "tx.fhir.org"
+                            status = state.terminologyServerState
+                        }
+                        siteStatus {
+                            label = "packages2.fhir.org"
+                            status = state.packageServerState
                         }
                     }
                 }
             }
-
-            styledDiv {
-                css {
-                    +HeaderStyle.sideOptions
-                }
-                styledDiv {
-                    css {
-                        +HeaderStyle.languageOptionDiv
-                    }
-                    languageSelect{
-                        polyglot = props.polyglot
-                        selectedLanguage = props.selectedLanguage
-                        setLanguage = props.setLanguage
-                        fetchPolyglot = props.fetchPolyglot
-                        validationContext = props.validationContext
-                        updateValidationContext = props.updateValidationContext
-                    }
-                }
-                styledDiv {
-                    css {
-                        +HeaderStyle.siteStatusDiv
-                    }
-                    siteStatus {
-                        label = "tx.fhir.org"
-                        status = state.terminologyServerState
-                    }
-                    siteStatus {
-                        label = "packages2.fhir.org"
-                        status = state.packageServerState
-                    }
-                }
-            }
         }
     }
 
-    override fun handleEvent(event: Event) {
-        setState {
-            currentScroll = document.documentElement?.scrollTop!!
-        }
-    }
 }
 
 /**

@@ -5,8 +5,8 @@ import css.const.INACTIVE_GRAY
 import css.const.WHITE
 import css.text.TextStyle
 import kotlinx.css.*
-import kotlinx.css.properties.border
 import kotlinx.html.js.onClickFunction
+import kotlinx.css.properties.border
 import react.*
 import react.dom.attrs
 import styled.StyleSheet

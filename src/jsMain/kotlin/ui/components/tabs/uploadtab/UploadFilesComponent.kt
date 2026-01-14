@@ -1,6 +1,6 @@
 package ui.components.tabs.uploadtab
 
-import kotlinx.browser.document
+import web.dom.document
 import kotlinx.css.Display
 import kotlinx.css.display
 import kotlinx.html.InputFormEncType
@@ -9,7 +9,7 @@ import kotlinx.html.id
 import kotlinx.html.js.onChangeFunction
 import model.FileInfo
 import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.asList
+import org.w3c.dom.*
 import org.w3c.dom.events.Event
 import org.w3c.files.File
 import react.*
@@ -22,7 +22,7 @@ import utils.fileutils.loadFile
 
 const val FILE_UPLOAD_ELEMENT_ID = "FileUploadInput"
 
-interface UploadFilesComponentProps : Props {
+external interface UploadFilesComponentProps : Props {
     var onFileUpload: (FileInfo) -> Unit
 }
 

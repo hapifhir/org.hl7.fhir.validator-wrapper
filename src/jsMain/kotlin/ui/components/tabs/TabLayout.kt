@@ -4,12 +4,13 @@ import Polyglot
 import css.const.*
 import css.text.TextStyle
 import kotlinx.css.*
-import kotlinx.css.properties.*
 import kotlinx.html.js.onClickFunction
+import kotlinx.css.properties.*
 import react.*
 import react.dom.attrs
-import reactredux.containers.fileUploadTab
-import reactredux.containers.manualEntryTab
+import model.ValidationContext
+import ui.components.tabs.entrytab.ManualEntryTab
+import ui.components.tabs.uploadtab.FileUploadTab
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
@@ -96,9 +97,13 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
                     +TabBarStyle.tabBodyContainer
                 }
                 if (state.tabStates[0].active) {
-                    manualEntryTab {}
+                    child(ManualEntryTab::class) {
+                        attrs.polyglot = props.polyglot
+                    }
                 } else {
-                    fileUploadTab {}
+                    child(FileUploadTab::class) {
+                        attrs.polyglot = props.polyglot
+                    }
                 }
             }
         }

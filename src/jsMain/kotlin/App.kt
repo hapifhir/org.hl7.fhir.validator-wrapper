@@ -1,94 +1,111 @@
+import Polyglot
+import context.AppScreenContext
+import context.LocalizationContext
 import kotlinx.coroutines.MainScope
 import kotlinx.css.*
 import model.AppScreen
+import model.ValidationContext
 import react.*
-import reactredux.containers.optionsPage
-import reactredux.containers.header
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import ui.components.footer.footer
+import ui.components.header.Header
 import ui.components.header.HeaderStyle
 import ui.components.main.sectionTitle
+import ui.components.options.OptionsPage
 import ui.components.tabs.tabLayout
-import kotlinx.browser.window
-import model.ValidationContext
 import utils.Language
-
-
-external interface AppProps : Props {
-    var appScreen: AppScreen
-    var polyglot: Polyglot
-
-    var fetchPolyglot:  (String) -> Unit
-    var setLanguage: (Language) -> Unit
-
-    var fetchPresets: () -> Unit
-
-    var validationContext: ValidationContext
-    var updateValidationContext: (ValidationContext, Boolean) -> Unit
-}
 
 val mainScope = MainScope()
 
-fun initLanguages(props: AppProps) {
-    for (item in window.navigator.languages) {
-        val prefix = item.substring(0, 2)
-        var selectedLanguage = Language.getSelectedLanguage(prefix)
-        if (selectedLanguage != null) {
-            props.setLanguage(selectedLanguage)
-            props.fetchPolyglot(selectedLanguage.getLanguageCode());
-            props.updateValidationContext(props.validationContext.setLocale(selectedLanguage.getLanguageCode()), false)
-            break
-        }
-    }
-}
+class App : RComponent<Props, State>() {
 
-fun initPresets(props: AppProps) {
-   props.fetchPresets()
-}
-
-
-class App(props : AppProps) : RComponent<AppProps, State>() {
-    init {
-        initLanguages(props)
-        initPresets(props)
-    }
     override fun RBuilder.render() {
+        AppScreenContext.Consumer { screenContext ->
+            LocalizationContext.Consumer { localizationContext ->
+                context.ValidationContext.Consumer { validationContext ->
+                val appScreen = screenContext?.appScreen ?: AppScreen.VALIDATOR
+                val polyglot = localizationContext?.polyglot ?: Polyglot()
+                val selectedLanguage = localizationContext?.selectedLanguage ?: Language.ENGLISH
 
-        styledDiv {
-            css {
-                +LandingPageStyle.mainDiv
-            }
-            header {}
-            styledDiv {
-                css {
-                    paddingTop = HeaderStyle.HEADER_HEIGHT
-                    display = Display.flex
-                    flexDirection = FlexDirection.column
-                    flex(flexGrow = 1.0, flexShrink = 1.0, flexBasis = FlexBasis.auto)
-                }
-                when (props.appScreen) {
-                    AppScreen.VALIDATOR -> {
-                        sectionTitle {
-                            majorText = props.polyglot.t("appscreen_validator_major")
-                            minorText = props.polyglot.t("appscreen_validator_minor")
-                        }
-                        tabLayout {
-                            polyglot = props.polyglot
+                styledDiv {
+                    css {
+                        +LandingPageStyle.mainDiv
+                    }
+
+                    child(Header::class) {
+                        attrs.appScreen = appScreen
+                        attrs.polyglot = polyglot
+                        attrs.selectedLanguage = selectedLanguage
+                        attrs.setScreen = {} // no-op (Header will use context directly)
+                        attrs.fetchPolyglot = {} // no-op
+                        attrs.setPolyglot = {} // no-op
+                        attrs.setLanguage = {} // no-op
+                        attrs.validationContext = validationContext?.validationContext
+                            ?: ValidationContext().setBaseEngine("DEFAULT")
+                        attrs.updateValidationContext = { ctx, resetBaseEngine ->
+                            validationContext?.updateValidationContext?.invoke(ctx, resetBaseEngine)
                         }
                     }
-                    AppScreen.SETTINGS -> {
-                        sectionTitle {
-                            majorText = props.polyglot.t("appscreen_options_major")
-                            minorText = props.polyglot.t("appscreen_options_minor")
+
+                    styledDiv {
+                        css {
+                            paddingTop = HeaderStyle.HEADER_HEIGHT
+                            display = Display.flex
+                            flexDirection = FlexDirection.column
+                            flex(flexGrow = 1.0, flexShrink = 1.0, flexBasis = FlexBasis.auto)
                         }
-                        optionsPage {}
+                        when (appScreen) {
+                            AppScreen.VALIDATOR -> {
+                                sectionTitle {
+                                    majorText = polyglot.t("appscreen_validator_major")
+                                    minorText = polyglot.t("appscreen_validator_minor")
+                                }
+                                tabLayout {
+                                    this.polyglot = polyglot
+                                }
+                            }
+                            AppScreen.SETTINGS -> {
+                                sectionTitle {
+                                    majorText = polyglot.t("appscreen_options_major")
+                                    minorText = polyglot.t("appscreen_options_minor")
+                                }
+                                child(OptionsPage::class) {
+                                    attrs.validationContext = validationContext?.validationContext
+                                        ?: ValidationContext().setBaseEngine("DEFAULT")
+                                    attrs.igPackageInfoSet = validationContext?.igPackageInfoSet ?: emptySet()
+                                    attrs.extensionSet = validationContext?.extensionSet ?: emptySet()
+                                    attrs.profileSet = validationContext?.profileSet ?: emptySet()
+                                    attrs.bundleValidationRuleSet = validationContext?.bundleValidationRuleSet ?: emptySet()
+                                    attrs.polyglot = polyglot
+                                    attrs.updateValidationContext = { context, resetBaseEngine ->
+                                        validationContext?.updateValidationContext?.invoke(context, resetBaseEngine)
+                                    }
+                                    attrs.updateIgPackageInfoSet = { set, resetBaseEngine ->
+                                        validationContext?.updateIgPackageInfoSet?.invoke(set, resetBaseEngine)
+                                    }
+                                    attrs.updateExtensionSet = { set, resetBaseEngine ->
+                                        validationContext?.updateExtensionSet?.invoke(set, resetBaseEngine)
+                                    }
+                                    attrs.setSessionId = { id ->
+                                        validationContext?.setSessionId?.invoke(id)
+                                    }
+                                    attrs.updateProfileSet = { set, resetBaseEngine ->
+                                        validationContext?.updateProfileSet?.invoke(set, resetBaseEngine)
+                                    }
+                                    attrs.updateBundleValidationRuleSet = { set, resetBaseEngine ->
+                                        validationContext?.updateBundleValidationRuleSet?.invoke(set, resetBaseEngine)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    footer {
+                        this.polyglot = polyglot
                     }
                 }
-            }
-            footer {
-                polyglot = props.polyglot
+                }
             }
         }
     }
@@ -104,4 +121,3 @@ object LandingPageStyle : StyleSheet("LandingPageStyle", isStatic = true) {
         height = 100.vh
     }
 }
-

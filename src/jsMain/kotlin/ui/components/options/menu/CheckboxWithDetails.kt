@@ -6,7 +6,7 @@ import kotlinx.html.InputType
 import kotlinx.html.id
 import kotlinx.html.js.onChangeFunction
 import kotlinx.html.js.onClickFunction
-import org.w3c.dom.HTMLInputElement
+import web.html.HTMLInputElement
 import react.*
 import react.dom.attrs
 import styled.*

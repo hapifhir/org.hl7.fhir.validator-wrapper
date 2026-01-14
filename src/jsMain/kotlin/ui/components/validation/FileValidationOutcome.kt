@@ -5,7 +5,7 @@ import kotlinx.css.*
 import model.MessageFilter
 import model.ValidationMessage
 import model.ValidationOutcome
-import kotlinx.browser.window
+import web.window.window
 
 import react.*
 import styled.StyleSheet
