@@ -32,11 +32,6 @@ external interface HeaderProps : Props {
     var selectedLanguage: Language
     var polyglot: Polyglot
 
-    var setScreen: (AppScreen) -> Unit
-    var fetchPolyglot:  (String) -> Unit
-    var setPolyglot: (Polyglot) -> Unit
-    var setLanguage: (Language) -> Unit
-
     var validationContext: ValidationContext
     var updateValidationContext: (ValidationContext, Boolean) -> Unit
 }

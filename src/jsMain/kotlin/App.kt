@@ -38,10 +38,7 @@ class App : RComponent<Props, State>() {
                         attrs.appScreen = appScreen
                         attrs.polyglot = polyglot
                         attrs.selectedLanguage = selectedLanguage
-                        attrs.setScreen = {} // no-op (Header will use context directly)
-                        attrs.fetchPolyglot = {} // no-op
-                        attrs.setPolyglot = {} // no-op
-                        attrs.setLanguage = {} // no-op
+
                         attrs.validationContext = validationContext?.validationContext
                             ?: ValidationContext().setBaseEngine("DEFAULT")
                         attrs.updateValidationContext = { ctx, resetBaseEngine ->
