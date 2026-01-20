@@ -13,7 +13,6 @@ import kotlinx.coroutines.*
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import mainScope
-import model.BundleValidationRule
 import model.PackageInfo
 import react.*
 import styled.StyleSheet
@@ -45,11 +44,11 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
 
     override fun RBuilder.render() {
         LocalizationContext.Consumer { localizationContext ->
-            ValidationContext.Consumer { ctx ->
+            ValidationContext.Consumer { reactValidationContext ->
                 val polyglot = localizationContext?.polyglot ?: Polyglot()
-                val validationContext = ctx?.validationContext
+                val validationContext = reactValidationContext?.validationContext
                     ?: model.ValidationContext().setBaseEngine("DEFAULT")
-                val igPackageInfoSet = ctx?.igPackageInfoSet ?: emptySet()
+                val igPackageInfoSet = reactValidationContext?.igPackageInfoSet ?: emptySet()
 
                 // Initialize data on first render
                 if (!state.initialized) {
@@ -87,8 +86,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             selected = validationContext.isDoNative()
                             hasDescription = true
                             onChange = {
-                                ctx?.updateValidationContext?.invoke(validationContext.setDoNative(it), true)
-                                ctx?.setSessionId?.invoke("")
+                                reactValidationContext?.updateValidationContext?.invoke(validationContext.setDoNative(it), true)
+                                reactValidationContext?.setSessionId?.invoke("")
                             }
                         }
                         styledDiv {
@@ -102,8 +101,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             selected = validationContext.isHintAboutNonMustSupport()
                             hasDescription = true
                             onChange = {
-                                ctx?.updateValidationContext?.invoke(validationContext.setHintAboutNonMustSupport(it), true)
-                                ctx?.setSessionId?.invoke("")
+                                reactValidationContext?.updateValidationContext?.invoke(validationContext.setHintAboutNonMustSupport(it), true)
+                                reactValidationContext?.setSessionId?.invoke("")
                             }
                         }
                         styledDiv {
@@ -117,8 +116,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             selected = validationContext.isAssumeValidRestReferences()
                             hasDescription = true
                             onChange = {
-                                ctx?.updateValidationContext?.invoke(validationContext.setAssumeValidRestReferences(it), true)
-                                ctx?.setSessionId?.invoke("")
+                                reactValidationContext?.updateValidationContext?.invoke(validationContext.setAssumeValidRestReferences(it), true)
+                                reactValidationContext?.setSessionId?.invoke("")
                             }
                         }
                         styledDiv {
@@ -132,8 +131,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             selected = validationContext.isNoExtensibleBindingMessages()
                             hasDescription = true
                             onChange = {
-                                ctx?.updateValidationContext?.invoke(validationContext.setNoExtensibleBindingMessages(it), true)
-                                ctx?.setSessionId?.invoke("")
+                                reactValidationContext?.updateValidationContext?.invoke(validationContext.setNoExtensibleBindingMessages(it), true)
+                                reactValidationContext?.setSessionId?.invoke("")
                             }
                         }
                         styledDiv {
@@ -148,8 +147,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             hasDescription = true
                             onChange = {
                                 validationContext.setShowTimes(it)
-                                ctx?.updateValidationContext?.invoke(validationContext, true)
-                                ctx?.setSessionId?.invoke("")
+                                reactValidationContext?.updateValidationContext?.invoke(validationContext, true)
+                                reactValidationContext?.setSessionId?.invoke("")
                             }
                         }
                         styledDiv {
@@ -164,8 +163,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             hasDescription = true
                             onChange = {
                                 validationContext.setAllowExampleUrls(it)
-                                ctx?.updateValidationContext?.invoke(validationContext, true)
-                                ctx?.setSessionId?.invoke("")
+                                reactValidationContext?.updateValidationContext?.invoke(validationContext, true)
+                                reactValidationContext?.setSessionId?.invoke("")
                             }
                         }
                         styledDiv {
@@ -180,8 +179,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             hasDescription = true
                             onChange = {
                                 validationContext.setCheckIPSCodes(it)
-                                ctx?.updateValidationContext?.invoke(validationContext, true)
-                                ctx?.setSessionId?.invoke("")
+                                reactValidationContext?.updateValidationContext?.invoke(validationContext, true)
+                                reactValidationContext?.setSessionId?.invoke("")
                             }
                         }
                     }
@@ -208,8 +207,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                             }
                                     }
                                 }
-                                ctx?.updateValidationContext?.invoke(validationContext, true)
-                                ctx?.setSessionId?.invoke("")
+                                reactValidationContext?.updateValidationContext?.invoke(validationContext, true)
+                                reactValidationContext?.setSessionId?.invoke("")
                             }
                         }
                     }
@@ -236,8 +235,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                 } else {
                                     selectedIgSet.minus(igPackageInfo).toMutableSet()
                                 }
-                                ctx?.updateIgPackageInfoSet?.invoke(newSelectedIgSet, true)
-                                ctx?.setSessionId?.invoke("")
+                                reactValidationContext?.updateIgPackageInfoSet?.invoke(newSelectedIgSet, true)
+                                reactValidationContext?.setSessionId?.invoke("")
                             }
                             onFilterStringChange = { partialIgName ->
                                 mainScope.launch {
@@ -301,8 +300,8 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                                             }
                                     }
                                 }
-                                ctx?.updateValidationContext?.invoke(validationContext, true)
-                                ctx?.setSessionId?.invoke("")
+                                reactValidationContext?.updateValidationContext?.invoke(validationContext, true)
+                                reactValidationContext?.setSessionId?.invoke("")
                             }
                         }
                         styledDiv {
@@ -318,7 +317,7 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
                             textFieldId = "terminology_server_entry"
                             onSubmitEntry = { url ->
                                 GlobalScope.async {
-                                    val txServerOutcome = async { checkTxServer(url, validationContext, ctx) }
+                                    val txServerOutcome = async { checkTxServer(url, validationContext, reactValidationContext) }
                                     if (txServerOutcome.await()) {
                                         true
                                     } else {
@@ -345,15 +344,15 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
     private suspend fun checkTxServer(
         txUrl: String,
         validationContext: model.ValidationContext,
-        ctx: context.ValidationContextValue?
+        reactValidationContext: context.ValidationContextValue?
     ): Boolean {
         var validTxServer = false
         try {
             withTimeout(TERMINOLOGY_CHECK_TIME_LIMIT) {
                 val response = validateTxServer(txUrl)
                 if (response.validTxServer) {
-                    ctx?.updateValidationContext?.invoke(validationContext.setTxServer(response.url), true)
-                    ctx?.setSessionId?.invoke("")
+                    reactValidationContext?.updateValidationContext?.invoke(validationContext.setTxServer(response.url), true)
+                    reactValidationContext?.setSessionId?.invoke("")
                     validTxServer = true
                 }
             }

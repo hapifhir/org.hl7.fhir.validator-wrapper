@@ -45,12 +45,12 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
     }
     override fun RBuilder.render() {
         LocalizationContext.Consumer { localizationContext ->
-            ValidationContext.Consumer { ctx ->
+            ValidationContext.Consumer { reactValidationContext ->
                 val polyglot = localizationContext?.polyglot ?: Polyglot()
                 val language = localizationContext?.selectedLanguage ?: Language.ENGLISH
-                val validationContext = ctx?.validationContext
+                val validationContext = reactValidationContext?.validationContext
                     ?: model.ValidationContext().setBaseEngine("DEFAULT")
-                val presets = ctx?.presets ?: emptyList()
+                val presets = reactValidationContext?.presets ?: emptyList()
 
                 if (presets.isEmpty()) {
                     return@Consumer
@@ -93,11 +93,11 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                             if (selectedPreset != null) {
 
                                                 val newValidationContext = model.ValidationContext(selectedPreset.validationContext).setLocale(language.getLanguageCode())
-                                                ctx?.updateValidationContext?.invoke(newValidationContext, false)
-                                                ctx?.updateIgPackageInfoSet?.invoke(selectedPreset.igPackageInfo, false)
-                                                ctx?.updateExtensionSet?.invoke(selectedPreset.extensionSet, false)
-                                                ctx?.updateProfileSet?.invoke(selectedPreset.profileSet, false)
-                                                ctx?.updateBundleValidationRuleSet?.invoke(
+                                                reactValidationContext?.updateValidationContext?.invoke(newValidationContext, false)
+                                                reactValidationContext?.updateIgPackageInfoSet?.invoke(selectedPreset.igPackageInfo, false)
+                                                reactValidationContext?.updateExtensionSet?.invoke(selectedPreset.extensionSet, false)
+                                                reactValidationContext?.updateProfileSet?.invoke(selectedPreset.profileSet, false)
+                                                reactValidationContext?.updateBundleValidationRuleSet?.invoke(
                                                     selectedPreset.validationContext.getBundleValidationRules().toMutableSet(),
                                                     false
                                                 )
@@ -106,7 +106,7 @@ class PresetSelect : RComponent<PresetSelectProps, PresetSelectState>() {
                                                         snackbarOpen = selectedPreset.localizedLabels.get(language.code)
                                                     }
                                                 }
-                                                ctx?.setSessionId?.invoke("")
+                                                reactValidationContext?.setSessionId?.invoke("")
                                             }
                                         }
                                     }
