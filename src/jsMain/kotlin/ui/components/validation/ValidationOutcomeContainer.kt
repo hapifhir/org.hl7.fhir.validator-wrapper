@@ -1,6 +1,7 @@
 package ui.components.validation
 
 import Polyglot
+import context.LocalizationContext
 import css.const.BORDER_GRAY
 import css.const.WHITE
 import kotlinx.css.*
@@ -16,7 +17,6 @@ import ui.components.validation.issuelist.issueFilterButtonBar
 
 external interface ValidationOutcomeContainerProps : Props {
     var validationOutcome: ValidationOutcome
-    var polyglot: Polyglot
     var onClose: () -> Unit
     var inPage: Boolean
 }
@@ -32,13 +32,15 @@ class ValidationOutcomeContainer : RComponent<ValidationOutcomeContainerProps, V
     }
 
     override fun RBuilder.render() {
+        LocalizationContext.Consumer { localizationContext ->
+            val polyglot = localizationContext?.polyglot ?: Polyglot()
 
             styledDiv {
                 css {
                     +ValidationOutcomeContainerStyle.filterMenuContainer
                 }
                 heading {
-                    text = props.polyglot.t("validation_results") + " (${state.messageFilter.determineNumberDisplayedIssues(props.validationOutcome.getMessages())})"
+                    text = polyglot.t("validation_results") + " (${state.messageFilter.determineNumberDisplayedIssues(props.validationOutcome.getMessages())})"
                 }
                 styledDiv {
                     css {
@@ -46,7 +48,7 @@ class ValidationOutcomeContainer : RComponent<ValidationOutcomeContainerProps, V
                     }
                 }
                 issueFilterButtonBar {
-                    polyglot = props.polyglot
+
                     messageFilter = state.messageFilter
                     onUpdated = { newMessageFilter ->
                         setState {
@@ -66,6 +68,7 @@ class ValidationOutcomeContainer : RComponent<ValidationOutcomeContainerProps, V
                 }
             }
         }
+    }
 
 }
 

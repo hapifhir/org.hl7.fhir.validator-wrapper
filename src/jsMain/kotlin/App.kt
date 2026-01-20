@@ -52,48 +52,18 @@ class App : RComponent<Props, State>() {
                                     majorText = polyglot.t("appscreen_validator_major")
                                     minorText = polyglot.t("appscreen_validator_minor")
                                 }
-                                tabLayout {
-                                    this.polyglot = polyglot
-                                }
+                                tabLayout {}
                             }
                             AppScreen.SETTINGS -> {
                                 sectionTitle {
                                     majorText = polyglot.t("appscreen_options_major")
                                     minorText = polyglot.t("appscreen_options_minor")
                                 }
-                                child(OptionsPage::class) {
-                                    attrs.validationContext = validationContext?.validationContext
-                                        ?: ValidationContext().setBaseEngine("DEFAULT")
-                                    attrs.igPackageInfoSet = validationContext?.igPackageInfoSet ?: emptySet()
-                                    attrs.extensionSet = validationContext?.extensionSet ?: emptySet()
-                                    attrs.profileSet = validationContext?.profileSet ?: emptySet()
-                                    attrs.bundleValidationRuleSet = validationContext?.bundleValidationRuleSet ?: emptySet()
-                                    attrs.polyglot = polyglot
-                                    attrs.updateValidationContext = { context, resetBaseEngine ->
-                                        validationContext?.updateValidationContext?.invoke(context, resetBaseEngine)
-                                    }
-                                    attrs.updateIgPackageInfoSet = { set, resetBaseEngine ->
-                                        validationContext?.updateIgPackageInfoSet?.invoke(set, resetBaseEngine)
-                                    }
-                                    attrs.updateExtensionSet = { set, resetBaseEngine ->
-                                        validationContext?.updateExtensionSet?.invoke(set, resetBaseEngine)
-                                    }
-                                    attrs.setSessionId = { id ->
-                                        validationContext?.setSessionId?.invoke(id)
-                                    }
-                                    attrs.updateProfileSet = { set, resetBaseEngine ->
-                                        validationContext?.updateProfileSet?.invoke(set, resetBaseEngine)
-                                    }
-                                    attrs.updateBundleValidationRuleSet = { set, resetBaseEngine ->
-                                        validationContext?.updateBundleValidationRuleSet?.invoke(set, resetBaseEngine)
-                                    }
-                                }
+                                child(OptionsPage::class) {}
                             }
                         }
                     }
-                    footer {
-                        this.polyglot = polyglot
-                    }
+                    footer {}
                 }
                 }
             }

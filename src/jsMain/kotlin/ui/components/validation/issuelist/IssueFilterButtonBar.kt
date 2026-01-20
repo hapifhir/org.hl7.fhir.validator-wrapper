@@ -13,7 +13,6 @@ import ui.components.buttons.optionButton
 external interface IssueFilterButtonBarProps : Props {
     var messageFilter: MessageFilter
     var onUpdated: (MessageFilter) -> Unit
-    var polyglot: Polyglot
 }
 
 /**
@@ -22,55 +21,58 @@ external interface IssueFilterButtonBarProps : Props {
 class IssueFilterButtonBar : RComponent<IssueFilterButtonBarProps, State>() {
 
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +IssueFilterButtonBarStyle.buttonBarContainer
-            }
-            labelledSwitch {
-                label = props.polyglot.t("validation_fatals")
-                active = props.messageFilter.showFatal
-                onSelected = {
-                    props.messageFilter.showFatal = it
-                    props.onUpdated(props.messageFilter)
-                }
-            }
+        context.LocalizationContext.Consumer { localizationContext ->
+            val polyglot = localizationContext?.polyglot ?: Polyglot()
             styledDiv {
                 css {
-                    width = 16.px
+                    +IssueFilterButtonBarStyle.buttonBarContainer
                 }
-            }
-            labelledSwitch {
-                label = props.polyglot.t("validation_errors")
-                active = props.messageFilter.showError
-                onSelected = {
-                    props.messageFilter.showError = it
-                    props.onUpdated(props.messageFilter)
+                labelledSwitch {
+                    label = polyglot.t("validation_fatals")
+                    active = props.messageFilter.showFatal
+                    onSelected = {
+                        props.messageFilter.showFatal = it
+                        props.onUpdated(props.messageFilter)
+                    }
                 }
-            }
-            styledDiv {
-                css {
-                    width = 16.px
+                styledDiv {
+                    css {
+                        width = 16.px
+                    }
                 }
-            }
-            labelledSwitch {
-                label = props.polyglot.t("validation_warnings")
-                active = props.messageFilter.showWarning
-                onSelected = {
-                    props.messageFilter.showWarning = it
-                    props.onUpdated(props.messageFilter)
+                labelledSwitch {
+                    label = polyglot.t("validation_errors")
+                    active = props.messageFilter.showError
+                    onSelected = {
+                        props.messageFilter.showError = it
+                        props.onUpdated(props.messageFilter)
+                    }
                 }
-            }
-            styledDiv {
-                css {
-                    width = 16.px
+                styledDiv {
+                    css {
+                        width = 16.px
+                    }
                 }
-            }
-            labelledSwitch {
-                label = props.polyglot.t("validation_info")
-                active = props.messageFilter.showInfo
-                onSelected = {
-                    props.messageFilter.showInfo = it
-                    props.onUpdated(props.messageFilter)
+                labelledSwitch {
+                    label = polyglot.t("validation_warnings")
+                    active = props.messageFilter.showWarning
+                    onSelected = {
+                        props.messageFilter.showWarning = it
+                        props.onUpdated(props.messageFilter)
+                    }
+                }
+                styledDiv {
+                    css {
+                        width = 16.px
+                    }
+                }
+                labelledSwitch {
+                    label = polyglot.t("validation_info")
+                    active = props.messageFilter.showInfo
+                    onSelected = {
+                        props.messageFilter.showInfo = it
+                        props.onUpdated(props.messageFilter)
+                    }
                 }
             }
         }

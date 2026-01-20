@@ -1,6 +1,7 @@
 package ui.components.tabs.uploadtab.filelist
 
 import Polyglot
+import context.LocalizationContext
 import css.text.TextStyle
 import kotlinx.css.*
 import model.ValidationOutcome
@@ -12,7 +13,6 @@ import styled.styledP
 
 external interface FileEntryProps : Props {
     var validationOutcome: ValidationOutcome
-    var polyglot: Polyglot
     var onView: (ValidationOutcome) -> Unit
     var onDelete: (ValidationOutcome) -> Unit
 }
@@ -25,29 +25,33 @@ class FileEntryState : State
  */
 class FileEntry : RComponent<FileEntryProps, FileEntryState>() {
     override fun RBuilder.render() {
-        styledLi {
-            css {
-                +FileEntryStyle.fileEntryContainer
-            }
-            fileStatusIndicator {
-                validationOutcome = props.validationOutcome
-            }
-            styledP {
-                +props.validationOutcome.getFileInfo().fileName
+        LocalizationContext.Consumer { localizationContext ->
+            val polyglot = localizationContext?.polyglot ?: Polyglot()
+
+            styledLi {
                 css {
-                    +FileEntryStyle.titleField
-                    +TextStyle.fileEntryLabel
+                    +FileEntryStyle.fileEntryContainer
                 }
-            }
-            fileEntryOptions {
-                viewText = props.polyglot.t("upload_entry_view")
-                deleteText = props.polyglot.t("upload_entry_delete")
-                viewOption = props.validationOutcome.isValidated()
-                onViewClicked = {
-                    props.onView(props.validationOutcome)
+                fileStatusIndicator {
+                    validationOutcome = props.validationOutcome
                 }
-                onDeleteClicked = {
-                    props.onDelete(props.validationOutcome)
+                styledP {
+                    +props.validationOutcome.getFileInfo().fileName
+                    css {
+                        +FileEntryStyle.titleField
+                        +TextStyle.fileEntryLabel
+                    }
+                }
+                fileEntryOptions {
+                    viewText = polyglot.t("upload_entry_view")
+                    deleteText = polyglot.t("upload_entry_delete")
+                    viewOption = props.validationOutcome.isValidated()
+                    onViewClicked = {
+                        props.onView(props.validationOutcome)
+                    }
+                    onDeleteClicked = {
+                        props.onDelete(props.validationOutcome)
+                    }
                 }
             }
         }

@@ -13,9 +13,7 @@ import react.ReactNode
 import utils.Language
 
 
-external interface LanguageSelectProps : Props {
-    // Empty - all data now from contexts
-}
+external interface LanguageSelectProps : Props {}
 
 class LanguageSelect(props : LanguageSelectProps) : RComponent<LanguageSelectProps, State>() {
     init {

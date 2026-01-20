@@ -1,6 +1,7 @@
 package ui.components.tabs.uploadtab.filelist
 
 import Polyglot
+import context.LocalizationContext
 import css.const.BORDER_GRAY
 import kotlinx.css.*
 import kotlinx.css.properties.border
@@ -14,7 +15,6 @@ import styled.styledUl
 
 external interface FileEntryListProps : Props {
     var validationOutcomes: List<ValidationOutcome>
-    var polyglot: Polyglot
     var viewFile: (ValidationOutcome) -> Unit
     var deleteFile: (ValidationOutcome) -> Unit
 }
@@ -24,30 +24,31 @@ external interface FileEntryListProps : Props {
  */
 class FileEntryList : RComponent<FileEntryListProps, State>() {
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +FileEntryListStyle.entryListContainer
-            }
-            styledUl {
+        LocalizationContext.Consumer { localizationContext ->
+            styledDiv {
                 css {
-                    +FileEntryListStyle.entryList
+                    +FileEntryListStyle.entryListContainer
                 }
-                val filesIterator = props.validationOutcomes.iterator()
-                while (filesIterator.hasNext()) {
-                    fileEntry {
-                        polyglot = props.polyglot
-                        validationOutcome = filesIterator.next()
-                        onView = {
-                            props.viewFile(validationOutcome)
-                        }
-                        onDelete = {
-                            props.deleteFile(validationOutcome)
-                        }
+                styledUl {
+                    css {
+                        +FileEntryListStyle.entryList
                     }
-                    if (filesIterator.hasNext()) {
-                        styledDiv {
-                            css {
-                                +FileEntryListStyle.listSeparator
+                    val filesIterator = props.validationOutcomes.iterator()
+                    while (filesIterator.hasNext()) {
+                        fileEntry {
+                            validationOutcome = filesIterator.next()
+                            onView = {
+                                props.viewFile(validationOutcome)
+                            }
+                            onDelete = {
+                                props.deleteFile(validationOutcome)
+                            }
+                        }
+                        if (filesIterator.hasNext()) {
+                            styledDiv {
+                                css {
+                                    +FileEntryListStyle.listSeparator
+                                }
                             }
                         }
                     }

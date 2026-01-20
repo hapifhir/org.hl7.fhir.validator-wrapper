@@ -26,9 +26,7 @@ import utils.Language
 import web.dom.document
 import web.window.window
 
-external interface HeaderProps : Props {
-    // Empty - all data now from contexts
-}
+external interface HeaderProps : Props {}
 
 class HeaderState : State {
     var currentScroll: Double = 0.0

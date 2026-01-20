@@ -29,9 +29,7 @@ import utils.*
 //TODO make this an intelligent value
 private const val VALIDATION_TIME_LIMIT =  120000L
 
-external interface ManualEntryTabProps : Props {
-    var polyglot: Polyglot
-}
+external interface ManualEntryTabProps : Props {}
 
 class ManualEntryTabState : State {
     var displayingError: Boolean = false
@@ -46,6 +44,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
     override fun RBuilder.render() {
         context.ValidationContext.Consumer { validationContext ->
             LocalizationContext.Consumer { localizationContext ->
+                val polyglot = localizationContext?.polyglot ?: Polyglot()
                 val language = localizationContext?.selectedLanguage ?: Language.ENGLISH
 
                 styledDiv {
@@ -53,12 +52,12 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                         +ManualEntryTabStyle.mainContainer
                     }
                     heading {
-                        text = props.polyglot.t("manual_entry_title")
+                        text = polyglot.t("manual_entry_title")
                     }
 
                     manualEntryTextArea {
                         currentText = validationContext?.currentManualEntryText ?: ""
-                        placeholderText = props.polyglot.t("manual_entry_place_holder")
+                        placeholderText = polyglot.t("manual_entry_place_holder")
                         onTextUpdate = { str ->
                             validationContext?.updateManualEntryText?.invoke(str)
                             if (state.displayingError) {
@@ -74,7 +73,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                             +ManualEntryTabStyle.buttonBar
                         }
                         manualEntryValidateButton {
-                            validateText = props.polyglot.t("validate_button")
+                            validateText = polyglot.t("validate_button")
                             onValidateRequested = {
                                 val currentText = validationContext?.currentManualEntryText ?: ""
                                 if (currentText.isNotEmpty()) {
@@ -90,10 +89,11 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                                         validationContext?.bundleValidationRuleSet ?: emptySet(),
                                         { id -> validationContext?.setSessionId?.invoke(id) },
                                         { outcome -> validationContext?.setManualValidationOutcome?.invoke(outcome) },
-                                        { inProgress -> validationContext?.toggleManualValidationInProgress?.invoke(inProgress) }
+                                        { inProgress -> validationContext?.toggleManualValidationInProgress?.invoke(inProgress) },
+                                        polyglot
                                     )
                                 } else {
-                                    val newErrorMessage = props.polyglot.t("manual_entry_empty_request_error")
+                                    val newErrorMessage = polyglot.t("manual_entry_empty_request_error")
                                     setState {
                                         errorMessage = newErrorMessage
                                         displayingError = true
@@ -107,31 +107,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                                 +ManualEntryTabStyle.buttonBarDivider
                             }
                         }
-                        presetSelect {
-                            this.validationContext = validationContext?.validationContext
-                                ?: ValidationContext().setBaseEngine("DEFAULT")
-                            updateValidationContext = { ctx, resetBaseEngine ->
-                                validationContext?.updateValidationContext?.invoke(ctx, resetBaseEngine)
-                            }
-                            updateIgPackageInfoSet = { set, resetBaseEngine ->
-                                validationContext?.updateIgPackageInfoSet?.invoke(set, resetBaseEngine)
-                            }
-                            updateExtensionSet = { set, resetBaseEngine ->
-                                validationContext?.updateExtensionSet?.invoke(set, resetBaseEngine)
-                            }
-                            updateProfileSet = { set, resetBaseEngine ->
-                                validationContext?.updateProfileSet?.invoke(set, resetBaseEngine)
-                            }
-                            updateBundleValidationRuleSet = { set, resetBaseEngine ->
-                                validationContext?.updateBundleValidationRuleSet?.invoke(set, resetBaseEngine)
-                            }
-                            setSessionId = { id ->
-                                validationContext?.setSessionId?.invoke(id)
-                            }
-                            this.language = language
-                            polyglot = props.polyglot
-                            presets = validationContext?.presets ?: emptyList()
-                        }
+                        presetSelect {}
                     }
                     if (state.displayingError) {
                         styledSpan {
@@ -147,9 +123,9 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                                 +ManualEntryTabStyle.resultsContainer
                             }
                             validationOutcomeContainer {
-                                polyglot = props.polyglot
                                 validationOutcome = it
                                 inPage = true
+                                onClose = { }
                             }
                         }
                     }
@@ -169,7 +145,8 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
         bundleValidationRuleSet: Set<BundleValidationRule>,
         setSessionId: (String) -> Unit,
         setValidationOutcome: (ValidationOutcome) -> Unit,
-        toggleValidationInProgress: (Boolean) -> Unit
+        toggleValidationInProgress: (Boolean) -> Unit,
+        polyglot: Polyglot
     ) {
         console.info("Attempting to validate with: " + validationContext.getBaseEngine())
         val completeValidationContext: ValidationContext = buildCompleteValidationContext(
@@ -206,13 +183,13 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 }
             } catch (e: TimeoutCancellationException) {
                 setState {
-                    errorMessage = props.polyglot.t("manual_entry_timeout_exception")
+                    errorMessage = polyglot.t("manual_entry_timeout_exception")
                     displayingError = true
                 }
                 toggleValidationInProgress(false)
             } catch (e: ValidationResponseException) {
                 setState {
-                    errorMessage = props.polyglot.t(
+                    errorMessage = polyglot.t(
                         "manual_entry_validation_response_exception",
                         getJS(arrayOf(Pair("httpResponseCode", e.httpStatusCode)))
                     )
@@ -221,7 +198,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
                 println("Exception ${e.message}")
             } catch (e: Exception) {
                 setState {
-                    errorMessage = props.polyglot.t("manual_entry_cannot_parse_exception")
+                    errorMessage = polyglot.t("manual_entry_cannot_parse_exception")
                     displayingError = true
                 }
                 println("Exception ${e.message}")

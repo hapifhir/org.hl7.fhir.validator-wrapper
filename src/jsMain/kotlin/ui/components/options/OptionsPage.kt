@@ -5,6 +5,8 @@ import api.sendIGsRequest
 import api.sendVersionsRequest
 import api.validateTxServer
 import constants.Snomed
+import context.LocalizationContext
+import context.ValidationContext
 import css.const.BORDER_GRAY
 import css.const.HIGHLIGHT_GRAY
 import kotlinx.coroutines.*
@@ -12,7 +14,6 @@ import kotlinx.css.*
 import kotlinx.css.properties.border
 import mainScope
 import model.BundleValidationRule
-import model.ValidationContext
 import model.PackageInfo
 import react.*
 import styled.StyleSheet
@@ -25,363 +26,311 @@ import ui.components.tabs.heading
 
 private const val TERMINOLOGY_CHECK_TIME_LIMIT = 20000L
 
-external interface OptionsPageProps : Props {
-    var validationContext: ValidationContext
-    var igPackageInfoSet: Set<PackageInfo>
-    var updateValidationContext: (ValidationContext, Boolean) -> Unit
-    var updateIgPackageInfoSet: (Set<PackageInfo>, Boolean) -> Unit
-    var extensionSet: Set<String>
-    var updateExtensionSet: (Set<String>, Boolean) -> Unit
-    var profileSet: Set<String>
-    var updateProfileSet: (Set<String>, Boolean) -> Unit
-    var bundleValidationRuleSet : Set<BundleValidationRule>
-    var updateBundleValidationRuleSet : (Set<BundleValidationRule>, Boolean) -> Unit
-    var polyglot: Polyglot
-    var setSessionId: (String) -> Unit
-}
+external interface OptionsPageProps : Props {}
 
 class OptionsPageState : State {
     var igList = mutableListOf<PackageInfo>()
     var igPackageNameList = mutableListOf<Pair<String, Boolean>>()
     var fhirVersionsList = mutableListOf<Pair<String, Boolean>>()
     var snomedVersionList = mutableListOf<Pair<String, Boolean>>()
+    var initialized = false
 }
 
 class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
 
     init {
         state = OptionsPageState()
-        mainScope.launch {
-            val igResponse = sendIGsRequest()
-            val versionsResponse = sendVersionsRequest()
-            setState {
-                igList = igResponse.packageInfo
-                igPackageNameList = getPackageNames(igResponse.packageInfo)
-                fhirVersionsList = versionsResponse.versions
-                    .map { Pair(it, props.validationContext.getSv() == it) }
-                    .toMutableList()
-                snomedVersionList = Snomed.values()
-                    .map { Pair("${it.name} - ${it.code}", props.validationContext.getSnomedCTCode() == it.code) }
-                    .toMutableList()
-            }
-        }
-    }
-
-    private fun updateValidationContext(validationContext: ValidationContext) {
-        props.updateValidationContext(validationContext, true)
-        props.setSessionId("");
-    }
-
-    private fun updateExtensionSet(newExtensionSet: MutableSet<String>) {
-        props.updateExtensionSet(newExtensionSet, true)
-        props.setSessionId("");
     }
 
 
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +OptionsPageStyle.optionsContainer
-            }
-            heading {
-                text = props.polyglot.t("options_flags_title")
-            }
-            styledDiv {
-                css {
-                    +OptionsPageStyle.optionsSubSection
-                }
-                checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_do_native_title")
-                    description = props.polyglot.t("options_flags_do_native_description")
-                    selected = props.validationContext.isDoNative()
-                    hasDescription = true
-                    onChange = {
-                       updateValidationContext(props.validationContext.setDoNative(it))
-                    }
-                }
-                styledDiv {
-                    css {
-                        +OptionsPageStyle.optionsDivider
-                    }
-                }
-                checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_must_support_title")
-                    description = props.polyglot.t("options_flags_must_support_description")
-                    selected = props.validationContext.isHintAboutNonMustSupport()
-                    hasDescription = true
-                    onChange = {
-                        updateValidationContext(props.validationContext.setHintAboutNonMustSupport(it))
-                    }
-                }
-                styledDiv {
-                    css {
-                        +OptionsPageStyle.optionsDivider
-                    }
-                }
-                checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_valid_reference_title")
-                    description = props.polyglot.t("options_flags_valid_reference_description")
-                    selected = props.validationContext.isAssumeValidRestReferences()
-                    hasDescription = true
-                    onChange = {
-                        updateValidationContext(props.validationContext.setAssumeValidRestReferences(it))
-                    }
-                }
-                styledDiv {
-                    css {
-                        +OptionsPageStyle.optionsDivider
-                    }
-                }
-                checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_binding_warnings_title")
-                    description = props.polyglot.t("options_flags_binding_warnings_description")
-                    selected = props.validationContext.isNoExtensibleBindingMessages()
-                    hasDescription = true
-                    onChange = {
-                        updateValidationContext(props.validationContext.setNoExtensibleBindingMessages(it))
-                    }
-                }
-                styledDiv {
-                    css {
-                        +OptionsPageStyle.optionsDivider
-                    }
-                }
-                checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_show_times_title")
-                    description = props.polyglot.t("options_flags_show_times_description")
-                    selected = props.validationContext.isShowTimes()
-                    hasDescription = true
-                    onChange = {
-                        props.validationContext.setShowTimes(it)
-                        updateValidationContext(props.validationContext)
-                    }
-                }
-                styledDiv {
-                    css {
-                        +OptionsPageStyle.optionsDivider
-                    }
-                }
-                checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_allow_example_title")
-                    description = props.polyglot.t("options_flags_allow_example_description")
-                    selected = props.validationContext.isAllowExampleUrls()
-                    hasDescription = true
-                    onChange = {
-                        props.validationContext.setAllowExampleUrls(it)
-                        updateValidationContext(props.validationContext)
-                    }
-                }
-                styledDiv {
-                    css {
-                        +OptionsPageStyle.optionsDivider
-                    }
-                }
-                checkboxWithDetails {
-                    name = props.polyglot.t("options_flags_check_ips_codes_title")
-                    description = props.polyglot.t("options_flags_check_ips_codes_description")
-                    selected = props.validationContext.isCheckIPSCodes()
-                    hasDescription = true
-                    onChange = {
-                        props.validationContext.setCheckIPSCodes(it)
-                        updateValidationContext(props.validationContext)
-                    }
-                }
-            }
-            heading {
-                text = props.polyglot.t("options_fhir_title")
-            }
-            styledDiv {
-                css {
-                    +OptionsPageStyle.optionsSubSection
-                }
-                dropdownWithExplanation {
-                    defaultLabel = props.polyglot.t("options_default_label")
-                    explanation = props.polyglot.t("options_fhir_description")
-                    itemList = state.fhirVersionsList
-                    onItemSelected = { version ->
+        LocalizationContext.Consumer { localizationContext ->
+            ValidationContext.Consumer { ctx ->
+                val polyglot = localizationContext?.polyglot ?: Polyglot()
+                val validationContext = ctx?.validationContext
+                    ?: model.ValidationContext().setBaseEngine("DEFAULT")
+                val igPackageInfoSet = ctx?.igPackageInfoSet ?: emptySet()
+
+                // Initialize data on first render
+                if (!state.initialized) {
+                    mainScope.launch {
+                        val igResponse = sendIGsRequest()
+                        val versionsResponse = sendVersionsRequest()
                         setState {
-                            props.validationContext.setTargetVer(version)
-                            props.validationContext.setSv(version)
-                            state.fhirVersionsList.forEach {
-                                fhirVersionsList[fhirVersionsList.indexOf(it)] =
-                                    when (it.first) {
-                                        version -> it.copy(second = true)
-                                        else -> it.copy(second = false)
+                            igList = igResponse.packageInfo
+                            igPackageNameList = getPackageNames(igResponse.packageInfo)
+                            fhirVersionsList = versionsResponse.versions
+                                .map { Pair(it, validationContext.getSv() == it) }
+                                .toMutableList()
+                            snomedVersionList = Snomed.values()
+                                .map { Pair("${it.name} - ${it.code}", validationContext.getSnomedCTCode() == it.code) }
+                                .toMutableList()
+                            initialized = true
+                        }
+                    }
+                }
+
+                styledDiv {
+                    css {
+                        +OptionsPageStyle.optionsContainer
+                    }
+                    heading {
+                        text = polyglot.t("options_flags_title")
+                    }
+                    styledDiv {
+                        css {
+                            +OptionsPageStyle.optionsSubSection
+                        }
+                        checkboxWithDetails {
+                            name = polyglot.t("options_flags_do_native_title")
+                            description = polyglot.t("options_flags_do_native_description")
+                            selected = validationContext.isDoNative()
+                            hasDescription = true
+                            onChange = {
+                                ctx?.updateValidationContext?.invoke(validationContext.setDoNative(it), true)
+                                ctx?.setSessionId?.invoke("")
+                            }
+                        }
+                        styledDiv {
+                            css {
+                                +OptionsPageStyle.optionsDivider
+                            }
+                        }
+                        checkboxWithDetails {
+                            name = polyglot.t("options_flags_must_support_title")
+                            description = polyglot.t("options_flags_must_support_description")
+                            selected = validationContext.isHintAboutNonMustSupport()
+                            hasDescription = true
+                            onChange = {
+                                ctx?.updateValidationContext?.invoke(validationContext.setHintAboutNonMustSupport(it), true)
+                                ctx?.setSessionId?.invoke("")
+                            }
+                        }
+                        styledDiv {
+                            css {
+                                +OptionsPageStyle.optionsDivider
+                            }
+                        }
+                        checkboxWithDetails {
+                            name = polyglot.t("options_flags_valid_reference_title")
+                            description = polyglot.t("options_flags_valid_reference_description")
+                            selected = validationContext.isAssumeValidRestReferences()
+                            hasDescription = true
+                            onChange = {
+                                ctx?.updateValidationContext?.invoke(validationContext.setAssumeValidRestReferences(it), true)
+                                ctx?.setSessionId?.invoke("")
+                            }
+                        }
+                        styledDiv {
+                            css {
+                                +OptionsPageStyle.optionsDivider
+                            }
+                        }
+                        checkboxWithDetails {
+                            name = polyglot.t("options_flags_binding_warnings_title")
+                            description = polyglot.t("options_flags_binding_warnings_description")
+                            selected = validationContext.isNoExtensibleBindingMessages()
+                            hasDescription = true
+                            onChange = {
+                                ctx?.updateValidationContext?.invoke(validationContext.setNoExtensibleBindingMessages(it), true)
+                                ctx?.setSessionId?.invoke("")
+                            }
+                        }
+                        styledDiv {
+                            css {
+                                +OptionsPageStyle.optionsDivider
+                            }
+                        }
+                        checkboxWithDetails {
+                            name = polyglot.t("options_flags_show_times_title")
+                            description = polyglot.t("options_flags_show_times_description")
+                            selected = validationContext.isShowTimes()
+                            hasDescription = true
+                            onChange = {
+                                validationContext.setShowTimes(it)
+                                ctx?.updateValidationContext?.invoke(validationContext, true)
+                                ctx?.setSessionId?.invoke("")
+                            }
+                        }
+                        styledDiv {
+                            css {
+                                +OptionsPageStyle.optionsDivider
+                            }
+                        }
+                        checkboxWithDetails {
+                            name = polyglot.t("options_flags_allow_example_title")
+                            description = polyglot.t("options_flags_allow_example_description")
+                            selected = validationContext.isAllowExampleUrls()
+                            hasDescription = true
+                            onChange = {
+                                validationContext.setAllowExampleUrls(it)
+                                ctx?.updateValidationContext?.invoke(validationContext, true)
+                                ctx?.setSessionId?.invoke("")
+                            }
+                        }
+                        styledDiv {
+                            css {
+                                +OptionsPageStyle.optionsDivider
+                            }
+                        }
+                        checkboxWithDetails {
+                            name = polyglot.t("options_flags_check_ips_codes_title")
+                            description = polyglot.t("options_flags_check_ips_codes_description")
+                            selected = validationContext.isCheckIPSCodes()
+                            hasDescription = true
+                            onChange = {
+                                validationContext.setCheckIPSCodes(it)
+                                ctx?.updateValidationContext?.invoke(validationContext, true)
+                                ctx?.setSessionId?.invoke("")
+                            }
+                        }
+                    }
+                    heading {
+                        text = polyglot.t("options_fhir_title")
+                    }
+                    styledDiv {
+                        css {
+                            +OptionsPageStyle.optionsSubSection
+                        }
+                        dropdownWithExplanation {
+                            defaultLabel = polyglot.t("options_default_label")
+                            explanation = polyglot.t("options_fhir_description")
+                            itemList = state.fhirVersionsList
+                            onItemSelected = { version ->
+                                setState {
+                                    validationContext.setTargetVer(version)
+                                    validationContext.setSv(version)
+                                    state.fhirVersionsList.forEach {
+                                        fhirVersionsList[fhirVersionsList.indexOf(it)] =
+                                            when (it.first) {
+                                                version -> it.copy(second = true)
+                                                else -> it.copy(second = false)
+                                            }
                                     }
-                            }
-                            updateValidationContext(props.validationContext)
-                        }
-                    }
-                }
-            }
-            heading {
-                text = props.polyglot.t("options_ig_title")
-            }
-            styledDiv {
-                css {
-                    +OptionsPageStyle.optionsSubSection
-                }
-                igSelector {
-                    polyglot = props.polyglot
-                    fhirVersion = props.validationContext.getSv()
-                    igList = state.igList
-                    igPackageNameList = state.igPackageNameList
-                    onUpdatePackageName = {igPackageName, selected ->
-                        setState {
-                            igPackageNameList = state.igPackageNameList.map{ Pair(it.first, it.first == igPackageName)}.toMutableList()
-                        }
-                    }
-                    selectedIgSet = props.igPackageInfoSet.toMutableSet()
-                    onUpdateIg = { igPackageInfo, selected ->
-                        val newSelectedIgSet = if (selected) {
-                            selectedIgSet.plus(igPackageInfo).toMutableSet()
-                        } else {
-                            selectedIgSet.minus(igPackageInfo).toMutableSet()
-                        }
-                        props.updateIgPackageInfoSet(newSelectedIgSet, true)
-                        props.setSessionId("")
-                    }
-                    onFilterStringChange = { partialIgName ->
-                        mainScope.launch {
-                            val igResponse = sendIGsRequest(partialIgName)
-                            setState {
-                                igList = igResponse.packageInfo
-                                igPackageNameList = getPackageNames(igResponse.packageInfo)
+                                }
+                                ctx?.updateValidationContext?.invoke(validationContext, true)
+                                ctx?.setSessionId?.invoke("")
                             }
                         }
                     }
-                }
-            }
-            heading {
-                text = props.polyglot.t("options_profiles_title")
-            }
-            styledDiv {
-                css {
-                    +OptionsPageStyle.optionsSubSection
-                }
-                addProfile {
-                    polyglot = props.polyglot
-                    profileSet = props.profileSet.toMutableSet()
-                    updateValidationContext = updateValidationContext
-                    validationContext = validationContext
-                    onUpdateProfileSet = { profile, delete ->
-                        val newProfileSet = if (delete) {
-                            profileSet.minus(profile).toMutableSet()
-                        } else {
-                            profileSet.plus(profile).toMutableSet()
-                        }
-                        props.updateProfileSet(newProfileSet, true)
-                        props.setSessionId("")
+                    heading {
+                        text = polyglot.t("options_ig_title")
                     }
-                }
-            }
-            heading {
-                text = props.polyglot.t("options_extensions_title")
-            }
-            styledDiv {
-                css {
-                    +OptionsPageStyle.optionsSubSection
-                }
-                addExtension {
-                    polyglot = props.polyglot
-                    extensionSet = props.extensionSet.toMutableSet()
-                    updateValidationContext = updateValidationContext
-                    validationContext = validationContext
-                    onUpdateExtensionSet = { extensionUrl, delete ->
-                        val newExtensionSet = if (delete) {
-                            extensionSet.minus(extensionUrl).toMutableSet()
-                        } else {
-                            extensionSet.plus(extensionUrl).toMutableSet()
+                    styledDiv {
+                        css {
+                            +OptionsPageStyle.optionsSubSection
                         }
-                        updateExtensionSet(newExtensionSet)
-                    }
-                    onUpdateAnyExtension = {anySelected ->
-                        val newExtensionSet = if (anySelected) {
-                            extensionSet.plus("any").toMutableSet()
-                        } else {
-                            extensionSet.minus("any").toMutableSet()
-                        }
-                        updateExtensionSet(newExtensionSet)
-                    }
-                }
-            }
-            heading {
-                text = props.polyglot.t("options_bundle_validation_rules_title")
-            }
-            styledDiv {
-                css {
-                    +OptionsPageStyle.optionsSubSection
-                }
-                addBundleValidationRule {
-                    polyglot = props.polyglot
-                    bundleValidationRuleSet = props.bundleValidationRuleSet.toMutableSet()
-                    updateValidationContext = updateValidationContext
-                    validationContext = validationContext
-                    onUpdateBundleValidationRuleSet = { rule, delete ->
-                        val bundleValidationRuleSet = props.bundleValidationRuleSet.toMutableSet()
-                        val newBundleValidationRuleSet = if (delete) {
-                            bundleValidationRuleSet.minus(rule).toMutableSet()
-                        } else {
-                            bundleValidationRuleSet.plus(rule).toMutableSet()
-                        }
-                        props.updateBundleValidationRuleSet(newBundleValidationRuleSet, true)
-                        props.setSessionId("")
-                    }
-                }
-            }
-            heading {
-                text = props.polyglot.t("options_settings_title")
-            }
-            styledDiv {
-                css {
-                    +OptionsPageStyle.optionsSubSection
-                }
-
-                dropdownWithExplanation {
-                    defaultLabel = props.polyglot.t("options_default_label")
-                    explanation = props.polyglot.t("options_settings_snomed_description")
-                    itemList = state.snomedVersionList
-                    heading = props.polyglot.t("options_settings_snomed_title")
-                    onItemSelected = { version ->
-                        setState {
-                            props.validationContext.setSnomedCT(version.replace("[^0-9]".toRegex(), ""))
-                            state.snomedVersionList.forEach {
-                                snomedVersionList[snomedVersionList.indexOf(it)] =
-                                    when (it.first) {
-                                        version -> it.copy(second = true)
-                                        else -> it.copy(second = false)
+                        igSelector {
+                            fhirVersion = validationContext.getSv()
+                            igList = state.igList
+                            igPackageNameList = state.igPackageNameList
+                            onUpdatePackageName = {igPackageName, selected ->
+                                setState {
+                                    igPackageNameList = state.igPackageNameList.map{ Pair(it.first, it.first == igPackageName)}.toMutableList()
+                                }
+                            }
+                            selectedIgSet = igPackageInfoSet.toMutableSet()
+                            onUpdateIg = { igPackageInfo, selected ->
+                                val newSelectedIgSet = if (selected) {
+                                    selectedIgSet.plus(igPackageInfo).toMutableSet()
+                                } else {
+                                    selectedIgSet.minus(igPackageInfo).toMutableSet()
+                                }
+                                ctx?.updateIgPackageInfoSet?.invoke(newSelectedIgSet, true)
+                                ctx?.setSessionId?.invoke("")
+                            }
+                            onFilterStringChange = { partialIgName ->
+                                mainScope.launch {
+                                    val igResponse = sendIGsRequest(partialIgName)
+                                    setState {
+                                        igList = igResponse.packageInfo
+                                        igPackageNameList = getPackageNames(igResponse.packageInfo)
                                     }
-                            }
-                            updateValidationContext(props.validationContext)
-                        }
-                    }
-                }
-                styledDiv {
-                    css {
-                        +OptionsPageStyle.otherSettingsDivider
-                    }
-                }
-                textEntryField {
-                    buttonLabel = props.polyglot.t("options_settings_tm_verify")
-                    currentEntry = props.validationContext.getTxServer()
-                    explanation = props.polyglot.t("options_settings_tm_description")
-                    heading = props.polyglot.t("options_settings_tm_title")
-                    textFieldId = "terminology_server_entry"
-                    onSubmitEntry = { url ->
-
-                        GlobalScope.async {
-                            val txServerOutcome = async { checkTxServer(url) }
-                            if (txServerOutcome.await()) {
-                                updateValidationContext(props.validationContext.setTxServer(url))
-                                true
-                            } else {
-                                false
+                                }
                             }
                         }
                     }
+                    heading {
+                        text = polyglot.t("options_profiles_title")
+                    }
+                    styledDiv {
+                        css {
+                            +OptionsPageStyle.optionsSubSection
+                        }
+                        addProfile {}
+                    }
+                    heading {
+                        text = polyglot.t("options_extensions_title")
+                    }
+                    styledDiv {
+                        css {
+                            +OptionsPageStyle.optionsSubSection
+                        }
+                        addExtension {}
+                    }
+                    heading {
+                        text = polyglot.t("options_bundle_validation_rules_title")
+                    }
+                    styledDiv {
+                        css {
+                            +OptionsPageStyle.optionsSubSection
+                        }
+                        addBundleValidationRule {}
+                    }
+                    heading {
+                        text = polyglot.t("options_settings_title")
+                    }
+                    styledDiv {
+                        css {
+                            +OptionsPageStyle.optionsSubSection
+                        }
 
-                    successMessage = props.polyglot.t("options_settings_tm_success")
-                    errorMessage = props.polyglot.t("options_settings_tm_error")
+                        dropdownWithExplanation {
+                            defaultLabel = polyglot.t("options_default_label")
+                            explanation = polyglot.t("options_settings_snomed_description")
+                            itemList = state.snomedVersionList
+                            heading = polyglot.t("options_settings_snomed_title")
+                            onItemSelected = { version ->
+                                setState {
+                                    validationContext.setSnomedCT(version.replace("[^0-9]".toRegex(), ""))
+                                    state.snomedVersionList.forEach {
+                                        snomedVersionList[snomedVersionList.indexOf(it)] =
+                                            when (it.first) {
+                                                version -> it.copy(second = true)
+                                                else -> it.copy(second = false)
+                                            }
+                                    }
+                                }
+                                ctx?.updateValidationContext?.invoke(validationContext, true)
+                                ctx?.setSessionId?.invoke("")
+                            }
+                        }
+                        styledDiv {
+                            css {
+                                +OptionsPageStyle.otherSettingsDivider
+                            }
+                        }
+                        textEntryField {
+                            buttonLabel = polyglot.t("options_settings_tm_verify")
+                            currentEntry = validationContext.getTxServer()
+                            explanation = polyglot.t("options_settings_tm_description")
+                            heading = polyglot.t("options_settings_tm_title")
+                            textFieldId = "terminology_server_entry"
+                            onSubmitEntry = { url ->
+                                GlobalScope.async {
+                                    val txServerOutcome = async { checkTxServer(url, validationContext, ctx) }
+                                    if (txServerOutcome.await()) {
+                                        true
+                                    } else {
+                                        false
+                                    }
+                                }
+                            }
+
+                            successMessage = polyglot.t("options_settings_tm_success")
+                            errorMessage = polyglot.t("options_settings_tm_error")
+                        }
+                    }
                 }
             }
         }
@@ -393,13 +342,18 @@ class OptionsPage : RComponent<OptionsPageProps, OptionsPageState>() {
         return packageInfo.map { Pair(it.id!!, false)}.toMutableList()
     }
 
-    private suspend fun checkTxServer(txUrl: String): Boolean {
+    private suspend fun checkTxServer(
+        txUrl: String,
+        validationContext: model.ValidationContext,
+        ctx: context.ValidationContextValue?
+    ): Boolean {
         var validTxServer = false
         try {
             withTimeout(TERMINOLOGY_CHECK_TIME_LIMIT) {
                 val response = validateTxServer(txUrl)
                 if (response.validTxServer) {
-                    updateValidationContext(props.validationContext.setTxServer(response.url))
+                    ctx?.updateValidationContext?.invoke(validationContext.setTxServer(response.url), true)
+                    ctx?.setSessionId?.invoke("")
                     validTxServer = true
                 }
             }

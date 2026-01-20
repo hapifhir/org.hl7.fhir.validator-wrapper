@@ -15,8 +15,7 @@ import styled.*
 import utils.Language
 
 external interface FooterProps : Props {
-    var language: Language //TODO
-    var polyglot: Polyglot //TODO
+
 }
 
 class FooterState : State {
@@ -39,67 +38,70 @@ class Footer : RComponent<FooterProps, FooterState>() {
     }
 
     override fun RBuilder.render() {
-        styledFooter {
-            css {
-                +FooterStyle.footerContainer
-            }
-            styledDiv {
+        context.LocalizationContext.Consumer { localizationContext ->
+            val polyglot = localizationContext?.polyglot ?: Polyglot()
+            styledFooter {
                 css {
-                    +FooterStyle.footerColumn
+                    +FooterStyle.footerContainer
                 }
-                styledSpan {
+                styledDiv {
                     css {
-                        +FooterStyle.footerTitleLarge
+                        +FooterStyle.footerColumn
                     }
-                    +"validator-wrapper"
+                    styledSpan {
+                        css {
+                            +FooterStyle.footerTitleLarge
+                        }
+                        +"validator-wrapper"
+                    }
+                    styledSpan {
+                        css {
+                            +FooterStyle.footerTitleSmall
+                        }
+                        +state.validatorWrapperVersion
+                    }
+                    styledSpan {
+                        css {
+                            +FooterStyle.footerTitleSmall
+                        }
+                        +(polyglot.t("footer_running_version") + state.validatorVersion)
+                    }
                 }
-                styledSpan {
+                styledDiv {
                     css {
-                        +FooterStyle.footerTitleSmall
+                        +FooterStyle.footerColumn
                     }
-                    + state.validatorWrapperVersion
+                    footerLineItem {
+                        href = "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper"
+                        icon = "images/github_white.png"
+                        label = polyglot.t("footer_github")
+                    }
+                    footerLineItem {
+                        href = "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/issues/new/choose"
+                        icon = "images/bug_report_white.png"
+                        label = polyglot.t("footer_create_issue")
+                    }
+                    footerLineItem {
+                        href =
+                            "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/releases/latest/download/validator-wrapper.jar"
+                        icon = "images/download_white.png"
+                        label = polyglot.t("footer_download_app")
+                    }
                 }
-                styledSpan {
+                styledDiv {
                     css {
-                        +FooterStyle.footerTitleSmall
+                        +FooterStyle.footerColumn
                     }
-                    + (props.polyglot.t("footer_running_version") + state.validatorVersion)
-                }
-            }
-            styledDiv {
-                css {
-                    +FooterStyle.footerColumn
-                }
-                footerLineItem {
-                    href = "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper"
-                    icon = "images/github_white.png"
-                    label = props.polyglot.t("footer_github")
-                }
-                footerLineItem {
-                    href = "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/issues/new/choose"
-                    icon = "images/bug_report_white.png"
-                    label = props.polyglot.t("footer_create_issue")
-                }
-                footerLineItem {
-                    href =
-                        "https://github.com/hapifhir/org.hl7.fhir.validator-wrapper/releases/latest/download/validator-wrapper.jar"
-                    icon = "images/download_white.png"
-                    label = props.polyglot.t("footer_download_app")
-                }
-            }
-            styledDiv {
-                css {
-                    +FooterStyle.footerColumn
-                }
-                footerLineItem {
-                    href = "https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator"
-                    icon = "images/documentation_white.png"
-                    label = props.polyglot.t("footer_doc")
-                }
-                footerLineItem {
-                    href = "../swagger-ui/index.html"
-                    icon = "images/documentation_white.png"
-                    label = props.polyglot.t("footer_openapi")
+                    footerLineItem {
+                        href = "https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator"
+                        icon = "images/documentation_white.png"
+                        label = polyglot.t("footer_doc")
+                    }
+                    footerLineItem {
+                        href = "../swagger-ui/index.html"
+                        icon = "images/documentation_white.png"
+                        label = polyglot.t("footer_openapi")
+                    }
                 }
             }
         }

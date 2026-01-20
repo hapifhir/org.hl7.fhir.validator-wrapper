@@ -1,6 +1,8 @@
 package ui.components.options
 
 import Polyglot
+import context.LocalizationContext
+import context.ValidationContext
 import css.const.BORDER_GRAY
 import css.const.WHITE
 import css.const.SWITCH_GRAY
@@ -15,8 +17,6 @@ import kotlinx.html.id
 import model.BundleValidationRule
 import utils.getJS
 
-import model.ValidationContext
-
 import mui.icons.material.InfoOutlined
 import mui.material.Tooltip
 
@@ -27,16 +27,9 @@ import react.dom.li
 import react.dom.ul
 import styled.*
 
-external interface AddBundleValidationRuleProps : Props {
-    var bundleValidationRuleSet : MutableSet<BundleValidationRule>
-    var onUpdateBundleValidationRuleSet : (BundleValidationRule, Boolean) -> Unit
-    var updateValidationContext : (ValidationContext) -> Unit
-    var validationContext : ValidationContext
-    var polyglot: Polyglot
-}
+external interface AddBundleValidationRuleProps : Props {}
 
-class AddBundleValidationRuleState : State {
-}
+class AddBundleValidationRuleState : State {}
 
 class AddBundleValidationRule : RComponent<AddBundleValidationRuleProps, AddProfileState>() {
     val ruleInputId = "bundle_validation_rule_entry"
@@ -46,154 +39,166 @@ class AddBundleValidationRule : RComponent<AddBundleValidationRuleProps, AddProf
     }
 
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +AddExtensionStyle.mainDiv
-            }
-            styledSpan {
-                css {
-                    +TextStyle.optionsDetailText
-                    +IgSelectorStyle.title
-                }
-                +props.polyglot.t("options_bundle_validation_rules_description")
-                ul {
-                    li {
-                        +props.polyglot.t("options_bundle_validation_rules_example_1")
-                    }
-                    li {
-                        +props.polyglot.t("options_bundle_validation_rules_example_2")
-                    }
-                    li {
-                        +props.polyglot.t("options_bundle_validation_rules_example_3")
-                    }
-                }
-            }
+        LocalizationContext.Consumer { localizationContext ->
+            ValidationContext.Consumer { validationContext ->
+                val polyglot = localizationContext?.polyglot ?: Polyglot()
+                val bundleValidationRuleSet = validationContext?.bundleValidationRuleSet ?: emptySet()
 
-            styledSpan {
-                css {
-                    display = Display.grid
-                    gridTemplateColumns = GridTemplateColumns(LinearDimension.maxContent, LinearDimension("0.4fr"), LinearDimension.minContent)
-                    gap = LinearDimension("10px")
-                    alignItems = Align.start
-                }
-
-                styledSpan {
-                    css {
-                        gridColumn = GridColumn("1")
-                        +AddBundleValidationRuleStyle.ruleEntryDetailText
-                    }
-                    +props.polyglot.t("options_bundle_validation_rules_rule_label")
-                }
-
-                styledInput {
-                    css {
-                        gridColumn = GridColumn("2")
-                        +AddBundleValidationRuleStyle.ruleEntryTextArea
-                    }
-                    attrs {
-                        type = InputType.text
-                        defaultValue = ""
-                        id = ruleInputId
-                    }
-                }
                 styledDiv {
                     css {
-                        gridColumn = GridColumn("3")
-                        + AddBundleValidationRuleStyle.ruleEntryTooltip
+                        +AddExtensionStyle.mainDiv
                     }
-                    Tooltip {
-                        attrs {
-                            title = ReactNode(
-                                props.polyglot.t("options_bundle_validation_rules_rule_description")
-                            )
+                    styledSpan {
+                        css {
+                            +TextStyle.optionsDetailText
+                            +IgSelectorStyle.title
                         }
-                        InfoOutlined {}
-                    }
-                }
-                styledSpan {
-
-                    css {
-                        gridColumn = GridColumn("1")
-                        +AddBundleValidationRuleStyle.ruleEntryDetailText
-
-                    }
-                    + props.polyglot.t("options_bundle_validation_rules_profile_label")
-
-                }
-                styledInput {
-                    css {
-                        gridColumn = GridColumn("2")
-                        +AddBundleValidationRuleStyle.ruleEntryTextArea
-                    }
-                    attrs {
-                        type = InputType.text
-                        defaultValue = ""
-                        id = profileInputId
-                    }
-                }
-                styledDiv {
-                    css {
-                        gridColumn = GridColumn("3")
-                       + AddBundleValidationRuleStyle.ruleEntryTooltip
-                    }
-                    Tooltip {
-                        attrs {
-                            title = ReactNode(props.polyglot.t("options_bundle_validation_rules_profile_description"))
-                        }
-                        InfoOutlined {}
-                    }
-                }
-                styledSpan {
-                    css {
-                        gridColumn = GridColumn("2 / span 2")
-                        textAlign = TextAlign.end
-                    }
-                    imageButton {
-                        backgroundColor = WHITE
-                        borderColor = SWITCH_GRAY
-                        image = "images/add_circle_black_24dp.svg"
-                        label = props.polyglot.t("options_ig_add")
-                        onSelected = {
-                            val rule = (document.getElementById(ruleInputId) as HTMLInputElement).value
-                            val profile = (document.getElementById(profileInputId) as HTMLInputElement).value
-
-                            val bundleValidationRule = BundleValidationRule().setRule(rule).setProfile(profile)
-
-                            props.onUpdateBundleValidationRuleSet(
-                                bundleValidationRule,
-                                false
-                            )
+                        +polyglot.t("options_bundle_validation_rules_description")
+                        ul {
+                            li {
+                                +polyglot.t("options_bundle_validation_rules_example_1")
+                            }
+                            li {
+                                +polyglot.t("options_bundle_validation_rules_example_2")
+                            }
+                            li {
+                                +polyglot.t("options_bundle_validation_rules_example_3")
+                            }
                         }
                     }
-                }
-            }
-            styledDiv {
-                css {
-                    padding(top = 24.px)
-                    +if (props.bundleValidationRuleSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
-                }
-                val polyglotKey = if (props.bundleValidationRuleSet.isEmpty()) {
-                    "options_bundle_validation_rules_not_added"
-                } else {
-                    "options_bundle_validation_rules_added"
-                }
-                +props.polyglot.t(
-                    polyglotKey,
-                    getJS(arrayOf(Pair("addedProfiles", props.bundleValidationRuleSet.size.toString())))
-                )
-            }
-            styledDiv {
-                css {
-                    +IgSelectorStyle.selectedIgsDiv
-                    if (!props.bundleValidationRuleSet.isEmpty()) {
-                        padding(top = 16.px)
+
+                    styledSpan {
+                        css {
+                            display = Display.grid
+                            gridTemplateColumns = GridTemplateColumns(LinearDimension.maxContent, LinearDimension("0.4fr"), LinearDimension.minContent)
+                            gap = LinearDimension("10px")
+                            alignItems = Align.start
+                        }
+
+                        styledSpan {
+                            css {
+                                gridColumn = GridColumn("1")
+                                +AddBundleValidationRuleStyle.ruleEntryDetailText
+                            }
+                            +polyglot.t("options_bundle_validation_rules_rule_label")
+                        }
+
+                        styledInput {
+                            css {
+                                gridColumn = GridColumn("2")
+                                +AddBundleValidationRuleStyle.ruleEntryTextArea
+                            }
+                            attrs {
+                                type = InputType.text
+                                defaultValue = ""
+                                id = ruleInputId
+                            }
+                        }
+                        styledDiv {
+                            css {
+                                gridColumn = GridColumn("3")
+                                + AddBundleValidationRuleStyle.ruleEntryTooltip
+                            }
+                            Tooltip {
+                                attrs {
+                                    title = ReactNode(
+                                        polyglot.t("options_bundle_validation_rules_rule_description")
+                                    )
+                                }
+                                InfoOutlined {}
+                            }
+                        }
+                        styledSpan {
+
+                            css {
+                                gridColumn = GridColumn("1")
+                                +AddBundleValidationRuleStyle.ruleEntryDetailText
+
+                            }
+                            + polyglot.t("options_bundle_validation_rules_profile_label")
+
+                        }
+                        styledInput {
+                            css {
+                                gridColumn = GridColumn("2")
+                                +AddBundleValidationRuleStyle.ruleEntryTextArea
+                            }
+                            attrs {
+                                type = InputType.text
+                                defaultValue = ""
+                                id = profileInputId
+                            }
+                        }
+                        styledDiv {
+                            css {
+                                gridColumn = GridColumn("3")
+                               + AddBundleValidationRuleStyle.ruleEntryTooltip
+                            }
+                            Tooltip {
+                                attrs {
+                                    title = ReactNode(polyglot.t("options_bundle_validation_rules_profile_description"))
+                                }
+                                InfoOutlined {}
+                            }
+                        }
+                        styledSpan {
+                            css {
+                                gridColumn = GridColumn("2 / span 2")
+                                textAlign = TextAlign.end
+                            }
+                            imageButton {
+                                backgroundColor = WHITE
+                                borderColor = SWITCH_GRAY
+                                image = "images/add_circle_black_24dp.svg"
+                                label = polyglot.t("options_ig_add")
+                                onSelected = {
+                                    val rule = (document.getElementById(ruleInputId) as HTMLInputElement).value
+                                    val profile = (document.getElementById(profileInputId) as HTMLInputElement).value
+
+                                    val bundleValidationRule = BundleValidationRule().setRule(rule).setProfile(profile)
+
+                                    validationContext?.updateBundleValidationRuleSet?.invoke(
+                                        (bundleValidationRuleSet + bundleValidationRule).toMutableSet(),
+                                        false
+                                    )
+                                    validationContext?.setSessionId?.invoke("")
+                                }
+                            }
+                        }
                     }
-                }
-                props.bundleValidationRuleSet.forEach { _rule ->
-                    bundleValidationRuleDisplay {
-                        rule = _rule
-                        onDelete = {
-                            props.onUpdateBundleValidationRuleSet(_rule, true)
+                    styledDiv {
+                        css {
+                            padding(top = 24.px)
+                            +if (bundleValidationRuleSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
+                        }
+                        val polyglotKey = if (bundleValidationRuleSet.isEmpty()) {
+                            "options_bundle_validation_rules_not_added"
+                        } else {
+                            "options_bundle_validation_rules_added"
+                        }
+                        +polyglot.t(
+                            polyglotKey,
+                            getJS(arrayOf(Pair("addedProfiles", bundleValidationRuleSet.size.toString())))
+                        )
+                    }
+                    styledDiv {
+                        css {
+                            +IgSelectorStyle.selectedIgsDiv
+                            if (!bundleValidationRuleSet.isEmpty()) {
+                                padding(top = 16.px)
+                            }
+                        }
+                        bundleValidationRuleSet.forEach { _rule ->
+                            bundleValidationRuleDisplay {
+                                rule = _rule
+                                onDelete = {
+                                    validationContext?.updateBundleValidationRuleSet?.invoke(
+                                        (bundleValidationRuleSet - _rule).toMutableSet(),
+                                        false
+                                    )
+                                    validationContext?.setSessionId?.invoke("")
+                                }
+                            }
                         }
                     }
                 }

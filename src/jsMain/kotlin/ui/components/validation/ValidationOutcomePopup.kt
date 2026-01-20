@@ -1,6 +1,7 @@
 package ui.components.validation
 
 import Polyglot
+import context.LocalizationContext
 import css.animation.FadeIn.quickFadeIn
 import css.const.POPUP_SHADOW
 import css.const.WHITE
@@ -13,48 +14,48 @@ import styled.styledDiv
 
 external interface ValidationOutcomePopupProps : Props {
     var validationOutcome: ValidationOutcome
-    var polyglot: Polyglot
     var onClose: () -> Unit
 }
 
 class ValidationOutcomePopup : RComponent<ValidationOutcomePopupProps, State>() {
 
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +ValidationOutcomePopupStyle.overlay
-            }
+        LocalizationContext.Consumer { localizationContext ->
             styledDiv {
                 css {
-                    +ValidationOutcomePopupStyle.content
+                    +ValidationOutcomePopupStyle.overlay
                 }
                 styledDiv {
                     css {
-                        +ValidationOutcomeContainerStyle.mainContainer
+                        +ValidationOutcomePopupStyle.content
                     }
+                    styledDiv {
+                        css {
+                            +ValidationOutcomeContainerStyle.mainContainer
+                        }
 
-                    styledDiv {
-                        css {
-                            +ValidationOutcomeContainerStyle.headerContainer
-                        }
-                        validationOutcomePopupHeader {
-                            filename = props.validationOutcome.getFileInfo().fileName
-                            onClose = {
-                                props.onClose()
+                        styledDiv {
+                            css {
+                                +ValidationOutcomeContainerStyle.headerContainer
+                            }
+                            validationOutcomePopupHeader {
+                                filename = props.validationOutcome.getFileInfo().fileName
+                                onClose = {
+                                    props.onClose()
+                                }
                             }
                         }
-                    }
-                    styledDiv {
-                        css {
-                           + ValidationOutcomePopupStyle.resultsContainer
-                        }
-                        validationOutcomeContainer {
-                            polyglot = props.polyglot
-                            validationOutcome = props.validationOutcome
-                            onClose = {
-                                props.onClose()
+                        styledDiv {
+                            css {
+                               + ValidationOutcomePopupStyle.resultsContainer
                             }
-                            inPage = false
+                            validationOutcomeContainer {
+                                validationOutcome = props.validationOutcome
+                                onClose = {
+                                    props.onClose()
+                                }
+                                inPage = false
+                            }
                         }
                     }
                 }

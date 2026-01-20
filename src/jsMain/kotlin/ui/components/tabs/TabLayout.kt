@@ -1,6 +1,7 @@
 package ui.components.tabs
 
 import Polyglot
+import context.LocalizationContext
 import css.const.*
 import css.text.TextStyle
 import kotlinx.css.*
@@ -16,9 +17,7 @@ import styled.css
 import styled.styledDiv
 import ui.entity.TabState
 
-external interface TabLayoutProps : Props {
-    var polyglot: Polyglot
-}
+external interface TabLayoutProps : Props {}
 
 class TabLayoutState : State {
     var tabStates: ArrayList<TabState> = arrayListOf(
@@ -34,75 +33,75 @@ class TabLayout : RComponent<TabLayoutProps, TabLayoutState>() {
 
 
     override fun RBuilder.render() {
-        state.tabStates[0].label = props.polyglot.t("enter_resources_heading")
-        state.tabStates[1].label = props.polyglot.t("upload_resources_heading")
-        styledDiv {
-            css {
-                +TabBarStyle.mainLayout
-            }
+        LocalizationContext.Consumer { localizationContext ->
+            val polyglot = localizationContext?.polyglot ?: Polyglot()
+
+            state.tabStates[0].label = polyglot.t("enter_resources_heading")
+            state.tabStates[1].label = polyglot.t("upload_resources_heading")
             styledDiv {
                 css {
-                    +TabBarStyle.tabBar
+                    +TabBarStyle.mainLayout
                 }
                 styledDiv {
                     css {
-                        +TabBarStyle.leftRightTabFill
+                        +TabBarStyle.tabBar
                     }
-                }
-                val tabsIterator = state.tabStates.iterator()
-                while (tabsIterator.hasNext()) {
-                    val tabState = tabsIterator.next()
                     styledDiv {
-                        +tabState.label
                         css {
-                            if (tabState.active) {
-                                +TextStyle.tabLabelActive
-                                +TabBarStyle.tabButtonActive
-                            } else {
-                                +TextStyle.tabLabelInactive
-                                +TabBarStyle.tabButtonInactive
-                                hover {
-                                    +TextStyle.tabLabelHover
-                                    +TabBarStyle.tabButtonHover
+                            +TabBarStyle.leftRightTabFill
+                        }
+                    }
+                    val tabsIterator = state.tabStates.iterator()
+                    while (tabsIterator.hasNext()) {
+                        val tabState = tabsIterator.next()
+                        styledDiv {
+                            +tabState.label
+                            css {
+                                if (tabState.active) {
+                                    +TextStyle.tabLabelActive
+                                    +TabBarStyle.tabButtonActive
+                                } else {
+                                    +TextStyle.tabLabelInactive
+                                    +TabBarStyle.tabButtonInactive
+                                    hover {
+                                        +TextStyle.tabLabelHover
+                                        +TabBarStyle.tabButtonHover
+                                    }
                                 }
                             }
-                        }
-                        attrs {
-                            onClickFunction = {
-                                println(tabState.label)
-                                setState {
-                                    state.tabStates.forEach {
-                                        it.active = (it.label == tabState.label)
+                            attrs {
+                                onClickFunction = {
+                                    println(tabState.label)
+                                    setState {
+                                        state.tabStates.forEach {
+                                            it.active = (it.label == tabState.label)
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    if (tabsIterator.hasNext()) {
-                        styledDiv {
-                            css {
-                                +TabBarStyle.dividerTabFill
+                        if (tabsIterator.hasNext()) {
+                            styledDiv {
+                                css {
+                                    +TabBarStyle.dividerTabFill
+                                }
                             }
+                        }
+                    }
+                    styledDiv {
+                        css {
+                            +TabBarStyle.leftRightTabFill
                         }
                     }
                 }
                 styledDiv {
                     css {
-                        +TabBarStyle.leftRightTabFill
+                        +TabBarStyle.tabBodyContainer
                     }
-                }
-            }
-            styledDiv {
-                css {
-                    +TabBarStyle.tabBodyContainer
-                }
-                if (state.tabStates[0].active) {
-                    child(ManualEntryTab::class) {
-                        attrs.polyglot = props.polyglot
-                    }
-                } else {
-                    child(FileUploadTab::class) {
-                        attrs.polyglot = props.polyglot
+                    if (state.tabStates[0].active) {
+                        child(ManualEntryTab::class) {}
+                    } else {
+                        child(FileUploadTab::class) {}
                     }
                 }
             }

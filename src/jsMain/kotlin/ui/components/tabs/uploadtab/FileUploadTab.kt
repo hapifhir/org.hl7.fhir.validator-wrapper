@@ -23,9 +23,7 @@ import utils.Language
 import utils.assembleRequest
 import utils.buildCompleteValidationContext
 
-external interface FileUploadTabProps : Props {
-    var polyglot: Polyglot
-}
+external interface FileUploadTabProps : Props {}
 
 class FileUploadTabState : State {
     var currentlyDisplayedValidationOutcome: ValidationOutcome? = null
@@ -43,7 +41,8 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
     override fun RBuilder.render() {
         context.ValidationContext.Consumer { validationContext ->
             LocalizationContext.Consumer { localizationContext ->
-                val language = localizationContext?.selectedLanguage ?: Language.ENGLISH
+                val polyglot = localizationContext?.polyglot ?: Polyglot()
+                localizationContext?.selectedLanguage ?: Language.ENGLISH
                 val uploadedFiles = validationContext?.uploadedFiles ?: emptyList()
 
                 styledDiv {
@@ -51,10 +50,9 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                         +FileUploadTabStyle.tabContent
                     }
                     heading {
-                        text = props.polyglot.t("upload_files_title") + " (${uploadedFiles.size})"
+                        text = polyglot.t("upload_files_title") + " (${uploadedFiles.size})"
                     }
                     fileEntryList {
-                        polyglot = props.polyglot
                         validationOutcomes = uploadedFiles
                         viewFile = { outcomeToView ->
                             setState {
@@ -70,7 +68,6 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                             +FileUploadTabStyle.buttonBarContainer
                         }
                         fileUploadButton {
-                            polyglot = props.polyglot
                             onUploadRequested = {
                                 (document.getElementById(FILE_UPLOAD_ELEMENT_ID) as HTMLInputElement).click()
                             }
@@ -83,7 +80,6 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                         }
 
                         fileValidateButton {
-                            polyglot = props.polyglot
                             onValidateRequested = {
                                 validateUploadedFiles(
                                     validationContext?.validationContext
@@ -109,32 +105,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                                 +FileUploadTabStyle.buttonBarDivider
                             }
                         }
-
-                        presetSelect {
-                            this.validationContext = validationContext?.validationContext
-                                ?: ValidationContext().setBaseEngine("DEFAULT")
-                            updateValidationContext = { ctx, resetBaseEngine ->
-                                validationContext?.updateValidationContext?.invoke(ctx, resetBaseEngine)
-                            }
-                            updateIgPackageInfoSet = { set, resetBaseEngine ->
-                                validationContext?.updateIgPackageInfoSet?.invoke(set, resetBaseEngine)
-                            }
-                            updateExtensionSet = { set, resetBaseEngine ->
-                                validationContext?.updateExtensionSet?.invoke(set, resetBaseEngine)
-                            }
-                            updateProfileSet = { set, resetBaseEngine ->
-                                validationContext?.updateProfileSet?.invoke(set, resetBaseEngine)
-                            }
-                            updateBundleValidationRuleSet = { set, resetBaseEngine ->
-                                validationContext?.updateBundleValidationRuleSet?.invoke(set, resetBaseEngine)
-                            }
-                            setSessionId = { id ->
-                                validationContext?.setSessionId?.invoke(id)
-                            }
-                            this.language = language
-                            polyglot = props.polyglot
-                            presets = validationContext?.presets ?: emptyList()
-                        }
+                        presetSelect {}
                     }
 
                     uploadFilesComponent {
@@ -144,7 +115,6 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
                     }
                     state.currentlyDisplayedValidationOutcome?.let {
                         validationOutcomePopup {
-                            polyglot = props.polyglot
                             validationOutcome = state.currentlyDisplayedValidationOutcome!!
                             onClose = {
                                 setState {
