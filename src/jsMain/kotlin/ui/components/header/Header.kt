@@ -4,36 +4,30 @@ import Polyglot
 import api.isPackagesServerUp
 import api.isTerminologyServerUp
 import context.AppScreenContext
+import context.LocalizationContext
 import css.const.HEADER_SHADOW
 import css.const.HIGHLIGHT_GRAY
 import css.const.WHITE
-import web.dom.document
-import web.window.window
 import kotlinx.coroutines.launch
 import kotlinx.css.*
 import kotlinx.css.properties.borderBottom
 import kotlinx.css.properties.boxShadow
 import mainScope
 import model.AppScreen
-import web.events.Event
 import react.*
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import styled.styledImg
+import ui.components.header.LanguageOption.languageSelect
 import ui.components.header.SiteStatus.SiteState
 import ui.components.header.SiteStatus.siteStatus
-import ui.components.header.LanguageOption.languageSelect
 import utils.Language
-import model.ValidationContext
+import web.dom.document
+import web.window.window
 
 external interface HeaderProps : Props {
-    var appScreen: AppScreen
-    var selectedLanguage: Language
-    var polyglot: Polyglot
-
-    var validationContext: ValidationContext
-    var updateValidationContext: (ValidationContext, Boolean) -> Unit
+    // Empty - all data now from contexts
 }
 
 class HeaderState : State {
@@ -68,63 +62,69 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>() {
     }
 
     override fun RBuilder.render() {
-        AppScreenContext.Consumer { contextValue ->
-            styledDiv {
-                css {
-                    +HeaderStyle.headerContainer
-                    if (state.currentScroll > 0) {
-                        boxShadow(color = HEADER_SHADOW, offsetX = 0.px, offsetY = 10.px, blurRadius = 10.px)
-                    }
-                }
-                styledImg(src = "images/fhir-logo.png") {
-                    css {
-                        +HeaderStyle.headerImage
-                    }
-                }
-                styledDiv {
-                    css {
-                        +HeaderStyle.headerButtonsContainer
-                    }
-                    AppScreen.values().forEach { screen ->
-                        headerTabButton {
-                            name = screen.name
-                            label = props.polyglot.t(screen.polyglotKey)
-                            selected = props.appScreen == screen
-                            onSelected = { buttonName ->
-                                AppScreen.fromDisplay(buttonName)?.let { screen ->
-                                    contextValue?.setAppScreen?.invoke(screen)
+        AppScreenContext.Consumer { screenContext ->
+            LocalizationContext.Consumer { localizationContext ->
+                context.ValidationContext.Consumer { validationContext ->
+                    // Extract values with null-safety defaults
+                    val appScreen = screenContext?.appScreen ?: AppScreen.VALIDATOR
+                    val polyglot = localizationContext?.polyglot ?: Polyglot()
+                    val selectedLanguage = localizationContext?.selectedLanguage ?: Language.ENGLISH
+
+                    styledDiv {
+                        css {
+                            +HeaderStyle.headerContainer
+                            if (state.currentScroll > 0) {
+                                boxShadow(color = HEADER_SHADOW, offsetX = 0.px, offsetY = 10.px, blurRadius = 10.px)
+                            }
+                        }
+                        styledImg(src = "images/fhir-logo.png") {
+                            css {
+                                +HeaderStyle.headerImage
+                            }
+                        }
+                        styledDiv {
+                            css {
+                                +HeaderStyle.headerButtonsContainer
+                            }
+                            AppScreen.values().forEach { screen ->
+                                headerTabButton {
+                                    name = screen.name
+                                    label = polyglot.t(screen.polyglotKey)
+                                    selected = appScreen == screen
+                                    onSelected = { buttonName ->
+                                        AppScreen.fromDisplay(buttonName)?.let { screen ->
+                                            screenContext?.setAppScreen?.invoke(screen)
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                }
 
-                styledDiv {
-                    css {
-                        +HeaderStyle.sideOptions
-                    }
-                    styledDiv {
-                        css {
-                            +HeaderStyle.languageOptionDiv
-                        }
-                        languageSelect{
-                            polyglot = props.polyglot
-                            selectedLanguage = props.selectedLanguage
-                            validationContext = props.validationContext
-                            updateValidationContext = props.updateValidationContext
-                        }
-                    }
-                    styledDiv {
-                        css {
-                            +HeaderStyle.siteStatusDiv
-                        }
-                        siteStatus {
-                            label = "tx.fhir.org"
-                            status = state.terminologyServerState
-                        }
-                        siteStatus {
-                            label = "packages2.fhir.org"
-                            status = state.packageServerState
+                        styledDiv {
+                            css {
+                                +HeaderStyle.sideOptions
+                            }
+                            styledDiv {
+                                css {
+                                    +HeaderStyle.languageOptionDiv
+                                }
+                                languageSelect {
+                                    // No attrs needed - component consumes contexts directly
+                                }
+                            }
+                            styledDiv {
+                                css {
+                                    +HeaderStyle.siteStatusDiv
+                                }
+                                siteStatus {
+                                    label = "tx.fhir.org"
+                                    status = state.terminologyServerState
+                                }
+                                siteStatus {
+                                    label = "packages2.fhir.org"
+                                    status = state.packageServerState
+                                }
+                            }
                         }
                     }
                 }

@@ -12,6 +12,7 @@ import styled.styledDiv
 import ui.components.footer.footer
 import ui.components.header.Header
 import ui.components.header.HeaderStyle
+import ui.components.header.header
 import ui.components.main.sectionTitle
 import ui.components.options.OptionsPage
 import ui.components.tabs.tabLayout
@@ -34,16 +35,8 @@ class App : RComponent<Props, State>() {
                         +LandingPageStyle.mainDiv
                     }
 
-                    child(Header::class) {
-                        attrs.appScreen = appScreen
-                        attrs.polyglot = polyglot
-                        attrs.selectedLanguage = selectedLanguage
-
-                        attrs.validationContext = validationContext?.validationContext
-                            ?: ValidationContext().setBaseEngine("DEFAULT")
-                        attrs.updateValidationContext = { ctx, resetBaseEngine ->
-                            validationContext?.updateValidationContext?.invoke(ctx, resetBaseEngine)
-                        }
+                    header {
+                        // No attrs needed - component consumes contexts directly
                     }
 
                     styledDiv {
