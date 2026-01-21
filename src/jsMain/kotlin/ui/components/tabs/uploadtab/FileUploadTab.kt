@@ -21,7 +21,7 @@ import ui.components.tabs.uploadtab.filelist.fileEntryList
 import ui.components.validation.validationOutcomePopup
 import utils.Language
 import utils.assembleRequest
-import utils.buildCompleteValidationContext
+import utils.buildValidationContextForRequest
 
 external interface FileUploadTabProps : Props {}
 
@@ -141,7 +141,7 @@ class FileUploadTab : RComponent<FileUploadTabProps, FileUploadTabState>() {
         addValidationOutcome: (ValidationOutcome) -> Unit,
         toggleValidationInProgress: (Boolean, FileInfo) -> Unit
     ) {
-        val completeValidationContext: ValidationContext = buildCompleteValidationContext(
+        val completeValidationContext: ValidationContext = buildValidationContextForRequest(
             baseContext = validationContext,
             igPackageInfoSet = igPackageInfoSet,
             profileSet = profileSet,

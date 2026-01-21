@@ -45,7 +45,6 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
         context.ValidationContext.Consumer { validationContext ->
             LocalizationContext.Consumer { localizationContext ->
                 val polyglot = localizationContext?.polyglot ?: Polyglot()
-                val language = localizationContext?.selectedLanguage ?: Language.ENGLISH
 
                 styledDiv {
                     css {
@@ -149,7 +148,7 @@ class ManualEntryTab : RComponent<ManualEntryTabProps, ManualEntryTabState>() {
         polyglot: Polyglot
     ) {
         console.info("Attempting to validate with: " + validationContext.getBaseEngine())
-        val completeValidationContext: ValidationContext = buildCompleteValidationContext(
+        val completeValidationContext: ValidationContext = buildValidationContextForRequest(
             baseContext = validationContext,
             igPackageInfoSet = igPackageInfoSet,
             profileSet = profileSet,

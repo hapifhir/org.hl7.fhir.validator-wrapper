@@ -7,18 +7,27 @@ import model.*
 import react.*
 
 external interface ValidationContextValue {
-    // State
+
+    //State
+
+    /* This validationContext is not complete. The UI maintains several fields optimized for user interaction that need
+       to be merged into this validationContext before it is sent with a request
+    */
     var validationContext: ValidationContext
+
+    // UI optimized fields to be merged with validation requests
+    var igPackageInfoSet: Set<PackageInfo>
+    var extensionSet: Set<String>
+    var profileSet: Set<String>
+    var bundleValidationRuleSet: Set<BundleValidationRule>
+
+    // Other fields
     var sessionId: String
     var currentManualEntryText: String
     var manualValidationOutcome: ValidationOutcome?
     var manualValidatingInProgress: Boolean
     var uploadedFiles: List<ValidationOutcome>
     var presets: List<Preset>
-    var igPackageInfoSet: Set<PackageInfo>
-    var extensionSet: Set<String>
-    var profileSet: Set<String>
-    var bundleValidationRuleSet: Set<BundleValidationRule>
 
     // Callbacks
     var updateValidationContext: (ValidationContext, Boolean) -> Unit
