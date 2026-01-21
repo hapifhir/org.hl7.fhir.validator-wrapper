@@ -17,6 +17,8 @@ fun buildValidationContextForRequest(
     if (baseEngine != null && presets.isNotEmpty()) {
         val selectedPreset = Preset.getSelectedPreset(baseEngine, presets)
         if (selectedPreset != null) {
+            // Changing a locale doesn't require an entirely new validation engine, so we can send the user selected
+            // value as part of the request.
             return ValidationContext(selectedPreset.validationContext).setLocale(baseContext.getLanguageCode())
         }
     }
