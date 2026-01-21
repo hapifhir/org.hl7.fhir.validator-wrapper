@@ -1,94 +1,71 @@
+import Polyglot
+import context.AppScreenContext
+import context.LocalizationContext
 import kotlinx.coroutines.MainScope
 import kotlinx.css.*
 import model.AppScreen
+import model.ValidationContext
 import react.*
-import reactredux.containers.optionsPage
-import reactredux.containers.header
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 import ui.components.footer.footer
+import ui.components.header.Header
 import ui.components.header.HeaderStyle
+import ui.components.header.header
 import ui.components.main.sectionTitle
+import ui.components.options.OptionsPage
 import ui.components.tabs.tabLayout
-import kotlinx.browser.window
-import model.ValidationContext
 import utils.Language
-
-
-external interface AppProps : Props {
-    var appScreen: AppScreen
-    var polyglot: Polyglot
-
-    var fetchPolyglot:  (String) -> Unit
-    var setLanguage: (Language) -> Unit
-
-    var fetchPresets: () -> Unit
-
-    var validationContext: ValidationContext
-    var updateValidationContext: (ValidationContext, Boolean) -> Unit
-}
 
 val mainScope = MainScope()
 
-fun initLanguages(props: AppProps) {
-    for (item in window.navigator.languages) {
-        val prefix = item.substring(0, 2)
-        var selectedLanguage = Language.getSelectedLanguage(prefix)
-        if (selectedLanguage != null) {
-            props.setLanguage(selectedLanguage)
-            props.fetchPolyglot(selectedLanguage.getLanguageCode());
-            props.updateValidationContext(props.validationContext.setLocale(selectedLanguage.getLanguageCode()), false)
-            break
-        }
-    }
-}
+class App : RComponent<Props, State>() {
 
-fun initPresets(props: AppProps) {
-   props.fetchPresets()
-}
-
-
-class App(props : AppProps) : RComponent<AppProps, State>() {
-    init {
-        initLanguages(props)
-        initPresets(props)
-    }
     override fun RBuilder.render() {
+        AppScreenContext.Consumer { screenContext ->
+            LocalizationContext.Consumer { localizationContext ->
+                context.ValidationContext.Consumer { validationContext ->
+                val appScreen = screenContext?.appScreen ?: AppScreen.VALIDATOR
+                val polyglot = localizationContext?.polyglot ?: Polyglot()
+                val selectedLanguage = localizationContext?.selectedLanguage ?: Language.ENGLISH
 
-        styledDiv {
-            css {
-                +LandingPageStyle.mainDiv
-            }
-            header {}
-            styledDiv {
-                css {
-                    paddingTop = HeaderStyle.HEADER_HEIGHT
-                    display = Display.flex
-                    flexDirection = FlexDirection.column
-                    flex(flexGrow = 1.0, flexShrink = 1.0, flexBasis = FlexBasis.auto)
-                }
-                when (props.appScreen) {
-                    AppScreen.VALIDATOR -> {
-                        sectionTitle {
-                            majorText = props.polyglot.t("appscreen_validator_major")
-                            minorText = props.polyglot.t("appscreen_validator_minor")
+                styledDiv {
+                    css {
+                        +LandingPageStyle.mainDiv
+                    }
+
+                    header {
+                        // No attrs needed - component consumes contexts directly
+                    }
+
+                    styledDiv {
+                        css {
+                            paddingTop = HeaderStyle.HEADER_HEIGHT
+                            display = Display.flex
+                            flexDirection = FlexDirection.column
+                            flex(flexGrow = 1.0, flexShrink = 1.0, flexBasis = FlexBasis.auto)
                         }
-                        tabLayout {
-                            polyglot = props.polyglot
+                        when (appScreen) {
+                            AppScreen.VALIDATOR -> {
+                                sectionTitle {
+                                    majorText = polyglot.t("appscreen_validator_major")
+                                    minorText = polyglot.t("appscreen_validator_minor")
+                                }
+                                tabLayout {}
+                            }
+                            AppScreen.SETTINGS -> {
+                                sectionTitle {
+                                    majorText = polyglot.t("appscreen_options_major")
+                                    minorText = polyglot.t("appscreen_options_minor")
+                                }
+                                child(OptionsPage::class) {}
+                            }
                         }
                     }
-                    AppScreen.SETTINGS -> {
-                        sectionTitle {
-                            majorText = props.polyglot.t("appscreen_options_major")
-                            minorText = props.polyglot.t("appscreen_options_minor")
-                        }
-                        optionsPage {}
-                    }
+                    footer {}
                 }
-            }
-            footer {
-                polyglot = props.polyglot
+                }
             }
         }
     }
@@ -104,4 +81,3 @@ object LandingPageStyle : StyleSheet("LandingPageStyle", isStatic = true) {
         height = 100.vh
     }
 }
-

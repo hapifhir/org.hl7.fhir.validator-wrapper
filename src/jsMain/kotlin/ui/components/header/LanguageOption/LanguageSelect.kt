@@ -1,9 +1,11 @@
 package ui.components.header.LanguageOption
 
 import Polyglot
+import context.LocalizationContext
 import mui.material.*
 import react.*
-import csstype.px
+import csstype.*
+import web.cssom.px
 import model.ValidationContext
 import mui.system.sx
 import react.Props
@@ -11,66 +13,70 @@ import react.ReactNode
 import utils.Language
 
 
-external interface LanguageSelectProps : Props {
-    var polyglot: Polyglot
-    var fetchPolyglot: (String) -> Unit
-    var selectedLanguage : Language
-    var setLanguage: (Language) -> Unit
-    var validationContext: ValidationContext
-    var updateValidationContext: (ValidationContext, Boolean) -> Unit
-
-}
+external interface LanguageSelectProps : Props {}
 
 class LanguageSelect(props : LanguageSelectProps) : RComponent<LanguageSelectProps, State>() {
     init {
     }
     override fun RBuilder.render() {
-        Box {
-            attrs{
-                sx{
-                    minWidth = 120.px
-                }
-            }
-            FormControl {
-                attrs {
-                    fullWidth = true
-                    size = Size.small
-                }
-                InputLabel {
-                    +props.polyglot.t("language")
-                }
-                Select {
+        LocalizationContext.Consumer { localizationContext ->
+            context.ValidationContext.Consumer { validationContext ->
+                // Extract values with null-safety defaults
+                val polyglot = localizationContext?.polyglot ?: Polyglot()
+                val selectedLanguage = localizationContext?.selectedLanguage ?: Language.ENGLISH
+                val currentValidationContext = validationContext?.validationContext
+                    ?: model.ValidationContext().setBaseEngine("DEFAULT")
 
-                    attrs {
-                        label = ReactNode("Language")
-                        value = props.selectedLanguage.getLanguageCode().unsafeCast<Nothing?>()
-                        onChange = { event, _ ->
-                            val selectedLanguage = Language.getSelectedLanguage(event.target.value)
-                            if (selectedLanguage != null) {
-                                props.setLanguage(selectedLanguage)
-                                props.fetchPolyglot(selectedLanguage.getLanguageCode());
-                                props.updateValidationContext(props.validationContext.setLocale(selectedLanguage.getLanguageCode()), false)
+                Box {
+                    attrs{
+                        sx{
+                            minWidth = 120.px
+                        }
+                    }
+                    FormControl {
+                        attrs {
+                            fullWidth = true
+                            size = Size.small
+                        }
+                        InputLabel {
+                            +polyglot.t("language")
+                        }
+                        Select {
+
+                            attrs {
+                                label = ReactNode("Language")
+                                value = selectedLanguage.getLanguageCode().unsafeCast<Nothing?>()
+                                onChange = { event, _ ->
+                                    val selectedLang = Language.getSelectedLanguage(event.target.value)
+                                    if (selectedLang != null) {
+                                        // Call context to update language (handles polyglot fetching)
+                                        localizationContext?.setLanguage?.invoke(selectedLang)
+                                        // Update ValidationContext locale
+                                        val updatedCtx = currentValidationContext.setLocale(selectedLang.getLanguageCode())
+                                        validationContext?.updateValidationContext?.invoke(updatedCtx, false)
+                                    }
+                                }
+                            }
+
+                            MenuItem {
+                                attrs {
+                                    value = Language.ENGLISH.getLanguageCode()
+                                }
+                                +Language.ENGLISH.display
+                            }
+                            MenuItem {
+                                attrs {
+                                    value = Language.GERMAN.getLanguageCode()
+                                }
+                                +Language.GERMAN.display
+                            }
+                            MenuItem {
+                                attrs {
+                                    value = Language.SPANISH.getLanguageCode()
+                                }
+                                +Language.SPANISH.display
                             }
                         }
-                    }
-
-                    MenuItem {
-                        attrs {
-                            value = Language.ENGLISH.getLanguageCode()
-                        }
-                        +Language.ENGLISH.display
-                    }
-                    MenuItem {
-                        attrs {
-                            value = Language.GERMAN.getLanguageCode()
-                        }
-                        +Language.GERMAN.display
-                    }
-                    MenuItem {
-                        attrs {
-                            value = Language.SPANISH.getLanguageCode()
-                        }
-                        +Language.SPANISH.display
                     }
                 }
             }

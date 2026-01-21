@@ -14,7 +14,6 @@ import ui.components.buttons.imageButton
 external interface FileValidateButtonProps : Props {
     var onValidateRequested: () -> Unit
     var workInProgress: Boolean
-    var polyglot: Polyglot
 }
 
 /**
@@ -23,6 +22,8 @@ external interface FileValidateButtonProps : Props {
 class FileValidateButton : RComponent<FileValidateButtonProps, State>() {
 
     override fun RBuilder.render() {
+        context.LocalizationContext.Consumer { localizationContext ->
+            val polyglot = localizationContext?.polyglot ?: Polyglot()
             if (props.workInProgress) {
                 styledDiv {
                     css {
@@ -34,14 +35,14 @@ class FileValidateButton : RComponent<FileValidateButtonProps, State>() {
                     backgroundColor = WHITE
                     borderColor = HL7_RED
                     image = "images/validate_red.png"
-                    label = props.polyglot.t("validate_button")
+                    label = polyglot.t("validate_button")
                     onSelected = {
                         props.onValidateRequested()
                     }
                 }
             }
         }
-
+    }
 }
 
 /**

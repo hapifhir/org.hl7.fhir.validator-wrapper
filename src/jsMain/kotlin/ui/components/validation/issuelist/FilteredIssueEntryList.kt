@@ -35,7 +35,6 @@ class FilteredIssueEntryList : RComponent<FilteredIssueEntryListProps, FilteredI
             }
 
             issueFilterButtonBar {
-                polyglot = props.polyglot
                 messageFilter = state.messageFilter
                 onUpdated = { newMessageFilter ->
                     setState {

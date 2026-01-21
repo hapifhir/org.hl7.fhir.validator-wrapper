@@ -3,12 +3,12 @@ package ui.components.tabs.entrytab
 import Polyglot
 import css.const.BORDER_GRAY
 import css.text.TextStyle
-import kotlinx.browser.document
+import web.dom.document
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import kotlinx.html.id
 import kotlinx.html.js.onInputFunction
-import org.w3c.dom.HTMLTextAreaElement
+import web.html.HTMLTextAreaElement
 import react.*
 import react.dom.attrs
 import styled.StyleSheet

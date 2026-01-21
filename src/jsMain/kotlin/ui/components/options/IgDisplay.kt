@@ -15,45 +15,47 @@ import styled.*
 external interface IgDisplayProps : Props {
     var fhirVersion: String
     var packageInfo: PackageInfo
-    var polyglot: Polyglot
     var onDelete: () -> Unit
 }
 
 class IgDisplay : RComponent<IgDisplayProps, State>() {
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +IgDisplayStyle.mainDiv
+        context.LocalizationContext.Consumer { localizationContext ->
+            val polyglot = localizationContext?.polyglot ?: Polyglot()
+            styledDiv {
+                css {
+                    +IgDisplayStyle.mainDiv
+                    if (!props.packageInfo.fhirVersionMatches(props.fhirVersion)) {
+                        background = "repeating-linear-gradient(\n" +
+                                "  45deg,\n" +
+                                "  ${WHITE},\n" +
+                                "  ${WHITE} 10px,\n" +
+                                "  ${FATAL_PINK.changeAlpha(0.2)} 10px,\n" +
+                                "  ${FATAL_PINK.changeAlpha(0.2)} 20px\n" +
+                                ");"
+                    }
+                }
                 if (!props.packageInfo.fhirVersionMatches(props.fhirVersion)) {
-                    background = "repeating-linear-gradient(\n" +
-                            "  45deg,\n" +
-                            "  ${WHITE},\n" +
-                            "  ${WHITE} 10px,\n" +
-                            "  ${FATAL_PINK.changeAlpha(0.2)} 10px,\n" +
-                            "  ${FATAL_PINK.changeAlpha(0.2)} 20px\n" +
-                            ");"
+                    attrs {
+                        title = polyglot.t("options_ig_not_supported") + " ${props.fhirVersion}"
+                    }
                 }
-            }
-            if (!props.packageInfo.fhirVersionMatches(props.fhirVersion)) {
-                attrs {
-                    title = props.polyglot.t("options_ig_not_supported") + " ${props.fhirVersion}"
+                styledSpan {
+                    css {
+                        +TextStyle.dropDownLabel
+                        +IgDisplayStyle.igName
+                    }
+                    +PackageInfo.igLookupString(props.packageInfo)
                 }
-            }
-            styledSpan {
-                css {
-                    +TextStyle.dropDownLabel
-                    +IgDisplayStyle.igName
-                }
-                +PackageInfo.igLookupString(props.packageInfo)
-            }
-            styledImg {
-                css {
-                    +IgDisplayStyle.closeButton
-                }
-                attrs {
-                    src = "images/close_black.png"
-                    onClickFunction = {
-                        props.onDelete()
+                styledImg {
+                    css {
+                        +IgDisplayStyle.closeButton
+                    }
+                    attrs {
+                        src = "images/close_black.png"
+                        onClickFunction = {
+                            props.onDelete()
+                        }
                     }
                 }
             }

@@ -112,8 +112,6 @@ fun Application.setup() {
             )
         }
 
-        static("/") {
-            resources("static-content")
-        }
+        staticResources("/", "static-content")
     }
 }

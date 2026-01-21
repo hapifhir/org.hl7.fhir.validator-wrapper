@@ -12,7 +12,6 @@ import styled.*
 
 external interface UrlDisplayProps : Props {
     var url: String
-    var polyglot: Polyglot
     var onDelete: () -> Unit
 }
 

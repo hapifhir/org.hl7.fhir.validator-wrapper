@@ -28,7 +28,6 @@ external interface IgSelectorProps : Props {
     var onUpdatePackageName: (String, Boolean) -> Unit
     var selectedIgSet : MutableSet<PackageInfo>
     var onFilterStringChange: (String) -> Unit
-    var polyglot: Polyglot
 }
 
 class IgSelectorState : State {
@@ -54,7 +53,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
 
 
 
-            val registryPackages : MutableList<PackageInfo> = props.igList.filter{ it.id == igPackageName && it.version != null }.toMutableList();
+            val registryPackages : MutableList<PackageInfo> = props.igList.filter{ it.id == igPackageName && it.version != null }.toMutableList()
             val allPackages = (registryPackages + simplifierPackages + PackageInfo(id = igPackageName, fhirVersion = null, url = null, version = "current")).distinctBy{it.version}
                 .sortedWith(PackageInfo.VersionComparator()).reversed().toMutableList()
 
@@ -66,104 +65,121 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
     }
 
     override fun RBuilder.render() {
-        styledDiv {
-            css {
-                +IgSelectorStyle.mainDiv
-            }
-            styledSpan {
+        context.LocalizationContext.Consumer { localizationContext ->
+            val polyglot = localizationContext?.polyglot ?: Polyglot()
+            styledDiv {
                 css {
-                    +TextStyle.optionsDetailText
-                    +IgSelectorStyle.title
+                    +IgSelectorStyle.mainDiv
                 }
-                + props.polyglot.t("options_ig_description_1")
                 styledSpan {
                     css {
-                        fontStyle = FontStyle.italic
+                        +TextStyle.optionsDetailText
+                        +IgSelectorStyle.title
                     }
-                    + props.polyglot.t("options_ig_description_2")
-                }
-                + props.polyglot.t("options_ig_description_3")
-            }
-            styledSpan {
-                dropDownMultiChoice {
-                    choices = props.igPackageNameList
-                    buttonLabel = props.polyglot.t("options_ig_dropdown")
-                    onSelected = { igPackageName ->
-                        props.onUpdatePackageName(igPackageName, true)
-                        setIGVersions(igPackageName)
+                    +polyglot.t("options_ig_description_1")
+                    styledSpan {
+                        css {
+                            fontStyle = FontStyle.italic
+                        }
+                        +polyglot.t("options_ig_description_2")
                     }
-                    multichoice = false
-                    searchEnabled = true
-                    onFilterStringChange = props.onFilterStringChange
-                    searchHint = props.polyglot.t("options_ig_dropdown_hint")
+                    +polyglot.t("options_ig_description_3")
                 }
-                val versions = state.packageVersions.filter { it.first.fhirVersionMatches(props.fhirVersion)}
-                    .map{Pair(it.first.version ?: "", it.second)}
-                    .toMutableList()
-
-                val versionSelected = versions.filter { it.second }.isNotEmpty()
                 styledSpan {
-                    css {
-                        margin(left = 8.px)
-                    }
                     dropDownMultiChoice {
-                        choices = versions
-                        buttonLabel = if (versions.size > 0) props.polyglot.t("options_ig_version_dropdown_hint") else props.polyglot.t("options_ig_version_dropdown_default")
-                        onSelected = { igVersion ->
-                            setState {
-                                packageVersions = state.packageVersions.map{Pair(it.first, it.first.version == igVersion)}.toMutableList()
-                            }
+                        choices = props.igPackageNameList
+                        buttonLabel = polyglot.t("options_ig_dropdown")
+                        onSelected = { igPackageName ->
+                            props.onUpdatePackageName(igPackageName, true)
+                            setIGVersions(igPackageName)
                         }
                         multichoice = false
-                        searchEnabled = false
+                        searchEnabled = true
+                        onFilterStringChange = props.onFilterStringChange
+                        searchHint = polyglot.t("options_ig_dropdown_hint")
                     }
-                }
-                styledSpan {
-                    css {
-                        margin(left = 8.px)
+                    val versions = state.packageVersions.filter { it.first.fhirVersionMatches(props.fhirVersion) }
+                        .map { Pair(it.first.version ?: "", it.second) }
+                        .toMutableList()
+
+                    val versionSelected = versions.filter { it.second }.isNotEmpty()
+                    styledSpan {
+                        css {
+                            margin(left = 8.px)
+                        }
+                        dropDownMultiChoice {
+                            choices = versions
+                            buttonLabel =
+                                if (versions.size > 0) polyglot.t("options_ig_version_dropdown_hint") else polyglot.t(
+                                    "options_ig_version_dropdown_default"
+                                )
+                            onSelected = { igVersion ->
+                                setState {
+                                    packageVersions =
+                                        state.packageVersions.map { Pair(it.first, it.first.version == igVersion) }
+                                            .toMutableList()
+                                }
+                            }
+                            multichoice = false
+                            searchEnabled = false
+                        }
                     }
-                    imageButton {
-                        backgroundColor = WHITE
-                        borderColor = if (versionSelected) {HL7_RED} else { SWITCH_GRAY }
-                        image = "images/add_circle_black_24dp.svg"
-                        label = props.polyglot.t("options_ig_add")
-                        onSelected = {
-                            if (versionSelected)
-                            props.onUpdateIg(state.packageVersions.first{it.second}.first, true)
+                    styledSpan {
+                        css {
+                            margin(left = 8.px)
+                        }
+                        imageButton {
+                            backgroundColor = WHITE
+                            borderColor = if (versionSelected) {
+                                HL7_RED
+                            } else {
+                                SWITCH_GRAY
+                            }
+                            image = "images/add_circle_black_24dp.svg"
+                            label = polyglot.t("options_ig_add")
+                            onSelected = {
+                                if (versionSelected)
+                                    props.onUpdateIg(state.packageVersions.first { it.second }.first, true)
+                            }
                         }
                     }
                 }
-            }
-            styledDiv {
-                css {
-                    padding(top = 24.px)
-                    + if (props.selectedIgSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
-                }
-                val polyglotKey = if (props.selectedIgSet.isEmpty()) { "options_ig_not_selected"} else { "options_ig_selected"}
-                +props.polyglot.t(polyglotKey, getJS(arrayOf(Pair("selectedIgs", props.selectedIgSet.size.toString()))))
-            }
-            styledDiv {
-                css {
-                    +IgSelectorStyle.selectedIgsDiv
-                    if (!props.selectedIgSet.isEmpty()) {
-                        padding(top = 16.px)
+                styledDiv {
+                    css {
+                        padding(top = 24.px)
+                        +if (props.selectedIgSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
                     }
+                    val polyglotKey = if (props.selectedIgSet.isEmpty()) {
+                        "options_ig_not_selected"
+                    } else {
+                        "options_ig_selected"
+                    }
+                    +polyglot.t(
+                        polyglotKey,
+                        getJS(arrayOf(Pair("selectedIgs", props.selectedIgSet.size.toString())))
+                    )
                 }
-                props.selectedIgSet.forEach { _packageInfo ->
-                    igDisplay {
-                        polyglot = props.polyglot
-                        fhirVersion = props.fhirVersion
-                        packageInfo = _packageInfo
+                styledDiv {
+                    css {
+                        +IgSelectorStyle.selectedIgsDiv
+                        if (!props.selectedIgSet.isEmpty()) {
+                            padding(top = 16.px)
+                        }
+                    }
+                    props.selectedIgSet.forEach { _packageInfo ->
+                        igDisplay {
+                            fhirVersion = props.fhirVersion
+                            packageInfo = _packageInfo
 
-                        onDelete = {
-                            props.onUpdateIg(_packageInfo, false)
+                            onDelete = {
+                                props.onUpdateIg(_packageInfo, false)
+                            }
                         }
                     }
                 }
             }
         }
     }
-
 }
 
 

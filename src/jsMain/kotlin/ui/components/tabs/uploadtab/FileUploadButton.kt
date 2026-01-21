@@ -9,13 +9,8 @@ import styled.StyleSheet
 
 import ui.components.buttons.imageButton
 
-
 external interface FileUploadButtonProps : Props {
     var onUploadRequested: () -> Unit
-    var onValidateRequested: () -> Unit
-
-    var polyglot: Polyglot
-
 }
 
 /**
@@ -24,16 +19,20 @@ external interface FileUploadButtonProps : Props {
 class FileUploadButton : RComponent<FileUploadButtonProps, State>() {
 
     override fun RBuilder.render() {
+        context.LocalizationContext.Consumer { localizationContext ->
+            val polyglot = localizationContext?.polyglot ?: Polyglot()
+
             imageButton {
                 backgroundColor = WHITE
                 borderColor = HL7_RED
                 image = "images/upload_red.png"
-                label = props.polyglot.t("upload_button")
+                label = polyglot.t("upload_button")
                 onSelected = {
                     props.onUploadRequested()
                 }
             }
         }
+    }
 }
 
 /**

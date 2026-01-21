@@ -2,7 +2,7 @@ package ui.components.options.menu
 
 import css.const.*
 import css.text.TextStyle
-import kotlinx.browser.document
+import web.dom.document
 import kotlinx.css.*
 import kotlinx.css.properties.border
 import kotlinx.css.properties.borderBottom
@@ -11,7 +11,7 @@ import kotlinx.html.js.onClickFunction
 import kotlinx.html.js.onKeyUpFunction
 import kotlinx.html.js.onMouseOutFunction
 import kotlinx.html.js.onMouseOverFunction
-import org.w3c.dom.HTMLInputElement
+import web.html.HTMLInputElement
 import react.*
 import react.dom.attrs
 import styled.*
