@@ -1,5 +1,6 @@
 import io.ktor.serialization.gson.*
 import controller.debug.debugModule
+import controller.health.healthModule
 import controller.ig.igModule
 import controller.terminology.terminologyModule
 import controller.uptime.uptimeModule
@@ -96,6 +97,7 @@ fun Application.setup() {
         validationModule()
         terminologyModule()
         uptimeModule()
+        healthModule()
 
         get("/") {
             call.respondText(

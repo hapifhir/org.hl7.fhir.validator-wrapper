@@ -30,18 +30,19 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
         val validationService =
             ValidationService(sessionCache);
         thread {
-        presets.forEach {
-            if (it.key != "CUSTOM") {
-                println("Loading preset: " + it.key)
-                try {
-                    validationService.putBaseEngine(it.key, it.validationContext)
-                } catch (e: Exception) {
-                    println("Error loading preset: " + it.key)
-                    e.printStackTrace()
+            presets.forEach {
+                if (it.key != "CUSTOM") {
+                    println("Loading preset: " + it.key)
+                    try {
+                        validationService.putBaseEngine(it.key, it.validationContext)
+                    } catch (e: Exception) {
+                        println("Error loading preset: " + it.key)
+                        e.printStackTrace()
+                    }
+                    println("Preset loaded: " + it.key);
                 }
-                println("Preset loaded: " + it.key);
             }
-        }
+            ValidationServiceStatus.setService(validationService)
         }
         return validationService
     }
@@ -71,7 +72,7 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
         return Collections.unmodifiableList(presets)
     }
 
-    override fun getValidationService() : ValidationService {
+    override fun getValidationService(): ValidationService {
         if (java.lang.Runtime.getRuntime().freeMemory() < validationServiceConfig.engineReloadThreshold) {
             println(
                 "Free memory ${
