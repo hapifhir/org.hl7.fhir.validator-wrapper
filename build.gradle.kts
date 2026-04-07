@@ -25,6 +25,19 @@ repositories {
     gradlePluginPortal()
 }
 
+// fhirCoreVersion transitively resolves jackson-databind:2.21.x, whose Gradle module metadata
+// (absent in mavenLocal but present on Maven Central) aligns all Jackson modules to 2.21.x via
+// the Jackson BOM. This causes jackson-module-kotlin:2.21.x to appear on the compile classpath;
+// that version was compiled with Kotlin 2.1, whose metadata is unreadable by our Kotlin 1.8.21
+// compiler. This is invisible locally because the mavenLocal copy of jackson-databind:2.21.x
+// lacks the .module file that triggers the alignment. On a clean CI cache it always reproduces.
+// Pin jackson-module-kotlin to a Kotlin-1.8-compatible version until kotlinVersion is upgraded.
+configurations.all {
+    resolutionStrategy {
+        force("com.fasterxml.jackson.module:jackson-module-kotlin:${property("jacksonVersion")}")
+    }
+}
+
 tasks.register<Copy>("copySemver") {
     from("version.properties")
     into("src/jvmMain/resources/")

@@ -1,7 +1,17 @@
 {
   "validationContext": {
     "baseEngine": "IPS_AU",
-    "locale": "en"
+    "locale": "en",
+    "extensions": [
+      "any"
+    ],
+    "checkIPSCodes": true,
+    "bundleValidationRules": [
+      {
+        "rule": "Composition:0",
+        "profile": "http://hl7.org.au/fhir/ps/StructureDefinition/au-ps-composition"
+      }
+    ]
   },
   "filesToValidate": [
     {
