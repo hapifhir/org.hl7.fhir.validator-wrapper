@@ -4,8 +4,6 @@ import css.const.*
 import css.text.TextStyle
 import web.dom.document
 import kotlinx.css.*
-import kotlinx.css.properties.border
-import kotlinx.css.properties.borderBottom
 import kotlinx.html.id
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.js.onKeyUpFunction
@@ -219,8 +217,8 @@ object DropDownMultiChoiceStyle : StyleSheet("DropDownMultiChoice", isStatic = t
         display = Display.flex
         flexDirection = FlexDirection.row
         width = LinearDimension.fitContent
-        border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
-        padding(horizontal = 16.px, vertical = 8.px)
+        border = Border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
+        padding = Padding(horizontal = 16.px, vertical = 8.px)
     }
     val dropDownLabel by css {
         backgroundColor = WHITE
@@ -237,7 +235,7 @@ object DropDownMultiChoiceStyle : StyleSheet("DropDownMultiChoice", isStatic = t
         backgroundColor = WHITE
 //        overflowY = Overflow.scroll
 //        overflowX = Overflow.hidden
-        border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
+        border = Border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
         minWidth = 148.px
         maxHeight = 400.px
         zIndex = 1
@@ -262,14 +260,14 @@ object DropDownMultiChoiceStyle : StyleSheet("DropDownMultiChoice", isStatic = t
         flexDirection = FlexDirection.row
         alignItems = Align.center
         backgroundColor = WHITE
-        margin(horizontal = 8.px)
+        margin = Margin(horizontal = 8.px)
     }
     val searchFieldImage by css {
         height = 24.px
         width = 24.px
     }
     val dropdownSearchField by css {
-        padding(vertical = 12.px, horizontal = 16.px)
+        padding = Padding(vertical = 12.px, horizontal = 16.px)
         fontFamily = TextStyle.FONT_FAMILY_MAIN
         fontSize = 12.pt
         fontWeight = FontWeight.w200
@@ -279,10 +277,10 @@ object DropDownMultiChoiceStyle : StyleSheet("DropDownMultiChoice", isStatic = t
         border = Border.none
         resize = Resize.none
         outline = Outline.none
-        borderBottom(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        borderBottom = Border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
     }
     val dropdownChoice by css {
-        padding(vertical = 12.px, horizontal = 16.px)
+        padding = Padding(vertical = 12.px, horizontal = 16.px)
         fontFamily = TextStyle.FONT_FAMILY_MAIN
         fontSize = 12.pt
         fontWeight = FontWeight.w200

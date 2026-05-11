@@ -3,7 +3,6 @@ package ui.components.buttons
 import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.html.js.onClickFunction
-import kotlinx.css.properties.border
 import react.*
 import react.dom.attrs
 import styled.*
@@ -27,7 +26,8 @@ class ImageButton : RComponent<ImageButtonProps, State>() {
         styledDiv {
             css {
                 +ImageButtonStyle.button
-                border(width = 1.px, style = BorderStyle.solid, color = props.borderColor, borderRadius = 4.px)
+                border = Border(width = 1.px, style = BorderStyle.solid, color = props.borderColor)
+                borderRadius = 4.px
                 backgroundColor = props.backgroundColor
                 hover {
                     backgroundColor = props.borderColor.changeAlpha(0.1)
@@ -47,7 +47,7 @@ class ImageButton : RComponent<ImageButtonProps, State>() {
                     +TextStyle.genericButtonLabel
                     if (!props.image.isNullOrEmpty()) {
                         // image has been defined, so we include right padding
-                        margin(left = 0.px, top = 0.px, right = 8.px, bottom = 0.px)
+                        margin = Margin(left = 0.px, top = 0.px, right = 8.px, bottom = 0.px)
                     }
                 }
                 +props.label
@@ -86,7 +86,7 @@ object ImageButtonStyle : StyleSheet("ImageButtonStyle", isStatic = true) {
         flexDirection = FlexDirection.row
         minHeight = 36.px
         alignSelf = Align.center
-        padding(horizontal = 16.px, vertical = 8.px)
+        padding = Padding(horizontal = 16.px, vertical = 8.px)
     }
     val buttonImage by ImageButtonStyle.css {
         height = 16.px

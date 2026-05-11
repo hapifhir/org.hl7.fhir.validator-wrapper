@@ -4,8 +4,6 @@ import Polyglot
 import context.LocalizationContext
 import css.const.BORDER_GRAY
 import kotlinx.css.*
-import kotlinx.css.properties.border
-import kotlinx.css.properties.borderBottom
 import model.ValidationOutcome
 import react.*
 import styled.StyleSheet
@@ -73,20 +71,20 @@ fun RBuilder.fileEntryList(handler: FileEntryListProps.() -> Unit) {
 object FileEntryListStyle : StyleSheet("FileEntryListStyle", isStatic = true) {
     val entryListContainer by FileEntryListStyle.css {
         display = Display.flex
-        flex(flexBasis = 100.pct)
+        flex = Flex(flexBasis = 100.pct)
         width = 100.pct
         height = 100.pct
         backgroundColor = Color.white
         minHeight = 600.px
-        border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
+        border = Border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
     }
     val entryList by FileEntryListStyle.css {
-        flex(flexBasis = 100.pct)
-        padding(0.px)
-        margin(0.px)
+        flex = Flex(flexBasis = 100.pct)
+        padding = Padding(0.px)
+        margin = Margin(0.px)
         listStyleType = ListStyleType.none
     }
     val listSeparator by FileEntryListStyle.css {
-        borderBottom(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
+        borderBottom = Border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
     }
 }

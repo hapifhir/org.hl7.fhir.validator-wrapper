@@ -11,7 +11,6 @@ import kotlinx.css.*
 import react.*
 import ui.components.buttons.imageButton
 import web.dom.document
-import kotlinx.css.properties.border
 import kotlinx.html.InputType
 import kotlinx.html.id
 import model.BundleValidationRule
@@ -168,7 +167,7 @@ class AddBundleValidationRule : RComponent<AddBundleValidationRuleProps, AddProf
                     }
                     styledDiv {
                         css {
-                            padding(top = 24.px)
+                            padding = Padding(top = 24.px)
                             +if (bundleValidationRuleSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
                         }
                         val polyglotKey = if (bundleValidationRuleSet.isEmpty()) {
@@ -185,7 +184,7 @@ class AddBundleValidationRule : RComponent<AddBundleValidationRuleProps, AddProf
                         css {
                             +IgSelectorStyle.selectedIgsDiv
                             if (!bundleValidationRuleSet.isEmpty()) {
-                                padding(top = 16.px)
+                                padding = Padding(top = 16.px)
                             }
                         }
                         bundleValidationRuleSet.forEach { _rule ->
@@ -217,7 +216,7 @@ object AddBundleValidationRuleStyle : StyleSheet("AddBundleValidationRuleStyle",
     val mainDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.column
-        padding(horizontal = 8.px)
+        padding = Padding(horizontal = 8.px)
     }
     val ruleEntryDetailText by css {
         fontFamily = TextStyle.FONT_FAMILY_MAIN
@@ -236,7 +235,7 @@ object AddBundleValidationRuleStyle : StyleSheet("AddBundleValidationRuleStyle",
         height = 42.px
         marginRight = 16.px
         outline = Outline.none
-        border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
+        border = Border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
         backgroundColor = Color.transparent
         justifyContent = JustifyContent.center
         +TextStyle.optionsDetailText

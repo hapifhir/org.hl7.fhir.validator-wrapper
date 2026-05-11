@@ -53,7 +53,7 @@ object SiteStatusStyle : StyleSheet("SiteStatus", isStatic = true) {
         flexDirection = FlexDirection.row
         alignItems = Align.center
         alignSelf = Align.start
-        padding(vertical = 4.px)
+        padding = Padding(vertical = 4.px)
     }
     val weblabel by css {
         fontFamily = TextStyle.FONT_FAMILY_MAIN

@@ -63,9 +63,9 @@ object DropdownWithExplanationStyle : StyleSheet("DropdownWithExplanationStyle",
     val mainDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.column
-        padding(horizontal = 8.px)
+        padding = Padding(horizontal = 8.px)
     }
     val detailsText by css {
-        padding(top = 8.px, bottom = 16.px)
+        padding = Padding(top = 8.px, bottom = 16.px)
     }
 }

@@ -6,7 +6,6 @@ import css.const.WHITE
 import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.html.js.onClickFunction
-import kotlinx.css.properties.border
 import react.*
 import react.dom.attrs
 import styled.StyleSheet
@@ -75,7 +74,7 @@ object OptionButtonStyle : StyleSheet("OptionButtonStyle", isStatic = true) {
         alignSelf = Align.center
         justifyContent = JustifyContent.center
         alignItems = Align.center
-        border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        border = Border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
         borderRadius = 999.px
     }
     val buttonInactive by OptionButtonStyle.css {

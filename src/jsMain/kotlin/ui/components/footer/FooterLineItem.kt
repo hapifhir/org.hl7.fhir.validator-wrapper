@@ -59,7 +59,7 @@ object FooterLineItemStyle : StyleSheet("FooterLineItemStyle", isStatic = true) 
         flexDirection = FlexDirection.row
         alignContent = Align.center
         textDecoration = TextDecoration.none
-        margin(bottom = 6.px)
+        margin = Margin(bottom = 6.px)
     }
     val lineItemIcon by css {
         alignSelf = Align.center
@@ -68,7 +68,7 @@ object FooterLineItemStyle : StyleSheet("FooterLineItemStyle", isStatic = true) 
     val lineItemLabel by css {
         fontFamily = TextStyle.FONT_FAMILY_MAIN
         fontSize = 12.pt
-        margin(left = 12.px)
+        margin = Margin(left = 12.px)
         fontWeight = FontWeight.w400
         alignSelf = Align.center
         color = WHITE

@@ -3,7 +3,6 @@ package ui.components.options
 import css.const.*
 import css.text.TextStyle
 import kotlinx.css.*
-import kotlinx.css.properties.border
 import kotlinx.html.js.onClickFunction
 import model.BundleValidationRule
 import react.*
@@ -60,13 +59,13 @@ object BundleValidationRuleDisplayStyle : StyleSheet("BundleValidationRuleDispla
     val mainDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.row
-        border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
-        margin(right = 16.px, top = 4.px, bottom = 4.px)
-        padding(horizontal = 16.px, vertical = 8.px)
+        border = Border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        margin = Margin(right = 16.px, top = 4.px, bottom = 4.px)
+        padding = Padding(horizontal = 16.px, vertical = 8.px)
         backgroundColor = WHITE
     }
     val igName by css {
-        padding(right = 16.px)
+        padding = Padding(right = 16.px)
     }
     val closeButton by css {
         width = 16.px

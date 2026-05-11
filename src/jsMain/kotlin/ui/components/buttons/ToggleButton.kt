@@ -6,7 +6,6 @@ import css.const.WHITE
 import css.text.TextStyle
 import kotlinx.css.*
 import kotlinx.html.js.onClickFunction
-import kotlinx.css.properties.border
 import react.*
 import react.dom.attrs
 import styled.StyleSheet
@@ -117,13 +116,13 @@ object ToggleButtonStyle : StyleSheet("ToggleButtonStyle", isStatic = true) {
     }
     val optionLeft by ToggleButtonStyle.css {
         +button
-        border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
+        border = Border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
         borderTopLeftRadius = 8.px
         borderBottomLeftRadius = 8.px
     }
     val optionRight by ToggleButtonStyle.css {
         +button
-        border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
+        border = Border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
         borderTopRightRadius = 8.px
         borderBottomRightRadius = 8.px
     }

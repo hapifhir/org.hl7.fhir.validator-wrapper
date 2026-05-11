@@ -10,7 +10,6 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.css.*
-import kotlinx.css.properties.border
 import kotlinx.html.InputType
 import kotlinx.html.id
 import kotlinx.html.js.onChangeFunction
@@ -156,10 +155,10 @@ object TextFieldEntryStyle : StyleSheet("TextFieldEntryStyle", isStatic = true) 
     val mainDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.column
-        padding(horizontal = 8.px)
+        padding = Padding(horizontal = 8.px)
     }
     val detailsText by css {
-        padding(top = 8.px, bottom = 16.px)
+        padding = Padding(top = 8.px, bottom = 16.px)
     }
     val textFieldAndAddButtonDiv by css {
         display = Display.flex
@@ -174,8 +173,8 @@ object TextFieldEntryStyle : StyleSheet("TextFieldEntryStyle", isStatic = true) 
         height = 42.px
         marginRight = 16.px
         outline = Outline.none
-        padding(horizontal = 16.px)
-        border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
+        padding = Padding(horizontal = 16.px)
+        border = Border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
         backgroundColor = Color.transparent
         justifyContent = JustifyContent.center
         +TextStyle.optionsDetailText
@@ -183,7 +182,7 @@ object TextFieldEntryStyle : StyleSheet("TextFieldEntryStyle", isStatic = true) 
     val spinner by css {
         height = 32.px
         width = 32.px
-        margin(horizontal = 32.px, vertical = 8.px)
+        margin = Margin(horizontal = 32.px, vertical = 8.px)
         alignSelf = Align.center
         +LoadingSpinner.loadingIndicator
     }

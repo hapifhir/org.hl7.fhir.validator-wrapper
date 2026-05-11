@@ -93,7 +93,7 @@ object ToggleSwitchStyle : StyleSheet("ToggleSwitchStyle", isStatic = true) {
         }
         focus {
             sibling(".${ToggleSwitchStyle.name}-${ToggleSwitchStyle::slider.name}") {
-                boxShadow(color = SWITCH_SHADOW, offsetX = 0.px, offsetY = 0.px, blurRadius = 2.px)
+                boxShadow += BoxShadow(color = SWITCH_SHADOW, offsetX = 0.px, offsetY = 0.px, blurRadius = 2.px)
             }
         }
     }
@@ -106,7 +106,7 @@ object ToggleSwitchStyle : StyleSheet("ToggleSwitchStyle", isStatic = true) {
         bottom = 0.px
         borderRadius = INNER_SWITCH_DIAMETER + (SWITCH_PADDING * 2)
         backgroundColor = SWITCH_GRAY
-        transition(duration = 0.4.s)
+        transition += Transition(duration = 0.4.s)
         before {
             position = Position.absolute
             content = QuotedString("")
@@ -117,7 +117,7 @@ object ToggleSwitchStyle : StyleSheet("ToggleSwitchStyle", isStatic = true) {
             bottom = SWITCH_PADDING
             backgroundColor = WHITE
             borderRadius = 50.pct
-            transition(duration = 0.4.s)
+            transition += Transition(duration = 0.4.s)
         }
     }
 }

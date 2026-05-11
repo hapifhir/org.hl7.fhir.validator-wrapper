@@ -66,7 +66,7 @@ object FilteredIssueEntryListStyle : StyleSheet("FilteredIssueEntryListStyle", i
     val entryListContainer by FilteredIssueEntryListStyle.css {
         display = Display.flex
         flexDirection = FlexDirection.column
-        flex(flexBasis = 100.pct)
+        flex = Flex(flexBasis = 100.pct)
         width = 100.pct
         height = 100.pct
         backgroundColor = Color.white

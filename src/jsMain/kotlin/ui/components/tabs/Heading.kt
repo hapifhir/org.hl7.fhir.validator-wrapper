@@ -46,7 +46,7 @@ fun RBuilder.heading(handler: HeadingProps.() -> Unit) {
 object HeadingStyle : StyleSheet("HeadingStyle", isStatic = true) {
     val headingContainer by HeadingStyle.css {
         display = Display.flex
-        padding(vertical = 16.px)
+        padding = Padding(vertical = 16.px)
         alignItems = Align.center
     }
 }

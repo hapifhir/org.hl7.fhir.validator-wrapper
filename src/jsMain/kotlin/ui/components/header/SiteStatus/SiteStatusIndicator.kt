@@ -71,7 +71,7 @@ object SiteStatusIndicatorStyle : StyleSheet("SiteStatusIndicator", isStatic = t
     val indicatorUnknown by css {
         +indicator
         boxSizing = BoxSizing.borderBox
-        border(
+        border = Border(
             width = 2.px,
             style = BorderStyle.solid,
             color = BORDER_GRAY)
@@ -89,8 +89,8 @@ object SiteStatusIndicatorStyle : StyleSheet("SiteStatusIndicator", isStatic = t
 
     val loadingIndicator by css {
         +indicator
-        border(width = 2.px, style = BorderStyle.solid, color = HIGHLIGHT_GRAY)
-        borderTop(width = 2.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        border = Border(width = 2.px, style = BorderStyle.solid, color = HIGHLIGHT_GRAY)
+        borderTop = Border(width = 2.px, style = BorderStyle.solid, color = BORDER_GRAY)
         spinner()
     }
 

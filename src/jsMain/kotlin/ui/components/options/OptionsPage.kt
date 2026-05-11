@@ -11,7 +11,6 @@ import css.const.BORDER_GRAY
 import css.const.HIGHLIGHT_GRAY
 import kotlinx.coroutines.*
 import kotlinx.css.*
-import kotlinx.css.properties.border
 import mainScope
 import model.PackageInfo
 import react.*
@@ -382,25 +381,26 @@ object OptionsPageStyle : StyleSheet("OptionsPageStyle", isStatic = true) {
     val optionsContainer by css {
         display = Display.flex
         flexDirection = FlexDirection.column
-        margin(horizontal = 32.px)
+        margin = Margin(horizontal = 32.px)
         marginBottom = 32.px
     }
     val optionsSubSection by css {
         display = Display.flex
         flexDirection = FlexDirection.column
-        padding(16.px)
-        border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY, borderRadius = 2.px)
+        padding = Padding(16.px)
+        border = Border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        borderRadius = 2.px
     }
     val optionsDivider by css {
         width = 100.pct
         height = 1.px
         backgroundColor = HIGHLIGHT_GRAY
-        margin(vertical = 8.px)
+        margin = Margin(vertical = 8.px)
     }
     val otherSettingsDivider by css {
         width = 100.pct
         height = 1.px
         backgroundColor = HIGHLIGHT_GRAY
-        margin(vertical = 16.px)
+        margin = Margin(vertical = 16.px)
     }
 }

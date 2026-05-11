@@ -64,12 +64,12 @@ object ManualValidateButtonStyle : StyleSheet("ManualEntryButtonBarStyle", isSta
         display = Display.inlineFlex
         flexDirection = FlexDirection.row
         alignItems = Align.center
-        padding(vertical = 16.px)
+        padding = Padding(vertical = 16.px)
     }
     val spinner by css {
         height = 32.px
         width = 32.px
-        margin(horizontal = 32.px, vertical = 8.px)
+        margin = Margin(horizontal = 32.px, vertical = 8.px)
         alignSelf = Align.center
         +LoadingSpinner.loadingIndicator
     }

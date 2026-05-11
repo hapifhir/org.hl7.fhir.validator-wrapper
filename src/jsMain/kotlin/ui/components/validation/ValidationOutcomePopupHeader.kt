@@ -5,7 +5,6 @@ import css.const.INACTIVE_GRAY
 import css.const.WHITE
 import css.text.TextStyle
 import kotlinx.css.*
-import kotlinx.css.properties.borderBottom
 import kotlinx.html.js.onClickFunction
 import react.*
 import react.dom.attrs
@@ -71,11 +70,11 @@ object ValidationOutcomePopupHeaderStyle : StyleSheet("ValidationOutcomePopupHea
         alignItems = Align.center
         minHeight = 72.px
         backgroundColor = WHITE
-        padding(horizontal = 32.px)
-        borderBottom(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
+        padding = Padding(horizontal = 32.px)
+        borderBottom = Border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
     }
     val titleField by css {
-        flex(flexBasis = 100.pct)
+        flex = Flex(flexBasis = 100.pct)
         alignSelf = Align.center
     }
     val closeIcon by css {

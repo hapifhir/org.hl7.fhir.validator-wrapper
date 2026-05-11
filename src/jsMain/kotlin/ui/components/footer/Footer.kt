@@ -131,7 +131,7 @@ object FooterStyle : StyleSheet("FooterStyle", isStatic = true) {
     }
     val footerColumn by css {
         width = 33.pc
-        padding(all = 32.px)
+        padding = Padding(all = 32.px)
         display = Display.flex
         flexDirection = FlexDirection.column
     }

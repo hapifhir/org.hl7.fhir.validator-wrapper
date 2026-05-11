@@ -13,7 +13,6 @@ import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import kotlinx.css.*
-import kotlinx.css.properties.border
 import mainScope
 import model.*
 import react.*
@@ -226,7 +225,7 @@ object ManualEntryTabStyle : StyleSheet("ManualEntryTabStyle") {
         flexDirection = FlexDirection.column
         justifyContent = JustifyContent.start
         overflowY = Overflow.auto
-        padding(horizontal = 32.px, vertical = 16.px)
+        padding = Padding(horizontal = 32.px, vertical = 16.px)
         fadeIn()
     }
     val buttonBar by css {
@@ -249,6 +248,6 @@ object ManualEntryTabStyle : StyleSheet("ManualEntryTabStyle") {
         alignContent = Align.stretch
         overflowY = Overflow.auto
         minHeight = 600.px
-        border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
+        border = Border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
     }
 }
