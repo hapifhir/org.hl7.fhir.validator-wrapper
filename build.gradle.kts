@@ -263,6 +263,12 @@ application {
     mainClass.set("ServerKt")
 }
 
+// Kotlin 1.9.10: webpack tasks read from the shared packages directory written by both
+// development and production compileSync tasks. Declare the cross-dependencies explicitly
+// so Gradle 8.0's implicit-dependency validation passes.
+tasks.named("jsBrowserProductionWebpack").configure { dependsOn("jsDevelopmentExecutableCompileSync") }
+tasks.named("jsBrowserDevelopmentWebpack").configure { dependsOn("jsProductionExecutableCompileSync") }
+
 // include JS artifacts in any JAR we generate
 tasks.named<Jar>("jvmJar").configure {
     dependsOn("jsBrowserDevelopmentWebpack")
