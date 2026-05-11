@@ -18,6 +18,8 @@ const val DEBUG_NUMBER_FILES = "Received %d files to validate."
 const val NO_FILES_PROVIDED_MESSAGE = "No files for validation provided in request."
 const val INVALID_FILE_MESSAGE = "Improperly formatted file content!"
 
+// org.hl7.fhir.* deprecation is intentional pending upstream API updates
+@Suppress("DEPRECATION")
 fun Route.validationModule() {
 
     val validationController by inject<ValidationController>()

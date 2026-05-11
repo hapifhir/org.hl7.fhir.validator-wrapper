@@ -1,5 +1,7 @@
 package model
 
+// org.hl7.fhir.* deprecation is intentional pending upstream API updates
+@Suppress("TYPEALIAS_EXPANSION_DEPRECATION")
 expect class ValidationRequest() {
     fun setCliContext(validationContext: ValidationContext): ValidationRequest
     fun getValidationContext(): ValidationContext

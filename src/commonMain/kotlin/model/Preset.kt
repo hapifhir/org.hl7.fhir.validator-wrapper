@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 data class Preset (
     val key: String,
     val localizedLabels: Map<String, String>,
+    // org.hl7.fhir.* deprecation is intentional pending upstream API updates
+    @Suppress("TYPEALIAS_EXPANSION_DEPRECATION")
     @Contextual val validationContext: ValidationContext,
     val igPackageInfo: Set<PackageInfo>,
     val extensionSet: Set<String>,
@@ -22,6 +24,8 @@ data class Preset (
             return null
         }
 
+        // org.hl7.fhir.* deprecation is intentional pending upstream API updates
+        @Suppress("TYPEALIAS_EXPANSION_DEPRECATION")
         fun getLocalizedValidationContextFromPresets(validationContext: ValidationContext, presets: List<Preset>): ValidationContext? {
             if (presets.isEmpty() || validationContext.getBaseEngine() == null) {
                 return validationContext
