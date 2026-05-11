@@ -18,7 +18,9 @@ object ValidationInstrumentation {
         return Exception("Danger Will Robinson!")
     }
 
-    // org.hl7.fhir.* deprecations are intentional pending upstream API updates
+    // org.hl7.fhir.* deprecations are intentional pending upstream API updates.
+    // Kotlin also substitutes ValidationContext in common code triggering
+    //   TYPEALIAS_EXPANSION_DEPRECATION.
     @Suppress("DEPRECATION", "TYPEALIAS_EXPANSION_DEPRECATION")
     fun givenAValidationRequest(): ValidationRequest {
         val listOfFiles = mutableListOf(FileInfo().setFileName("DUMMY_NAME")
@@ -27,20 +29,26 @@ object ValidationInstrumentation {
         return ValidationRequest().setValidationContext(ValidationContext()).setFilesToValidate(listOfFiles).setSessionId("DUMMY_SESSION_ID")
     }
 
-    // org.hl7.fhir.* deprecations are intentional pending upstream API updates
+    // org.hl7.fhir.* deprecations are intentional pending upstream API updates.
+    // Kotlin also substitutes ValidationContext in common code triggering
+    //   TYPEALIAS_EXPANSION_DEPRECATION.
     @Suppress("DEPRECATION", "TYPEALIAS_EXPANSION_DEPRECATION")
     fun givenAValidationRequestWithNoFiles(): ValidationRequest {
         val listOfFiles = mutableListOf<FileInfo>()
         return ValidationRequest().setValidationContext(ValidationContext()).setFilesToValidate(listOfFiles).setSessionId("DUMMY_SESSION_ID")
     }
 
-    // org.hl7.fhir.* deprecations are intentional pending upstream API updates
+    // org.hl7.fhir.* deprecations are intentional pending upstream API updates.
+    // Kotlin also substitutes ValidationContext in common code triggering
+    //   TYPEALIAS_EXPANSION_DEPRECATION.
     @Suppress("DEPRECATION", "TYPEALIAS_EXPANSION_DEPRECATION")
     fun givenAValidationRequestWithNullListOfFiles(): ValidationRequest {
         return ValidationRequest().setValidationContext(ValidationContext()).setFilesToValidate(null).setSessionId("DUMMY_SESSION_ID")
     }
 
-    // org.hl7.fhir.* deprecations are intentional pending upstream API updates
+    // org.hl7.fhir.* deprecations are intentional pending upstream API updates.
+    // Kotlin also substitutes ValidationContext in common code triggering
+    //   TYPEALIAS_EXPANSION_DEPRECATION.
     @Suppress("DEPRECATION", "TYPEALIAS_EXPANSION_DEPRECATION")
     fun givenAValidationRequestWithABadFileType(): ValidationRequest {
         val listOfFiles = mutableListOf(
@@ -50,7 +58,9 @@ object ValidationInstrumentation {
         return ValidationRequest().setValidationContext(ValidationContext()).setFilesToValidate(listOfFiles).setSessionId("DUMMY_SESSION_ID")
     }
 
-    // org.hl7.fhir.* deprecations are intentional pending upstream API updates
+    // org.hl7.fhir.* deprecations are intentional pending upstream API updates.
+    // Kotlin also substitutes ValidationContext in common code triggering
+    //   TYPEALIAS_EXPANSION_DEPRECATION.
     @Suppress("DEPRECATION", "TYPEALIAS_EXPANSION_DEPRECATION")
     fun givenAValidationRequestWithABadFileName(): ValidationRequest {
         val listOfFiles = mutableListOf(
