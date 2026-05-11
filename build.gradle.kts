@@ -207,6 +207,11 @@ kotlin {
     }
 }
 
+// withJava() bridges jvmMain and the Java `main` source set, causing java.main.resources
+// to point at src/jvmMain/resources — the same directory the KMP plugin already registers
+// for jvmProcessResources. Clear it to prevent the double-registration.
+sourceSets.main.get().resources.setSrcDirs(emptyList<File>())
+
 javafx {
     version = "14"
     modules("javafx.controls", "javafx.graphics", "javafx.web")
