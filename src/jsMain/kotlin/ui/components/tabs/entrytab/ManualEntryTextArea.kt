@@ -74,7 +74,7 @@ object ManualEntryTextAreaStyle : StyleSheet("ManualEntryTextAreaStyle") {
     val textArea by css {
         alignSelf = Align.stretch
         flexGrow = 1.0
-        border = "none"
+        border = Border.none
         resize = Resize.none
         outline = Outline.none
         overflowY = Overflow.auto

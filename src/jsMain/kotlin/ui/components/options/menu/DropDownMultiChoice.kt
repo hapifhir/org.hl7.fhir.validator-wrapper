@@ -276,7 +276,7 @@ object DropDownMultiChoiceStyle : StyleSheet("DropDownMultiChoice", isStatic = t
         color = TEXT_BLACK
         display = Display.block
         width = 100.pct
-        border = "none"
+        border = Border.none
         resize = Resize.none
         outline = Outline.none
         borderBottom(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
