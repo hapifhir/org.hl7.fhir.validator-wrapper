@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 plugins {
     // Make sure the version for multiplatform and plugin.serialization match kotlinVersion in gradle.properties
-    kotlin("multiplatform") version "1.8.21"
-    kotlin("plugin.serialization") version "1.8.21"
+    kotlin("multiplatform") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.10"
 
     id("org.hidetake.ssh") version "2.10.1"
     id("org.openjfx.javafxplugin") version "0.0.8"
@@ -23,6 +23,19 @@ repositories {
         url = uri("https://central.sonatype.com/repository/maven-snapshots/")
     }
     gradlePluginPortal()
+}
+
+// fhirCoreVersion transitively resolves jackson-databind:2.21.x, whose Gradle module metadata
+// (absent in mavenLocal but present on Maven Central) aligns all Jackson modules to 2.21.x via
+// the Jackson BOM. This causes jackson-module-kotlin:2.21.x to appear on the compile classpath;
+// that version was compiled with Kotlin 2.1, whose metadata is unreadable by our Kotlin 1.9.x
+// compiler. This is invisible locally because the mavenLocal copy of jackson-databind:2.21.x
+// lacks the .module file that triggers the alignment. On a clean CI cache it always reproduces.
+// Pin jackson-module-kotlin to a Kotlin-1.x-compatible version until kotlinVersion reaches 2.x.
+configurations.all {
+    resolutionStrategy {
+        force("com.fasterxml.jackson.module:jackson-module-kotlin:${property("jacksonVersion")}")
+    }
 }
 
 tasks.register<Copy>("copySemver") {
@@ -73,7 +86,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-                implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
+                implementation("org.jetbrains.kotlin:kotlin-reflect:${property("kotlinVersion")}")
                 implementation("com.fasterxml.jackson.core:jackson-databind:${property("jacksonVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${property("kotlinxSerializationVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${property("kotlinxSerializationVersion")}")
@@ -194,6 +207,11 @@ kotlin {
     }
 }
 
+// withJava() bridges jvmMain and the Java `main` source set, causing java.main.resources
+// to point at src/jvmMain/resources — the same directory the KMP plugin already registers
+// for jvmProcessResources. Clear it to prevent the double-registration.
+sourceSets.main.get().resources.setSrcDirs(emptyList<File>())
+
 javafx {
     version = "14"
     modules("javafx.controls", "javafx.graphics", "javafx.web")
@@ -244,6 +262,12 @@ tasks.named<Test>("jvmTest") {
 application {
     mainClass.set("ServerKt")
 }
+
+// Kotlin 1.9.10: webpack tasks read from the shared packages directory written by both
+// development and production compileSync tasks. Declare the cross-dependencies explicitly
+// so Gradle 8.0's implicit-dependency validation passes.
+tasks.named("jsBrowserProductionWebpack").configure { dependsOn("jsDevelopmentExecutableCompileSync") }
+tasks.named("jsBrowserDevelopmentWebpack").configure { dependsOn("jsProductionExecutableCompileSync") }
 
 // include JS artifacts in any JAR we generate
 tasks.named<Jar>("jvmJar").configure {

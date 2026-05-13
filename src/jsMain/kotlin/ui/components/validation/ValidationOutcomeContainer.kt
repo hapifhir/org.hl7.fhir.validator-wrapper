@@ -5,7 +5,6 @@ import context.LocalizationContext
 import css.const.BORDER_GRAY
 import css.const.WHITE
 import kotlinx.css.*
-import kotlinx.css.properties.border
 import model.MessageFilter
 import model.ValidationOutcome
 import react.*
@@ -91,7 +90,8 @@ object ValidationOutcomeContainerStyle : StyleSheet("ValidationOutcomeContainerS
         height = 100.pct
         minHeight = 100.pct
         backgroundColor = WHITE
-        border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid, borderRadius = 2.px)
+        border = Border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        borderRadius = 2.px
     }
     val headerContainer by css {
         display = Display.flex
@@ -109,6 +109,6 @@ object ValidationOutcomeContainerStyle : StyleSheet("ValidationOutcomeContainerS
         justifyContent = JustifyContent.center
         overflowY = Overflow.auto
         flexGrow = 1.0
-        margin(vertical = 8.px)
+        margin = Margin(vertical = 8.px)
     }
 }

@@ -3,7 +3,6 @@ package ui.components.buttons
 import css.const.INACTIVE_GRAY
 import css.text.TextStyle
 import kotlinx.css.*
-import kotlinx.css.properties.border
 import kotlinx.html.js.onClickFunction
 import react.*
 import react.dom.attrs
@@ -32,7 +31,8 @@ class TextButton : RComponent<TextButtonProps, State>() {
         styledDiv {
             css {
                 +TextButtonStyle.button
-                border(width = 1.px, style = BorderStyle.solid, color = Color.transparent, borderRadius = 5.px)
+                border = Border(width = 1.px, style = BorderStyle.solid, color = Color.transparent)
+                borderRadius = 5.px
                 backgroundColor = Color.transparent
                 if (props.active) {
                     cursor = Cursor.pointer
@@ -87,6 +87,6 @@ object TextButtonStyle : StyleSheet("TextButtonStyle", isStatic = true) {
         display = Display.flex
         alignItems = Align.flexStart
         flexDirection = FlexDirection.row
-        padding(horizontal = 16.px, vertical = 8.px)
+        padding = Padding(horizontal = 16.px, vertical = 8.px)
     }
 }

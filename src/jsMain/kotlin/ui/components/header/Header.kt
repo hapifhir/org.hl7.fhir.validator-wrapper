@@ -10,8 +10,7 @@ import css.const.HIGHLIGHT_GRAY
 import css.const.WHITE
 import kotlinx.coroutines.launch
 import kotlinx.css.*
-import kotlinx.css.properties.borderBottom
-import kotlinx.css.properties.boxShadow
+import kotlinx.css.properties.BoxShadow
 import mainScope
 import model.AppScreen
 import react.*
@@ -72,7 +71,7 @@ class Header (props : HeaderProps): RComponent<HeaderProps, HeaderState>() {
                         css {
                             +HeaderStyle.headerContainer
                             if (state.currentScroll > 0) {
-                                boxShadow(color = HEADER_SHADOW, offsetX = 0.px, offsetY = 10.px, blurRadius = 10.px)
+                                boxShadow += BoxShadow(color = HEADER_SHADOW, offsetX = 0.px, offsetY = 10.px, blurRadius = 10.px)
                             }
                         }
                         styledImg(src = "images/fhir-logo.png") {
@@ -156,7 +155,7 @@ object HeaderStyle : StyleSheet("HeaderStyle", isStatic = true) {
         top = 0.px
         position = Position.fixed
         backgroundColor = WHITE
-        borderBottom(width = 2.px, style = BorderStyle.solid, color = HIGHLIGHT_GRAY)
+        borderBottom = Border(width = 2.px, style = BorderStyle.solid, color = HIGHLIGHT_GRAY)
     }
     val headerButtonsContainer by css {
         display = Display.flex
@@ -165,15 +164,15 @@ object HeaderStyle : StyleSheet("HeaderStyle", isStatic = true) {
     }
     val headerImage by css {
         height = 48.px
-        padding(horizontal = 48.px)
+        padding = Padding(horizontal = 48.px)
         alignSelf = Align.center
     }
     val sideOptions by css {
         display = Display.flex
         flexDirection = FlexDirection.row
         justifyContent = JustifyContent.flexEnd
-        padding(horizontal = 48.px)
-        flex(flexGrow = 1.0)
+        padding = Padding(horizontal = 48.px)
+        flex = Flex(flexGrow = 1.0)
     }
     val siteStatusDiv by css {
         display = Display.inlineFlex
@@ -184,6 +183,6 @@ object HeaderStyle : StyleSheet("HeaderStyle", isStatic = true) {
         display = Display.inlineFlex
         flexDirection = FlexDirection.column
         alignSelf = Align.center
-        padding(horizontal = 12.px)
+        padding = Padding(horizontal = 12.px)
     }
 }

@@ -74,8 +74,8 @@ object FileEntryStyle : StyleSheet("FileEntryStyle") {
     val fileEntryContainer by css {
         display = Display.flex
         height = 96.px
-        flex(flexBasis = 100.pct)
-        padding(horizontal = 32.px)
+        flex = Flex(flexBasis = 100.pct)
+        padding = Padding(horizontal = 32.px)
         flexDirection = FlexDirection.row
         justifyContent = JustifyContent.flexStart
         alignItems = Align.center

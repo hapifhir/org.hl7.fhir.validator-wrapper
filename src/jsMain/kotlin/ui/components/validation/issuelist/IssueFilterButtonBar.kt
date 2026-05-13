@@ -96,6 +96,6 @@ object IssueFilterButtonBarStyle : StyleSheet("IssueFilterButtonBarStyle", isSta
         display = Display.inlineFlex
         flexDirection = FlexDirection.row
         alignItems = Align.center
-        padding(vertical = 16.px)
+        padding = Padding(vertical = 16.px)
     }
 }

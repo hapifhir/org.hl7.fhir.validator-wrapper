@@ -23,8 +23,8 @@ object GlobalStyles : StyleSheet("GlobalStyles"){
 
         val styles = CssBuilder(allowClasses = true).apply {
             body {
-                margin(0.px)
-                padding(0.px)
+                margin = Margin(0.px)
+                padding = Padding(0.px)
             }
             ".${ACE_EDITOR_HIGHLIGHT}" {
                 opacity = 0.15

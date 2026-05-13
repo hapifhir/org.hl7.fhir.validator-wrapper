@@ -30,6 +30,8 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
         lastReloadTime = System.currentTimeMillis()
     }
 
+    // org.hl7.fhir.* deprecation is intentional pending upstream API updates
+    @Suppress("DEPRECATION")
     private fun createValidationServiceInstance(): ValidationService {
         val sessionCache: SessionCache = sessionCacheFactory.getSessionCache()
 

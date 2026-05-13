@@ -3,10 +3,6 @@ package ui.components.validation.issuelist
 import css.const.*
 import css.text.TextStyle
 import kotlinx.css.*
-import kotlinx.css.properties.borderBottom
-import kotlinx.css.properties.borderLeft
-import kotlinx.css.properties.borderRight
-import kotlinx.css.properties.borderTop
 import kotlinx.html.js.onMouseDownFunction
 import kotlinx.html.js.onMouseOutFunction
 import kotlinx.html.js.onMouseOverFunction
@@ -53,7 +49,7 @@ class IssueEntry : RComponent<IssueEntryProps, State>() {
                             "  ${highlightColor.changeAlpha(0.2)} 20px\n" +
                             ");"
                 }
-                borderLeft(width = 4.px, style = BorderStyle.solid, color = highlightColor)
+                borderLeft = Border(width = 4.px, style = BorderStyle.solid, color = highlightColor)
             }
             attrs {
                 onMouseOverFunction = {
@@ -112,10 +108,10 @@ object IssueEntryStyle : StyleSheet("IssueEntryStyle", isStatic = true) {
         minHeight = 64.px
         width = 100.pct
         backgroundColor = WHITE
-        borderTop(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
-        borderRight(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
-        borderBottom(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
-        padding(16.px)
+        borderTop = Border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        borderRight = Border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        borderBottom = Border(width = 1.px, style = BorderStyle.solid, color = BORDER_GRAY)
+        padding = Padding(16.px)
         boxSizing = BoxSizing.borderBox
     }
     val levelAndLineNumber by css {
@@ -124,7 +120,7 @@ object IssueEntryStyle : StyleSheet("IssueEntryStyle", isStatic = true) {
         alignSelf = Align.center
     }
     val messageDetails by css {
-        flex(flexBasis = 100.pct)
+        flex = Flex(flexBasis = 100.pct)
         alignSelf = Align.center
         overflowWrap = OverflowWrap.anywhere
     }

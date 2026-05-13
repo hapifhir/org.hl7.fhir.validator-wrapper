@@ -190,14 +190,14 @@ object FileUploadTabStyle : StyleSheet("FileUploadTabStyle", isStatic = true) {
         flexDirection = FlexDirection.column
         justifyContent = JustifyContent.flexStart
         display = Display.flex
-        padding(horizontal = 32.px, vertical = 16.px)
+        padding = Padding(horizontal = 32.px, vertical = 16.px)
         fadeIn()
     }
     val buttonBarContainer by css {
         display = Display.inlineFlex
         flexDirection = FlexDirection.row
         alignItems = Align.center
-        padding(vertical = 16.px)
+        padding = Padding(vertical = 16.px)
     }
     val buttonBarDivider by css {
         width = 16.px

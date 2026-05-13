@@ -128,7 +128,7 @@ object CheckboxStyle : StyleSheet("CheckboxStyle", isStatic = true) {
     }
     val dropdownButtonContainer by css {
         display = Display.flex
-        flex(flexGrow = 1.0)
+        flex = Flex(flexGrow = 1.0)
         flexDirection = FlexDirection.row
         justifyContent = JustifyContent.flexEnd
     }
@@ -139,10 +139,10 @@ object CheckboxStyle : StyleSheet("CheckboxStyle", isStatic = true) {
     }
     val checkboxTitleBar by css {
         display = Display.flex
-        flex(flexGrow = 1.0)
+        flex = Flex(flexGrow = 1.0)
         flexDirection = FlexDirection.row
         alignSelf = Align.center
-        padding(horizontal = 16.px, vertical = 8.px)
+        padding = Padding(horizontal = 16.px, vertical = 8.px)
     }
     val checkboxTitle by css {
         flexGrow = 1.0

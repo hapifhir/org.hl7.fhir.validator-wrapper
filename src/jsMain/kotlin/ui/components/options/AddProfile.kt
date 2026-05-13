@@ -83,7 +83,7 @@ class AddProfile : RComponent<AddProfileProps, AddProfileState>() {
                     }
                     styledDiv {
                         css {
-                            padding(top = 24.px)
+                            padding = Padding(top = 24.px)
                             +if (profileSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
                         }
                         val polyglotKey = if (profileSet.isEmpty()) {
@@ -100,7 +100,7 @@ class AddProfile : RComponent<AddProfileProps, AddProfileState>() {
                         css {
                             +IgSelectorStyle.selectedIgsDiv
                             if (!profileSet.isEmpty()) {
-                                padding(top = 16.px)
+                                padding = Padding(top = 16.px)
                             }
                         }
                         profileSet.forEach { _url ->
@@ -132,7 +132,7 @@ object AddProfileStyle : StyleSheet("AddProfileStyle", isStatic = true) {
     val mainDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.column
-        padding(horizontal = 8.px)
+        padding = Padding(horizontal = 8.px)
     }
     val title by css {
         paddingBottom = 16.px

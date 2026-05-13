@@ -5,7 +5,6 @@ import css.const.BORDER_GRAY
 import css.text.TextStyle
 import web.dom.document
 import kotlinx.css.*
-import kotlinx.css.properties.border
 import kotlinx.html.id
 import kotlinx.html.js.onInputFunction
 import web.html.HTMLTextAreaElement
@@ -69,15 +68,15 @@ object ManualEntryTextAreaStyle : StyleSheet("ManualEntryTextAreaStyle") {
         alignContent = Align.stretch
         overflowY = Overflow.auto
         minHeight = 600.px
-        border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
+        border = Border(width = 1.px, color = BORDER_GRAY, style = BorderStyle.solid)
     }
     val textArea by css {
         alignSelf = Align.stretch
         flexGrow = 1.0
-        border = "none"
+        border = Border.none
         resize = Resize.none
         outline = Outline.none
         overflowY = Overflow.auto
-        padding(24.px)
+        padding = Padding(24.px)
     }
 }

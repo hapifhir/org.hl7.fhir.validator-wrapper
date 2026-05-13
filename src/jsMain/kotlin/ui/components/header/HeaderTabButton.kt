@@ -77,7 +77,7 @@ object HeaderButtonIndicatorStyle : StyleSheet("HeaderButtonIndicator", isStatic
         display = Display.flex
         flexDirection = FlexDirection.column
         cursor = Cursor.pointer
-        padding(horizontal = 16.px)
+        padding = Padding(horizontal = 16.px)
     }
     val headerButtonTextContainer by css {
         display = Display.flex
@@ -94,7 +94,7 @@ object HeaderButtonIndicatorStyle : StyleSheet("HeaderButtonIndicator", isStatic
         transform {
             scaleX(0)
         }
-        transition(duration = 250.ms, timing = Timing.easeInOut, delay = 0.ms)
+        transition += Transition(duration = 250.ms, timing = Timing.easeInOut, delay = 0.ms)
         ancestorHover(".${HeaderButtonIndicatorStyle.name}-${HeaderButtonIndicatorStyle::headerButtonMainContainer.name}") {
             transform {
                 scaleX(1)

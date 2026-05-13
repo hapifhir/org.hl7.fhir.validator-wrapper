@@ -13,8 +13,8 @@ object LoadingSpinner : StyleSheet("LoadingSpinner", isStatic = true) {
         display = Display.inlineBlock
         boxSizing = BoxSizing.borderBox
         borderRadius = 50.pct
-        border(width = 3.px, style = BorderStyle.solid, color = HIGHLIGHT_GRAY)
-        borderTop(width = 3.px, style = BorderStyle.solid, color = HL7_RED)
+        border = Border(width = 3.px, style = BorderStyle.solid, color = HIGHLIGHT_GRAY)
+        borderTop = Border(width = 3.px, style = BorderStyle.solid, color = HL7_RED)
         spinner()
     }
 

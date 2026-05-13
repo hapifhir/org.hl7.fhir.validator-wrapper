@@ -105,7 +105,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     val versionSelected = versions.filter { it.second }.isNotEmpty()
                     styledSpan {
                         css {
-                            margin(left = 8.px)
+                            margin = Margin(left = 8.px)
                         }
                         dropDownMultiChoice {
                             choices = versions
@@ -126,7 +126,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     }
                     styledSpan {
                         css {
-                            margin(left = 8.px)
+                            margin = Margin(left = 8.px)
                         }
                         imageButton {
                             backgroundColor = WHITE
@@ -146,7 +146,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                 }
                 styledDiv {
                     css {
-                        padding(top = 24.px)
+                        padding = Padding(top = 24.px)
                         +if (props.selectedIgSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
                     }
                     val polyglotKey = if (props.selectedIgSet.isEmpty()) {
@@ -163,7 +163,7 @@ class IgSelector : RComponent<IgSelectorProps, IgSelectorState>() {
                     css {
                         +IgSelectorStyle.selectedIgsDiv
                         if (!props.selectedIgSet.isEmpty()) {
-                            padding(top = 16.px)
+                            padding = Padding(top = 16.px)
                         }
                     }
                     props.selectedIgSet.forEach { _packageInfo ->
@@ -199,7 +199,7 @@ object IgSelectorStyle : StyleSheet("IgSelectorStyle", isStatic = true) {
     val mainDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.column
-        padding(horizontal = 8.px)
+        padding = Padding(horizontal = 8.px)
     }
     val title by css {
         paddingBottom = 16.px

@@ -103,7 +103,7 @@ class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
                         }
                         styledDiv {
                             css {
-                                padding(top = 24.px)
+                                padding = Padding(top = 24.px)
                                 + if (extensionSet.isEmpty()) TextStyle.optionsDetailText else TextStyle.optionName
                             }
                             val polyglotKey = if (extensionSet.isEmpty()) { "options_extensions_not_added"} else { "options_extensions_added"}
@@ -113,7 +113,7 @@ class AddExtension : RComponent<AddExtensionProps, AddExtensionState>() {
                             css {
                                 +IgSelectorStyle.selectedIgsDiv
                                 if (!extensionSet.isEmpty()) {
-                                    padding(top = 16.px)
+                                    padding = Padding(top = 16.px)
                                 }
                             }
                             extensionSet.forEach { _url ->
@@ -146,7 +146,7 @@ object AddExtensionStyle : StyleSheet("AddExtensionStyle", isStatic = true) {
     val mainDiv by css {
         display = Display.flex
         flexDirection = FlexDirection.column
-        padding(horizontal = 8.px)
+        padding = Padding(horizontal = 8.px)
     }
     val title by css {
         paddingBottom = 16.px

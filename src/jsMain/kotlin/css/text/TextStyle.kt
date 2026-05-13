@@ -67,7 +67,7 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
     val textButtonLabel by css {
         fontFamily = FONT_FAMILY_MAIN
         fontSize = 12.pt
-        margin(0.px)
+        margin = Margin(0.px)
         fontWeight = FontWeight.w400
         alignSelf = Align.center
     }
@@ -80,7 +80,7 @@ object TextStyle : StyleSheet("Tabs", isStatic = true) {
     val optionButtonLabel by css {
         fontFamily = FONT_FAMILY_MAIN
         fontSize = 12.pt
-        margin(0.px)
+        margin = Margin(0.px)
         fontWeight = FontWeight.w200
         alignSelf = Align.center
         color = TEXT_BLACK

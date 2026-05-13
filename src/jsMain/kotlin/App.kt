@@ -44,7 +44,7 @@ class App : RComponent<Props, State>() {
                             paddingTop = HeaderStyle.HEADER_HEIGHT
                             display = Display.flex
                             flexDirection = FlexDirection.column
-                            flex(flexGrow = 1.0, flexShrink = 1.0, flexBasis = FlexBasis.auto)
+                            flex = Flex(flexGrow = 1.0, flexShrink = 1.0, flexBasis = FlexBasis.auto)
                         }
                         when (appScreen) {
                             AppScreen.VALIDATOR -> {

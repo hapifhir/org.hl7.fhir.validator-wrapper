@@ -80,7 +80,7 @@ object IssueEntryListStyle : StyleSheet("IssueEntryListStyle", isStatic = true) 
         backgroundColor = Color.white
     }
     val entryList by IssueEntryListStyle.css {
-        padding(0.px)
+        padding = Padding(0.px)
         width = 100.pct
     }
     val listSeparator by IssueEntryListStyle.css {

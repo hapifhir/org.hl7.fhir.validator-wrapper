@@ -62,7 +62,7 @@ object FileValidateButtonStyle : StyleSheet("FileValidateButtonStyle", isStatic 
     val spinner by css {
         height = 32.px
         width = 32.px
-        margin(horizontal = 32.px, vertical = 8.px)
+        margin = Margin(horizontal = 32.px, vertical = 8.px)
         alignSelf = Align.center
         +LoadingSpinner.loadingIndicator
     }

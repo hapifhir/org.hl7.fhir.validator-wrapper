@@ -32,7 +32,7 @@ class LabelledSwitch : RComponent<LabelledSwitchProps, State>() {
                 display = Display.flex
                 flexDirection = FlexDirection.row
                 alignItems = Align.center
-                padding(vertical = 8.px, horizontal = 16.px)
+                padding = Padding(vertical = 8.px, horizontal = 16.px)
             }
             toggleSwitch {
                 selected = props.active
