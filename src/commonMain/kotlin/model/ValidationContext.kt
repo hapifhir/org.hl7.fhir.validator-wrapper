@@ -1,5 +1,9 @@
 package model
 
+// org.hl7.fhir.* deprecation is intentional pending upstream API updates.
+// Kotlin also substitutes ValidationContext in common code triggering
+//   TYPEALIAS_EXPANSION_DEPRECATION.
+@Suppress("TYPEALIAS_EXPANSION_DEPRECATION")
 expect class ValidationContext() {
 
     fun getBaseEngine(): String?
