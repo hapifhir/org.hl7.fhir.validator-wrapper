@@ -87,15 +87,21 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
             if (reloadLock.tryLock()) {
                 try {
                     // Double check time and memory inside the lock
-                    if (java.lang.Runtime.getRuntime().freeMemory() < validationServiceConfig.engineReloadThreshold &&
+                    if (Runtime.getRuntime().freeMemory() < validationServiceConfig.engineReloadThreshold &&
                         (now - lastReloadTime) > RELOAD_COOLDOWN_MS) {
-                        
+
                         println(
                             "Free memory ${
-                                java.lang.Runtime.getRuntime().freeMemory()
+                                Runtime.getRuntime().freeMemory()
                             } is less than ${validationServiceConfig.engineReloadThreshold} and cooldown passed. Re-initializing validationService"
                         );
-                        validationService = createValidationServiceInstance();
+                        //First create an empty validationService so the older one can be garbage collected before the
+                        //new one is constructed.
+                        validationService = createEmptyValidationServiceInstance()
+                        //Then 'suggest' this might be a good time to do garbage collection
+                        System.gc()
+                        //Then build our new service instance.
+                        validationService = createValidationServiceInstance()
                         lastReloadTime = System.currentTimeMillis()
                     }
                 } finally {
@@ -106,5 +112,11 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
             }
         }
         return validationService;
+    }
+
+    // New convenience function
+    private fun createEmptyValidationServiceInstance() : ValidationService {
+        val service = object : ValidationService() {};
+        return service;
     }
 }
