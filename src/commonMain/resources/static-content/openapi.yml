@@ -184,6 +184,41 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/packageServerStatus"
+  /health/ready:
+    get:
+      tags:
+        - Health
+      description: "Readiness probe. Returns 200 OK if all presets have been loaded and the validation service is ready, otherwise returns 503."
+      operationId: healthReady
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        "503":
+          description: Service Unavailable
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ValidationService not ready
+  /health/live:
+    get:
+      tags:
+        - Health
+      description: "Liveness probe. Always returns OK if the service is running."
+      operationId: healthLive
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
 
 
 components:
