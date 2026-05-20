@@ -12,7 +12,9 @@ class IgControllerImpl : IgController, KoinComponent {
     private val SIMPLIFIER_VERSIONS = listOf(
         "DSTU2",
         "STU3",
-        "R4"
+        "R4",
+        "R4B",
+        "R5"
     )
 
     override suspend fun listIgsFromRegistry(): MutableList<PackageInfo> {

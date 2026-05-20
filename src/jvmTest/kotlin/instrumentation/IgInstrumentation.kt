@@ -74,6 +74,34 @@ object IgInstrumentation {
         model.PackageInfo(id = "L")
     )
 
+    val simplifierPackageInfoR4B = listOf<PackageInfo>(
+        PackageInfo("M", null, null, null, null, null, null),
+        PackageInfo("N", null, null, null, null, null, null),
+        PackageInfo("O", null, null, null, null, null, null),
+        PackageInfo("P", null, null, null, null, null, null)
+    )
+
+    val simplifierModelPackageInfoR4B = listOf<model.PackageInfo>(
+        model.PackageInfo(id = "M"),
+        model.PackageInfo(id = "N"),
+        model.PackageInfo(id = "O"),
+        model.PackageInfo(id = "P")
+    )
+
+    val simplifierPackageInfoR5 = listOf<PackageInfo>(
+        PackageInfo("Q", null, null, null, null, null, null),
+        PackageInfo("R", null, null, null, null, null, null),
+        PackageInfo("S", null, null, null, null, null, null),
+        PackageInfo("T", null, null, null, null, null, null)
+    )
+
+    val simplifierModelPackageInfoR5 = listOf<model.PackageInfo>(
+        model.PackageInfo(id = "Q"),
+        model.PackageInfo(id = "R"),
+        model.PackageInfo(id = "S"),
+        model.PackageInfo(id = "T")
+    )
+
     fun givenAReturnedListOfValidPackageInfoA(): MutableList<PackageInfo> {
         return packageInfoA.toMutableList()
     }
@@ -104,6 +132,22 @@ object IgInstrumentation {
 
     fun givenAProcessedListOfValidPackageInfoR4(): MutableList<model.PackageInfo> {
         return simplifierModelPackageInfoR4.toMutableList()
+    }
+
+    fun givenAReturnedListOfValidPackageInfoR4B(): MutableList<PackageInfo> {
+        return simplifierPackageInfoR4B.toMutableList()
+    }
+
+    fun givenAProcessedListOfValidPackageInfoR4B(): MutableList<model.PackageInfo> {
+        return simplifierModelPackageInfoR4B.toMutableList()
+    }
+
+    fun givenAReturnedListOfValidPackageInfoR5(): MutableList<PackageInfo> {
+        return simplifierPackageInfoR5.toMutableList()
+    }
+
+    fun givenAProcessedListOfValidPackageInfoR5(): MutableList<model.PackageInfo> {
+        return simplifierModelPackageInfoR5.toMutableList()
     }
 
     fun givenANullReturnedListOfPackageInfo(): MutableList<PackageInfo>? {
