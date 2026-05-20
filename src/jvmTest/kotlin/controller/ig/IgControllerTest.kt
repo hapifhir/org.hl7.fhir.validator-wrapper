@@ -12,6 +12,10 @@ import instrumentation.IgInstrumentation.givenAProcessedListOfValidPackageInfoST
 import instrumentation.IgInstrumentation.givenAReturnedListOfValidPackageInfoSTU3
 import instrumentation.IgInstrumentation.givenAProcessedListOfValidPackageInfoR4
 import instrumentation.IgInstrumentation.givenAReturnedListOfValidPackageInfoR4
+import instrumentation.IgInstrumentation.givenAProcessedListOfValidPackageInfoR4B
+import instrumentation.IgInstrumentation.givenAReturnedListOfValidPackageInfoR4B
+import instrumentation.IgInstrumentation.givenAProcessedListOfValidPackageInfoR5
+import instrumentation.IgInstrumentation.givenAReturnedListOfValidPackageInfoR5
 import io.mockk.clearMocks
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -87,16 +91,24 @@ class IgControllerTest : BaseControllerTest() {
         val resultingPackageInfoListSTU3 = givenAProcessedListOfValidPackageInfoSTU3()
         val igPackageInfoListR4 = givenAReturnedListOfValidPackageInfoR4()
         val resultingPackageInfoListR4 = givenAProcessedListOfValidPackageInfoR4()
+        val igPackageInfoListR4B = givenAReturnedListOfValidPackageInfoR4B()
+        val resultingPackageInfoListR4B = givenAProcessedListOfValidPackageInfoR4B()
+        val igPackageInfoListR5 = givenAReturnedListOfValidPackageInfoR5()
+        val resultingPackageInfoListR5 = givenAProcessedListOfValidPackageInfoR5()
+
 
 
         coEvery { igPackageClient.search(any(), any(), eq("DSTU2"), any(), any()) } returns igPackageInfoListDSTU2
         coEvery { igPackageClient.search(any(), any(), eq("STU3"), any(), any()) } returns igPackageInfoListSTU3
         coEvery { igPackageClient.search(any(), any(), eq("R4"), any(), any()) } returns igPackageInfoListR4
+        coEvery { igPackageClient.search(any(), any(), eq("R4B"), any(), any()) } returns igPackageInfoListR4B
+        coEvery { igPackageClient.search(any(), any(), eq("R5"), any(), any()) } returns igPackageInfoListR5
+
 
         runBlocking {
             val response = igController.listIgsFromSimplifier()
             println(response)
-            ((resultingPackageInfoListDSTU2 + resultingPackageInfoListSTU3 + resultingPackageInfoListR4) sameContentWith response)?.let { assertTrue(it) } ?: fail("null packageinfo")
+            ((resultingPackageInfoListDSTU2 + resultingPackageInfoListSTU3 + resultingPackageInfoListR4 + resultingPackageInfoListR4B + resultingPackageInfoListR5) sameContentWith response)?.let { assertTrue(it) } ?: fail("null packageinfo")
         }
     }
 
@@ -107,6 +119,8 @@ class IgControllerTest : BaseControllerTest() {
         coEvery { igPackageClient.search(any(), any(), eq("DSTU2"), any(), any()) } returns nullIgPackageInfoList
         coEvery { igPackageClient.search(any(), any(), eq("STU3"), any(), any()) } returns nullIgPackageInfoList
         coEvery { igPackageClient.search(any(), any(), eq("R4"), any(), any()) } returns nullIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("R4B"), any(), any()) } returns nullIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("R5"), any(), any()) } returns nullIgPackageInfoList
 
         runBlocking {
             val response = igController.listIgsFromSimplifier()
@@ -121,6 +135,10 @@ class IgControllerTest : BaseControllerTest() {
         coEvery { igPackageClient.search(any(), any(), eq("DSTU2"), any(), any()) } returns emptyIgPackageInfoList
         coEvery { igPackageClient.search(any(), any(), eq("STU3"), any(), any()) } returns emptyIgPackageInfoList
         coEvery { igPackageClient.search(any(), any(), eq("R4"), any(), any()) } returns emptyIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("R4B"), any(), any()) } returns emptyIgPackageInfoList
+        coEvery { igPackageClient.search(any(), any(), eq("R5"), any(), any()) } returns emptyIgPackageInfoList
+
+
 
         runBlocking {
             val response = igController.listIgsFromSimplifier()
