@@ -3,6 +3,7 @@ import controller.ControllersInjection
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.jetty.*
+import org.hl7.fhir.r5.terminologies.client.TerminologyClientContext
 import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
 import utils.PackageCacheDownloaderRunnable
@@ -37,8 +38,13 @@ var runningAsDesktopStandalone: Boolean = false
  * takes priority, and the desktop version will not be booted.
  */
 fun main(args: Array<String>) {
+    configureTerminologyClientCaching()
     runningAsDesktopStandalone = runningAsDesktopApp(args)
     startServer(args)
+}
+
+internal fun configureTerminologyClientCaching() {
+    TerminologyClientContext.setCanUseCacheId(true)
 }
 
 fun startServer(args: Array<String>) {
@@ -80,6 +86,5 @@ fun stopServer() {
 private fun runningAsDesktopApp(args: Array<String>): Boolean {
     return args.isNotEmpty() && args.contains(LOCAL_APP_FLAG) && !args.contains(FULL_STACK_FLAG)
 }
-
 
 
