@@ -32,15 +32,30 @@ repositories {
 // compiler. This is invisible locally because the mavenLocal copy of jackson-databind:2.21.x
 // lacks the .module file that triggers the alignment. On a clean CI cache it always reproduces.
 // Pin jackson-module-kotlin to a Kotlin-1.x-compatible version until kotlinVersion reaches 2.x.
+//
+// Similarly, org.hl7.fhir.utilities (fhirCoreVersion) transitively pulls in okhttp-jvm, whose
+// newest versions depend on kotlin-stdlib:2.2.x - also unreadable by our Kotlin 1.9.x compiler.
+// Pin kotlin-stdlib to our own kotlinVersion until we upgrade past Kotlin 2.0.
 configurations.all {
     resolutionStrategy {
         force("com.fasterxml.jackson.module:jackson-module-kotlin:${property("jacksonVersion")}")
+        force("org.jetbrains.kotlin:kotlin-stdlib:${property("kotlinVersion")}")
     }
 }
 
 tasks.register<Copy>("copySemver") {
     from("version.properties")
     into("src/jvmMain/resources/")
+}
+
+// org.hl7.fhir.utilities (fhirCoreVersion) transitively depends on okhttp-jvm/okio-jvm, both of
+// which are compiled with Kotlin 2.2 metadata that our Kotlin 1.9.x compiler cannot read even
+// after pinning kotlin-stdlib above. Skip the metadata version check until kotlinVersion reaches 2.x.
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions.freeCompilerArgs += "-Xskip-metadata-version-check"
+}
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon>().configureEach {
+    kotlinOptions.freeCompilerArgs += "-Xskip-metadata-version-check"
 }
 
 kotlin {
