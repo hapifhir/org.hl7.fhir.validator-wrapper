@@ -15,4 +15,4 @@ steps:
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
     jdkVersionOption: 1.17
-  displayName: 'gradle build -d'
+  displayName: 'gradlew build -d'

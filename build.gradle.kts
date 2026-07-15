@@ -106,12 +106,6 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${property("kotlinxSerializationVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${property("kotlinxSerializationVersion")}")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:${property("kotlinxSerializationVersion")}")
-                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
-
-                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
-                // https://mvnrepository.com/artifact/org.fhir/ucum
-                implementation("org.fhir:ucum:1.0.9")
-
             }
 
         }
@@ -119,13 +113,15 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
-
-                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
             }
         }
         val jvmMain by getting {
             dependencies {
+                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
+                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
+                // https://mvnrepository.com/artifact/org.fhir/ucum
+                implementation("org.fhir:ucum:1.0.9")
+
                 implementation("io.ktor:ktor-server-netty:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-server-html-builder:${property("ktorVersion")}")
                 implementation("io.ktor:ktor-server-jetty:${property("ktorVersion")}")
@@ -169,6 +165,9 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
+                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
+                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
+
                 implementation("org.junit.jupiter:junit-jupiter:${property("junitVersion")}")
                 implementation("org.junit.jupiter:junit-jupiter-engine:${property("junitVersion")}")
                 implementation("org.junit.jupiter:junit-jupiter-api:${property("junitVersion")}")
