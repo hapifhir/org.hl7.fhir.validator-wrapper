@@ -1,6 +1,8 @@
 package api
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
@@ -9,26 +11,25 @@ import kotlin.test.assertNull
 class HttpClientProxyConfigTest {
 
     @Test
-    fun `uses the configured HTTP proxy`() {
+    fun `prefers uppercase HTTP proxy when multiple proxy variables are configured`() {
         val proxyUrl = resolveHttpClientProxyUrl(
             mapOf(
                 "HTTP_PROXY" to "http://proxy.example:8080",
-                "HTTPS_PROXY" to "http://secure-proxy.example:8080"
+                "http_proxy" to "http://lowercase-proxy.example:8080",
+                "HTTPS_PROXY" to "http://secure-proxy.example:8080",
+                "https_proxy" to "http://secure-lowercase-proxy.example:8080"
             )
         )
 
         assertEquals("http://proxy.example:8080", proxyUrl)
     }
 
-    @Test
-    fun `supports lowercase and HTTPS proxy fallbacks`() {
+    @ParameterizedTest
+    @ValueSource(strings = ["HTTP_PROXY", "http_proxy", "HTTPS_PROXY", "https_proxy"])
+    fun `supports all proxy environment variable names`(variableName: String) {
         assertEquals(
-            "http://lowercase-proxy.example:8080",
-            resolveHttpClientProxyUrl(mapOf("http_proxy" to "http://lowercase-proxy.example:8080"))
-        )
-        assertEquals(
-            "http://secure-proxy.example:8080",
-            resolveHttpClientProxyUrl(mapOf("HTTPS_PROXY" to "http://secure-proxy.example:8080"))
+            "http://proxy.example:8080",
+            resolveHttpClientProxyUrl(mapOf(variableName to "http://proxy.example:8080"))
         )
     }
 
