@@ -31,18 +31,16 @@ fun Route.terminologyModule() {
                         request.url))
                 )
             )
-        } catch (exception: ClientRequestException) {
-            call.respond(HttpStatusCode.OK, TerminologyServerResponse(
-                url = request.url,
-                validTxServer = false,
-                details = exception.localizedMessage)
-            )
-        } catch (exception: IOException) {
-            call.respond(HttpStatusCode.OK, TerminologyServerResponse(
-                url = request.url,
-                validTxServer = false,
-                details = exception.localizedMessage)
-            )
+        } catch (exception: Exception) {
+            when (exception) {
+                is ClientRequestException,
+                is IOException -> call.respond(HttpStatusCode.OK, TerminologyServerResponse(
+                    url = request.url,
+                    validTxServer = false,
+                    details = exception.localizedMessage)
+                )
+                else -> throw exception
+            }
         }
     }
 }// https://r4.ontoserver.csiro.au/fhir/
