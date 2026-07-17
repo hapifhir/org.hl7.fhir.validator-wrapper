@@ -12,6 +12,7 @@ import io.ktor.server.routing.*
 import model.TerminologyServerRequest
 import model.TerminologyServerResponse
 import org.koin.ktor.ext.inject
+import java.io.IOException
 
 fun Route.terminologyModule() {
 
@@ -31,6 +32,12 @@ fun Route.terminologyModule() {
                 )
             )
         } catch (exception: ClientRequestException) {
+            call.respond(HttpStatusCode.OK, TerminologyServerResponse(
+                url = request.url,
+                validTxServer = false,
+                details = exception.localizedMessage)
+            )
+        } catch (exception: IOException) {
             call.respond(HttpStatusCode.OK, TerminologyServerResponse(
                 url = request.url,
                 validTxServer = false,
