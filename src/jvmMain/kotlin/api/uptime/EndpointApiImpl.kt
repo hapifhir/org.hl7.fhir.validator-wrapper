@@ -1,5 +1,6 @@
 package api.uptime
 
+import api.configureProxyFromEnvironment
 import com.fasterxml.jackson.databind.DeserializationFeature
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -16,6 +17,7 @@ const val ENDPOINT_API_TIMEOUT: Long = 10000;
 class EndpointApiImpl : EndpointApi {
 
     private val client = HttpClient (CIO) {
+        configureProxyFromEnvironment()
         configureJson()
         configureLogging()
         configureTimeout()
