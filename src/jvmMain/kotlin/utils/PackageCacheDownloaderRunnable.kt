@@ -4,9 +4,9 @@ import org.hl7.fhir.validation.packages.PackageCacheDownloader
 
 class PackageCacheDownloaderRunnable : Runnable {
     override fun run() {
-        println("PackageCacheDownloader: starting pre-load of all available packages")
+        logger.info("PackageCacheDownloader: starting pre-load of all available packages")
         val packageCacheDownloader = PackageCacheDownloader()
         packageCacheDownloader.visitPackages()
-        println("PackageCacheDownloader: pre-load complete.")
+        logger.info("PackageCacheDownloader: pre-load complete.")
     }
 }

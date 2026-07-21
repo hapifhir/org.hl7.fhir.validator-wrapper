@@ -11,6 +11,7 @@ import java.lang.reflect.Type
 import kotlin.concurrent.thread
 import model.Preset
 import org.hl7.fhir.r5.terminologies.client.TerminologyClientContext
+import utils.logger
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -39,7 +40,7 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
         val useCacheIdEnvValue =
             System.getenv(TERMINOLOGY_CLIENT_USE_CACHE_ID) ?: TERMINOLOGY_CLIENT_USE_CACHE_ID_DEFAULT
         val useCacheId : Boolean = useCacheIdEnvValue.uppercase().equals("TRUE")
-        println("Terminology Client Initialized with useCacheId=$useCacheId")
+        logger.info("Terminology Client Initialized with useCacheId=$useCacheId")
         TerminologyClientContext.setCanUseCacheId(useCacheId)
     }
 
@@ -53,14 +54,13 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
         thread {
         presets.forEach {
             if (it.key != "CUSTOM") {
-                println("Loading preset: " + it.key)
+                logger.info("Loading preset: " + it.key)
                 try {
                     validationService.putBaseEngine(it.key, it.validationContext)
                 } catch (e: Exception) {
-                    println("Error loading preset: " + it.key)
-                    e.printStackTrace()
+                    logger.error("Error loading preset: " + it.key, e)
                 }
-                println("Preset loaded: " + it.key);
+                logger.info("Preset loaded: " + it.key);
             }
         }
         }
@@ -75,15 +75,14 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
                 // default to resources/presets.json
                 fileContent = this::class.java.classLoader.getResource("presets.json")?.readText()
             } else {
-                println("Attempting to load presets from ${validationServiceConfig.presetsFilePath}")
+                logger.info("Attempting to load presets from ${validationServiceConfig.presetsFilePath}")
                 fileContent = File(validationServiceConfig.presetsFilePath).readText()
             }
 
             val presetListType: Type = object : TypeToken<ArrayList<Preset?>?>() {}.type
             return Gson().fromJson(fileContent, presetListType)
         } catch (e: Exception) {
-            println("Error occurred loading presets. No presets will be loaded")
-            e.printStackTrace()
+            logger.error("Error occurred loading presets. No presets will be loaded", e)
             return listOf()
         }
     }
@@ -103,7 +102,7 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
                     if (Runtime.getRuntime().freeMemory() < validationServiceConfig.engineReloadThreshold &&
                         (now - lastReloadTime) > RELOAD_COOLDOWN_MS) {
 
-                        println(
+                        logger.info(
                             "Free memory ${
                                 Runtime.getRuntime().freeMemory()
                             } is less than ${validationServiceConfig.engineReloadThreshold} and cooldown passed. Re-initializing validationService"
@@ -121,7 +120,7 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
                     reloadLock.unlock()
                 }
             } else {
-                println("Memory is low ($freeMemory), but another thread is currently re-initializing the engine. Skipping.")
+                logger.warn("Memory is low ($freeMemory), but another thread is currently re-initializing the engine. Skipping.")
             }
         }
         return validationService;

@@ -2,6 +2,7 @@ package controller.terminology
 
 import model.CapabilityStatement
 import org.koin.core.component.KoinComponent
+import utils.logger
 
 class TerminologyControllerImpl : TerminologyController, KoinComponent {
 
@@ -10,7 +11,7 @@ class TerminologyControllerImpl : TerminologyController, KoinComponent {
     override suspend fun isTerminologyServerValid(capabilityStatement: CapabilityStatement): Boolean {
         capabilityStatement.instantiates?.forEach { canonicalType ->
             if (canonicalType != null) {
-                println("Cap statement -> ${canonicalType}")
+                logger.debug("Cap statement -> ${canonicalType}")
                 if (canonicalType == TERMINOLOGY_CAP_STATEMENT) return true
             }
         }

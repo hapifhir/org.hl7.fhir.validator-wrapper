@@ -4,6 +4,7 @@ import com.google.common.cache.Cache
 import com.google.common.cache.CacheBuilder
 import org.hl7.fhir.validation.ValidationEngine
 import org.hl7.fhir.validation.service.SessionCache
+import utils.logger
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -24,7 +25,7 @@ class GuavaSessionCacheAdapter(cacheSize : Long, cacheDuration: Long) :
     override fun cacheSession(validationEngine: ValidationEngine): String {
         val generatedId = generateID()
         cache.put(generatedId, validationEngine)
-        println("Cache size: " + cache.size())
+        logger.debug("Cache size: " + cache.size())
         return generatedId
     }
 
@@ -34,7 +35,7 @@ class GuavaSessionCacheAdapter(cacheSize : Long, cacheDuration: Long) :
             sessionIdVar = cacheSession(validationEngine)
         } else {
             cache.put(sessionIdVar, validationEngine)
-            println("Cache size: " + cache.size())
+            logger.debug("Cache size: " + cache.size())
         }
         return sessionIdVar
     }

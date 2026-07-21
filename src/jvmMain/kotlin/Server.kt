@@ -58,7 +58,7 @@ fun startServer(args: Array<String>) {
     }
 
     engine = embeddedServer(Jetty, host = ktorConfig.host, port = ktorConfig.port) {
-        println("Starting instance in ${ktorConfig.host}:${ktorConfig.port}")
+        log.info("Starting instance in ${ktorConfig.host}:${ktorConfig.port}")
         module {
             install(Koin) {
                 modules(
