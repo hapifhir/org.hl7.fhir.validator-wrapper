@@ -10,8 +10,12 @@ import java.io.File
 import java.lang.reflect.Type
 import kotlin.concurrent.thread
 import model.Preset
+import org.hl7.fhir.r5.terminologies.client.TerminologyClientContext
 import java.util.*
 import kotlin.collections.ArrayList
+
+private const val TERMINOLOGY_CLIENT_USE_CACHE_ID = "TERMINOLOGY_CLIENT_USE_CACHE_ID"
+private const val TERMINOLOGY_CLIENT_USE_CACHE_ID_DEFAULT = "TRUE"
 
 class ValidationServiceFactoryImpl : ValidationServiceFactory {
     private val validationServiceConfig: ValidationServiceConfig = ValidatorApplicationConfig.validationServiceConfig
@@ -26,8 +30,17 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
 
     init {
         presets = loadPresets();
+        loadTerminologyContext();
         validationService = createValidationServiceInstance();
         lastReloadTime = System.currentTimeMillis()
+    }
+
+    private fun loadTerminologyContext() {
+        val useCacheIdEnvValue =
+            System.getenv(TERMINOLOGY_CLIENT_USE_CACHE_ID) ?: TERMINOLOGY_CLIENT_USE_CACHE_ID_DEFAULT
+        val useCacheId : Boolean = useCacheIdEnvValue.uppercase().equals("TRUE")
+        println("Terminology Client Initialized with useCacheId=$useCacheId")
+        TerminologyClientContext.setCanUseCacheId(useCacheId)
     }
 
     // org.hl7.fhir.* deprecation is intentional pending upstream API updates
@@ -80,7 +93,7 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
     }
 
     override fun getValidationService() : ValidationService {
-        val freeMemory = java.lang.Runtime.getRuntime().freeMemory()
+        val freeMemory = Runtime.getRuntime().freeMemory()
         if (freeMemory < validationServiceConfig.engineReloadThreshold) {
             val now = System.currentTimeMillis()
             // Try to acquire lock. If we can't, another thread is already reloading it, so just return the existing one.
