@@ -40,11 +40,13 @@ class SessionCacheFactoryImpl : SessionCacheFactory {
             System.getenv(SESSION_CACHE_IMPLEMENTATION_ENV_KEY) ?: SESSION_DEFAULT_CACHE_IMPLEMENTATION;
         val sessionCache: SessionCache =
             if (sessionCacheImplementation == PASSIVE_EXPIRING_SESSION_CACHE_IMPLEMENTATION) {
+                println("Initializing passive expiring session cache with sessionLength=$sessionCacheDuration")
                 PassiveExpiringSessionCache(
                     sessionCacheDuration,
                     TimeUnit.MINUTES
                 ).setResetExpirationAfterFetch(true);
             } else {
+                println("Initializing Guava session cache with cacheSize=$sessionCacheSize, cacheDuration=$sessionCacheDuration")
                 GuavaSessionCacheAdapter(sessionCacheSize, sessionCacheDuration)
             }
         return sessionCache

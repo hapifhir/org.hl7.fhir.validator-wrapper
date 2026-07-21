@@ -36,9 +36,11 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
     }
 
     private fun loadTerminologyContext() {
-        val useCacheId =
+        val useCacheIdEnvValue =
             System.getenv(TERMINOLOGY_CLIENT_USE_CACHE_ID) ?: TERMINOLOGY_CLIENT_USE_CACHE_ID_DEFAULT
-        TerminologyClientContext.setCanUseCacheId(useCacheId.uppercase().equals("TRUE"))
+        val useCacheId : Boolean = useCacheIdEnvValue.uppercase().equals("TRUE")
+        println("Terminology Client Initialized with useCacheId=$useCacheId")
+        TerminologyClientContext.setCanUseCacheId(useCacheId)
     }
 
     // org.hl7.fhir.* deprecation is intentional pending upstream API updates
