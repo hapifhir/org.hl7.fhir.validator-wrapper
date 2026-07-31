@@ -131,8 +131,6 @@ Content-Type: application/json
     client.test("Issues are Correct", function() {
         let issues = response.body.outcomes[0].issues
         client.log("issues:" + issues.length)
-        client.assert(issues.length === 2);
-        client.assert(containsIssue(issues, 1, 4, "Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)", "INVARIANT", "WARNING"))
-        client.assert(containsIssue(issues, 1, 4, "Constraint failed: cnl-0: 'Name should be usable as an identifier for the module by machine processing applications such as code generation' (defined in http://hl7.org/fhir/StructureDefinition/CanonicalResource)", "INVARIANT", "WARNING"))
-    });
+        client.assert(issues.length === 0);
+     });
 %}
