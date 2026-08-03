@@ -157,12 +157,12 @@
       "baseEngine": "SQL_VIEW",
       "sv": "5.0.0",
       "igs": [
-        "org.sql-on-fhir.ig#current"
+        "org.sql-on-fhir.ig#2.0.0"
       ]
     },
     "igPackageInfo": [{
       "id": "org.sql-on-fhir.ig",
-      "version": "current",
+      "version": "2.0.0",
       "fhirVersion": "5.0.0",
       "url": "https://sql-on-fhir.org/ig/ImplementationGuide/org.sql-on-fhir.ig"
     }],
