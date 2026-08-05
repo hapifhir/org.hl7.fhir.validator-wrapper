@@ -7,6 +7,7 @@ import controller.terminology.terminologyModule
 import instrumentation.TerminologyInstrumentation.givenATerminologyServerUrl
 import instrumentation.TerminologyInstrumentation.givenAValidCapabilityStatement
 import instrumentation.TerminologyInstrumentation.givenAnInvalidCapabilityStatement
+import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.server.routing.*
@@ -70,5 +71,25 @@ class TerminologyRoutingTest: BaseRoutingTest() {
         val responseBody = response.parseBody(TerminologyServerResponse::class.java)
         Assertions.assertEquals(url, responseBody.url)
         Assertions.assertEquals(false, responseBody.validTxServer)
+    }
+
+    @Test
+    fun `when terminology server connection times out, response with invalid terminology is returned`() =
+    withBaseTestApplication {
+        val url = givenATerminologyServerUrl()
+        val terminologyServerRequest = TerminologyServerRequest(url = url)
+        coEvery { terminologyApi.getCapabilityStatement(any()) } throws
+            ConnectTimeoutException("Connect timeout", null)
+
+        val response = client.post(TERMINOLOGY_ENDPOINT) {
+            contentType(ContentType.Application.Json)
+            setBody(toJsonBody(terminologyServerRequest))
+        }
+
+        assertEquals(HttpStatusCode.OK, response.status)
+        val responseBody = response.parseBody(TerminologyServerResponse::class.java)
+        Assertions.assertEquals(url, responseBody.url)
+        Assertions.assertEquals(false, responseBody.validTxServer)
+        Assertions.assertEquals("Connect timeout", responseBody.details)
     }
 }

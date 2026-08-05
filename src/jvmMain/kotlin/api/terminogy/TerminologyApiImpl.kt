@@ -1,5 +1,6 @@
 package api.terminogy
 
+import api.configureProxyFromEnvironment
 import com.fasterxml.jackson.databind.DeserializationFeature
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -17,6 +18,7 @@ const val CONFORMANCE_ENDPOINT = "metadata?_summary=true"
 class TerminologyApiImpl : TerminologyApi {
 
     private val client = HttpClient(CIO) {
+        configureProxyFromEnvironment()
         configureJson()
         configureLogging()
     }
