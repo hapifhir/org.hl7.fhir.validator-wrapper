@@ -10,6 +10,7 @@ import java.io.File
 import java.lang.reflect.Type
 import kotlin.concurrent.thread
 import model.Preset
+import org.hl7.fhir.r5.renderers.RendererFactory
 import org.hl7.fhir.r5.terminologies.client.TerminologyClientContext
 import utils.logger
 import java.util.*
@@ -128,7 +129,7 @@ class ValidationServiceFactoryImpl : ValidationServiceFactory {
 
     // New convenience function
     private fun createEmptyValidationServiceInstance() : ValidationService {
-        val service = object : ValidationService() {};
+        val service = object : ValidationService(RendererFactory()) {};
         return service;
     }
 }
