@@ -7,6 +7,7 @@
 
 ### Default
 # @name Default
+# @timeout 30
 POST {{host}}/validate
 Content-Type: application/json
 
