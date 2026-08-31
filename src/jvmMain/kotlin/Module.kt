@@ -18,12 +18,19 @@ import io.ktor.serialization.jackson.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.hl7.fhir.utilities.http.ManagedWebAccess
 
 /**
  * Entry point of the application.
  */
 fun Application.module() {
+
+
     // Any DB initialization or logging initialization will go here.
+
+    // Initialize
+    ManagedWebAccess.loadFromFHIRSettings()
+
     val starting: (Application) -> Unit = { log.info("Application starting: $it") }
     val started: (Application) -> Unit = {
         log.info("Application started: $it")
