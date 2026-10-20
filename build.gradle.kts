@@ -119,6 +119,8 @@ kotlin {
             dependencies {
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
+                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.services:${property("fhirCoreVersion")}")
+
                 // https://mvnrepository.com/artifact/org.fhir/ucum
                 implementation("org.fhir:ucum:1.0.9")
 
@@ -167,6 +169,8 @@ kotlin {
             dependencies {
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.validation:${property("fhirCoreVersion")}")
                 implementation("ca.uhn.hapi.fhir:org.hl7.fhir.utilities:${property("fhirCoreVersion")}")
+                implementation("ca.uhn.hapi.fhir:org.hl7.fhir.services:${property("fhirCoreVersion")}")
+
 
                 implementation("org.junit.jupiter:junit-jupiter:${property("junitVersion")}")
                 implementation("org.junit.jupiter:junit-jupiter-engine:${property("junitVersion")}")

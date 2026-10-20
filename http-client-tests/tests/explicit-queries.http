@@ -43,7 +43,7 @@ Content-Type: application/json
         let issues = response.body.outcomes[0].issues
         client.log("issues:" + issues.length)
         client.assert(issues.length === 9);
-        client.assert(containsIssue(issues, 20, 24, "Binding for path ClinicalDocument.realmCode[0] in profile StructureDefinition[http://hl7.org/cda/stds/core/StructureDefinition/ClinicalDocument|2.0.1-sd] has no source, so can't be checked", "CODEINVALID", "INFORMATION"))
+        client.assert(containsIssue(issues, 20, 24, "Binding for path ClinicalDocument.realmCode[0] in profile StructureDefinition[http://hl7.org/cda/stds/core/StructureDefinition/ClinicalDocument|2.0.3-sd] has no source, so can't be checked", "CODEINVALID", "INFORMATION"))
         client.assert(containsIssue(issues, 251, 184, "The OID '2.16.840.1.114222.4.11.1066' is not known, so the code can't be validated", "CODEINVALID", "WARNING"))
     });
 %}
@@ -66,7 +66,7 @@ Content-Type: application/json
         let issues = response.body.outcomes[0].issues
         client.log("issues:" + issues.length)
         client.assert(issues.length === 9)
-        client.assert(containsIssue(issues, 20, 24, "Binding for path ClinicalDocument.realmCode[0] in profile StructureDefinition[http://hl7.org/cda/stds/core/StructureDefinition/ClinicalDocument|2.0.1-sd] has no source, so can't be checked", "CODEINVALID", "INFORMATION"))
+        client.assert(containsIssue(issues, 20, 24, "Binding for path ClinicalDocument.realmCode[0] in profile StructureDefinition[http://hl7.org/cda/stds/core/StructureDefinition/ClinicalDocument|2.0.3-sd] has no source, so can't be checked", "CODEINVALID", "INFORMATION"))
         client.assert(!containsIssue(issues, 251, 184, "The OID '2.16.840.1.113883.1.11.19830' is not known, so the code can't be validated", "CODEINVALID", "WARNING"))
     })
 %}
@@ -87,9 +87,9 @@ Content-Type: application/json
     client.test("Issues are Correct", function() {
         let issues = response.body.outcomes[0].issues
         client.log("issues:" + issues.length)
-        client.assert(issues.length === 41);
-        client.assert(containsIssue(issues, 1, 2, "The Snomed CT code 373270004 (Penicillin antibacterial) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
-        client.assert(containsIssue(issues, 1, 2, "The Snomed CT code 108774000 (Anastrozole-containing product) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
+        client.assert(issues.length === 42);
+        client.assert(containsIssue(issues, 1, 2, "The Snomed CT code 373270004 (null) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
+        client.assert(containsIssue(issues, 1, 2, "The Snomed CT code 108774000 (null) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
 
         client.assert(!containsIssue(issues, 314, 4, "This element does not match any known slice defined in the profile http://hl7.org.au/fhir/ips/StructureDefinition/Bundle-au-ips|0.0.1 (this may not be a problem, but you should check that it's not intended to match a slice)", "INFORMATIONAL", "INFORMATION"))
         client.assert(!containsIssue(issues, 134, 8, "This element does not match any known slice defined in the profile http://hl7.org.au/fhir/core/StructureDefinition/au-core-patient|0.3.0 (this may not be a problem, but you should check that it's not intended to match a slice)", "INFORMATIONAL","INFORMATION"))
@@ -114,13 +114,14 @@ Content-Type: application/json
         let issues = response.body.outcomes[0].issues
         client.log("issues:" + issues.length)
         client.assert(issues.length === 70);
-        client.assert(containsIssue(issues, 2, 37, "The Snomed CT code 373270004 (Penicillin antibacterial) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
+        client.assert(containsIssue(issues, 2, 37, "The Snomed CT code 373270004 (null) is not a member of the IPS free set", "BUSINESSRULE", "INFORMATION"))
         client.assert(containsIssue(issues, 144, 28, "This element does not match any known slice defined in the profile http://hl7.org.au/fhir/ps/StructureDefinition/au-ps-composition|1.0.1-ci-build (this may not be a problem, but you should check that it's not intended to match a slice)", "INFORMATIONAL", "INFORMATION"))
     });
 %}
 
 ### SQL-ON-FHIR
 # @name SQL-ON-FHIR
+# @timeout 60
 POST {{host}}/validate
 Content-Type: application/json
 

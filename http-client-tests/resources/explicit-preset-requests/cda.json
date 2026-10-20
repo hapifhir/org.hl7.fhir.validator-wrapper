@@ -2,7 +2,7 @@
   "validationContext": {
     "sv": "5.0.0",
     "igs": [
-      "hl7.cda.uv.core#2.0.1-sd"
+      "hl7.cda.uv.core#2.0.3-sd"
     ],
     "locale": "en"
   },
