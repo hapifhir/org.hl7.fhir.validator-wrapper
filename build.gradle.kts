@@ -279,6 +279,8 @@ tasks.named<Test>("jvmTest") {
 
 application {
     mainClass.set("ServerKt")
+    // -XX:-UseBASE64Intrinsics mitigates CVE-2026-114938 (Java4Shell). Remove it once the JDK is patched.
+    applicationDefaultJvmArgs = listOf("-XX:-UseBASE64Intrinsics")
 }
 
 // Kotlin 1.9.10: webpack tasks read from the shared packages directory written by both
