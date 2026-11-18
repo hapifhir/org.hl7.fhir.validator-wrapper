@@ -68,6 +68,8 @@ gradlew.bat run
 
 Detailed build instructions and documentation, including gradle setup can be found [here][Link-GithubIOBuilding].
 
+**_IMPORTANT NOTE REGARDING [CVE-2026-114938](https://calif.io/java4shell/)_**: This project sets `-UseBASE64Intrinsics` in both Gradle and Docker executions. If you are running this project in an unpatched JVM, you will need to set this option yourself: `java -XX:-UseBASE64Intrinsics -jar validator-wrapper.jar -startServer`
+
 ## Additional Documentation
 Supporting documentation and instructions can be found on our [github.io page][Link-GithubIO].
 
