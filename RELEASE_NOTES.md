@@ -1,0 +1,1 @@
+* Add `-UseBASE64Intrinsics` to Dockerfile to mitigate CVE-2026-114938
